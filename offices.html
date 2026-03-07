@@ -4,39 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ORN Worldwide Offices</title>
-<meta name="theme-color" content="#0c1e35">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ORN Offices">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="orn-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
 :root{
   --navy:#0c1e35;--navy2:#163352;--navy3:#071526;
+  --magenta:#d4145a;--magenta2:#a8104a;--magenta-light:#fce7f0;
   --cyan:#0891b2;--cyan2:#0e7490;--cyan-light:#e0f2fe;
-  --magenta:#d4145a;--magenta2:#a8104a;
   --gold:#b45309;--gold-light:#fef3c7;
   --green:#047857;--green-light:#d1fae5;
-  --orange:#c2410c;--orange-light:#ffedd5;
   --purple:#6d28d9;--purple-light:#ede9fe;
+  --orange:#c2410c;--orange-light:#ffedd5;
   --slate:#475569;--slate2:#94a3b8;--slate3:#cbd5e1;
-  --border:#e2e8f0;--bg:#f8fafc;--card:#ffffff;
+  --border:#e2e8f0;--border2:#f1f5f9;
+  --bg:#f8fafc;--card:#ffffff;
   --ink:#0f172a;--ink2:#1e293b;--ink3:#334155;
   --r:8px;--r-lg:14px;
-  --sh:0 1px 3px rgba(0,0,0,0.05),0 4px 12px rgba(0,0,0,0.07);
-  --sh-md:0 4px 20px rgba(0,0,0,0.1);
+  --sh:0 1px 2px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.06);
+  --sh-md:0 4px 16px rgba(0,0,0,0.08);
+  --sh-lg:0 8px 32px rgba(0,0,0,0.12);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);}
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);}
 
-/* ── TOPBAR ─────────────────────────────────────────────────── */
+/* \u2500\u2500 TOPBAR \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .topbar{
-  height:54px;background:var(--navy);display:flex;align-items:center;
-  padding:0 24px;gap:16px;position:sticky;top:0;z-index:100;
-  box-shadow:0 2px 12px rgba(0,0,0,0.3);
+  height:56px;background:var(--navy);
+  display:flex;align-items:center;padding:0 20px;gap:16px;
+  flex-shrink:0;position:relative;z-index:300;
+  box-shadow:0 1px 0 rgba(255,255,255,0.05),0 2px 8px rgba(0,0,0,0.3);
 }
 .topbar-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--cyan),var(--magenta));border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:1rem;color:white;font-style:italic;flex-shrink:0;}
 .topbar-name{font-size:0.9rem;font-weight:800;color:white;letter-spacing:-0.2px;}
@@ -49,7 +45,7 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .topbar-stat-n{font-size:1rem;font-weight:800;color:var(--cyan);}
 .topbar-stat-l{font-size:0.62rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}
 
-/* ── HERO ───────────────────────────────────────────────────── */
+/* \u2500\u2500 HERO \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .hero{
   background:linear-gradient(135deg,var(--navy3) 0%,var(--navy) 60%,#1a1040 100%);
   padding:36px 32px 30px;position:relative;overflow:hidden;
@@ -66,8 +62,12 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .hstat-n{font-size:1.6rem;font-weight:800;color:white;}
 .hstat-l{font-size:0.64rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;margin-top:1px;}
 
-/* ── TOOLBAR ────────────────────────────────────────────────── */
-/* toolbar replaced with inline nav */
+/* \u2500\u2500 TOOLBAR \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.toolbar{
+  background:white;border-bottom:1.5px solid var(--border);
+  padding:14px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  position:sticky;top:54px;z-index:90;
+}
 .search-wrap{position:relative;flex:1;min-width:200px;max-width:340px;}
 .search-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--slate2);font-size:0.75rem;pointer-events:none;}
 .search-inp{width:100%;padding:8px 12px 8px 32px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;transition:border-color 0.18s;color:var(--ink);}
@@ -79,12 +79,12 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .view-btns{display:flex;gap:4px;margin-left:auto;}
 .view-btn{width:32px;height:32px;border:1.5px solid var(--border);border-radius:7px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:var(--slate);transition:all 0.15s;}
 .view-btn.on{background:var(--navy);border-color:var(--navy);color:white;}
-.results-bar{padding:6px 28px;font-size:0.71rem;color:rgba(255,255,255,0.3);background:var(--navy3);border-bottom:1px solid rgba(255,255,255,0.06);}
+.results-bar{padding:8px 32px;font-size:0.74rem;color:var(--slate2);background:var(--bg);border-bottom:1px solid var(--border);}
 
-/* ── MAIN ───────────────────────────────────────────────────── */
+/* \u2500\u2500 MAIN \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .main{max-width:1400px;margin:0 auto;padding:28px 32px;}
 
-/* ── REGION SECTION ─────────────────────────────────────────── */
+/* \u2500\u2500 REGION SECTION \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .region-section{margin-bottom:36px;}
 .region-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .region-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;flex-shrink:0;}
@@ -92,7 +92,7 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .region-count{font-size:0.68rem;color:var(--slate2);font-weight:600;}
 .region-line{flex:1;height:1px;background:var(--border);}
 
-/* ── OFFICE CARDS ───────────────────────────────────────────── */
+/* \u2500\u2500 OFFICE CARDS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .offices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;}
 .offices-list{display:flex;flex-direction:column;gap:8px;}
 
@@ -140,7 +140,7 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .cap-physical{background:#faf5ff;color:#6d28d9;}
 .cap-credits{background:#fff7ed;color:#c2410c;}
 
-/* ── LIST VIEW ──────────────────────────────────────────────── */
+/* \u2500\u2500 LIST VIEW \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .office-row{
   background:white;border:1px solid var(--border);border-radius:10px;
   padding:12px 18px;display:flex;align-items:center;gap:14px;
@@ -158,7 +158,7 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .or-stat-n{font-size:0.85rem;font-weight:700;color:var(--ink);}
 .or-stat-l{font-size:0.6rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;}
 
-/* ── MAP PLACEHOLDER / WORLD VIZ ─────────────────────────────── */
+/* \u2500\u2500 MAP PLACEHOLDER / WORLD VIZ \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .world-banner{
   background:var(--navy);border-radius:var(--r-lg);padding:20px 28px;
   margin-bottom:24px;display:flex;align-items:center;gap:20px;
@@ -174,7 +174,7 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .wb-stat-n{font-size:1.1rem;font-weight:800;color:var(--cyan);}
 .wb-stat-l{font-size:0.6rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}
 
-/* ── EMPTY ──────────────────────────────────────────────────── */
+/* \u2500\u2500 EMPTY \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
 .empty{padding:60px;text-align:center;color:var(--slate2);}
 .empty i{font-size:2rem;display:block;margin-bottom:10px;opacity:0.4;}
 
@@ -187,95 +187,128 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
   .hero-title{font-size:1.6rem;}
   .or-contacts,.or-stats{display:none;}
 }
+
+/* ── Wiki-matching topbar ────────────────────────────────────── */
+.topbar-brand{display:flex;align-items:center;gap:9px;}
+.topbar-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--cyan),var(--magenta));border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:1rem;color:white;font-style:italic;flex-shrink:0;}
+.topbar-name{font-size:0.92rem;font-weight:800;color:white;letter-spacing:-0.2px;}
+.topbar-name span{color:rgba(255,255,255,0.4);font-weight:400;}
+.topbar-logos{display:flex;align-items:center;gap:12px;}
+.topbar-logo-img{height:22px;width:auto;opacity:0.75;filter:brightness(1.2);}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+.topbar-user{display:flex;align-items:center;gap:7px;padding:5px 11px;background:rgba(255,255,255,0.06);border-radius:20px;border:1px solid rgba(255,255,255,0.08);}
+.topbar-user-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
+.topbar-user-name{font-size:0.78rem;color:rgba(255,255,255,0.8);font-weight:500;}
+.topbar-time{font-size:0.75rem;color:rgba(255,255,255,0.35);font-variant-numeric:tabular-nums;}
+.topbar-sep{width:1px;height:26px;background:rgba(255,255,255,0.08);}
+.topbar-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);border-radius:7px;padding:5px 11px;font-size:0.72rem;cursor:pointer;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;}
+.topbar-btn:hover{background:rgba(212,20,90,0.2);border-color:var(--magenta);color:white;}
+
+/* ── Tab nav ────────────────────────────────────────────────── */
+.tab-nav{background:white;border-bottom:1.5px solid var(--border);display:flex;padding:0 16px;overflow-x:auto;flex-shrink:0;z-index:200;position:relative;}
+.tab-nav::-webkit-scrollbar{height:0;}
+.tab-btn{height:44px;padding:0 16px;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.79rem;font-weight:600;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0;margin-bottom:-1.5px;}
+.tab-btn i{font-size:0.74rem;}
+.tab-btn:hover{color:var(--ink);background:var(--bg);}
+.tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+
+/* ── Offices filter bar ─────────────────────────────────────── */
+.offices-filter-bar{background:var(--navy);border-bottom:1.5px solid rgba(255,255,255,0.07);padding:0 20px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+.offices-stats-row{display:flex;align-items:center;gap:6px;padding:10px 0;margin-right:16px;flex-shrink:0;}
+.ostat{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:8px;border:1px solid transparent;}
+.ostat-cyan{background:rgba(8,145,178,0.12);border-color:rgba(8,145,178,0.25);}
+.ostat-green{background:rgba(4,120,87,0.12);border-color:rgba(4,120,87,0.2);}
+.ostat-pink{background:rgba(212,20,90,0.1);border-color:rgba(212,20,90,0.2);}
+.ostat i{font-size:0.72rem;}
+.ostat-cyan i{color:var(--cyan);}
+.ostat-green i{color:#34d399;}
+.ostat-pink i{color:#f472b6;}
+.ostat span:not(.ostat-l){font-size:0.8rem;font-weight:800;color:white;}
+.ostat-l{font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}
+.vsep{width:1px;height:32px;background:rgba(255,255,255,0.08);margin:0 14px;flex-shrink:0;}
+.region-chips{display:flex;align-items:center;gap:4px;padding:10px 0;flex-shrink:0;}
+.active-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0;font-size:0.73rem;color:rgba(255,255,255,0.5);font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;}
+.active-chip.on{background:rgba(4,120,87,0.2);border-color:rgba(52,211,153,0.4);color:#34d399;}
+.search-inp{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 12px 7px 30px;color:white;font-size:0.78rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:190px;transition:all 0.18s;}
+.search-inp:focus{border-color:#0891b2;background:rgba(8,145,178,0.1);}
+.btn-add-office{display:flex;align-items:center;gap:6px;padding:6px 13px;background:rgba(8,145,178,0.15);border:1px solid rgba(8,145,178,0.3);border-radius:8px;color:var(--cyan);font-size:0.73rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;margin-left:8px;transition:all 0.15s;}
+.btn-add-office:hover{background:rgba(8,145,178,0.25);}
+.view-btn{width:30px;height:30px;border:1px solid rgba(255,255,255,0.1);border-radius:7px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.72rem;color:rgba(255,255,255,0.4);transition:all 0.15s;}
+.view-btn.view-btn-on{background:rgba(8,145,178,0.2);border-color:rgba(255,255,255,0.15);color:var(--cyan);}
+
 </style>
 </head>
 <body>
 
 <!-- TOPBAR -->
-<!-- iOS Install Banner -->
-<div id="iosBanner" style="display:none;align-items:center;gap:12px;padding:10px 18px;background:linear-gradient(135deg,#0c1e35,#163352);border-bottom:1px solid rgba(8,145,178,0.3);font-family:'Plus Jakarta Sans',sans-serif;position:relative;z-index:200;">
-  <div style="width:34px;height:34px;background:linear-gradient(135deg,#0891b2,#d4145a);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-    <span style="font-size:1.1rem;">📲</span>
-  </div>
-  <div style="flex:1;">
-    <div style="font-size:0.78rem;font-weight:700;color:white;margin-bottom:1px;">Install ORN Wiki as an app</div>
-    <div style="font-size:0.71rem;color:rgba(255,255,255,0.55);">Tap <strong style="color:rgba(255,255,255,0.8);">Share</strong> <span style="font-size:0.85rem;">⎙</span> then <strong style="color:rgba(255,255,255,0.8);">"Add to Home Screen"</strong></div>
-  </div>
-  <button onclick="dismissIOSBanner()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:7px;color:rgba(255,255,255,0.5);font-size:0.72rem;padding:5px 10px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;">Got it ✕</button>
-</div>
-<script>
-(function(){
-  const dismissed = localStorage.getItem('orn_ios_banner_dismissed');
-  if(dismissed) return;
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone === true;
-  if(isIOS && !isStandalone){
-    document.getElementById('iosBanner').style.display='flex';
-  }
-})();
-function dismissIOSBanner(){
-  document.getElementById('iosBanner').style.display='none';
-  try{localStorage.setItem('orn_ios_banner_dismissed','1');}catch(e){}
-}
-</script>
-
 <div class="topbar">
   <div class="topbar-brand">
     <div class="topbar-mark">O</div>
     <div>
-      <div class="topbar-name">ORN Project Wiki <span>/ Worldwide Offices</span></div>
+      <div class="topbar-name">ORN Project Wiki <span>/ Trip Factory</span></div>
     </div>
   </div>
   <div class="topbar-sep"></div>
-  <a href="index.html" class="back-btn" onclick="try{var u=localStorage.getItem('orn_wiki_user')||sessionStorage.getItem('orn_wiki_user');if(u)sessionStorage.setItem('orn_wiki_user',u);}catch(e){}"><i class="fas fa-arrow-left"></i> Back to Wiki</a>
-  <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
-    <div style="font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.7);" id="topUserName"></div>
-    <div class="topbar-sep"></div>
-    <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);" id="topTimeClock"></div>
+  <div class="topbar-logos">
+    <img src="Logos/orn-logo.png" class="topbar-logo-img" alt="ORN" onerror="this.style.display='none'">
+    <img src="Logos/tripfactory-logo.png" class="topbar-logo-img" alt="Trip Factory" onerror="this.style.display='none'">
+    <img src="Logos/nexus-logo.png" class="topbar-logo-img" alt="Nexus" onerror="this.style.display='none'">
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-user"><div class="topbar-user-dot"></div><span class="topbar-user-name" id="topUser">—</span></div>
+    <div class="topbar-time" id="topTime">—</div>
+    <button class="topbar-btn" onclick="window.location.href='index.html'"><i class="fas fa-sign-out-alt"></i> Back to Wiki</button>
   </div>
 </div>
 
-<!-- HERO replaced with wiki-style subheader -->
-<div style="background:var(--navy);border-bottom:1.5px solid rgba(255,255,255,0.07);padding:0 28px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;">
-  <!-- Stats pills in tab-nav style -->
-  <div style="display:flex;align-items:center;gap:6px;padding:10px 0;margin-right:20px;flex-shrink:0;">
-    <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.25);border-radius:8px;">
-      <i class="fas fa-globe" style="color:var(--cyan);font-size:0.72rem;"></i>
-      <span style="font-size:0.8rem;font-weight:800;color:white;" id="statTotal">36</span>
-      <span style="font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Offices</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;background:rgba(4,120,87,0.12);border:1px solid rgba(4,120,87,0.2);border-radius:8px;">
-      <i class="fas fa-check-circle" style="color:#34d399;font-size:0.72rem;"></i>
-      <span style="font-size:0.8rem;font-weight:800;color:white;" id="statActive">—</span>
-      <span style="font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Active</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;background:rgba(212,20,90,0.1);border:1px solid rgba(212,20,90,0.2);border-radius:8px;">
-      <i class="fas fa-users" style="color:#f472b6;font-size:0.72rem;"></i>
-      <span style="font-size:0.8rem;font-weight:800;color:white;" id="statStaff">—</span>
-      <span style="font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Staff</span>
-    </div>
+<div class="tab-nav">
+  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-home"></i> Overview</a>
+  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-sitemap"></i> Departments</a>
+  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-project-diagram"></i> Workflows</a>
+  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-book-open"></i> Travel Jargon</a>
+  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-landmark"></i> History</a>
+  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-star"></i> ORN Values</a>
+  <a href="offices.html" class="tab-btn active" style="text-decoration:none;"><i class="fas fa-globe"></i> Worldwide Offices</a>
+  <a href="index.html#documents" class="tab-btn" style="text-decoration:none;" onclick="sessionStorage.setItem('orn_tab','documents')"><i class="fas fa-folder-open"></i> Document Hub</a>
+  <a href="index.html#references" class="tab-btn" style="text-decoration:none;" onclick="sessionStorage.setItem('orn_tab','references')"><i class="fas fa-link"></i> References</a>
+</div>
+
+<div class="offices-filter-bar">
+  <div class="offices-stats-row">
+    <div class="ostat ostat-cyan"><i class="fas fa-globe"></i><span id="statTotal">36</span><span class="ostat-l">Offices</span></div>
+    <div class="ostat ostat-green"><i class="fas fa-check-circle"></i><span id="statActive">—</span><span class="ostat-l">Active</span></div>
+    <div class="ostat ostat-pink"><i class="fas fa-users"></i><span id="statStaff">—</span><span class="ostat-l">Staff</span></div>
   </div>
-  <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);margin-right:16px;flex-shrink:0;"></div>
-  <!-- Region tabs matching wiki tab-nav style -->
-  <div id="regionChips" style="display:flex;align-items:center;gap:4px;padding:10px 0;flex-shrink:0;"></div>
-  <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);margin:0 14px;flex-shrink:0;"></div>
-  <!-- Active only toggle -->
-  <div id="activeChip" onclick="toggleActive(this)" style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0;">
+  <div class="vsep"></div>
+  <div id="regionChips" class="region-chips"></div>
+  <div class="vsep"></div>
+  <div id="activeChip" onclick="toggleActive(this)" class="active-chip">
     <i class="fas fa-circle" style="font-size:0.5rem;color:rgba(255,255,255,0.3);"></i>
-    <span style="font-size:0.73rem;color:rgba(255,255,255,0.5);font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;">Active only</span>
+    <span>Active only</span>
   </div>
   <div style="flex:1;"></div>
-  <!-- Search -->
-  <div style="position:relative;margin-left:12px;flex-shrink:0;">
+  <div style="position:relative;">
     <i class="fas fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);font-size:0.72rem;pointer-events:none;"></i>
-    <input id="searchInp" type="text" oninput="applyFilters()" placeholder="Search offices…" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 12px 7px 30px;color:white;font-size:0.78rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:200px;transition:all 0.18s;" onfocus="this.style.borderColor='#0891b2';this.style.background='rgba(8,145,178,0.1)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.06)'">
+    <input id="searchInp" type="text" oninput="applyFilters()" placeholder="Search offices…" class="search-inp">
   </div>
-  <!-- Add Office button -->
-  <button onclick="openAddOffice()" style="display:flex;align-items:center;gap:6px;padding:6px 13px;background:rgba(8,145,178,0.15);border:1px solid rgba(8,145,178,0.3);border-radius:8px;color:var(--cyan);font-size:0.73rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;margin-left:8px;transition:all 0.15s;" onmouseover="this.style.background='rgba(8,145,178,0.25)'" onmouseout="this.style.background='rgba(8,145,178,0.15)'"><i class="fas fa-plus"></i> Add Office</button>
-  <!-- View toggle -->
+  <button onclick="openAddOffice()" class="btn-add-office"><i class="fas fa-plus"></i> Add Office</button>
   <div style="display:flex;gap:3px;margin-left:10px;flex-shrink:0;">
-    <button id="btnGrid" onclick="setView('grid',this)" style="width:30px;height:30px;border:1px solid rgba(255,255,255,0.15);border-radius:7px;background:rgba(8,145,178,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.72rem;color:var(--cyan);transition:all 0.15s;" title="Grid"><i class="fas fa-th-large"></i></button>
-    <button id="btnList" onclick="setView('list',this)" style="width:30px;height:30px;border:1px solid rgba(255,255,255,0.1);border-radius:7px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.72rem;color:rgba(255,255,255,0.4);transition:all 0.15s;" title="List"><i class="fas fa-list"></i></button>
+    <button id="btnGrid" onclick="setView('grid',this)" class="view-btn view-btn-on" title="Grid"><i class="fas fa-th-large"></i></button>
+    <button id="btnList" onclick="setView('list',this)" class="view-btn" title="List"><i class="fas fa-list"></i></button>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <i class="fas fa-search"></i>
+    <input class="search-inp" type="text" id="searchInp" placeholder="Search country, city, contact\u2026" oninput="applyFilters()">
+  </div>
+  <div class="filter-chips" id="regionChips"></div>
+  <div class="chip active-only" id="activeChip" onclick="toggleActive(this)"><i class="fas fa-check-circle" style="font-size:0.65rem;"></i> Active only</div>
+  <div class="view-btns">
+    <button class="view-btn on" id="btnGrid" onclick="setView('grid',this)" title="Grid view"><i class="fas fa-th-large"></i></button>
+    <button class="view-btn" id="btnList" onclick="setView('list',this)" title="List view"><i class="fas fa-list"></i></button>
   </div>
 </div>
 <div class="results-bar" id="resultsBar"></div>
@@ -285,765 +318,357 @@ function dismissIOSBanner(){
 
 <script>
 const OFFICES = [
-  {
-    "id": "o00",
-    "country": "United Kingdom",
-    "city": "London",
-    "flag": "🇬🇧",
-    "contacts": "Raj Kumar COO , Ajay Kawa Global Business Development  & Alia Taub Chief People Officer",
-    "address": "22 - 25 Portman Close London W1H 6BS",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "4",
-    "drivers": "0",
-    "physical": "Yes",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Head office for UK & European operations. B2C sales, B2B partnerships, contracting hub.",
-    "credits": "",
-    "tier": 2
+</script>
+"
+    },
+    "message": "Create standalone offices.html with all 36 offices from Excel",
+    "integration_name": null,
+    "integration_icon_url": null,
+    "icon_name": "file",
+    "context": null,
+    "display_content": {
+      "type": "json_block",
+      "json_block": "{"language": "html", "code": "<!DOCTYPE html>\
+<html lang=\"en-GB\">\
+<head>\
+<meta charset=\"UTF-8\">\
+<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
+<title>ORN Worldwide Offices</title>\
+<link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap\" rel=\"stylesheet\">\
+<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\" rel=\"stylesheet\">\
+<style>\
+:root{\
+  --navy:#0c1e35;--navy2:#163352;--navy3:#071526;\
+  --cyan:#0891b2;--cyan2:#0e7490;--cyan-light:#e0f2fe;\
+  --magenta:#d4145a;--magenta2:#a8104a;\
+  --gold:#b45309;--gold-light:#fef3c7;\
+  --green:#047857;--green-light:#d1fae5;\
+  --orange:#c2410c;--orange-light:#ffedd5;\
+  --purple:#6d28d9;--purple-light:#ede9fe;\
+  --slate:#475569;--slate2:#94a3b8;--slate3:#cbd5e1;\
+  --border:#e2e8f0;--bg:#f8fafc;--card:#ffffff;\
+  --ink:#0f172a;--ink2:#1e293b;--ink3:#334155;\
+  --r:8px;--r-lg:14px;\
+  --sh:0 1px 3px rgba(0,0,0,0.05),0 4px 12px rgba(0,0,0,0.07);\
+  --sh-md:0 4px 20px rgba(0,0,0,0.1);\
+}\
+*{margin:0;padding:0;box-sizing:border-box;}\
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);}\
+\
+/* \u2500\u2500 TOPBAR \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.topbar{\
+  height:54px;background:var(--navy);display:flex;align-items:center;\
+  padding:0 24px;gap:16px;position:sticky;top:0;z-index:100;\
+  box-shadow:0 2px 12px rgba(0,0,0,0.3);\
+}\
+.topbar-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--cyan),var(--magenta));border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:1rem;color:white;font-style:italic;flex-shrink:0;}\
+.topbar-name{font-size:0.9rem;font-weight:800;color:white;letter-spacing:-0.2px;}\
+.topbar-name span{color:rgba(255,255,255,0.4);font-weight:400;}\
+.topbar-sep{width:1px;height:24px;background:rgba(255,255,255,0.1);}\
+.back-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:7px;color:rgba(255,255,255,0.7);font-size:0.75rem;font-weight:600;text-decoration:none;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif;}\
+.back-btn:hover{background:rgba(255,255,255,0.12);color:white;}\
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;}\
+.topbar-stat{text-align:right;}\
+.topbar-stat-n{font-size:1rem;font-weight:800;color:var(--cyan);}\
+.topbar-stat-l{font-size:0.62rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}\
+\
+/* \u2500\u2500 HERO \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.hero{\
+  background:linear-gradient(135deg,var(--navy3) 0%,var(--navy) 60%,#1a1040 100%);\
+  padding:36px 32px 30px;position:relative;overflow:hidden;\
+}\
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 80% 50%,rgba(8,145,178,0.1) 0%,transparent 65%);}\
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(8,145,178,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(8,145,178,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}\
+.hero-content{position:relative;max-width:1200px;margin:0 auto;}\
+.hero-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan);margin-bottom:8px;display:flex;align-items:center;gap:6px;}\
+.hero-title{font-family:'Instrument Serif',serif;font-size:2.2rem;color:white;margin-bottom:6px;font-style:italic;line-height:1.2;}\
+.hero-title span{color:var(--cyan);}\
+.hero-sub{font-size:0.84rem;color:rgba(255,255,255,0.5);max-width:560px;line-height:1.65;margin-bottom:20px;}\
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}\
+.hstat{text-align:center;padding:10px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;}\
+.hstat-n{font-size:1.6rem;font-weight:800;color:white;}\
+.hstat-l{font-size:0.64rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;margin-top:1px;}\
+\
+/* \u2500\u2500 TOOLBAR \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.toolbar{\
+  background:white;border-bottom:1.5px solid var(--border);\
+  padding:14px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;\
+  position:sticky;top:54px;z-index:90;\
+}\
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:340px;}\
+.search-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--slate2);font-size:0.75rem;pointer-events:none;}\
+.search-inp{width:100%;padding:8px 12px 8px 32px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;transition:border-color 0.18s;color:var(--ink);}\
+.search-inp:focus{border-color:var(--cyan);}\
+.filter-chips{display:flex;gap:6px;flex-wrap:wrap;}\
+.chip{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;transition:all 0.15s;background:white;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}\
+.chip:hover,.chip.on{background:var(--navy);border-color:var(--navy);color:white;}\
+.chip.active-only.on{background:var(--green);border-color:var(--green);}\
+.view-btns{display:flex;gap:4px;margin-left:auto;}\
+.view-btn{width:32px;height:32px;border:1.5px solid var(--border);border-radius:7px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:var(--slate);transition:all 0.15s;}\
+.view-btn.on{background:var(--navy);border-color:var(--navy);color:white;}\
+.results-bar{padding:8px 32px;font-size:0.74rem;color:var(--slate2);background:var(--bg);border-bottom:1px solid var(--border);}\
+\
+/* \u2500\u2500 MAIN \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.main{max-width:1400px;margin:0 auto;padding:28px 32px;}\
+\
+/* \u2500\u2500 REGION SECTION \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.region-section{margin-bottom:36px;}\
+.region-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}\
+.region-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;flex-shrink:0;}\
+.region-name{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.09em;color:var(--slate);flex:1;}\
+.region-count{font-size:0.68rem;color:var(--slate2);font-weight:600;}\
+.region-line{flex:1;height:1px;background:var(--border);}\
+\
+/* \u2500\u2500 OFFICE CARDS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.offices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;}\
+.offices-list{display:flex;flex-direction:column;gap:8px;}\
+\
+.office-card{\
+  background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);\
+  overflow:hidden;transition:all 0.2s;box-shadow:var(--sh);\
+  display:flex;flex-direction:column;\
+}\
+.office-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}\
+.office-card.non-op{opacity:0.72;}\
+.office-card.non-op:hover{opacity:1;}\
+\
+.oc-top{padding:16px 18px 12px;position:relative;}\
+.oc-top-row{display:flex;align-items:flex-start;gap:12px;}\
+.oc-flag{font-size:2rem;line-height:1;flex-shrink:0;}\
+.oc-info{flex:1;min-width:0;}\
+.oc-country{font-size:1rem;font-weight:800;color:var(--ink);line-height:1.2;}\
+.oc-city{font-size:0.74rem;color:var(--slate2);margin-top:1px;}\
+.oc-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}\
+\
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;font-size:0.63rem;font-weight:700;}\
+.badge-active{background:#d1fae5;color:#065f46;}\
+.badge-nonop{background:#f1f5f9;color:#64748b;}\
+.badge-tier1{background:#dbeafe;color:#1e40af;}\
+.badge-tier2{background:#e0f2fe;color:#0e7490;}\
+.badge-tier3{background:#f0fdf4;color:#166534;}\
+.badge-tier4{background:#f8fafc;color:#94a3b8;}\
+.badge-type{background:#faf5ff;color:#6d28d9;}\
+\
+.oc-divider{height:1px;background:var(--border);margin:0 18px;}\
+\
+.oc-body{padding:12px 18px;flex:1;display:flex;flex-direction:column;gap:6px;}\
+.oc-row{display:flex;align-items:flex-start;gap:8px;font-size:0.74rem;color:var(--ink3);}\
+.oc-row i{color:var(--slate2);font-size:0.65rem;margin-top:2px;width:12px;flex-shrink:0;}\
+.oc-row a{color:var(--cyan);text-decoration:none;}\
+.oc-row a:hover{text-decoration:underline;}\
+\
+.oc-purpose{background:var(--bg);border-left:2.5px solid var(--cyan);border-radius:0 6px 6px 0;padding:7px 10px;font-size:0.72rem;color:var(--slate);line-height:1.5;margin-top:4px;}\
+\
+.oc-capabilities{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}\
+.cap-badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:4px;}\
+.cap-in{background:#dbeafe;color:#1e40af;}\
+.cap-out{background:#d1fae5;color:#065f46;}\
+.cap-transport{background:#fef3c7;color:#92400e;}\
+.cap-physical{background:#faf5ff;color:#6d28d9;}\
+.cap-credits{background:#fff7ed;color:#c2410c;}\
+\
+/* \u2500\u2500 LIST VIEW \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.office-row{\
+  background:white;border:1px solid var(--border);border-radius:10px;\
+  padding:12px 18px;display:flex;align-items:center;gap:14px;\
+  transition:all 0.15s;box-shadow:var(--sh);\
+}\
+.office-row:hover{border-color:var(--cyan);box-shadow:var(--sh-md);}\
+.or-flag{font-size:1.4rem;flex-shrink:0;}\
+.or-main{flex:1;min-width:0;}\
+.or-name{font-size:0.88rem;font-weight:700;color:var(--ink);}\
+.or-city{font-size:0.72rem;color:var(--slate2);}\
+.or-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}\
+.or-contacts{flex:0 0 220px;font-size:0.72rem;color:var(--slate);line-height:1.4;}\
+.or-stats{display:flex;gap:14px;flex-shrink:0;}\
+.or-stat{text-align:center;}\
+.or-stat-n{font-size:0.85rem;font-weight:700;color:var(--ink);}\
+.or-stat-l{font-size:0.6rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;}\
+\
+/* \u2500\u2500 MAP PLACEHOLDER / WORLD VIZ \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.world-banner{\
+  background:var(--navy);border-radius:var(--r-lg);padding:20px 28px;\
+  margin-bottom:24px;display:flex;align-items:center;gap:20px;\
+  position:relative;overflow:hidden;\
+}\
+.world-banner::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(8,145,178,0.15),transparent 70%);}\
+.wb-dots{font-size:2rem;flex-shrink:0;}\
+.wb-text{flex:1;}\
+.wb-title{font-size:1rem;font-weight:800;color:white;margin-bottom:2px;}\
+.wb-sub{font-size:0.75rem;color:rgba(255,255,255,0.45);line-height:1.5;}\
+.wb-stats{display:flex;gap:16px;flex-shrink:0;}\
+.wb-stat{text-align:center;padding:8px 14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:9px;}\
+.wb-stat-n{font-size:1.1rem;font-weight:800;color:var(--cyan);}\
+.wb-stat-l{font-size:0.6rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}\
+\
+/* \u2500\u2500 EMPTY \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
+.empty{padding:60px;text-align:center;color:var(--slate2);}\
+.empty i{font-size:2rem;display:block;margin-bottom:10px;opacity:0.4;}\
+\
+@media(max-width:768px){\
+  .hero{padding:24px 20px 20px;}\
+  .toolbar{padding:12px 16px;}\
+  .main{padding:20px 16px;}\
+  .hero-stats{gap:12px;}\
+  .hstat{padding:8px 12px;}\
+  .hero-title{font-size:1.6rem;}\
+  .or-contacts,.or-stats{display:none;}\
+}\
+
+.card-edit-btn{flex:1;padding:5px;border:1px solid var(--border);border-radius:6px;background:white;font-size:0.7rem;color:var(--slate);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;}
+.card-edit-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.card-del-btn{padding:5px 10px;border:1px solid #fecaca;border-radius:6px;background:white;font-size:0.7rem;color:#dc2626;cursor:pointer;transition:all 0.15s;}
+.card-del-btn:hover{background:#fef2f2;}
+
+</style>\
+</head>\
+<body>\
+\
+<!-- TOPBAR -->\
+<div class=\"topbar\">\
+  <div class=\"topbar-mark\">O</div>\
+  <div class=\"topbar-name\">ORN <span>/ Worldwide Offices</span></div>\
+  <div class=\"topbar-sep\"></div>\
+  <a href=\"index.html\" class=\"back-btn\"><i class=\"fas fa-arrow-left\"></i> Back to Wiki</a>\
+  <div class=\"topbar-right\">\
+    <div class=\"topbar-stat\"><div class=\"topbar-stat-n\" id=\"topActive\">\u2014</div><div class=\"topbar-stat-l\">Active</div></div>\
+    <div class=\"topbar-sep\"></div>\
+    <div class=\"topbar-stat\"><div class=\"topbar-stat-n\" id=\"topTotal\">36</div><div class=\"topbar-stat-l\">Total Offices</div></div>\
+    <div class=\"topbar-sep\"></div>\
+    <div class=\"topbar-stat\"><div class=\"topbar-stat-n\" id=\"topStaff\">\u2014</div><div class=\"topbar-stat-l\">Staff</div></div>\
+  </div>\
+</div>\
+\
+<!-- HERO -->\
+<div class=\"hero\">\
+  <div class=\"hero-grid\"></div>\
+  <div class=\"hero-content\">\
+    <div class=\"hero-label\"><i class=\"fas fa-globe\"></i> ORN Group \u2014 Global Footprint</div>\
+    <div class=\"hero-title\">Worldwide <span>Offices</span></div>\
+    <div class=\"hero-sub\">ORN's global presence spanning Europe, Middle East, Asia Pacific, Americas and Oceania \u2014 active operations, partner offices, and emerging markets.</div>\
+    <div class=\"hero-stats\" id=\"heroStats\"></div>\
+  </div>\
+</div>\
+\
+<!-- TOOLBAR -->\
+<div class=\"toolbar\">\
+  <div class=\"search-wrap\">\
+    <i class=\"fas fa-search\"></i>\
+    <input class=\"search-inp\" type=\"text\" id=\"searchInp\" placeholder=\"Search country, city, contact\u2026\" oninput=\"applyFilters()\">\
+  </div>\
+  <div class=\"filter-chips\" id=\"regionChips\"></div>\
+  <div class=\"chip active-only\" id=\"activeChip\" onclick=\"toggleActive(this)\"><i class=\"fas fa-check-circle\" style=\"font-size:0.65rem;\"></i> Active only</div>\
+  <div class=\"view-btns\">\
+    <button class=\"view-btn on\" id=\"btnGrid\" onclick=\"setView('grid',this)\" title=\"Grid view\"><i class=\"fas fa-th-large\"></i></button>\
+    <button class=\"view-btn\" id=\"btnList\" onclick=\"setView('list',this)\" title=\"List view\"><i class=\"fas fa-list\"></i></button>\
+  </div>\
+</div>\
+<div class=\"results-bar\" id=\"resultsBar\"></div>\
+\
+<!-- MAIN -->\
+<div class=\"main\" id=\"mainArea\"></div>\
+\
+<script>\
+const OFFICES = [\
+</script>\
+", "filename": "/home/claude/offices.html"}"
+    },
+    "approval_options": null,
+    "approval_key": null,
+    "is_mcp_app": null
   },
   {
-    "id": "o01",
-    "country": "Germany",
-    "city": "Frankfurt",
-    "flag": "🇩🇪",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "1",
-    "drivers": "0",
-    "physical": "Yes",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Partner office supporting German-speaking market.",
-    "credits": "",
-    "tier": 2
+    "start_timestamp": null,
+    "stop_timestamp": null,
+    "flags": null,
+    "type": "tool_result",
+    "tool_use_id": "toolu_01B13Qf8dKMMjMHz2nqpds25",
+    "name": "create_file",
+    "content": [
+      {
+        "type": "text",
+        "text": "File created successfully: /home/claude/offices.html",
+        "uuid": "d37bb934-7dc0-44c6-8ba8-25a39a8619fb"
+      }
+    ],
+    "is_error": false,
+    "structured_content": null,
+    "meta": null,
+    "message": null,
+    "integration_name": null,
+    "integration_icon_url": null,
+    "icon_name": "file",
+    "display_content": {
+      "type": "text",
+      "text": "File created successfully: /home/claude/offices.html"
+    }
   },
   {
-    "id": "o02",
-    "country": "France",
-    "city": "Paris",
-    "flag": "🇫🇷",
-    "contacts": "Paolina Zunino  - ? And Krzysztof Jamruszkiewicz - ?",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "5",
-    "drivers": "5",
-    "physical": "Yes",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "Yes",
-    "market": "Global",
-    "purpose": "Market opportunity — French-speaking travel market.",
-    "credits": "",
-    "tier": 2
+    "start_timestamp": "2026-03-07T07:24:23.679141Z",
+    "stop_timestamp": "2026-03-07T07:24:25.184141Z",
+    "flags": null,
+    "type": "tool_use",
+    "id": "toolu_01RbXV29ZXVbk4kRwQeYvbm9",
+    "name": "bash_tool",
+    "input": {
+      "command": "cat /tmp/offices_data_v2.js | sed 's/^const OFFICES=//' | sed 's/;$//' >> /home/claude/offices.html
+echo "After data inject: $(wc -c < /home/claude/offices.html)"",
+      "description": "Inject offices data array"
+    },
+    "message": "Inject offices data array",
+    "integration_name": null,
+    "integration_icon_url": null,
+    "icon_name": "commandLine",
+    "context": null,
+    "display_content": {
+      "type": "json_block",
+      "json_block": "{"language": "bash", "code": "cat /tmp/offices_data_v2.js | sed 's/^const OFFICES=//' | sed 's/;$//' >> /home/claude/offices.html\
+echo \"After data inject: $(wc -c < /home/claude/offices.html)\""}"
+    },
+    "approval_options": null,
+    "approval_key": null,
+    "is_mcp_app": null
   },
   {
-    "id": "o03",
-    "country": "Italy",
-    "city": "",
-    "flag": "🇮🇹",
-    "contacts": "Daniel - ?",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "6",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Italian market sales partner.",
-    "credits": "",
-    "tier": 2
+    "start_timestamp": null,
+    "stop_timestamp": null,
+    "flags": null,
+    "type": "tool_result",
+    "tool_use_id": "toolu_01RbXV29ZXVbk4kRwQeYvbm9",
+    "name": "bash_tool",
+    "content": [
+      {
+        "type": "text",
+        "text": "{"returncode":0,"stdout":"After data inject: 31877\
+","stderr":""}",
+        "uuid": "14a8d8cd-118e-4b42-9b37-696d2be6e928"
+      }
+    ],
+    "is_error": false,
+    "structured_content": null,
+    "meta": null,
+    "message": null,
+    "integration_name": null,
+    "integration_icon_url": null,
+    "icon_name": "commandLine",
+    "display_content": {
+      "type": "json_block",
+      "json_block": "{"returncode":0,"stdout":"After data inject: 31877\
+","stderr":""}"
+    }
   },
   {
-    "id": "o04",
-    "country": "Czech Republic",
-    "city": "Prague",
-    "flag": "🇨🇿",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "1",
-    "drivers": "0",
-    "physical": "No",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Czech and Central European market partner.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o05",
-    "country": "Poland",
-    "city": "",
-    "flag": "🇵🇱",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "1",
-    "drivers": "0",
-    "physical": "No",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Polish market partner.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o06",
-    "country": "Slovakia",
-    "city": "",
-    "flag": "🇸🇰",
-    "contacts": "Adonis ?",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "1",
-    "drivers": "8",
-    "physical": "Yes",
-    "inbound": "No",
-    "outbound": "No",
-    "transport": "Yes",
-    "market": "Global",
-    "purpose": "Transport and Fleet Operations",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o07",
-    "country": "Greece",
-    "city": "Athens",
-    "flag": "🇬🇷",
-    "contacts": "yannis ?",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "1",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Greek market partner — outbound and inbound DMC.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o08",
-    "country": "Bulgaria",
-    "city": "Sofia",
-    "flag": "🇧🇬",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "Yes",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Bulgarian market sales partner.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o09",
-    "country": "Turkey",
-    "city": "Istanbul",
-    "flag": "🇹🇷",
-    "contacts": "Baris Intepe - ?",
-    "address": "Maslak mahallesi, Meydan sokak, Veko giz plaza no 3, Office no 3-4, Sarıyer / Istanbul - 34485",
-    "region": "Europe",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "9",
-    "drivers": "0",
-    "physical": "inboind / outbound",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Turkish market partner — inbound DMC and outbound sales.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o10",
-    "country": "UAE",
-    "city": "Dubai",
-    "flag": "🇦🇪",
-    "contacts": "Yassir  Ahmed - ?",
-    "address": "WHP2-BLOCK-A COMMERCIAL, Plot No. 13-0, Saih Shuaib 3, Dubai, UAE",
-    "region": "Middle East",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "4",
-    "drivers": "0",
-    "physical": "Innound / Outbound",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "UAE hub — B2C sales, corporate travel, luxury packages.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o11",
-    "country": "Bahrain",
-    "city": "Manama",
-    "flag": "🇧🇭",
-    "contacts": "",
-    "address": "",
-    "region": "Middle East",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "1",
-    "drivers": "0",
-    "physical": "admin office",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Bahrain partner — Gulf market sales.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o12",
-    "country": "India",
-    "city": "Multiple",
-    "flag": "🇮🇳",
-    "contacts": "",
-    "address": "4th & 5th Floor, RMZ Latitude Commercial Building, Bellary Road, Hebbal, Bangalore - 560092, Karnataka",
-    "region": "South Asia",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "698",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Primary execution hub — Ops, Tech, Finance, HR, Product, Contracting.",
-    "credits": "",
-    "tier": 1
-  },
-  {
-    "id": "o13",
-    "country": "Singapore",
-    "city": "Singapore",
-    "flag": "🇸🇬",
-    "contacts": "",
-    "address": "",
-    "region": "Asia Pacific",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "3",
-    "drivers": "0",
-    "physical": "Yes",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Singapore partner — SEA hub and premium outbound sales.",
-    "credits": "",
-    "tier": 3
-  },
-  {
-    "id": "o14",
-    "country": "Malaysia",
-    "city": "Kuala Lumpur",
-    "flag": "🇲🇾",
-    "contacts": "",
-    "address": "",
-    "region": "Asia Pacific",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "1",
-    "drivers": "0",
-    "physical": "No",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Malaysian market partner — halal and Muslim-friendly packages.",
-    "credits": "",
-    "tier": 3
-  },
-  {
-    "id": "o15",
-    "country": "Thailand",
-    "city": "Bangkok",
-    "flag": "🇹🇭",
-    "contacts": "",
-    "address": "",
-    "region": "Asia Pacific",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "7",
-    "drivers": "0",
-    "physical": "Yes",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Thailand DMC partner — inbound tourism and product contracting.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o16",
-    "country": "Indonesia",
-    "city": "Bali",
-    "flag": "🇮🇩",
-    "contacts": "",
-    "address": "Park 23 Creative Hub, Jl. Kediri 3rd Floor, Tuban, Kuta, Badung Regency, Bali 80361, Indonesia",
-    "region": "Asia Pacific",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "8",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Indonesia partner — Bali DMC and outbound sales.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o17",
-    "country": "Philippines",
-    "city": "Manila",
-    "flag": "🇵🇭",
-    "contacts": "",
-    "address": "4/F Unit 2C, One E-com Center Building, Ocean Drive, Mall of Asia Complex, Pasay City, Philippines 1300",
-    "region": "Asia Pacific",
-    "type": "Trip Factory",
-    "status": "Active",
-    "staff": "17",
-    "drivers": "0",
-    "physical": "I / o",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Philippines market partner.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o18",
-    "country": "United States",
-    "city": "Multiple",
-    "flag": "🇺🇸",
-    "contacts": "",
-    "address": "",
-    "region": "Americas",
-    "type": "Trip Factory Partner",
-    "status": "Active",
-    "staff": "64",
-    "drivers": "0",
-    "physical": "Yes",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "US market — New York, Seattle, Los Angeles, Texas.",
-    "credits": "",
-    "tier": 1
-  },
-  {
-    "id": "o19",
-    "country": "Peru",
-    "city": "Lima",
-    "flag": "🇵🇪",
-    "contacts": "",
-    "address": "",
-    "region": "Americas",
-    "type": "Trip Factory Partner",
-    "status": "Active",
-    "staff": "30",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Peru market partner.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o20",
-    "country": "Argentina",
-    "city": "Buenos Aires",
-    "flag": "🇦🇷",
-    "contacts": "",
-    "address": "",
-    "region": "Americas",
-    "type": "Trip Factory Partner",
-    "status": "Active",
-    "staff": "6",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Argentina market partner.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o21",
-    "country": "Australia",
-    "city": "Multiple",
-    "flag": "🇦🇺",
-    "contacts": "",
-    "address": "Level 1,18-22 Thompson street, South Melbourne, Victoria-3205",
-    "region": "Oceania",
-    "type": "Trip Factory Partner",
-    "status": "Active",
-    "staff": "23",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Australia partner — Indian diaspora and mainstream outbound.",
-    "credits": "",
-    "tier": 2
-  },
-  {
-    "id": "o22",
-    "country": "Spain",
-    "city": "",
-    "flag": "🇪🇸",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Spanish market partner network.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o23",
-    "country": "Switzerland",
-    "city": "",
-    "flag": "🇨🇭",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Swiss market partner — premium travel segment.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o24",
-    "country": "Ireland",
-    "city": "Dublin",
-    "flag": "🇮🇪",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Irish market sales operations.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o25",
-    "country": "Austria",
-    "city": "Vienna",
-    "flag": "🇦🇹",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Austrian market partner.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o26",
-    "country": "Croatia",
-    "city": "",
-    "flag": "🇭🇷",
-    "contacts": "",
-    "address": "",
-    "region": "Europe",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Croatian market presence and DMC.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o27",
-    "country": "Qatar",
-    "city": "Doha",
-    "flag": "🇶🇦",
-    "contacts": "",
-    "address": "",
-    "region": "Middle East",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Qatar partner operations.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o28",
-    "country": "Oman",
-    "city": "kuwait",
-    "flag": "🇴🇲",
-    "contacts": "",
-    "address": "",
-    "region": "Middle East",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Oman market partner.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o29",
-    "country": "Hong Kong",
-    "city": "Hong Kong",
-    "flag": "🇭🇰",
-    "contacts": "",
-    "address": "",
-    "region": "Asia Pacific",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Hong Kong partner — premium outbound sales.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o30",
-    "country": "Mexico",
-    "city": "Mexico City",
-    "flag": "🇲🇽",
-    "contacts": "",
-    "address": "",
-    "region": "Americas",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Mexico market opportunity.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o31",
-    "country": "Brazil",
-    "city": "São Paulo",
-    "flag": "🇧🇷",
-    "contacts": "",
-    "address": "",
-    "region": "Americas",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Brazil partner — South American market hub.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o32",
-    "country": "Colombia",
-    "city": "Bogotá",
-    "flag": "🇨🇴",
-    "contacts": "",
-    "address": "",
-    "region": "Americas",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Colombia market partner.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o33",
-    "country": "Ecuador",
-    "city": "Quito",
-    "flag": "🇪🇨",
-    "contacts": "",
-    "address": "",
-    "region": "Americas",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Ecuador market presence.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o34",
-    "country": "Chile",
-    "city": "Santiago",
-    "flag": "🇨🇱",
-    "contacts": "",
-    "address": "",
-    "region": "Americas",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "Chile market partner.",
-    "credits": "",
-    "tier": 4
-  },
-  {
-    "id": "o35",
-    "country": "New Zealand",
-    "city": "Auckland",
-    "flag": "🇳🇿",
-    "contacts": "",
-    "address": "",
-    "region": "Oceania",
-    "type": "Trip Factory Partner",
-    "status": "Non-Operational",
-    "staff": "0",
-    "drivers": "0",
-    "physical": "",
-    "inbound": "Yes",
-    "outbound": "Yes",
-    "transport": "No",
-    "market": "Global",
-    "purpose": "New Zealand market opportunity.",
-    "credits": "",
-    "tier": 4
-  }
+    "start_timestamp": "2026-03-07T07:24:26.914453Z",
+    "stop_timestamp": "2026-03-07T07:25:01.965083Z",
+    "flags": null,
+    "type": "tool_use",
+    "id": "toolu_01TqFGnoUeCUgKDcvezGEgrh",
+    "name": "bash_tool",
+    "input": {
+      "command": "cat >> /home/claude/offices.html << 'HTMLEOF'
 ];
 
-// ── CONFIG ────────────────────────────────────────────────────
+// \u2500\u2500 CONFIG \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const REGION_CONFIG = {
   'Europe':       { icon:'fa-landmark',     color:'#1d4ed8' },
   'Middle East':  { icon:'fa-mosque',       color:'#b45309' },
@@ -1055,81 +680,55 @@ const REGION_CONFIG = {
 const TIER_LABELS = {1:'Strategic HQ',2:'Active Market',3:'Emerging',4:'Pipeline'};
 const TIER_CLASSES = {1:'badge-tier1',2:'badge-tier2',3:'badge-tier3',4:'badge-tier4'};
 
-// ── STATE ──────────────────────────────────────────────────────
+// \u2500\u2500 STATE \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 let activeRegion = 'All';
 let activeOnly   = false;
 let viewMode     = 'grid';
 
-// ── INIT ───────────────────────────────────────────────────────
+// \u2500\u2500 INIT \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 window.addEventListener('DOMContentLoaded', async () => {
-  buildTopStats();
-  buildHeroStats();
   buildRegionChips();
   await loadOfficesFromDB();
-  buildTopStats();
   render();
-  document.getElementById('statTotal').textContent=OFFICES.length;
+  // Start clock
+  const tick=()=>{const el=document.getElementById('topTime');if(el)el.textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});};
+  tick();setInterval(tick,1000);
+  // Set username
+  try{const u=localStorage.getItem('orn_wiki_user')||sessionStorage.getItem('orn_wiki_user')||'';const el=document.getElementById('topUser');if(el&&u)el.textContent=u;}catch(e){}
 });
 
 function buildTopStats(){
   const active = OFFICES.filter(o => o.status === 'Active').length;
   const staff  = OFFICES.reduce((sum,o) => sum + (parseInt(o.staff)||0), 0);
-  document.getElementById('statActive').textContent = active;
-  document.getElementById('statStaff').textContent = staff.toLocaleString();
+  document.getElementById('topActive').textContent = active;
+  document.getElementById('topStaff').textContent  = staff.toLocaleString();
 }
 
-function buildHeroStats(){
-  // heroStats element removed - stats now in the nav bar via buildTopStats
-}
-
+function buildHeroStats(){ /* removed - stats now in filter bar */ }
 function buildRegionChips(){
   const regions = ['All', ...Object.keys(REGION_CONFIG)];
-  const chipWrap = document.getElementById('regionChips');
-  chipWrap.innerHTML = regions.map(r =>
-    `<div onclick="setRegion('${r}',this)" style="padding:6px 13px;border-radius:8px;font-size:0.73rem;font-weight:600;cursor:pointer;transition:all 0.15s;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif;${r==='All'?'background:rgba(8,145,178,0.18);border:1px solid rgba(8,145,178,0.4);color:#67e8f9;':'background:transparent;border:1px solid transparent;color:rgba(255,255,255,0.45);'}" data-region="${r}">${r==='All'?'All Regions':r}</div>`
+  document.getElementById('regionChips').innerHTML = regions.map(r =>
+    `<div class="chip ${r==='All'?'on':''}" onclick="setRegion('${r}',this)">${r==='All'?'All Regions':r}</div>`
   ).join('');
 }
 
-// ── FILTERS ───────────────────────────────────────────────────
+// \u2500\u2500 FILTERS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function setRegion(r, el){
   activeRegion = r;
-  document.querySelectorAll('#regionChips [data-region]').forEach(c=>{
-    c.style.background='transparent';
-    c.style.border='1px solid transparent';
-    c.style.color='rgba(255,255,255,0.45)';
-  });
-  el.style.background='rgba(8,145,178,0.18)';
-  el.style.border='1px solid rgba(8,145,178,0.4)';
-  el.style.color='#67e8f9';
+  document.querySelectorAll('#regionChips .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
   render();
 }
 function toggleActive(el){
   activeOnly = !activeOnly;
-  if(activeOnly){
-    el.style.background='rgba(4,120,87,0.18)';
-    el.style.border='1px solid rgba(52,211,153,0.3)';
-    el.querySelector('i').style.color='#34d399';
-    el.querySelector('span').style.color='#34d399';
-  } else {
-    el.style.background='transparent';
-    el.style.border='1px solid rgba(255,255,255,0.1)';
-    el.querySelector('i').style.color='rgba(255,255,255,0.3)';
-    el.querySelector('span').style.color='rgba(255,255,255,0.5)';
-  }
+  el.classList.toggle('on', activeOnly);
   render();
 }
 function applyFilters(){ render(); }
 function setView(v, btn){
   viewMode = v;
-  ['btnGrid','btnList'].forEach(id=>{
-    const b=document.getElementById(id);
-    b.style.background='transparent';
-    b.style.borderColor='rgba(255,255,255,0.1)';
-    b.style.color='rgba(255,255,255,0.4)';
-  });
-  btn.style.background='rgba(8,145,178,0.2)';
-  btn.style.borderColor='rgba(8,145,178,0.4)';
-  btn.style.color='var(--cyan)';
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
   render();
 }
 
@@ -1146,28 +745,20 @@ function filtered(){
   });
 }
 
-// ── RENDER ────────────────────────────────────────────────────
+// \u2500\u2500 RENDER \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function render(){
   const data = filtered();
-  // Update stat pills to reflect current filter
   const shownActive = data.filter(o=>o.status==='Active').length;
   const shownStaff  = data.reduce((s,o)=>s+(parseInt(o.staff)||0),0);
-  document.getElementById('statTotal').textContent  = data.length;
-  document.getElementById('statActive').textContent = shownActive;
-  document.getElementById('statStaff').textContent  = shownStaff.toLocaleString();
-  document.getElementById('resultsBar').textContent =
-    `Showing ${data.length} of ${OFFICES.length} offices`;
-
+  const et=document.getElementById('statTotal');   if(et) et.textContent=data.length;
+  const ea=document.getElementById('statActive');  if(ea) ea.textContent=shownActive;
+  const es=document.getElementById('statStaff');   if(es) es.textContent=shownStaff.toLocaleString();
+  document.getElementById('resultsBar').textContent = `Showing ${data.length} of ${OFFICES.length} offices`;
   if(!data.length){
-    document.getElementById('mainArea').innerHTML =
-      `<div class="empty"><i class="fas fa-search"></i>No offices match your filters.</div>`;
+    document.getElementById('mainArea').innerHTML = `<div class="empty"><i class="fas fa-search"></i>No offices match your filters.</div>`;
     return;
   }
-  if(viewMode === 'list'){
-    renderList(data);
-  } else {
-    renderGrid(data);
-  }
+  if(viewMode === 'list'){ renderList(data); } else { renderGrid(data); }
 }
 
 function renderGrid(data){
@@ -1204,11 +795,11 @@ function renderList(data){
 
 function capBadges(o){
   const caps = [];
-  if(o.physical==='Yes')  caps.push(`<span class="cap-badge cap-physical">📍 Physical</span>`);
-  if(o.inbound==='Yes')   caps.push(`<span class="cap-badge cap-in">↙ Inbound</span>`);
-  if(o.outbound==='Yes')  caps.push(`<span class="cap-badge cap-out">↗ Outbound</span>`);
-  if(o.transport==='Yes') caps.push(`<span class="cap-badge cap-transport">🚌 Transport</span>`);
-  if(o.credits==='Yes')   caps.push(`<span class="cap-badge cap-credits">💳 Credits</span>`);
+  if(o.physical==='Yes')  caps.push(`<span class="cap-badge cap-physical">\ud83d\udccd Physical</span>`);
+  if(o.inbound==='Yes')   caps.push(`<span class="cap-badge cap-in">\u2199 Inbound</span>`);
+  if(o.outbound==='Yes')  caps.push(`<span class="cap-badge cap-out">\u2197 Outbound</span>`);
+  if(o.transport==='Yes') caps.push(`<span class="cap-badge cap-transport">\ud83d\ude8c Transport</span>`);
+  if(o.credits==='Yes')   caps.push(`<span class="cap-badge cap-credits">\ud83d\udcb3 Credits</span>`);
   return caps.join('');
 }
 
@@ -1223,10 +814,10 @@ function officeCard(o){
     <div class="office-card ${isActive?'':'non-op'}">
       <div class="oc-top">
         <div class="oc-top-row">
-          <div class="oc-flag">${o.flag||'🏢'}</div>
+          <div class="oc-flag">${o.flag||'\ud83c\udfe2'}</div>
           <div class="oc-info">
             <div class="oc-country">${o.country}</div>
-            <div class="oc-city">${o.city||o.region}${o.market&&o.market!==o.region?' · '+o.market:''}</div>
+            <div class="oc-city">${o.city||o.region}${o.market&&o.market!==o.region?' \u00b7 '+o.market:''}</div>
             <div class="oc-badges">
               <span class="badge ${isActive?'badge-active':'badge-nonop'}">${o.status}</span>
               <span class="badge ${tc}">${tl}</span>
@@ -1239,15 +830,15 @@ function officeCard(o){
       <div class="oc-body">
         ${o.contacts ? `<div class="oc-row"><i class="fas fa-user-tie"></i><span>${o.contacts}</span></div>` : ''}
         ${o.address  ? `<div class="oc-row"><i class="fas fa-map-marker-alt"></i><span>${o.address}</span></div>` : ''}
-        ${staff > 0  ? `<div class="oc-row"><i class="fas fa-users"></i><span>${staff} staff${drivers>0?' · '+drivers+' fleet drivers':''}</span></div>` : ''}
+        ${staff > 0  ? `<div class="oc-row"><i class="fas fa-users"></i><span>${staff} staff${drivers>0?' \u00b7 '+drivers+' fleet drivers':''}</span></div>` : ''}
         ${o.purpose  ? `<div class="oc-purpose">${o.purpose}</div>` : ''}
         <div class="oc-capabilities">${capBadges(o)}</div>
-        <div style="display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
-          <button onclick="openEditOffice('${o.id}')" style="flex:1;padding:5px;border:1px solid var(--border);border-radius:6px;background:white;font-size:0.7rem;color:var(--slate);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;" onmouseover="this.style.borderColor='#0891b2';this.style.color='#0891b2'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--slate)'"><i class="fas fa-pen"></i> Edit</button>
-          <button onclick="deleteOffice('${o.id}')" style="padding:5px 10px;border:1px solid #fecaca;border-radius:6px;background:white;font-size:0.7rem;color:#dc2626;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='white'"><i class="fas fa-trash"></i></button>
-        </div>
       </div>
-    </div>`;
+    
+        <div style="display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+          <button onclick="openEditOffice('${o.id}')" class="card-edit-btn"><i class="fas fa-pen"></i> Edit</button>
+          <button onclick="deleteOffice('${o.id}')" class="card-del-btn"><i class="fas fa-trash"></i></button>
+        </div></div>`;
 }
 
 function officeRow(o){
@@ -1258,10 +849,10 @@ function officeRow(o){
 
   return `
     <div class="office-row">
-      <div class="or-flag">${o.flag||'🏢'}</div>
+      <div class="or-flag">${o.flag||'\ud83c\udfe2'}</div>
       <div class="or-main">
         <div class="or-name">${o.country}</div>
-        <div class="or-city">${o.city||''}${o.region?' · '+o.region:''}</div>
+        <div class="or-city">${o.city||''}${o.region?' \u00b7 '+o.region:''}</div>
         <div class="or-badges">
           <span class="badge ${isActive?'badge-active':'badge-nonop'}">${o.status}</span>
           <span class="badge ${tc}">${tl}</span>
@@ -1269,21 +860,28 @@ function officeRow(o){
           <span style="font-size:0.63rem;color:var(--slate2);">${capBadges(o)}</span>
         </div>
       </div>
-      <div class="or-contacts">${o.contacts||'<span style="color:var(--slate2);">Contact TBC</span>'}${o.purpose?'<div style="margin-top:3px;color:var(--slate2);font-size:0.68rem;">'+o.purpose.slice(0,80)+'…</div>':''}</div>
+      <div class="or-contacts">${o.contacts||'<span style="color:var(--slate2);">Contact TBC</span>'}${o.purpose?'<div style="margin-top:3px;color:var(--slate2);font-size:0.68rem;">'+o.purpose.slice(0,80)+'\u2026</div>':''}</div>
       <div class="or-stats">
-        <div class="or-stat"><div class="or-stat-n">${staff||'—'}</div><div class="or-stat-l">Staff</div></div>
-        <div class="or-stat"><div class="or-stat-n">${o.drivers||'—'}</div><div class="or-stat-l">Drivers</div></div>
+        <div class="or-stat"><div class="or-stat-n">${staff||'\u2014'}</div><div class="or-stat-l">Staff</div></div>
+        <div class="or-stat"><div class="or-stat-n">${o.drivers||'\u2014'}</div><div class="or-stat-l">Drivers</div></div>
       </div>
     </div>`;
 }
+</script>
 
-// ── Firebase Setup ─────────────────────────────────────────────
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+// ── Firebase ─────────────────────────────────────────────────
 let _db=null;
 try{
   const _fbCfg={apiKey:"AIzaSyCJXOlSMyFlrcnQ2air1h1dbhFqLxXzOdI",authDomain:"orn-wiki.firebaseapp.com",
-    databaseURL:"https://orn-wiki-default-rtdb.europe-west1.firebasedatabase.app",projectId:"orn-wiki",storageBucket:"orn-wiki.firebasestorage.app",messagingSenderId:"25736842668",appId:"1:25736842668:web:754f9cf6268e2a5552fe09"};
+    databaseURL:"https://orn-wiki-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId:"orn-wiki",storageBucket:"orn-wiki.firebasestorage.app",
+    messagingSenderId:"25736842668",appId:"1:25736842668:web:754f9cf6268e2a5552fe09"};
   _db=firebase.database(firebase.initializeApp(_fbCfg,'ornwiki_offices'));
-}catch(e){console.warn('Firebase offices:',e);}
+}catch(e){console.warn('Firebase:',e);}
 const FB_OFF='tripfactory/wiki-offices/';
 
 async function loadOfficesFromDB(){
@@ -1300,6 +898,7 @@ async function loadOfficesFromDB(){
     }
   }catch(e){console.warn('loadOfficesFromDB:',e);}
 }
+
 function openAddOffice(){
   document.getElementById('officeModal').style.display='flex';
   document.getElementById('omTitle').textContent='Add Office';
@@ -1348,12 +947,11 @@ async function saveOffice(){
     outbound:document.getElementById('omOutbound').checked?'Yes':'No',
     physical:document.getElementById('omPhysical').checked?'Yes':'No',
     transport:document.getElementById('omTransport').checked?'Yes':'No',
-    type:'Trip Factory',credits:'',tier:2};
+    type:'Trip Factory',tier:2};
   const idx=OFFICES.findIndex(x=>x.id===id);
   if(idx>=0)OFFICES[idx]=o;else OFFICES.push(o);
   if(_db)await _db.ref(FB_OFF+id).set(o).catch(e=>console.error('Save:',e));
-  closeOfficeModal();render();buildTopStats();
-  document.getElementById('statTotal').textContent=OFFICES.length;
+  closeOfficeModal();render();
 }
 async function deleteOffice(id){
   const o=OFFICES.find(x=>x.id===id);
@@ -1361,36 +959,7 @@ async function deleteOffice(id){
   const idx=OFFICES.findIndex(x=>x.id===id);
   if(idx>=0)OFFICES.splice(idx,1);
   if(_db)await _db.ref(FB_OFF+id).remove().catch(()=>{});
-  render();buildTopStats();
-  document.getElementById('statTotal').textContent=OFFICES.length;
-}
-</script>
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-<script>
-// Show username + clock from wiki session
-(function(){
-  try{
-    const u=localStorage.getItem('orn_wiki_user')||sessionStorage.getItem('orn_wiki_user')||'';
-    const el=document.getElementById('topUserName');
-    if(el&&u) el.textContent='👤 '+u;
-    const tc=document.getElementById('topTimeClock');
-    if(tc){
-      const tick=()=>{tc.textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});};
-      tick();setInterval(tick,1000);
-    }
-  }catch(e){}
-})();
-
-if('serviceWorker' in navigator){
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/tripfactorywiki/sw.js')
-      .then(r => console.log('ORN Wiki SW registered:', r.scope))
-      .catch(e => console.warn('SW registration failed:', e));
-  });
+  render();
 }
 </script>
 
@@ -1403,10 +972,8 @@ if('serviceWorker' in navigator){
     </div>
     <form id="omForm" onsubmit="event.preventDefault();saveOffice();" style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <input type="hidden" id="omId">
-      <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Country *</label><input id="omCountry" required style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. United Kingdom"></div>
-        <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">City</label><input id="omCity" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. London"></div>
-      </div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Country *</label><input id="omCountry" required style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. United Kingdom"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">City</label><input id="omCity" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. London"></div>
       <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Flag emoji</label><input id="omFlag" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="🇬🇧"></div>
       <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Region</label>
         <select id="omRegion" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;">
@@ -1418,12 +985,12 @@ if('serviceWorker' in navigator){
         </select></div>
       <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Staff count</label><input id="omStaff" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"></div>
       <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Fleet drivers</label><input id="omDrivers" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"></div>
-      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Key Contacts</label><input id="omContacts" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="Name - role"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Key Contacts</label><input id="omContacts" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="Name — role"></div>
       <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Address</label><input id="omAddress" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="Full address"></div>
-      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Market / Purpose</label><input id="omMarket" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. Global, B2C, Inbound DMC"></div>
-      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Purpose description</label><textarea id="omPurpose" rows="2" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;resize:vertical;" placeholder="Brief description of this office's role"></textarea></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Market</label><input id="omMarket" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. Global, B2C, Inbound DMC"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Purpose</label><textarea id="omPurpose" rows="2" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;resize:vertical;"></textarea></div>
       <div style="grid-column:1/-1;display:flex;gap:20px;flex-wrap:wrap;">
-        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omPhysical" style="accent-color:#0891b2;"> Physical location</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omPhysical" style="accent-color:#0891b2;"> Physical</label>
         <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omInbound" style="accent-color:#0891b2;"> Inbound</label>
         <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omOutbound" style="accent-color:#0891b2;"> Outbound</label>
         <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omTransport" style="accent-color:#0891b2;"> Transport/Fleet</label>
@@ -1435,5 +1002,7 @@ if('serviceWorker' in navigator){
     </form>
   </div>
 </div>
+
 </body>
 </html>
+HTML
