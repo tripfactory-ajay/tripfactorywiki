@@ -1558,15 +1558,6 @@ function renderDocs(docs){
 async function deleteDoc(id){
   const d=wikiDocs[id];
   if(!d)return;
-  // Inline confirm on the card instead of browser confirm()
-  const btn=document.querySelector(`[data-delid="${id}"]`);
-  if(btn&&!btn.dataset.confirmed){
-    btn.dataset.confirmed='1';
-    btn.innerHTML='<i class="fas fa-exclamation-triangle"></i> Confirm?';
-    btn.style.background='#dc2626';btn.style.color='white';btn.style.borderColor='#dc2626';
-    setTimeout(()=>{if(btn){delete btn.dataset.confirmed;btn.innerHTML='<i class="fas fa-trash"></i> Remove';btn.style.cssText='';}},2500);
-    return;
-  }
   delete wikiDocs[id];
   if(_db)await _db.ref(FB.docs+id).remove().catch(()=>{});
   renderDocs(Object.values(wikiDocs));
