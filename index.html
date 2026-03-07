@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trip Factory — Global Office Directory</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+:root {
+  --ink:#0a0f1e; --ink2:#111827; --ink3:#1f2937;
+  --orange:#f97316; --orange2:#fb923c; --gold:#f59e0b;
+  --slate:#64748b; --slate2:#94a3b8; --border:#e2e8f0;
+  --white:#fff; --green:#059669; --green-l:#ecfdf5;
+  --red:#dc2626; --red-l:#fef2f2; --amber:#d97706; --amber-l:#fffbeb;
+  --blue:#2563eb; --blue-l:#eff6ff; --purple:#7c3aed; --purple-l:#f5f3ff;
+  --r:10px; --r-lg:16px;
+  --sh:0 1px 3px rgba(0,0,0,0.07),0 4px 12px rgba(0,0,0,0.05);
+  --sh-lg:0 8px 32px rgba(0,0,0,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#f8fafc;color:var(--ink);min-height:100vh;line-height:1.5;}
+
+/* ── Topbar ── */
+.topbar{background:var(--ink);height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;box-shadow:0 2px 12px rgba(0,0,0,0.4);}
+.topbar-brand{display:flex;align-items:center;gap:12px;}
+.orn-logo{height:32px;width:auto;display:block;}
+.orn-logo-fallback{height:32px;width:80px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:white;letter-spacing:-0.5px;}
+.topbar-divider{width:1px;height:28px;background:#334155;margin:0 4px;}
+.topbar-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:white;}
+.topbar-sub{font-size:0.7rem;color:var(--slate2);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.top-stat{text-align:center;}
+.top-stat-n{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--orange);}
+.top-stat-l{font-size:0.62rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;}
+.top-div{width:1px;height:24px;background:#334155;}
+.btn-top{background:var(--orange);color:white;border:none;border-radius:8px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.2s;}
+.btn-top:hover{background:#ea6c05;}
+
+/* ── Tab nav ── */
+.tab-nav{background:white;border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0;position:sticky;top:58px;z-index:200;}
+.tab-btn{padding:14px 20px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;display:flex;align-items:center;gap:7px;white-space:nowrap;}
+.tab-btn:hover{color:var(--orange);}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);font-weight:600;}
+
+/* ── Tab panels ── */
+.tab-panel{display:none;} .tab-panel.active{display:block;}
+
+/* ════════════════════ MAP TAB ════════════════════ */
+.map-section{background:#0d1b2a;padding:0;position:relative;overflow:hidden;}
+.map-wrap{position:relative;max-width:100%;user-select:none;line-height:0;}
+.world-map-img{width:100%;height:auto;display:block;min-height:300px;object-fit:cover;}
+.map-fallback{width:100%;height:460px;background:linear-gradient(135deg,#0d1b2a 0%,#0f2a1a 100%);}
+.map-dots-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+.map-dots-svg .dot-group{pointer-events:all;}
+.world-map-svg{width:100%;height:auto;display:block;}
+
+/* Map title overlay */
+.map-title-overlay{
+  position:absolute;top:18px;left:50%;transform:translateX(-50%);
+  text-align:center;pointer-events:none;
+}
+.map-title-overlay span{
+  font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;
+  color:white;text-shadow:0 2px 8px rgba(0,0,0,0.6);letter-spacing:0.02em;
+  display:block;
+}
+.map-title-sub{font-family:'DM Sans',sans-serif;font-size:0.75rem!important;font-weight:400!important;color:rgba(255,255,255,0.6)!important;margin-top:3px;}
+
+/* Map dots */
+.map-dot{cursor:pointer;transition:all 0.2s;}
+.map-dot circle{transition:all 0.2s;}
+.map-dot:hover circle{r:8;opacity:1;}
+.map-dot.tier-1 circle{fill:#f97316;stroke:#fff;stroke-width:1.5;}
+.map-dot.tier-2 circle{fill:#f59e0b;stroke:#fff;stroke-width:1.5;}
+.map-dot.tier-3 circle{fill:#22c55e;stroke:#fff;stroke-width:1.5;}
+.map-dot.tier-4 circle{fill:#94a3b8;stroke:#fff;stroke-width:1.5;}
+.map-dot.tier-5 circle{fill:#475569;stroke:#fff;stroke-width:1.5;}
+.map-dot.status-inactive circle{fill:#ef4444;}
+.map-dot.status-opportunity circle{fill:#a78bfa;}
+
+/* Map tooltip */
+.map-tooltip{
+  position:absolute;background:white;border-radius:10px;padding:12px 16px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.25);pointer-events:none;opacity:0;
+  transition:opacity 0.15s;z-index:150;min-width:200px;max-width:270px;
+  border:1px solid var(--border);
+}
+.map-tooltip.show{opacity:1;}
+.mtt-flag{font-size:1.4rem;margin-bottom:4px;}
+.mtt-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:var(--ink);}
+.mtt-meta{font-size:0.75rem;color:var(--slate);margin-top:2px;}
+.mtt-status{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.68rem;font-weight:600;margin-top:6px;}
+.mtt-hint{font-size:0.68rem;color:var(--slate2);margin-top:8px;border-top:1px solid var(--border);padding-top:6px;}
+
+/* Map legend */
+.map-legend{
+  position:absolute;bottom:16px;left:16px;
+  background:rgba(10,15,30,0.85);border-radius:10px;padding:12px 16px;
+  display:flex;flex-direction:column;gap:6px;border:1px solid rgba(255,255,255,0.1);
+}
+.legend-row{display:flex;align-items:center;gap:8px;font-size:0.72rem;color:rgba(255,255,255,0.8);}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* ════════════════════ DASHBOARD TAB ════════════════════ */
+.dash-wrap{max-width:1200px;margin:0 auto;padding:24px;}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:28px;}
+.dash-card{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:20px;box-shadow:var(--sh);}
+.dash-n{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--orange);}
+.dash-l{font-size:0.75rem;color:var(--slate);margin-top:4px;font-weight:500;}
+.dash-sub{font-size:0.72rem;color:var(--slate2);margin-top:2px;}
+
+.chart-section{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:24px;margin-bottom:20px;box-shadow:var(--sh);}
+.chart-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.chart-title i{color:var(--orange);}
+
+/* Bar chart */
+.bar-chart{display:flex;flex-direction:column;gap:10px;}
+.bar-row{display:flex;align-items:center;gap:12px;}
+.bar-label{width:140px;font-size:0.78rem;color:var(--slate);text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{flex:1;background:var(--border);border-radius:4px;height:22px;position:relative;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:center;padding-left:8px;}
+.bar-fill span{font-size:0.72rem;font-weight:600;color:white;white-space:nowrap;}
+.bar-val{width:60px;font-size:0.75rem;color:var(--slate);flex-shrink:0;}
+
+/* Donut */
+.donut-wrap{display:flex;align-items:center;gap:28px;flex-wrap:wrap;}
+.donut-svg{flex-shrink:0;}
+.donut-legend{display:flex;flex-direction:column;gap:8px;}
+.donut-item{display:flex;align-items:center;gap:8px;font-size:0.8rem;}
+.donut-swatch{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+
+/* Tier visual */
+.tier-visual{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.tier-col{background:var(--border);border-radius:var(--r);padding:14px 12px;text-align:center;}
+.tier-col.t1{background:#fff7ed;border:1.5px solid #fed7aa;}
+.tier-col.t2{background:#fefce8;border:1.5px solid #fef08a;}
+.tier-col.t3{background:#f0fdf4;border:1.5px solid #bbf7d0;}
+.tier-col.t4{background:#f8fafc;border:1.5px solid var(--border);}
+.tier-col.t5{background:#f8fafc;border:1.5px solid var(--border);}
+.tier-stars{font-size:0.8rem;margin-bottom:6px;}
+.tier-count{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;}
+.tier-label{font-size:0.68rem;color:var(--slate);margin-top:3px;}
+.t1 .tier-count{color:#ea580c;}
+.t2 .tier-count{color:#ca8a04;}
+.t3 .tier-count{color:var(--green);}
+
+/* ════════════════════ DIRECTORY TAB ════════════════════ */
+.dir-wrap{max-width:1200px;margin:0 auto;padding:24px;}
+.filters-bar{background:white;border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:100px;z-index:100;}
+.filter-pill{padding:5px 13px;border:1.5px solid var(--border);border-radius:20px;background:white;color:var(--slate);font-family:'DM Sans',sans-serif;font-size:0.77rem;font-weight:500;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.filter-pill:hover{border-color:var(--orange);color:var(--orange);}
+.filter-pill.active{background:var(--ink);border-color:var(--ink);color:white;}
+.filter-search{margin-left:auto;display:flex;align-items:center;gap:8px;background:#f1f5f9;border-radius:8px;padding:7px 12px;}
+.filter-search input{border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--ink);outline:none;width:200px;}
+.filter-search i{color:var(--slate);font-size:0.8rem;}
+
+.region-block{margin-bottom:32px;}
+.region-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.region-label{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--slate);background:var(--border);border-radius:4px;padding:3px 10px;}
+.region-line{flex:1;height:1px;background:var(--border);}
+.region-count{font-size:0.72rem;color:var(--slate2);}
+.offices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;}
+
+/* ── Office card ── */
+.office-card{background:white;border-radius:var(--r-lg);border:1.5px solid var(--border);box-shadow:var(--sh);transition:all 0.22s;overflow:hidden;animation:fadeUp 0.35s ease both;}
+.office-card:hover{box-shadow:var(--sh-lg);transform:translateY(-2px);border-color:var(--orange);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.card-top{padding:16px 18px 12px;display:flex;align-items:flex-start;gap:12px;border-bottom:1px solid var(--border);background:linear-gradient(to bottom,#fafafa,white);}
+.card-flag{font-size:1.8rem;line-height:1;flex-shrink:0;}
+.card-info{flex:1;min-width:0;}
+.card-country{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.card-city{font-size:0.75rem;color:var(--slate);margin-bottom:6px;}
+.card-badges{display:flex;gap:5px;flex-wrap:wrap;}
+.badge{padding:2px 8px;border-radius:10px;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;}
+.badge-type-owned{background:#dbeafe;color:#1d4ed8;}
+.badge-type-franchised{background:#f3e8ff;color:#6d28d9;}
+.badge-type-partner{background:#dcfce7;color:#166534;}
+.badge-type-virtual{background:#fef9c3;color:#854d0e;}
+.badge-status-active{background:var(--green-l);color:var(--green);}
+.badge-status-inactive{background:var(--red-l);color:var(--red);}
+.badge-status-opportunity{background:var(--amber-l);color:var(--amber);}
+.badge-status-planned{background:var(--blue-l);color:var(--blue);}
+.card-rev{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;}
+.rev-tier-lbl{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--slate2);margin-bottom:2px;}
+.rev-stars{color:var(--gold);font-size:0.72rem;letter-spacing:1px;}
+.card-body{padding:12px 18px;}
+.card-purpose{font-size:0.8rem;color:var(--slate);line-height:1.55;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-meta{display:flex;gap:14px;flex-wrap:wrap;}
+.meta-item{display:flex;align-items:center;gap:4px;font-size:0.72rem;color:var(--slate);}
+.meta-item i{color:var(--orange);font-size:0.65rem;width:11px;}
+.card-foot{padding:9px 18px;background:#f8fafc;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);}
+.card-staff{font-size:0.72rem;color:var(--slate);}
+.card-staff strong{color:var(--ink);}
+.btn-edit{background:transparent;border:1.5px solid var(--border);border-radius:7px;padding:4px 11px;font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;transition:all 0.18s;display:flex;align-items:center;gap:4px;}
+.btn-edit:hover{border-color:var(--orange);color:var(--orange);background:white;}
+.empty-state{text-align:center;padding:60px 20px;color:var(--slate2);}
+.empty-state i{font-size:2.5rem;margin-bottom:14px;color:var(--border);}
+
+/* ════════════════════ MODAL ════════════════════ */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,15,30,0.75);display:flex;align-items:center;justify-content:center;z-index:500;padding:16px;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.modal-overlay.hidden{display:none;}
+.modal{background:white;border-radius:var(--r-lg);width:100%;max-width:700px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.25s ease;}
+@keyframes slideUp{from{transform:translateY(18px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.modal-head{background:var(--ink);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:white;}
+.modal-sub{font-size:0.75rem;color:var(--slate2);margin-top:2px;}
+.modal-close{background:rgba(255,255,255,0.1);border:none;border-radius:7px;width:30px;height:30px;cursor:pointer;color:white;font-size:0.85rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.modal-close:hover{background:rgba(255,255,255,0.2);}
+.modal-body{padding:22px;}
+.mform-section{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.mform-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.mform-stitle{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.mform-stitle::after{content:'';flex:1;height:1px;background:var(--border);}
+.mform-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.mform-row.s1{grid-template-columns:1fr;}
+.mform-row.s3{grid-template-columns:1fr 1fr 1fr;}
+.mform-row.s4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.mform-field{display:flex;flex-direction:column;gap:4px;}
+.mform-label{font-size:0.76rem;font-weight:600;color:var(--slate);}
+.mform-input,.mform-select,.mform-textarea{border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:0.83rem;color:var(--ink);outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;}
+.mform-input:focus,.mform-select:focus,.mform-textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,0.1);}
+.mform-textarea{resize:vertical;min-height:75px;line-height:1.6;}
+.pill-group{display:flex;gap:7px;flex-wrap:wrap;}
+.sel-pill{padding:6px 13px;border:1.5px solid var(--border);border-radius:20px;cursor:pointer;font-size:0.76rem;font-weight:500;color:var(--slate);transition:all 0.18s;font-family:'DM Sans',sans-serif;}
+.sel-pill:hover{border-color:var(--orange);color:var(--orange);}
+.sel-pill.active{background:var(--ink);border-color:var(--ink);color:white;}
+.rev-tier-group{display:flex;gap:7px;}
+.rev-btn{flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;text-align:center;transition:all 0.18s;font-family:'DM Sans',sans-serif;}
+.rev-btn span{display:block;font-size:0.6rem;color:var(--slate);margin-top:2px;}
+.rev-btn.sel-1{border-color:#f97316;background:#fff7ed;}
+.rev-btn.sel-2{border-color:#f59e0b;background:#fefce8;}
+.rev-btn.sel-3{border-color:#22c55e;background:#f0fdf4;}
+.rev-btn.sel-4{border-color:#94a3b8;background:#f8fafc;}
+.rev-btn.sel-5{border-color:#475569;background:#f1f5f9;}
+
+/* Staff tags */
+.staff-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:10px;}
+.staff-tag{background:#f1f5f9;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:0.76rem;color:var(--ink);display:flex;align-items:center;gap:6px;}
+.staff-tag-rm{background:none;border:none;cursor:pointer;color:var(--slate2);font-size:0.65rem;padding:0;line-height:1;display:flex;align-items:center;}
+.staff-tag-rm:hover{color:var(--red);}
+.staff-add-row{display:flex;gap:7px;}
+.staff-add-input{border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--ink);outline:none;transition:border-color 0.2s;flex:1;}
+.staff-add-input:focus{border-color:var(--orange);}
+.btn-staff-add{background:var(--ink);color:white;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:0.82rem;transition:background 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.btn-staff-add:hover{background:var(--orange);}
+
+/* ORN Credit section */
+.orn-credit-box{background:linear-gradient(135deg,var(--ink) 0%,#1a2744 100%);border-radius:var(--r);padding:18px;margin-bottom:12px;border:1px solid rgba(249,115,22,0.3);}
+.orn-credit-title{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;color:var(--orange);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.orn-credit-inputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
+.orn-credit-input-wrap{display:flex;flex-direction:column;gap:4px;}
+.orn-credit-lbl{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:rgba(255,255,255,0.6);}
+.orn-credit-inp{border:1.5px solid rgba(255,255,255,0.15);border-radius:7px;padding:8px 11px;background:rgba(255,255,255,0.08);font-family:'DM Sans',sans-serif;font-size:0.85rem;color:white;outline:none;width:100%;transition:border-color 0.2s;}
+.orn-credit-inp:focus{border-color:var(--orange);}
+.orn-credit-inp option{background:var(--ink);color:white;}
+.orn-credit-result{background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.orn-result-item{text-align:center;}
+.orn-result-n{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--orange);}
+.orn-result-l{font-size:0.65rem;color:rgba(255,255,255,0.6);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;}
+.orn-fx-note{font-size:0.68rem;color:rgba(255,255,255,0.4);margin-top:8px;text-align:right;}
+
+/* Modal footer */
+.modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;bottom:0;background:white;z-index:10;}
+.btn-cancel{background:white;border:1.5px solid var(--border);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;color:var(--slate);cursor:pointer;transition:all 0.18s;}
+.btn-cancel:hover{border-color:var(--slate);}
+.btn-delete{background:white;border:1.5px solid var(--red);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;color:var(--red);cursor:pointer;transition:all 0.18s;}
+.btn-delete:hover{background:var(--red);color:white;}
+.btn-save-modal{background:var(--orange);color:white;border:none;border-radius:8px;padding:9px 22px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all 0.2s;}
+.btn-save-modal:hover{background:#ea6c05;transform:translateY(-1px);}
+.btn-save-modal.saved{background:var(--green);}
+.hidden{display:none!important;}
+
+/* Login */
+.login-overlay{position:fixed;inset:0;background:rgba(10,15,30,0.92);display:flex;align-items:center;justify-content:center;z-index:900;}
+.login-box{background:white;border-radius:var(--r-lg);padding:38px 42px;width:360px;box-shadow:var(--sh-lg);text-align:center;}
+.login-icon{width:52px;height:52px;background:var(--orange);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:white;margin:0 auto 16px;}
+.login-box h2{font-family:'Syne',sans-serif;font-size:1.3rem;color:var(--ink);margin-bottom:4px;}
+.login-box p{font-size:0.82rem;color:var(--slate);margin-bottom:22px;}
+.login-inp{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;margin-bottom:10px;transition:border-color 0.2s;}
+.login-inp:focus{border-color:var(--orange);}
+.login-btn-el{width:100%;background:var(--ink);color:white;border:none;border-radius:8px;padding:11px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.2s;}
+.login-btn-el:hover{background:var(--orange);}
+.login-err{color:var(--red);font-size:0.78rem;margin-top:8px;display:none;}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--ink);color:white;padding:10px 18px;border-radius:10px;font-size:0.82rem;display:flex;align-items:center;gap:8px;box-shadow:var(--sh-lg);transform:translateY(60px);opacity:0;transition:all 0.3s;z-index:1000;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.green{background:var(--green);}
+.toast.red{background:var(--red);}
+
+@media(max-width:700px){
+  .offices-grid{grid-template-columns:1fr;}
+  .mform-row{grid-template-columns:1fr;}
+  .mform-row.s3,.mform-row.s4{grid-template-columns:1fr 1fr;}
+  .orn-credit-inputs{grid-template-columns:1fr 1fr;}
+  .tier-visual{grid-template-columns:1fr 1fr;}
+  .topbar-right .top-stat:nth-child(n+4){display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- Login -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-icon"><i class="fas fa-globe"></i></div>
+    <h2>Global Office Directory</h2>
+    <p>Trip Factory · ORN Worldwide · Authorised access only</p>
+    <input class="login-inp" id="loginUser" type="text" placeholder="Your name" value="Ajay K">
+    <input class="login-inp" id="loginPass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn-el" onclick="doLogin()">Sign In</button>
+    <div class="login-err" id="loginErr">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <img src="orn-logo.png" class="orn-logo" alt="ORN" onerror="this.style.display='none';document.getElementById('ornFallback').style.display='flex';">
+    <div class="orn-logo-fallback" id="ornFallback" style="display:none;">ORN</div>
+    <div class="topbar-divider"></div>
+    <div>
+      <div class="topbar-title">Global Office Directory</div>
+      <div class="topbar-sub">ORN Worldwide · Trip Factory</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="top-stat"><div class="top-stat-n" id="tsTotalOffices">0</div><div class="top-stat-l">Offices</div></div>
+    <div class="top-div"></div>
+    <div class="top-stat"><div class="top-stat-n" id="tsActive">0</div><div class="top-stat-l">Active</div></div>
+    <div class="top-div"></div>
+    <div class="top-stat"><div class="top-stat-n" id="tsCountries">0</div><div class="top-stat-l">Countries</div></div>
+    <div class="top-div"></div>
+    <button class="btn-top" onclick="openModal()"><i class="fas fa-plus"></i> Add Office</button>
+  </div>
+</div>
+
+<!-- Tab nav -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('map',this)"><i class="fas fa-globe-europe"></i> World Map</button>
+  <button class="tab-btn" onclick="switchTab('dashboard',this)"><i class="fas fa-chart-pie"></i> Dashboard</button>
+  <button class="tab-btn" onclick="switchTab('directory',this)"><i class="fas fa-building"></i> Directory</button>
+</div>
+
+<!-- ════ MAP TAB ════ -->
+<div class="tab-panel active" id="tab-map">
+  <div class="map-section">
+    <div class="map-wrap" id="mapWrap">
+      <!-- Real map image as background -->
+      <img src="global-map.png" class="world-map-img" id="mapBgImg" alt="ORN Worldwide"
+           onerror="this.style.display='none';document.getElementById('mapFallback').style.display='block';"
+           onload="renderMap()">
+      <div class="map-fallback" id="mapFallback" style="display:none;"></div>
+      <!-- SVG dot overlay — injected by JS, sits on top of image -->
+      <svg class="map-dots-svg" id="mapDotsSVG" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="map-legend">
+        <div style="font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Revenue Tier</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#f97316;"></div>Tier 1 — Highest</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#f59e0b;"></div>Tier 2 — High</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#22c55e;"></div>Tier 3 — Medium</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#94a3b8;"></div>Tier 4 — Lower</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#a78bfa;"></div>Opportunity</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#ef4444;"></div>Inactive</div>
+      </div>
+      <div class="map-title-overlay">
+        <span>ORN Worldwide</span>
+        <span class="map-title-sub" id="mapOfficeCount">— offices across — countries</span>
+      </div>
+    </div>
+    <div class="map-tooltip" id="mapTooltip"></div>
+  </div>
+</div>
+
+<!-- ════ DASHBOARD TAB ════ -->
+<div class="tab-panel" id="tab-dashboard">
+  <div class="dash-wrap">
+    <div class="dash-grid" id="dashGrid"></div>
+    <div class="chart-section">
+      <div class="chart-title"><i class="fas fa-layer-group"></i> Offices by Revenue Tier</div>
+      <div class="tier-visual" id="tierVisual"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div class="chart-section">
+        <div class="chart-title"><i class="fas fa-chart-bar"></i> Top Offices by Potential</div>
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-title"><i class="fas fa-chart-pie"></i> Breakdown by Type</div>
+        <div class="donut-wrap" id="donutWrap"></div>
+      </div>
+    </div>
+    <div class="chart-section" style="margin-top:20px;">
+      <div class="chart-title"><i class="fas fa-map-marker-alt"></i> Offices by Region</div>
+      <div class="bar-chart" id="regionChart"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ DIRECTORY TAB ════ -->
+<div class="tab-panel" id="tab-directory">
+  <div class="filters-bar">
+    <div class="filter-pill active" onclick="setFilter('all','all',this)">All</div>
+    <div class="filter-pill" onclick="setFilter('status','active',this)">✅ Active</div>
+    <div class="filter-pill" onclick="setFilter('status','inactive',this)">⏸ Inactive</div>
+    <div class="filter-pill" onclick="setFilter('status','opportunity',this)">🚀 Opportunity</div>
+    <div class="filter-pill" onclick="setFilter('type','owned',this)">🏢 Owned</div>
+    <div class="filter-pill" onclick="setFilter('type','franchised',this)">🤝 Franchised</div>
+    <div class="filter-pill" onclick="setFilter('type','partner',this)">🔗 Partner</div>
+    <div class="filter-search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search country, city, staff…" oninput="renderDirectory()">
+    </div>
+  </div>
+  <div class="dir-wrap" id="dirContent"></div>
+</div>
+
+<!-- ════ MODAL ════ -->
+<div class="modal-overlay hidden" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modalTitle">Add New Office</div>
+        <div class="modal-sub" id="modalSub">Complete details to add to the global directory</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Location -->
+      <div class="mform-section">
+        <div class="mform-stitle">Location</div>
+        <div class="mform-row s3">
+          <div class="mform-field">
+            <label class="mform-label">Country *</label>
+            <input class="mform-input" id="mf_country" placeholder="e.g. United Kingdom" oninput="autoUpdateFlag()">
+          </div>
+          <div class="mform-field">
+            <label class="mform-label">City / Region</label>
+            <input class="mform-input" id="mf_city" placeholder="e.g. London">
+          </div>
+          <div class="mform-field">
+            <label class="mform-label">Flag 🏳️</label>
+            <input class="mform-input" id="mf_flag" placeholder="🇬🇧" style="font-size:1.1rem;">
+          </div>
+        </div>
+        <div class="mform-row">
+          <div class="mform-field">
+            <label class="mform-label">Address</label>
+            <input class="mform-input" id="mf_address" placeholder="Street address (optional)">
+          </div>
+          <div class="mform-field">
+            <label class="mform-label">Region</label>
+            <select class="mform-select" id="mf_region">
+              <option value="">— Select region —</option>
+              <option value="Europe">Europe</option>
+              <option value="Asia Pacific">Asia Pacific</option>
+              <option value="Middle East">Middle East</option>
+              <option value="Americas">Americas</option>
+              <option value="Africa">Africa</option>
+              <option value="South Asia">South Asia</option>
+              <option value="Oceania">Oceania</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classification -->
+      <div class="mform-section">
+        <div class="mform-stitle">Classification</div>
+        <div class="mform-row">
+          <div class="mform-field">
+            <label class="mform-label">Office Type</label>
+            <div class="pill-group" id="pg_type">
+              <div class="sel-pill active" onclick="selectPill('pg_type','owned',this)" data-val="owned">🏢 Owned</div>
+              <div class="sel-pill" onclick="selectPill('pg_type','franchised',this)" data-val="franchised">🤝 Franchised</div>
+              <div class="sel-pill" onclick="selectPill('pg_type','partner',this)" data-val="partner">🔗 Partner</div>
+              <div class="sel-pill" onclick="selectPill('pg_type','virtual',this)" data-val="virtual">💻 Virtual</div>
+            </div>
+          </div>
+          <div class="mform-field">
+            <label class="mform-label">Status</label>
+            <div class="pill-group" id="pg_status">
+              <div class="sel-pill active" onclick="selectPill('pg_status','active',this)" data-val="active">✅ Active</div>
+              <div class="sel-pill" onclick="selectPill('pg_status','inactive',this)" data-val="inactive">⏸ Inactive</div>
+              <div class="sel-pill" onclick="selectPill('pg_status','opportunity',this)" data-val="opportunity">🚀 Opportunity</div>
+              <div class="sel-pill" onclick="selectPill('pg_status','planned',this)" data-val="planned">📋 Planned</div>
+            </div>
+          </div>
+        </div>
+        <div class="mform-row s1">
+          <div class="mform-field">
+            <label class="mform-label">Revenue / Market Potential Tier</label>
+            <div class="rev-tier-group" id="revTierGroup">
+              <button type="button" class="rev-btn" onclick="selectRevTier(1,this)" data-val="1">⭐⭐⭐⭐⭐<span>Tier 1 · Highest</span></button>
+              <button type="button" class="rev-btn" onclick="selectRevTier(2,this)" data-val="2">⭐⭐⭐⭐<span>Tier 2 · High</span></button>
+              <button type="button" class="rev-btn" onclick="selectRevTier(3,this)" data-val="3">⭐⭐⭐<span>Tier 3 · Medium</span></button>
+              <button type="button" class="rev-btn" onclick="selectRevTier(4,this)" data-val="4">⭐⭐<span>Tier 4 · Low</span></button>
+              <button type="button" class="rev-btn" onclick="selectRevTier(5,this)" data-val="5">⭐<span>Tier 5 · Minimal</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="mform-row">
+          <div class="mform-field">
+            <label class="mform-label">Est. Revenue / Potential</label>
+            <input class="mform-input" id="mf_revenue" placeholder="e.g. £500k, £2M, Unknown">
+          </div>
+          <div class="mform-field">
+            <label class="mform-label">Market Size Notes</label>
+            <input class="mform-input" id="mf_marketSize" placeholder="e.g. Large outbound, Indian diaspora">
+          </div>
+        </div>
+      </div>
+
+      <!-- Purpose -->
+      <div class="mform-section">
+        <div class="mform-stitle">Purpose & Operations</div>
+        <div class="mform-row s1">
+          <div class="mform-field">
+            <label class="mform-label">What does this office do?</label>
+            <textarea class="mform-textarea" id="mf_purpose" placeholder="Primary function, products sold, role in the wider business…"></textarea>
+          </div>
+        </div>
+        <div class="mform-row">
+          <div class="mform-field">
+            <label class="mform-label">Primary Function</label>
+            <select class="mform-select" id="mf_function">
+              <option value="">— Select —</option>
+              <option value="Sales &amp; B2C">Sales &amp; B2C</option>
+              <option value="Sales &amp; B2B">Sales &amp; B2B</option>
+              <option value="Operations &amp; Delivery">Operations &amp; Delivery</option>
+              <option value="DMC / Contracting">DMC / Contracting</option>
+              <option value="Tech &amp; Product">Tech &amp; Product</option>
+              <option value="Finance &amp; Admin">Finance &amp; Admin</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Franchise / Partner Hub">Franchise / Partner Hub</option>
+              <option value="Virtual / Remote Team">Virtual / Remote Team</option>
+            </select>
+          </div>
+          <div class="mform-field">
+            <label class="mform-label">Products / Destinations</label>
+            <input class="mform-input" id="mf_products" placeholder="e.g. Europe holidays, India packages">
+          </div>
+        </div>
+        <div class="mform-row s1">
+          <div class="mform-field">
+            <label class="mform-label">Audit Notes — current situation & opportunities</label>
+            <textarea class="mform-textarea" id="mf_auditNotes" placeholder="Current state, challenges, strategic importance…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORN Credit Opportunity -->
+      <div class="mform-section">
+        <div class="mform-stitle">ORN Credit Opportunity</div>
+        <div class="orn-credit-box">
+          <div class="orn-credit-title"><i class="fas fa-coins"></i> ORN Credit Calculator</div>
+          <div class="orn-credit-inputs">
+            <div class="orn-credit-input-wrap">
+              <div class="orn-credit-lbl">No. of Members</div>
+              <input class="orn-credit-inp" type="number" id="orn_members" placeholder="e.g. 100" min="0" oninput="calcORNCredit()">
+            </div>
+            <div class="orn-credit-input-wrap">
+              <div class="orn-credit-lbl">Credits per Member</div>
+              <input class="orn-credit-inp" type="number" id="orn_credits" placeholder="e.g. 10" min="0" oninput="calcORNCredit()">
+            </div>
+            <div class="orn-credit-input-wrap">
+              <div class="orn-credit-lbl">Currency</div>
+              <select class="orn-credit-inp" id="orn_currency" onchange="calcORNCredit()">
+                <option value="GBP">£ GBP</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+                <option value="AED">د.إ AED</option>
+                <option value="INR">₹ INR</option>
+                <option value="SGD">S$ SGD</option>
+                <option value="MYR">RM MYR</option>
+                <option value="AUD">A$ AUD</option>
+                <option value="BHD">BD BHD</option>
+                <option value="QAR">﷼ QAR</option>
+                <option value="OMR">﷼ OMR</option>
+                <option value="BRL">R$ BRL</option>
+                <option value="ZAR">R ZAR</option>
+                <option value="NZD">NZ$ NZD</option>
+                <option value="HKD">HK$ HKD</option>
+                <option value="THB">฿ THB</option>
+                <option value="IDR">Rp IDR</option>
+                <option value="PHP">₱ PHP</option>
+              </select>
+            </div>
+          </div>
+          <div class="orn-credit-result" id="ornResult">
+            <div class="orn-result-item">
+              <div class="orn-result-n" id="orn_totalCredits">—</div>
+              <div class="orn-result-l">Total Credits</div>
+            </div>
+            <div style="font-size:1.4rem;color:rgba(255,255,255,0.2);">×</div>
+            <div class="orn-result-item">
+              <div class="orn-result-n" id="orn_creditVal">—</div>
+              <div class="orn-result-l">Credit Value</div>
+            </div>
+            <div style="font-size:1.4rem;color:rgba(255,255,255,0.2);">=</div>
+            <div class="orn-result-item">
+              <div class="orn-result-n" id="orn_totalLocal">—</div>
+              <div class="orn-result-l">Spend in Market</div>
+            </div>
+            <div style="font-size:1.4rem;color:rgba(255,255,255,0.2);">≈</div>
+            <div class="orn-result-item">
+              <div class="orn-result-n" id="orn_totalUSD" style="color:#4ade80;">—</div>
+              <div class="orn-result-l">US Dollars</div>
+            </div>
+          </div>
+          <div class="orn-fx-note" id="orn_fxNote">Enter members and credits above to calculate</div>
+        </div>
+        <div class="mform-row s1">
+          <div class="mform-field">
+            <label class="mform-label">ORN Credit Notes</label>
+            <textarea class="mform-textarea" id="mf_ornNotes" placeholder="Notes on ORN credit opportunity in this market…" style="min-height:55px;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Staff -->
+      <div class="mform-section">
+        <div class="mform-stitle">Key Staff & Contacts</div>
+        <div class="staff-tags" id="staffTagList"></div>
+        <div class="staff-add-row">
+          <input class="staff-add-input" id="staffNameInput" placeholder="Name (e.g. Saif Khan)">
+          <input class="staff-add-input" id="staffRoleInput" placeholder="Role (e.g. Contracting Head)" style="max-width:180px;">
+          <input class="staff-add-input" id="staffEmailInput" placeholder="Email" style="max-width:170px;">
+          <button type="button" class="btn-staff-add" onclick="addStaffTag()"><i class="fas fa-plus"></i> Add</button>
+        </div>
+        <div style="font-size:0.7rem;color:var(--slate2);margin-top:5px;">Enter name, role and email separately then click Add</div>
+      </div>
+
+      <!-- Additional -->
+      <div class="mform-section">
+        <div class="mform-stitle">Additional Info</div>
+        <div class="mform-row s4">
+          <div class="mform-field">
+            <label class="mform-label">Year Est.</label>
+            <input class="mform-input" id="mf_yearEst" placeholder="2019">
+          </div>
+          <div class="mform-field">
+            <label class="mform-label">Staff Count</label>
+            <input class="mform-input" id="mf_staffCount" type="number" placeholder="0" min="0">
+          </div>
+          <div class="mform-field" style="grid-column:span 2;">
+            <label class="mform-label">Website / Social</label>
+            <input class="mform-input" id="mf_website" placeholder="https://…">
+          </div>
+        </div>
+        <div class="mform-row s1">
+          <div class="mform-field">
+            <label class="mform-label">General Notes</label>
+            <textarea class="mform-textarea" id="mf_notes" placeholder="Any other relevant information…" style="min-height:55px;"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end modal-body -->
+    <div class="modal-foot">
+      <div style="display:flex;gap:8px;">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-delete hidden" id="btnDelete" onclick="deleteOffice()"><i class="fas fa-trash"></i> Delete</button>
+      </div>
+      <button class="btn-save-modal" id="btnSaveModal" onclick="saveOffice(this)"><i class="fas fa-save"></i> Save Office</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+// ── Firebase ──────────────────────────────────────────────────────────
+const _fbCfg = {
+  apiKey:"AIzaSyC_placeholder_same_as_orgchart",
+  authDomain:"tripfactory-hr.firebaseapp.com",
+  databaseURL:"https://tripfactory-hr-default-rtdb.firebaseio.com",
+  projectId:"tripfactory-hr"
+};
+let _db;
+try { _db = firebase.database(firebase.initializeApp(_fbCfg,'offices')); }
+catch(e){ console.warn('Firebase:',e); }
+
+// ── State ─────────────────────────────────────────────────────────────
+const PASSWORD = 'AliaTF2025';
+const FB_PATH  = 'tripfactory/offices/';
+let offices    = {};
+let editingId  = null;
+let staffTags  = [];
+let revTier    = 0;
+let filterMode = { key:'all', val:'all' };
+let currentUser = 'Ajay K';
+let fxRates    = {}; // live FX rates
+let fxLoaded   = false;
+
+// ── Currency symbols ──────────────────────────────────────────────────
+const CURRENCY_SYMBOLS = {
+  GBP:'£',USD:'$',EUR:'€',AED:'د.إ',INR:'₹',SGD:'S$',MYR:'RM ',
+  AUD:'A$',BHD:'BD ',QAR:'﷼',OMR:'﷼',BRL:'R$',ZAR:'R ',
+  NZD:'NZ$',HKD:'HK$',THB:'฿',IDR:'Rp ',PHP:'₱'
+};
+
+// ── Seed data ─────────────────────────────────────────────────────────
+const SEED_OFFICES = [
+  {country:'United Kingdom',city:'London',flag:'🇬🇧',region:'Europe',type:'owned',status:'active',revTier:1,revenue:'£5M+',marketSize:'Primary source market — large UK outbound travel industry',purpose:'Head office for UK & European operations. B2C sales, B2B partnerships, contracting hub for European product.',primaryFunction:'Sales & B2C',products:'Europe, India, Dubai, World holidays',staff:[{name:'Saif Ansar Khan',role:'Contracting & Marketing Head UK & Europe',email:''}],staffCount:5,yearEst:'2018',auditNotes:'Core revenue market. Needs full audit of team structure and sales performance.',notes:'European Control Hub',orn_members:500,orn_credits:10,orn_currency:'GBP',ornNotes:''},
+  {country:'Germany',city:'',flag:'🇩🇪',region:'Europe',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large outbound European market',purpose:'Partner office supporting German-speaking market sales.',primaryFunction:'Sales & B2C',products:'India, Asia, Middle East packages',staff:[],staffCount:0,yearEst:'',auditNotes:'Needs contact confirmation and status audit.',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'France',city:'Paris',flag:'🇫🇷',region:'Europe',type:'partner',status:'opportunity',revTier:2,revenue:'Unknown',marketSize:'Strong outbound European market',purpose:'Market opportunity — French-speaking travel market.',primaryFunction:'Sales & B2C',products:'India, World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Opportunity to establish formal presence.',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'Spain',city:'',flag:'🇪🇸',region:'Europe',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large outbound market',purpose:'Spanish market partner network.',primaryFunction:'Franchise / Partner Hub',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'Italy',city:'',flag:'🇮🇹',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Medium outbound market',purpose:'Italian market sales partner.',primaryFunction:'Sales & B2C',products:'India, Asia packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'Switzerland',city:'',flag:'🇨🇭',region:'Europe',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Affluent — high spend per traveller',purpose:'Swiss market partner — premium travel segment.',primaryFunction:'Sales & B2C',products:'Luxury world holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'High potential — affluent customer base.',notes:'',orn_members:0,orn_credits:10,orn_currency:'CHF',ornNotes:''},
+  {country:'Ireland',city:'Dublin',flag:'🇮🇪',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Medium outbound market',purpose:'Irish market sales operations.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'Czech Republic',city:'Prague',flag:'🇨🇿',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Growing Eastern European market',purpose:'Czech and Central European market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'CZK',ornNotes:''},
+  {country:'Poland',city:'',flag:'🇵🇱',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Large Eastern European outbound market',purpose:'Polish market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'PLN',ornNotes:''},
+  {country:'Slovakia',city:'',flag:'🇸🇰',region:'Europe',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Small outbound market',purpose:'Slovak market presence.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'Austria',city:'Vienna',flag:'🇦🇹',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Affluent mid-size market',purpose:'Austrian market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'Greece',city:'Athens',flag:'🇬🇷',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Growing outbound market',purpose:'Greek market partner — outbound and inbound DMC.',primaryFunction:'DMC / Contracting',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'Croatia',city:'',flag:'🇭🇷',region:'Europe',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Smaller outbound market',purpose:'Croatian market presence and DMC.',primaryFunction:'DMC / Contracting',products:'European packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
+  {country:'Bulgaria',city:'Sofia',flag:'🇧🇬',region:'Europe',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Growing Eastern European market',purpose:'Bulgarian market sales partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'BGN',ornNotes:''},
+  {country:'Turkey',city:'Istanbul',flag:'🇹🇷',region:'Europe',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large outbound with strong travel culture',purpose:'Turkish market partner — inbound DMC and outbound sales.',primaryFunction:'DMC / Contracting',products:'World holidays, European packages',staff:[],staffCount:0,yearEst:'',auditNotes:'Strong DMC potential.',notes:'',orn_members:0,orn_credits:10,orn_currency:'TRY',ornNotes:''},
+  {country:'UAE',city:'Dubai',flag:'🇦🇪',region:'Middle East',type:'owned',status:'active',revTier:1,revenue:'£2M+',marketSize:'Premium Gulf market — very high travel spend',purpose:'UAE hub — B2C sales, corporate travel, luxury packages.',primaryFunction:'Sales & B2C',products:'World holidays, India packages, luxury travel',staff:[],staffCount:0,yearEst:'',auditNotes:'One of highest revenue markets. Needs team audit.',notes:'',orn_members:0,orn_credits:10,orn_currency:'AED',ornNotes:''},
+  {country:'Bahrain',city:'Manama',flag:'🇧🇭',region:'Middle East',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Affluent Gulf market',purpose:'Bahrain partner — Gulf market sales.',primaryFunction:'Sales & B2C',products:'World holidays, India packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'BHD',ornNotes:''},
+  {country:'Qatar',city:'Doha',flag:'🇶🇦',region:'Middle East',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'High spending Gulf market',purpose:'Qatar partner operations.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'QAR',ornNotes:''},
+  {country:'Oman',city:'Muscat',flag:'🇴🇲',region:'Middle East',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Mid-size Gulf market',purpose:'Oman market partner.',primaryFunction:'Sales & B2C',products:'World holidays, India packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'OMR',ornNotes:''},
+  {country:'India',city:'Multiple',flag:'🇮🇳',region:'South Asia',type:'owned',status:'active',revTier:1,revenue:'Core ops',marketSize:'HQ and execution centre — 650+ staff',purpose:'Primary execution hub — Operations, Tech, Finance, HR, Product, Contracting. All back-office functions.',primaryFunction:'Operations & Delivery',products:'All products — execution hub',staff:[{name:'Multiple departments',role:'650+ staff',email:''}],staffCount:650,yearEst:'2014',auditNotes:'Org chart fully documented. Separate HR audit in progress.',notes:'Siliguri, Gurgaon, Mumbai offices',orn_members:0,orn_credits:10,orn_currency:'INR',ornNotes:''},
+  {country:'Singapore',city:'Singapore',flag:'🇸🇬',region:'Asia Pacific',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'High-income outbound market',purpose:'Singapore partner — SEA hub and premium outbound sales.',primaryFunction:'Sales & B2C',products:'World holidays, India packages',staff:[],staffCount:0,yearEst:'',auditNotes:'Strategic hub for SEA expansion.',notes:'',orn_members:0,orn_credits:10,orn_currency:'SGD',ornNotes:''},
+  {country:'Malaysia',city:'Kuala Lumpur',flag:'🇲🇾',region:'Asia Pacific',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large Muslim-friendly travel market',purpose:'Malaysian market partner — halal travel and Muslim-friendly packages.',primaryFunction:'Sales & B2C',products:'India, Middle East, World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Growing Muslim travel market opportunity.',notes:'',orn_members:0,orn_credits:10,orn_currency:'MYR',ornNotes:''},
+  {country:'Thailand',city:'Bangkok',flag:'🇹🇭',region:'Asia Pacific',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Large inbound tourism market',purpose:'Thailand DMC partner — inbound tourism and product contracting.',primaryFunction:'DMC / Contracting',products:'Thailand packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'THB',ornNotes:''},
+  {country:'Indonesia',city:'Bali',flag:'🇮🇩',region:'Asia Pacific',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Growing outbound market',purpose:'Indonesia partner — Bali DMC and outbound sales.',primaryFunction:'DMC / Contracting',products:'Bali, Asia packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'IDR',ornNotes:''},
+  {country:'Philippines',city:'Manila',flag:'🇵🇭',region:'Asia Pacific',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Growing outbound market',purpose:'Philippines market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'PHP',ornNotes:''},
+  {country:'Hong Kong',city:'Hong Kong',flag:'🇭🇰',region:'Asia Pacific',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'High-income compact market',purpose:'Hong Kong partner — premium outbound sales.',primaryFunction:'Sales & B2C',products:'World holidays, India packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'HKD',ornNotes:''},
+  {country:'United States',city:'Multiple',flag:'🇺🇸',region:'Americas',type:'partner',status:'active',revTier:1,revenue:'Unknown',marketSize:'Largest travel market — Indian diaspora very large',purpose:'US market presence covering New York, Seattle, Los Angeles, Texas.',primaryFunction:'Sales & B2C',products:'India packages, World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Multiple city presence. Needs dedicated team audit.',notes:'New York, Seattle, Los Angeles, Texas',orn_members:0,orn_credits:10,orn_currency:'USD',ornNotes:''},
+  {country:'Mexico',city:'Mexico City',flag:'🇲🇽',region:'Americas',type:'partner',status:'opportunity',revTier:4,revenue:'Unknown',marketSize:'Growing outbound Latin American market',purpose:'Mexico market opportunity.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Opportunity — needs assessment.',notes:'',orn_members:0,orn_credits:10,orn_currency:'MXN',ornNotes:''},
+  {country:'Brazil',city:'São Paulo',flag:'🇧🇷',region:'Americas',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Large Latin American market',purpose:'Brazil partner — South American market hub.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'BRL',ornNotes:''},
+  {country:'Colombia',city:'Bogotá',flag:'🇨🇴',region:'Americas',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Growing market',purpose:'Colombia market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'COP',ornNotes:''},
+  {country:'Ecuador',city:'Quito',flag:'🇪🇨',region:'Americas',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Small outbound market',purpose:'Ecuador market presence.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'USD',ornNotes:''},
+  {country:'Peru',city:'Lima',flag:'🇵🇪',region:'Americas',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Growing Peruvian market',purpose:'Peru market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'PEN',ornNotes:''},
+  {country:'Argentina',city:'Buenos Aires',flag:'🇦🇷',region:'Americas',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Large South American market',purpose:'Argentina market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'ARS',ornNotes:''},
+  {country:'Chile',city:'Santiago',flag:'🇨🇱',region:'Americas',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Affluent South American market',purpose:'Chile market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'CLP',ornNotes:''},
+  {country:'Australia',city:'Multiple',flag:'🇦🇺',region:'Oceania',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large high-income — strong Indian diaspora',purpose:'Australia partner — Indian diaspora and mainstream outbound travel.',primaryFunction:'Sales & B2C',products:'India packages, World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Strong Indian diaspora opportunity.',notes:'',orn_members:0,orn_credits:10,orn_currency:'AUD',ornNotes:''},
+  {country:'New Zealand',city:'Auckland',flag:'🇳🇿',region:'Oceania',type:'partner',status:'opportunity',revTier:3,revenue:'Unknown',marketSize:'Affluent small outbound market',purpose:'New Zealand market opportunity.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Opportunity — smaller but affluent market.',notes:'',orn_members:0,orn_credits:10,orn_currency:'NZD',ornNotes:''},
+];
+
+// ── Map coordinates (% of SVG viewBox 0 0 1000 500) ──────────────────
+const MAP_COORDS = {
+  'United Kingdom':[455,145], 'Germany':[490,152], 'France':[468,163],
+  'Spain':[448,175], 'Italy':[492,175], 'Switzerland':[485,162],
+  'Ireland':[444,148], 'Czech Republic':[502,152], 'Poland':[510,143],
+  'Slovakia':[510,152], 'Austria':[502,157], 'Greece':[516,176],
+  'Croatia':[504,163], 'Bulgaria':[520,166], 'Turkey':[540,165],
+  'UAE':[574,200], 'Bahrain':[569,195], 'Qatar':[572,198],
+  'Oman':[576,205], 'India':[625,210], 'Singapore':[686,245],
+  'Malaysia':[680,240], 'Thailand':[670,225], 'Indonesia':[695,255],
+  'Philippines':[715,225], 'Hong Kong':[705,210],
+  'United States':[175,165], 'Mexico':[165,210], 'Brazil':[255,285],
+  'Colombia':[215,250], 'Ecuador':[210,265], 'Peru':[215,275],
+  'Argentina':[235,320], 'Chile':[225,315],
+  'Australia':[730,310], 'New Zealand':[775,330],
+};
+
+// ── FX Rates (fallback static — updated periodically) ─────────────────
+const STATIC_FX = {
+  GBP:1,USD:1.27,EUR:1.17,AED:4.67,INR:105.8,SGD:1.71,MYR:5.97,
+  AUD:1.97,BHD:0.478,QAR:4.63,OMR:0.489,BRL:6.44,ZAR:23.4,
+  NZD:2.15,HKD:9.93,THB:44.8,IDR:20500,PHP:72.3,CZK:29.1,
+  PLN:5.03,BGN:2.29,TRY:40.8,MXN:21.9,COP:5200,PEN:4.77,
+  ARS:1190,CLP:1200,CHF:1.14
+};
+
+async function loadFXRates() {
+  try {
+    const r = await fetch('https://api.exchangerate-api.com/v4/latest/GBP');
+    const d = await r.json();
+    if (d && d.rates) { fxRates = d.rates; fxLoaded = true; }
+  } catch(e) { fxRates = STATIC_FX; }
+  finally { if (!fxLoaded) { fxRates = STATIC_FX; fxLoaded = true; } }
+}
+
+function toUSD(amount, fromCurrency) {
+  const ratesFromGBP = fxRates;
+  const gbpAmount = amount / (ratesFromGBP[fromCurrency] || STATIC_FX[fromCurrency] || 1);
+  return gbpAmount * (ratesFromGBP['USD'] || STATIC_FX['USD'] || 1.27);
+}
+
+// ── Login ─────────────────────────────────────────────────────────────
+function doLogin() {
+  if (document.getElementById('loginPass').value !== PASSWORD) {
+    document.getElementById('loginErr').style.display='block'; return;
+  }
+  currentUser = document.getElementById('loginUser').value.trim() || 'Ajay K';
+  document.getElementById('loginOverlay').style.display='none';
+  loadFXRates();
+  loadOffices();
+}
+document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+
+// ── Firebase CRUD ─────────────────────────────────────────────────────
+function genId(){ return 'off_'+Date.now()+'_'+Math.random().toString(36).slice(2,7); }
+
+function loadOffices() {
+  if (!_db) { seedAndRender(); return; }
+  _db.ref(FB_PATH).once('value').then(snap => {
+    const data = snap.val();
+    if (data && Object.keys(data).length > 0) { offices = data; }
+    else { SEED_OFFICES.forEach(o => { const id=genId(); o.id=id; o.updatedAt=Date.now(); o.updatedBy=currentUser; offices[id]=o; }); if(_db) _db.ref(FB_PATH).set(offices).catch(()=>{}); }
+    renderAll();
+  }).catch(()=>{ seedAndRender(); });
+}
+
+function seedAndRender() {
+  SEED_OFFICES.forEach(o => { const id=genId(); o.id=id; o.updatedAt=Date.now(); o.updatedBy=currentUser; offices[id]=o; });
+  renderAll();
+}
+
+function renderAll() {
+  updateStats();
+  // Render map — if image already loaded call directly, else onload handles it
+  const img = document.getElementById('mapBgImg');
+  if (!img || img.complete) {
+    renderMap();
+  }
+  // Always render fallback map too (in case image fails)
+  renderFallbackMap();
+  renderDashboard();
+  renderDirectory();
+}
+
+function renderFallbackMap() {
+  const fb = document.getElementById('mapFallback');
+  if (!fb || fb.style.display === 'none') return;
+  // If image failed, render the SVG-only version on the fallback div
+  fb.style.background = 'linear-gradient(135deg,#0d1b2a 0%,#0a2218 100%)';
+  renderMap();
+}
+
+async function saveOffice(btn) {
+  if (!document.getElementById('mf_country').value.trim()) { showToast('Country is required','red'); return; }
+  const orig = btn.innerHTML;
+  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Saving…';
+  const type   = document.querySelector('#pg_type .active')?.dataset.val || 'owned';
+  const status = document.querySelector('#pg_status .active')?.dataset.val || 'active';
+  const data = {
+    id:editingId||genId(),
+    country:document.getElementById('mf_country').value.trim(),
+    city:document.getElementById('mf_city').value.trim(),
+    flag:document.getElementById('mf_flag').value.trim()||'🌍',
+    address:document.getElementById('mf_address').value.trim(),
+    region:document.getElementById('mf_region').value,
+    type,status,revTier,
+    revenue:document.getElementById('mf_revenue').value.trim(),
+    marketSize:document.getElementById('mf_marketSize').value.trim(),
+    purpose:document.getElementById('mf_purpose').value.trim(),
+    primaryFunction:document.getElementById('mf_function').value,
+    products:document.getElementById('mf_products').value.trim(),
+    auditNotes:document.getElementById('mf_auditNotes').value.trim(),
+    orn_members:parseInt(document.getElementById('orn_members').value)||0,
+    orn_credits:parseInt(document.getElementById('orn_credits').value)||0,
+    orn_currency:document.getElementById('orn_currency').value,
+    ornNotes:document.getElementById('mf_ornNotes').value.trim(),
+    staff:[...staffTags],
+    staffCount:parseInt(document.getElementById('mf_staffCount').value)||0,
+    yearEst:document.getElementById('mf_yearEst').value.trim(),
+    website:document.getElementById('mf_website').value.trim(),
+    notes:document.getElementById('mf_notes').value.trim(),
+    updatedAt:Date.now(), updatedBy:currentUser
+  };
+  offices[data.id] = data;
+  if (_db) { try { await _db.ref(FB_PATH+data.id).set(data); } catch(e){ showToast('Save failed','red'); btn.innerHTML=orig; return; } }
+  btn.innerHTML='<i class="fas fa-check"></i> Saved'; btn.classList.add('saved');
+  setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('saved'); closeModal(); },1200);
+  showToast((editingId?'Office updated':'Office added')+' — '+data.country,'green');
+  renderAll();
+}
+
+async function deleteOffice() {
+  if (!editingId||!confirm('Delete this office?')) return;
+  delete offices[editingId];
+  if (_db) { try { await _db.ref(FB_PATH+editingId).remove(); } catch(e){} }
+  closeModal(); showToast('Office deleted','red'); renderAll();
+}
+
+// ── Stats ─────────────────────────────────────────────────────────────
+function updateStats() {
+  const list = Object.values(offices);
+  document.getElementById('tsTotalOffices').textContent = list.length;
+  document.getElementById('tsActive').textContent = list.filter(o=>o.status==='active').length;
+  document.getElementById('tsCountries').textContent = new Set(list.map(o=>o.country)).size;
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════
+// MAP
+// ══════════════════════════════════════════════════════════
+function renderMap() {
+  const svg = document.getElementById('mapDotsSVG');
+  if (!svg) return;
+  // Clear previous dots
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+  // Update title
+  const list = Object.values(offices);
+  const titleEl = document.getElementById('mapOfficeCount');
+  if (titleEl) titleEl.textContent = `${list.length} offices across ${new Set(list.map(o=>o.country)).size} countries`;
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+
+  list.forEach(o => {
+    const coords = MAP_COORDS[o.country];
+    if (!coords) return;
+    const [cx, cy] = coords;
+    const tierColor = {1:'#f97316',2:'#f59e0b',3:'#22c55e',4:'#94a3b8',5:'#475569'};
+    const color = o.status==='inactive' ? '#ef4444' : o.status==='opportunity' ? '#a78bfa' : (tierColor[o.revTier] || '#94a3b8');
+    const r = o.revTier===1 ? 8 : o.revTier===2 ? 7 : 6;
+
+    const g = document.createElementNS(svgNS, 'g');
+    g.setAttribute('class','dot-group');
+
+    // Pulse animation for tier 1 active
+    if (o.revTier===1 && o.status==='active') {
+      const pulse = document.createElementNS(svgNS,'circle');
+      pulse.setAttribute('cx',cx); pulse.setAttribute('cy',cy);
+      pulse.setAttribute('r',r+5); pulse.setAttribute('fill','none');
+      pulse.setAttribute('stroke',color); pulse.setAttribute('stroke-width','2');
+      pulse.setAttribute('opacity','0.4');
+      const a1 = document.createElementNS(svgNS,'animate');
+      a1.setAttribute('attributeName','r'); a1.setAttribute('values',`${r+2};${r+14};${r+2}`);
+      a1.setAttribute('dur','2.5s'); a1.setAttribute('repeatCount','indefinite');
+      const a2 = document.createElementNS(svgNS,'animate');
+      a2.setAttribute('attributeName','opacity'); a2.setAttribute('values','0.4;0;0.4');
+      a2.setAttribute('dur','2.5s'); a2.setAttribute('repeatCount','indefinite');
+      pulse.appendChild(a1); pulse.appendChild(a2);
+      g.appendChild(pulse);
+    }
+
+    // Shadow/glow
+    const shadow = document.createElementNS(svgNS,'circle');
+    shadow.setAttribute('cx',cx); shadow.setAttribute('cy',cy+1);
+    shadow.setAttribute('r',r+2); shadow.setAttribute('fill','rgba(0,0,0,0.4)');
+    g.appendChild(shadow);
+
+    // Main dot
+    const circle = document.createElementNS(svgNS,'circle');
+    circle.setAttribute('cx',cx); circle.setAttribute('cy',cy); circle.setAttribute('r',r);
+    circle.setAttribute('fill',color); circle.setAttribute('stroke','#fff'); circle.setAttribute('stroke-width','1.5');
+    g.appendChild(circle);
+
+    // Label for tier 1 & 2
+    if (o.revTier <= 2) {
+      const lbl = document.createElementNS(svgNS,'text');
+      lbl.setAttribute('x', cx + r + 3); lbl.setAttribute('y', cy + 4);
+      lbl.setAttribute('font-size','9'); lbl.setAttribute('fill','rgba(255,255,255,0.85)');
+      lbl.setAttribute('font-family','DM Sans,sans-serif');
+      lbl.setAttribute('font-weight','600');
+      lbl.setAttribute('text-shadow','0 1px 3px rgba(0,0,0,0.8)');
+      // Drop shadow via filter
+      lbl.setAttribute('filter','drop-shadow(0 1px 2px rgba(0,0,0,0.9))');
+      lbl.textContent = o.country.replace('United ','').replace(' Republic','');
+      g.appendChild(lbl);
+    }
+
+    // Interaction — pointer events work on the group
+    g.style.cursor = 'pointer';
+    g.addEventListener('mouseenter', (e) => showMapTooltip(e, o));
+    g.addEventListener('mouseleave', hideMapTooltip);
+    g.addEventListener('click', () => {
+      openModal(o.id);
+      // Switch to directory tab
+      const dirBtn = document.querySelectorAll('.tab-btn')[2];
+      switchTab('directory', dirBtn);
+    });
+
+    svg.appendChild(g);
+  });
+}
+
+function showMapTooltip(e, o) {
+  const tt = document.getElementById('mapTooltip');
+  const wrap = document.getElementById('mapWrap');
+  const wRect = wrap.getBoundingClientRect();
+  let left = e.clientX - wRect.left + 14;
+  let top  = e.clientY - wRect.top  + 14;
+  // Keep tooltip within bounds
+  if (left + 270 > wRect.width)  left = e.clientX - wRect.left - 274;
+  if (top  + 160 > wRect.height) top  = e.clientY - wRect.top  - 164;
+
+  const tierStars = '⭐'.repeat(Math.max(0, 6-(o.revTier||5)));
+  const statusColors = {active:'#059669',inactive:'#dc2626',opportunity:'#d97706',planned:'#2563eb'};
+  const sc = statusColors[o.status]||'#64748b';
+  tt.innerHTML = `
+    <div class="mtt-flag">${o.flag||'🌍'}</div>
+    <div class="mtt-name">${o.country}${o.city?' · '+o.city:''}</div>
+    <div class="mtt-meta">${o.region||''} · ${(o.type||'').charAt(0).toUpperCase()+(o.type||'').slice(1)} · ${tierStars}</div>
+    <div><span class="mtt-status" style="background:${sc}20;color:${sc};border:1px solid ${sc}40;">${statusLabel(o.status)}</span></div>
+    ${o.purpose?`<div style="font-size:0.75rem;color:#475569;margin-top:8px;line-height:1.4;">${o.purpose.slice(0,110)}${o.purpose.length>110?'…':''}</div>`:''}
+    <div class="mtt-hint"><i class="fas fa-hand-pointer"></i> Click to open &amp; edit</div>`;
+  tt.style.left = left + 'px';
+  tt.style.top  = top  + 'px';
+  tt.classList.add('show');
+}
+
+function hideMapTooltip() {
+  document.getElementById('mapTooltip').classList.remove('show');
+}
+
+// ══════════════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════════════
+function renderDashboard() {
+  const list = Object.values(offices);
+
+  // Summary cards
+  const byStatus = s => list.filter(o=>o.status===s).length;
+  const byType   = t => list.filter(o=>o.type===t).length;
+  document.getElementById('dashGrid').innerHTML = [
+    {n:list.length, l:'Total Offices', s:'across '+new Set(list.map(o=>o.region)).size+' regions'},
+    {n:byStatus('active'), l:'Active', s:'currently operating'},
+    {n:byStatus('opportunity'), l:'Opportunities', s:'market potential identified'},
+    {n:byStatus('inactive'), l:'Inactive', s:'paused or dormant'},
+    {n:byType('owned'), l:'Owned', s:'TF/ORN controlled'},
+    {n:byType('franchised'), l:'Franchised', s:'franchise model'},
+    {n:byType('partner'), l:'Partners', s:'partner network'},
+    {n:list.filter(o=>o.revTier===1).length, l:'Tier 1 Markets', s:'highest revenue potential'},
+  ].map(c=>`<div class="dash-card"><div class="dash-n">${c.n}</div><div class="dash-l">${c.l}</div><div class="dash-sub">${c.s}</div></div>`).join('');
+
+  // Tier visual
+  const tierCounts = [1,2,3,4,5].map(t=>({t,n:list.filter(o=>o.revTier===t).length}));
+  document.getElementById('tierVisual').innerHTML = tierCounts.map(({t,n})=>`
+    <div class="tier-col t${t}">
+      <div class="tier-stars">${'⭐'.repeat(6-t)}</div>
+      <div class="tier-count">${n}</div>
+      <div class="tier-label">Tier ${t}<br>${['Highest','High','Medium','Low','Minimal'][t-1]}</div>
+    </div>`).join('');
+
+  // Bar chart — top offices by tier (sorted)
+  const sorted = [...list].filter(o=>o.revTier).sort((a,b)=>a.revTier-b.revTier).slice(0,12);
+  const maxBar = 100;
+  const barColors = {1:'#f97316',2:'#f59e0b',3:'#22c55e',4:'#94a3b8',5:'#475569'};
+  document.getElementById('barChart').innerHTML = sorted.map(o=>`
+    <div class="bar-row">
+      <div class="bar-label">${o.flag||''} ${o.country}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${Math.round((6-o.revTier)/5*100)}%;background:${barColors[o.revTier]||'#94a3b8'}">
+          <span>Tier ${o.revTier}</span>
+        </div>
+      </div>
+      <div class="bar-val">${o.revenue&&o.revenue!=='Unknown'?o.revenue:''}</div>
+    </div>`).join('');
+
+  // Donut — by type
+  const typeData = [
+    {label:'Owned',val:byType('owned'),color:'#2563eb'},
+    {label:'Partner',val:byType('partner'),color:'#22c55e'},
+    {label:'Franchised',val:byType('franchised'),color:'#7c3aed'},
+    {label:'Virtual',val:byType('virtual'),color:'#f59e0b'},
+  ].filter(d=>d.val>0);
+  const total = typeData.reduce((s,d)=>s+d.val,0);
+  let offset = 0;
+  const r2=60,cx2=70,cy2=70,circ=2*Math.PI*r2;
+  const segments = typeData.map(d=>{
+    const pct=d.val/total; const stroke=pct*circ;
+    const seg={...d,dash:`${stroke} ${circ}`,offset:circ*0.25-offset*circ};
+    offset+=pct; return seg;
+  });
+  document.getElementById('donutWrap').innerHTML = `
+    <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
+      <circle cx="${cx2}" cy="${cy2}" r="${r2}" fill="none" stroke="#e2e8f0" stroke-width="18"/>
+      ${segments.map(s=>`<circle cx="${cx2}" cy="${cy2}" r="${r2}" fill="none" stroke="${s.color}" stroke-width="18" stroke-dasharray="${s.dash}" stroke-dashoffset="${s.offset}" transform="rotate(-90 ${cx2} ${cy2})"/>`).join('')}
+      <text x="${cx2}" y="${cy2-4}" text-anchor="middle" font-size="18" font-weight="800" fill="#0a0f1e" font-family="Syne">${total}</text>
+      <text x="${cx2}" y="${cy2+12}" text-anchor="middle" font-size="8" fill="#64748b" font-family="DM Sans">Offices</text>
+    </svg>
+    <div class="donut-legend">${typeData.map(d=>`<div class="donut-item"><div class="donut-swatch" style="background:${d.color}"></div>${d.label}: <strong>${d.val}</strong></div>`).join('')}</div>`;
+
+  // Region bar chart
+  const regions = {};
+  list.forEach(o=>{ if(o.region){regions[o.region]=(regions[o.region]||0)+1;} });
+  const regSorted = Object.entries(regions).sort((a,b)=>b[1]-a[1]);
+  const regMax = Math.max(...regSorted.map(r=>r[1]));
+  document.getElementById('regionChart').innerHTML = regSorted.map(([reg,count])=>`
+    <div class="bar-row">
+      <div class="bar-label">${reg}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${Math.round(count/regMax*100)}%;background:linear-gradient(90deg,#f97316,#f59e0b)">
+          <span>${count} office${count!==1?'s':''}</span>
+        </div>
+      </div>
+      <div class="bar-val">${count}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════
+// DIRECTORY
+// ══════════════════════════════════════════════════════════
+function renderDirectory() {
+  const search = (document.getElementById('searchInput')?.value||'').toLowerCase();
+  let list = Object.values(offices);
+  if (filterMode.key!=='all') list = list.filter(o=>o[filterMode.key]===filterMode.val);
+  if (search) list = list.filter(o=>
+    (o.country||'').toLowerCase().includes(search)||
+    (o.city||'').toLowerCase().includes(search)||
+    (o.region||'').toLowerCase().includes(search)||
+    (o.primaryFunction||'').toLowerCase().includes(search)||
+    (o.staff||[]).some(s=>(s.name||'').toLowerCase().includes(search))
+  );
+  list.sort((a,b)=>(a.revTier||9)-(b.revTier||9)||a.country.localeCompare(b.country));
+  const byTier={};
+  list.forEach(o=>{ const t=o.revTier||5; if(!byTier[t])byTier[t]=[]; byTier[t].push(o); });
+  const tierLabels={1:'Tier 1 — Highest Revenue Potential',2:'Tier 2 — High Revenue Potential',3:'Tier 3 — Medium Revenue Potential',4:'Tier 4 — Lower Revenue Potential',5:'Tier 5 — Minimal / Unknown'};
+  const main=document.getElementById('dirContent');
+  if(!list.length){main.innerHTML=`<div class="empty-state"><i class="fas fa-globe"></i><p>No offices match current filters.</p></div>`;return;}
+  main.innerHTML=[1,2,3,4,5].filter(t=>byTier[t]).map(t=>`
+    <div class="region-block">
+      <div class="region-header">
+        <span class="region-label">${tierLabels[t]}</span>
+        <div class="region-line"></div>
+        <span class="region-count">${byTier[t].length} office${byTier[t].length!==1?'s':''}</span>
+      </div>
+      <div class="offices-grid">${byTier[t].map(o=>officeCardHTML(o)).join('')}</div>
+    </div>`).join('');
+}
+
+function officeCardHTML(o) {
+  const stars='⭐'.repeat(Math.max(0,6-(o.revTier||5)));
+  const staffNames=(o.staff||[]).slice(0,2).map(s=>s.name).join(', ');
+  const staffMore=(o.staff||[]).length>2?` +${(o.staff||[]).length-2} more`:'';
+  const purpose=o.purpose?o.purpose.slice(0,110)+(o.purpose.length>110?'…':''):`<em style="color:#94a3b8">No purpose defined — click Edit</em>`;
+  const ornSpend = (o.orn_members&&o.orn_credits) ? formatCurrency(o.orn_members*o.orn_credits,o.orn_currency) : null;
+  return `<div class="office-card" style="animation-delay:${Math.random()*0.15}s">
+    <div class="card-top">
+      <div class="card-flag">${o.flag||'🌍'}</div>
+      <div class="card-info">
+        <div class="card-country">${o.country}</div>
+        <div class="card-city">${[o.city,o.region].filter(Boolean).join(' · ')}</div>
+        <div class="card-badges">
+          <span class="badge badge-type-${o.type||'partner'}">${(o.type||'partner').charAt(0).toUpperCase()+(o.type||'partner').slice(1)}</span>
+          <span class="badge badge-status-${o.status||'active'}">${statusLabel(o.status)}</span>
+          ${o.primaryFunction?`<span class="badge" style="background:#f1f5f9;color:#475569;">${o.primaryFunction}</span>`:''}
+        </div>
+      </div>
+      <div class="card-rev">
+        <div class="rev-tier-lbl">Tier ${o.revTier||'?'}</div>
+        <div class="rev-stars">${stars}</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-purpose">${purpose}</div>
+      <div class="card-meta">
+        ${o.revenue&&o.revenue!=='Unknown'?`<div class="meta-item"><i class="fas fa-pound-sign"></i>${o.revenue}</div>`:''}
+        ${o.yearEst?`<div class="meta-item"><i class="fas fa-calendar"></i>Est. ${o.yearEst}</div>`:''}
+        ${o.staffCount?`<div class="meta-item"><i class="fas fa-users"></i>${o.staffCount} staff</div>`:''}
+        ${ornSpend?`<div class="meta-item"><i class="fas fa-coins"></i>ORN: ${ornSpend}</div>`:''}
+      </div>
+    </div>
+    <div class="card-foot">
+      <div class="card-staff">${staffNames?`<strong>${staffNames}</strong>${staffMore}`:`<em style="color:#94a3b8">No contacts added</em>`}</div>
+      <button class="btn-edit" onclick="openModal('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+    </div>
+  </div>`;
+}
+
+function statusLabel(s){return{active:'Active',inactive:'Inactive',opportunity:'Opportunity',planned:'Planned'}[s]||s||'Active';}
+function formatCurrency(amount,currency){const sym=CURRENCY_SYMBOLS[currency]||currency+' ';return sym+Number(amount).toLocaleString();}
+
+// ── Filters ────────────────────────────────────────────────────────────
+function setFilter(key,val,el) {
+  filterMode={key,val};
+  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderDirectory();
+}
+
+// ── Flag auto-fill ─────────────────────────────────────────────────────
+const FLAG_MAP={'united kingdom':'🇬🇧','uk':'🇬🇧','germany':'🇩🇪','france':'🇫🇷','spain':'🇪🇸','italy':'🇮🇹','switzerland':'🇨🇭','ireland':'🇮🇪','czech republic':'🇨🇿','poland':'🇵🇱','slovakia':'🇸🇰','austria':'🇦🇹','greece':'🇬🇷','croatia':'🇭🇷','bulgaria':'🇧🇬','turkey':'🇹🇷','uae':'🇦🇪','united arab emirates':'🇦🇪','bahrain':'🇧🇭','qatar':'🇶🇦','oman':'🇴🇲','india':'🇮🇳','singapore':'🇸🇬','malaysia':'🇲🇾','thailand':'🇹🇭','indonesia':'🇮🇩','philippines':'🇵🇭','hong kong':'🇭🇰','united states':'🇺🇸','usa':'🇺🇸','mexico':'🇲🇽','brazil':'🇧🇷','colombia':'🇨🇴','ecuador':'🇪🇨','peru':'🇵🇪','argentina':'🇦🇷','chile':'🇨🇱','australia':'🇦🇺','new zealand':'🇳🇿','south africa':'🇿🇦'};
+function autoUpdateFlag(){const c=document.getElementById('mf_country').value.toLowerCase().trim();const f=FLAG_MAP[c];if(f)document.getElementById('mf_flag').value=f;}
+
+// ── ORN Credit Calculator ──────────────────────────────────────────────
+async function calcORNCredit() {
+  const members  = parseInt(document.getElementById('orn_members').value)||0;
+  const credits  = parseInt(document.getElementById('orn_credits').value)||0;
+  const currency = document.getElementById('orn_currency').value;
+  const sym      = CURRENCY_SYMBOLS[currency]||currency+' ';
+  const total    = members * credits;
+
+  document.getElementById('orn_totalCredits').textContent = members.toLocaleString();
+  document.getElementById('orn_creditVal').textContent    = credits.toLocaleString();
+  document.getElementById('orn_totalLocal').textContent   = sym + total.toLocaleString();
+
+  if (!fxLoaded) await loadFXRates();
+  const usd = toUSD(total, currency);
+  document.getElementById('orn_totalUSD').textContent = '$' + Math.round(usd).toLocaleString();
+  document.getElementById('orn_fxNote').textContent   = `Exchange rate: 1 ${currency} ≈ $${(toUSD(1,currency)).toFixed(4)} USD · ${fxLoaded?'Live rate':'Static fallback rate'}`;
+}
+
+// ── Modal ──────────────────────────────────────────────────────────────
+function openModal(id) {
+  editingId=id||null; staffTags=[]; revTier=0;
+  resetPillGroup('pg_type','owned'); resetPillGroup('pg_status','active');
+  document.querySelectorAll('.rev-btn').forEach(b=>b.className='rev-btn');
+  ['mf_country','mf_city','mf_flag','mf_address','mf_revenue','mf_marketSize','mf_purpose','mf_products','mf_auditNotes','mf_yearEst','mf_website','mf_notes','mf_ornNotes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('mf_staffCount').value='';
+  document.getElementById('mf_region').value=''; document.getElementById('mf_function').value='';
+  document.getElementById('staffTagList').innerHTML='';
+  document.getElementById('orn_members').value=''; document.getElementById('orn_credits').value='';
+  document.getElementById('orn_currency').value='GBP';
+  document.getElementById('orn_totalCredits').textContent='—'; document.getElementById('orn_creditVal').textContent='—';
+  document.getElementById('orn_totalLocal').textContent='—'; document.getElementById('orn_totalUSD').textContent='—';
+  document.getElementById('orn_fxNote').textContent='Enter members and credits above to calculate';
+
+  if (id&&offices[id]) {
+    const o=offices[id];
+    document.getElementById('modalTitle').textContent=o.country+(o.city?' — '+o.city:'');
+    document.getElementById('modalSub').textContent='Editing · Last updated: '+(o.updatedAt?new Date(o.updatedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'Never');
+    document.getElementById('btnDelete').classList.remove('hidden');
+    ['country','city','flag','address','revenue','marketSize','purpose','products','auditNotes','yearEst','website','notes'].forEach(k=>{const el=document.getElementById('mf_'+k);if(el&&o[k]!==undefined)el.value=o[k];});
+    document.getElementById('mf_staffCount').value=o.staffCount||'';
+    if(o.region)document.getElementById('mf_region').value=o.region;
+    if(o.primaryFunction)document.getElementById('mf_function').value=o.primaryFunction;
+    resetPillGroup('pg_type',o.type||'owned'); resetPillGroup('pg_status',o.status||'active');
+    if(o.revTier){revTier=o.revTier;const rb=document.querySelector(`.rev-btn[data-val="${o.revTier}"]`);if(rb)rb.classList.add('sel-'+o.revTier);}
+    staffTags=[...(o.staff||[])]; renderStaffTags();
+    // ORN Credit
+    if(o.orn_members)document.getElementById('orn_members').value=o.orn_members;
+    if(o.orn_credits)document.getElementById('orn_credits').value=o.orn_credits;
+    if(o.orn_currency)document.getElementById('orn_currency').value=o.orn_currency;
+    if(o.ornNotes)document.getElementById('mf_ornNotes').value=o.ornNotes;
+    if(o.orn_members&&o.orn_credits)calcORNCredit();
+  } else {
+    document.getElementById('modalTitle').textContent='Add New Office';
+    document.getElementById('modalSub').textContent='Complete details to add to the global directory';
+    document.getElementById('btnDelete').classList.add('hidden');
+  }
+  document.getElementById('modalOverlay').classList.remove('hidden');
+  document.getElementById('modal').scrollTop=0;
+}
+
+function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');editingId=null;}
+function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+function resetPillGroup(gid,val){document.querySelectorAll(`#${gid} .sel-pill`).forEach(p=>p.classList.toggle('active',p.dataset.val===val));}
+function selectPill(gid,val,el){document.querySelectorAll(`#${gid} .sel-pill`).forEach(p=>p.classList.remove('active'));el.classList.add('active');}
+function selectRevTier(tier,btn){revTier=tier;document.querySelectorAll('.rev-btn').forEach(b=>b.className='rev-btn');btn.classList.add('sel-'+tier);}
+
+// ── Staff tags — FIXED with separate fields ────────────────────────────
+function addStaffTag() {
+  const nameEl  = document.getElementById('staffNameInput');
+  const roleEl  = document.getElementById('staffRoleInput');
+  const emailEl = document.getElementById('staffEmailInput');
+  const name    = nameEl.value.trim();
+  if (!name) { nameEl.focus(); showToast('Please enter a name','red'); return; }
+  staffTags.push({ name, role: roleEl.value.trim(), email: emailEl.value.trim() });
+  nameEl.value=''; roleEl.value=''; emailEl.value='';
+  nameEl.focus();
+  renderStaffTags();
+}
+
+function removeStaffTag(i){staffTags.splice(i,1);renderStaffTags();}
+function renderStaffTags(){
+  document.getElementById('staffTagList').innerHTML=staffTags.map((s,i)=>
+    `<div class="staff-tag">
+      <i class="fas fa-user" style="color:var(--orange);font-size:0.62rem;"></i>
+      <span><strong>${s.name}</strong>${s.role?' · '+s.role:''}${s.email?' · '+s.email:''}</span>
+      <button type="button" class="staff-tag-rm" onclick="removeStaffTag(${i})"><i class="fas fa-times"></i></button>
+    </div>`).join('');
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────
+function showToast(msg,type){const t=document.getElementById('toast');t.innerHTML=`<i class="fas fa-${type==='green'?'check':type==='red'?'times':'info-circle'}"></i> ${msg}`;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',3000);}
+</script>
+</body>
+</html>
