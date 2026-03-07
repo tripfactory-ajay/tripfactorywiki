@@ -67,11 +67,7 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .hstat-l{font-size:0.64rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;margin-top:1px;}
 
 /* ── TOOLBAR ────────────────────────────────────────────────── */
-.toolbar{
-  background:white;border-bottom:1.5px solid var(--border);
-  padding:14px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  position:sticky;top:54px;z-index:90;
-}
+/* toolbar replaced with inline nav */
 .search-wrap{position:relative;flex:1;min-width:200px;max-width:340px;}
 .search-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--slate2);font-size:0.75rem;pointer-events:none;}
 .search-inp{width:100%;padding:8px 12px 8px 32px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;transition:border-color 0.18s;color:var(--ink);}
@@ -83,7 +79,7 @@ html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-
 .view-btns{display:flex;gap:4px;margin-left:auto;}
 .view-btn{width:32px;height:32px;border:1.5px solid var(--border);border-radius:7px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:var(--slate);transition:all 0.15s;}
 .view-btn.on{background:var(--navy);border-color:var(--navy);color:white;}
-.results-bar{padding:8px 32px;font-size:0.74rem;color:var(--slate2);background:var(--bg);border-bottom:1px solid var(--border);}
+.results-bar{padding:6px 28px;font-size:0.71rem;color:rgba(255,255,255,0.3);background:var(--navy3);border-bottom:1px solid rgba(255,255,255,0.06);}
 
 /* ── MAIN ───────────────────────────────────────────────────── */
 .main{max-width:1400px;margin:0 auto;padding:28px 32px;}
@@ -224,41 +220,60 @@ function dismissIOSBanner(){
 </script>
 
 <div class="topbar">
-  <div class="topbar-mark">O</div>
-  <div class="topbar-name">ORN <span>/ Worldwide Offices</span></div>
+  <div class="topbar-brand">
+    <div class="topbar-mark">O</div>
+    <div>
+      <div class="topbar-name">ORN Project Wiki <span>/ Worldwide Offices</span></div>
+    </div>
+  </div>
   <div class="topbar-sep"></div>
   <a href="index.html" class="back-btn" onclick="try{var u=localStorage.getItem('orn_wiki_user')||sessionStorage.getItem('orn_wiki_user');if(u)sessionStorage.setItem('orn_wiki_user',u);}catch(e){}"><i class="fas fa-arrow-left"></i> Back to Wiki</a>
-  <div class="topbar-right">
-    <div class="topbar-stat"><div class="topbar-stat-n" id="topActive">—</div><div class="topbar-stat-l">Active</div></div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
+    <div style="font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.7);" id="topUserName"></div>
     <div class="topbar-sep"></div>
-    <div class="topbar-stat"><div class="topbar-stat-n" id="topTotal">36</div><div class="topbar-stat-l">Total Offices</div></div>
-    <div class="topbar-sep"></div>
-    <div class="topbar-stat"><div class="topbar-stat-n" id="topStaff">—</div><div class="topbar-stat-l">Staff</div></div>
+    <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);" id="topTimeClock"></div>
   </div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-content">
-    <div class="hero-label"><i class="fas fa-globe"></i> ORN Group — Global Footprint</div>
-    <div class="hero-title">Worldwide <span>Offices</span></div>
-    <div class="hero-sub">ORN's global presence spanning Europe, Middle East, Asia Pacific, Americas and Oceania — active operations, partner offices, and emerging markets.</div>
-    <div class="hero-stats" id="heroStats"></div>
+<!-- HERO replaced with wiki-style subheader -->
+<div style="background:var(--navy);border-bottom:1.5px solid rgba(255,255,255,0.07);padding:0 28px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;">
+  <!-- Stats pills in tab-nav style -->
+  <div style="display:flex;align-items:center;gap:6px;padding:10px 0;margin-right:20px;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.25);border-radius:8px;">
+      <i class="fas fa-globe" style="color:var(--cyan);font-size:0.72rem;"></i>
+      <span style="font-size:0.8rem;font-weight:800;color:white;" id="statTotal">36</span>
+      <span style="font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Offices</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;background:rgba(4,120,87,0.12);border:1px solid rgba(4,120,87,0.2);border-radius:8px;">
+      <i class="fas fa-check-circle" style="color:#34d399;font-size:0.72rem;"></i>
+      <span style="font-size:0.8rem;font-weight:800;color:white;" id="statActive">—</span>
+      <span style="font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Active</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;background:rgba(212,20,90,0.1);border:1px solid rgba(212,20,90,0.2);border-radius:8px;">
+      <i class="fas fa-users" style="color:#f472b6;font-size:0.72rem;"></i>
+      <span style="font-size:0.8rem;font-weight:800;color:white;" id="statStaff">—</span>
+      <span style="font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Staff</span>
+    </div>
   </div>
-</div>
-
-<!-- TOOLBAR -->
-<div class="toolbar">
-  <div class="search-wrap">
-    <i class="fas fa-search"></i>
-    <input class="search-inp" type="text" id="searchInp" placeholder="Search country, city, contact…" oninput="applyFilters()">
+  <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);margin-right:16px;flex-shrink:0;"></div>
+  <!-- Region tabs matching wiki tab-nav style -->
+  <div id="regionChips" style="display:flex;align-items:center;gap:4px;padding:10px 0;flex-shrink:0;"></div>
+  <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);margin:0 14px;flex-shrink:0;"></div>
+  <!-- Active only toggle -->
+  <div id="activeChip" onclick="toggleActive(this)" style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0;">
+    <i class="fas fa-circle" style="font-size:0.5rem;color:rgba(255,255,255,0.3);"></i>
+    <span style="font-size:0.73rem;color:rgba(255,255,255,0.5);font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;">Active only</span>
   </div>
-  <div class="filter-chips" id="regionChips"></div>
-  <div class="chip active-only" id="activeChip" onclick="toggleActive(this)"><i class="fas fa-check-circle" style="font-size:0.65rem;"></i> Active only</div>
-  <div class="view-btns">
-    <button class="view-btn on" id="btnGrid" onclick="setView('grid',this)" title="Grid view"><i class="fas fa-th-large"></i></button>
-    <button class="view-btn" id="btnList" onclick="setView('list',this)" title="List view"><i class="fas fa-list"></i></button>
+  <div style="flex:1;"></div>
+  <!-- Search -->
+  <div style="position:relative;margin-left:12px;flex-shrink:0;">
+    <i class="fas fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);font-size:0.72rem;pointer-events:none;"></i>
+    <input id="searchInp" type="text" oninput="applyFilters()" placeholder="Search offices…" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 12px 7px 30px;color:white;font-size:0.78rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:200px;transition:all 0.18s;" onfocus="this.style.borderColor='#0891b2';this.style.background='rgba(8,145,178,0.1)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.06)'">
+  </div>
+  <!-- View toggle -->
+  <div style="display:flex;gap:3px;margin-left:10px;flex-shrink:0;">
+    <button id="btnGrid" onclick="setView('grid',this)" style="width:30px;height:30px;border:1px solid rgba(255,255,255,0.15);border-radius:7px;background:rgba(8,145,178,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.72rem;color:var(--cyan);transition:all 0.15s;" title="Grid"><i class="fas fa-th-large"></i></button>
+    <button id="btnList" onclick="setView('list',this)" style="width:30px;height:30px;border:1px solid rgba(255,255,255,0.1);border-radius:7px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.72rem;color:rgba(255,255,255,0.4);transition:all 0.15s;" title="List"><i class="fas fa-list"></i></button>
   </div>
 </div>
 <div class="results-bar" id="resultsBar"></div>
@@ -1054,48 +1069,62 @@ window.addEventListener('DOMContentLoaded', () => {
 function buildTopStats(){
   const active = OFFICES.filter(o => o.status === 'Active').length;
   const staff  = OFFICES.reduce((sum,o) => sum + (parseInt(o.staff)||0), 0);
-  document.getElementById('topActive').textContent = active;
-  document.getElementById('topStaff').textContent  = staff.toLocaleString();
+  document.getElementById('statActive').textContent = active;
+  document.getElementById('statStaff').textContent = staff.toLocaleString();
 }
 
 function buildHeroStats(){
-  const regions = [...new Set(OFFICES.map(o=>o.region))].length;
-  const active  = OFFICES.filter(o=>o.status==='Active').length;
-  const staff   = OFFICES.reduce((s,o)=>s+(parseInt(o.staff)||0),0);
-  const drivers = OFFICES.reduce((s,o)=>s+(parseInt(o.drivers)||0),0);
-  document.getElementById('heroStats').innerHTML = [
-    {n:OFFICES.length, l:'Total Offices'},
-    {n:active,         l:'Active'},
-    {n:regions,        l:'Regions'},
-    {n:staff.toLocaleString(), l:'Total Staff'},
-    {n:drivers||'14',  l:'Fleet Drivers'},
-  ].map(s=>`<div class="hstat"><div class="hstat-n">${s.n}</div><div class="hstat-l">${s.l}</div></div>`).join('');
+  // heroStats element removed - stats now in the nav bar via buildTopStats
 }
 
 function buildRegionChips(){
   const regions = ['All', ...Object.keys(REGION_CONFIG)];
-  document.getElementById('regionChips').innerHTML = regions.map(r =>
-    `<div class="chip ${r==='All'?'on':''}" onclick="setRegion('${r}',this)">${r==='All'?'All Regions':r}</div>`
+  const chipWrap = document.getElementById('regionChips');
+  chipWrap.innerHTML = regions.map(r =>
+    `<div onclick="setRegion('${r}',this)" style="padding:6px 13px;border-radius:8px;font-size:0.73rem;font-weight:600;cursor:pointer;transition:all 0.15s;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif;${r==='All'?'background:rgba(8,145,178,0.18);border:1px solid rgba(8,145,178,0.4);color:#67e8f9;':'background:transparent;border:1px solid transparent;color:rgba(255,255,255,0.45);'}" data-region="${r}">${r==='All'?'All Regions':r}</div>`
   ).join('');
 }
 
 // ── FILTERS ───────────────────────────────────────────────────
 function setRegion(r, el){
   activeRegion = r;
-  document.querySelectorAll('#regionChips .chip').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');
+  document.querySelectorAll('#regionChips [data-region]').forEach(c=>{
+    c.style.background='transparent';
+    c.style.border='1px solid transparent';
+    c.style.color='rgba(255,255,255,0.45)';
+  });
+  el.style.background='rgba(8,145,178,0.18)';
+  el.style.border='1px solid rgba(8,145,178,0.4)';
+  el.style.color='#67e8f9';
   render();
 }
 function toggleActive(el){
   activeOnly = !activeOnly;
-  el.classList.toggle('on', activeOnly);
+  if(activeOnly){
+    el.style.background='rgba(4,120,87,0.18)';
+    el.style.border='1px solid rgba(52,211,153,0.3)';
+    el.querySelector('i').style.color='#34d399';
+    el.querySelector('span').style.color='#34d399';
+  } else {
+    el.style.background='transparent';
+    el.style.border='1px solid rgba(255,255,255,0.1)';
+    el.querySelector('i').style.color='rgba(255,255,255,0.3)';
+    el.querySelector('span').style.color='rgba(255,255,255,0.5)';
+  }
   render();
 }
 function applyFilters(){ render(); }
 function setView(v, btn){
   viewMode = v;
-  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
+  ['btnGrid','btnList'].forEach(id=>{
+    const b=document.getElementById(id);
+    b.style.background='transparent';
+    b.style.borderColor='rgba(255,255,255,0.1)';
+    b.style.color='rgba(255,255,255,0.4)';
+  });
+  btn.style.background='rgba(8,145,178,0.2)';
+  btn.style.borderColor='rgba(8,145,178,0.4)';
+  btn.style.color='var(--cyan)';
   render();
 }
 
@@ -1236,6 +1265,20 @@ function officeRow(o){
 </script>
 
 <script>
+// Show username + clock from wiki session
+(function(){
+  try{
+    const u=localStorage.getItem('orn_wiki_user')||sessionStorage.getItem('orn_wiki_user')||'';
+    const el=document.getElementById('topUserName');
+    if(el&&u) el.textContent='👤 '+u;
+    const tc=document.getElementById('topTimeClock');
+    if(tc){
+      const tick=()=>{tc.textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});};
+      tick();setInterval(tick,1000);
+    }
+  }catch(e){}
+})();
+
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/tripfactorywiki/sw.js')
