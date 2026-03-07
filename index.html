@@ -1141,6 +1141,20 @@ function renderDepts(){
 // STAFF DIRECTORY MODAL
 // ══════════════════════════════════════════════════════════════════
 let currentDeptFilter='all';
+// Maps dept card names → {d, sd} filter tokens for staff data
+const DEPT_FILTER_MAP={
+  'B2C Sales':     {d:'Sales',   sd:'B2C'},
+  'B2B Sales':     {d:'Sales',   sd:'B2B'},
+  'Flights':       {d:'Operations', sd:'Flights'},
+  'Visa':          {d:'Operations', sd:'Visa'},
+  'Post-Booking Ops': {d:'Operations', sd:null, exclude:['Flights','Visa','Care','Chat Support']},
+  'Global Delivery':  {d:'Operations', sd:'Care'},
+  'Escalation':    {d:'Operations', sd:'Care'},
+  'Product':       {d:'Product', sd:null},
+  'Technology':    {d:'Technology', sd:null},
+  'Finance':       {d:'Finance', sd:null},
+  'HR & Admin':    {d:'HR & Admin', sd:null},
+};
 function openStaffModal(dept){
   currentDeptFilter=dept||'all';
   document.getElementById('staffModal').classList.add('open');
@@ -1168,7 +1182,15 @@ function getInitials(n){const p=n.trim().split(' ');return(p[0]?.[0]||'')+(p[p.l
 function filterStaff(){
   const q=(document.getElementById('staffSearch')?.value||'').toLowerCase().trim();
   const locOk=(s)=>activeLocFilter==='All Locations'||!activeLocFilter||(s.l||'').toLowerCase().trim()===activeLocFilter.toLowerCase().trim();
-  const deptOk=(s)=>currentDeptFilter==='all'||(s.d||'').toLowerCase().includes(currentDeptFilter.toLowerCase())||(s.sd||'').toLowerCase().includes(currentDeptFilter.toLowerCase());
+  const deptOk=(s)=>{
+    if(currentDeptFilter==='all') return true;
+    const map=DEPT_FILTER_MAP[currentDeptFilter];
+    if(!map) return (s.d||'').toLowerCase().includes(currentDeptFilter.toLowerCase())||(s.sd||'').toLowerCase().includes(currentDeptFilter.toLowerCase());
+    const dMatch=!map.d||(s.d||'').toLowerCase()===map.d.toLowerCase();
+    const sdMatch=!map.sd||(s.sd||'').toLowerCase()===map.sd.toLowerCase();
+    const exMatch=!map.exclude||!map.exclude.some(ex=>(s.sd||'').toLowerCase()===ex.toLowerCase());
+    return map.sd ? (dMatch && sdMatch) : (dMatch && exMatch);
+  };
   const searchOk=(s)=>!q||(s.n||'').toLowerCase().includes(q)||(s.t||'').toLowerCase().includes(q)||(s.em||'').toLowerCase().includes(q)||(s.d||'').toLowerCase().includes(q);
   
   const filtered=STAFF_DATA.filter(s=>locOk(s)&&deptOk(s)&&searchOk(s));
