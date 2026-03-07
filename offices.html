@@ -1149,6 +1149,12 @@ function filtered(){
 // ── RENDER ────────────────────────────────────────────────────
 function render(){
   const data = filtered();
+  // Update stat pills to reflect current filter
+  const shownActive = data.filter(o=>o.status==='Active').length;
+  const shownStaff  = data.reduce((s,o)=>s+(parseInt(o.staff)||0),0);
+  document.getElementById('statTotal').textContent  = data.length;
+  document.getElementById('statActive').textContent = shownActive;
+  document.getElementById('statStaff').textContent  = shownStaff.toLocaleString();
   document.getElementById('resultsBar').textContent =
     `Showing ${data.length} of ${OFFICES.length} offices`;
 
@@ -1157,7 +1163,6 @@ function render(){
       `<div class="empty"><i class="fas fa-search"></i>No offices match your filters.</div>`;
     return;
   }
-
   if(viewMode === 'list'){
     renderList(data);
   } else {
@@ -1275,8 +1280,8 @@ function officeRow(o){
 // ── Firebase Setup ─────────────────────────────────────────────
 let _db=null;
 try{
-  const _fbCfg={apiKey:"AIzaSyBxyz_placeholder",authDomain:"tripfactory-hr.firebaseapp.com",
-    databaseURL:"https://tripfactory-hr-default-rtdb.firebaseio.com",projectId:"tripfactory-hr"};
+  const _fbCfg={apiKey:"AIzaSyCJXOlSMyFlrcnQ2air1h1dbhFqLxXzOdI",authDomain:"orn-wiki.firebaseapp.com",
+    databaseURL:"https://orn-wiki-default-rtdb.europe-west1.firebasedatabase.app",projectId:"orn-wiki",storageBucket:"orn-wiki.firebasestorage.app",messagingSenderId:"25736842668",appId:"1:25736842668:web:754f9cf6268e2a5552fe09"};
   _db=firebase.database(firebase.initializeApp(_fbCfg,'ornwiki_offices'));
 }catch(e){console.warn('Firebase offices:',e);}
 const FB_OFF='tripfactory/wiki-offices/';
