@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ORN Project Wiki</title>
+<meta name="theme-color" content="#0c1e35">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ORN Wiki">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="orn-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
@@ -25,7 +32,7 @@
   --sh-lg:0 8px 32px rgba(0,0,0,0.12);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;}
+html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;}
 body{display:flex;flex-direction:column;}
 
 /* ══ LOGIN ══════════════════════════════════════════════════════ */
@@ -428,6 +435,10 @@ select.oedit-inp{cursor:pointer;}
       <label class="login-label">Password</label>
       <input class="login-inp" id="loginPass" type="password" placeholder="Enter team password" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
+    <label style="display:flex;align-items:center;gap:8px;margin-bottom:12px;cursor:pointer;font-size:0.78rem;color:rgba(255,255,255,0.55);user-select:none;">
+      <input type="checkbox" id="rememberMe" style="width:15px;height:15px;accent-color:#0891b2;cursor:pointer;">
+      Remember me on this device
+    </label>
     <button class="login-btn" onclick="doLogin()">Access Wiki <i class="fas fa-arrow-right" style="margin-left:6px;"></i></button>
     <div class="login-err" id="loginErr">Incorrect password. Please try again.</div>
   </div>
@@ -758,20 +769,38 @@ const FB={refs:'tripfactory/wiki-refs/',offices:'tripfactory/wiki-offices/',docs
 // ── Auth ─────────────────────────────────────────────────────────
 const USERS=['Alia Taub','Raj Kumar','Ajay Kawa'];
 const PWD='TFIndia2026';
+const LS_USER='orn_wiki_user';
 let currentUser='';
 let selUser='';
 function selectUser(name,el){selUser=name;document.querySelectorAll('.login-user-chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
 function doLogin(){
   if(!selUser){toast('Please select your name first');return;}
   if(document.getElementById('loginPass').value!==PWD){document.getElementById('loginErr').style.display='block';return;}
-  currentUser=selUser;
+  const rem=document.getElementById('rememberMe').checked;
+  try{if(rem){localStorage.setItem(LS_USER,selUser);}else{sessionStorage.setItem(LS_USER,selUser);}}catch(e){}
+  activateUser(selUser);
+}
+function activateUser(name){
+  currentUser=name;
   document.getElementById('loginOverlay').style.display='none';
   document.getElementById('topUser').textContent=currentUser;
-  startClock();
-  loadAll();
-  renderAll();
+  startClock();loadAll();renderAll();
 }
-function doLogout(){selUser='';document.getElementById('loginPass').value='';document.getElementById('loginErr').style.display='none';document.querySelectorAll('.login-user-chip').forEach(c=>c.classList.remove('sel'));document.getElementById('loginOverlay').style.display='flex';}
+function checkAutoLogin(){
+  let u='';
+  try{u=localStorage.getItem(LS_USER)||sessionStorage.getItem(LS_USER)||'';}catch(e){}
+  if(u&&USERS.includes(u)){activateUser(u);return true;}
+  return false;
+}
+function doLogout(){
+  try{localStorage.removeItem(LS_USER);sessionStorage.removeItem(LS_USER);}catch(e){}
+  currentUser='';selUser='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginErr').style.display='none';
+  document.querySelectorAll('.login-user-chip').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('loginOverlay').style.display='flex';
+}
+window.addEventListener('DOMContentLoaded',()=>{checkAutoLogin();});
 function startClock(){const t=()=>{document.getElementById('topTime').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});};t();setInterval(t,1000);}
 
 // ── Tabs ─────────────────────────────────────────────────────────
@@ -2169,6 +2198,16 @@ async function deleteRef(id){
   if(_db)await _db.ref(FB.refs+id).remove().catch(()=>{});
   renderRefs(Object.values(wikiRefs));
   toast('Reference removed');
+}
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/tripfactorywiki/sw.js')
+      .then(r => console.log('ORN Wiki SW registered:', r.scope))
+      .catch(e => console.warn('SW registration failed:', e));
+  });
 }
 </script>
 </body>
