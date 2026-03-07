@@ -363,7 +363,12 @@ select.oedit-inp{cursor:pointer;}
 .btn-cancel:hover{border-color:var(--slate);color:var(--ink);}
 
 /* ══ DOCUMENT HUB ════════════════════════════════════════════ */
-.doc-upload-area{background:white;border:2px dashed var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:18px;transition:border-color 0.2s;}
+.doc-upload-area{background:white;border-radius:var(--r-lg);padding:20px;margin-bottom:18px;}
+#dropZone.drag-over{border-color:var(--cyan)!important;background:rgba(8,145,178,0.04)!important;}
+#dropZone.drag-over #dropIcon{color:var(--cyan)!important;}
+#dropZone:hover{border-color:var(--cyan);background:rgba(8,145,178,0.03);}
+#dropZone.has-file{border-color:var(--green);background:rgba(4,120,87,0.04);}
+#dropZone.has-file #dropIcon{color:var(--green)!important;}
 .doc-upload-area.drag{border-color:var(--cyan);background:var(--cyan-light);}
 .doc-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
 .doc-inp{border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;color:var(--ink);outline:none;transition:border-color 0.18s;width:100%;}
@@ -683,8 +688,18 @@ function dismissIOSBanner(){
       </select>
     </div>
     <textarea class="doc-textarea" id="docDesc" placeholder="Short description (optional)" style="margin-bottom:10px;"></textarea>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-      <label class="doc-file-label"><i class="fas fa-paperclip"></i><span id="docFileName">Choose file to upload</span><input type="file" id="docFile" style="display:none" onchange="onFileSelect()"></label>
+     <!-- Drag & Drop Zone -->
+    <div id="dropZone" onclick="document.getElementById('docFile').click()"
+      ondragover="event.preventDefault();this.classList.add('drag-over')"
+      ondragleave="this.classList.remove('drag-over')"
+      ondrop="handleDrop(event)"
+      style="border:2px dashed var(--border);border-radius:10px;padding:20px 16px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--bg);margin-bottom:10px;">
+      <i class="fas fa-cloud-upload-alt" style="font-size:1.6rem;color:var(--slate2);display:block;margin-bottom:6px;" id="dropIcon"></i>
+      <div id="docFileName" style="font-size:0.8rem;color:var(--slate);font-weight:600;">Drag & drop file here, or click to browse</div>
+      <div style="font-size:0.68rem;color:var(--slate2);margin-top:3px;">Max 10MB · PDF, PPTX, DOCX, XLSX, images and more</div>
+      <input type="file" id="docFile" style="display:none" onchange="onFileSelect()" accept="*/*">
+    </div>
+   <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
       <button class="btn-upload" onclick="addDocument()"><i class="fas fa-cloud-upload-alt"></i> Upload Document</button>
     </div>
     <div style="font-size:0.72rem;color:var(--slate2);margin-top:8px;"><i class="fas fa-info-circle"></i> Files are stored as base64 in Firebase. Max recommended: 1MB per file.</div>
@@ -2098,7 +2113,29 @@ const DOC_COLORS={Policy:'#d4145a',Presentation:'#b45309',Report:'#1d4ed8',Train
 
 function onFileSelect(){
   const f=document.getElementById('docFile').files[0];
-  document.getElementById('docFileName').textContent=f?f.name:'Choose file to upload';
+  if(f) acceptFile(f); else resetDropArea();
+}
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('drag-over');
+  const f=e.dataTransfer.files[0];
+  if(f) acceptFile(f);
+}
+function acceptFile(f){
+  _pendingFile=f;
+  const mb=(f.size/1024/1024).toFixed(1);
+  setDropLabel(f.name+' ('+mb+'MB)');
+  document.getElementById('dropZone').classList.add('has-file');
+  document.getElementById('dropIcon').className='fas fa-check-circle';
+}
+function setDropLabel(txt){
+  document.getElementById('docFileName').textContent=txt;
+}
+function resetDropArea(){
+  _pendingFile=null;
+  document.getElementById('dropZone').classList.remove('has-file');
+  document.getElementById('dropIcon').className='fas fa-cloud-upload-alt';
+  setDropLabel('Drag & drop file here, or click to browse');
 }
 
 async function addDocument(){
@@ -2106,76 +2143,35 @@ async function addDocument(){
   if(!title){toast('Document title is required');return;}
   const cat=document.getElementById('docCat').value;
   const desc=document.getElementById('docDesc').value.trim();
-  const file=document.getElementById('docFile').files[0];
-  
-  let fileData=null;
-  let fileName='';
-  let fileType='';
-  let fileSize=0;
-  
+  const file=_pendingFile||document.getElementById('docFile').files[0];
+
+  let fileData=null,fileName='',fileType='',fileSize=0;
   if(file){
-    if(file.size>2*1024*1024){toast('File too large — max 2MB for Firebase storage');return;}
-    fileSize=file.size;
-    fileName=file.name;
-    fileType=file.type;
+    if(file.size>10*1024*1024){toast('File too large — max 10MB');return;}
+    fileSize=file.size;fileName=file.name;fileType=file.type;
     fileData=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});
   }
-  
+
   const id='doc_'+Date.now();
   const doc={id,title,cat,desc,fileName,fileType,fileSize,addedBy:currentUser,addedAt:Date.now(),hasFile:!!file};
   if(fileData)doc.fileData=fileData;
-  
   wikiDocs[id]=doc;
+
   if(_db){
-    // Store without file data for listing, file data separate
     const docMeta={...doc};delete docMeta.fileData;
     await _db.ref(FB.docs+id+'/meta').set(docMeta).catch(()=>{});
     if(fileData)await _db.ref(FB.docs+id+'/file').set(fileData).catch(()=>{});
   }
-  
-  // Reset form
+
   document.getElementById('docTitle').value='';
   document.getElementById('docDesc').value='';
   document.getElementById('docFile').value='';
-  document.getElementById('docFileName').textContent='Choose file to upload';
-  
+  _pendingFile=null;
+  setDropLabel('Drag & drop file here, or click to browse');
+  resetDropArea();
   renderDocs(Object.values(wikiDocs));
-  toast(`"${title}" uploaded`,'ok');
+  toast('"'+title+'" uploaded','ok');
 }
-
-function renderDocs(docs){
-  if(!docs.length){
-    document.getElementById('docsGrid').innerHTML='<div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-folder-open" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No documents yet. Upload one above.</div>';
-    return;
-  }
-  const sorted=[...docs].sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
-  document.getElementById('docsGrid').innerHTML=sorted.map(d=>{
-    const icon=DOC_ICONS[d.cat]||'📎';
-    const color=DOC_COLORS[d.cat]||'#94a3b8';
-    const date=d.addedAt?new Date(d.addedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
-    const size=d.fileSize?`${Math.round(d.fileSize/1024)}KB`:'';
-    return`<div class="doc-card">
-      <div class="doc-card-top">
-        <div class="doc-icon" style="background:${color}22;font-size:1.2rem;">${icon}</div>
-        <div style="flex:1;min-width:0;">
-          <div class="doc-name">${d.title}</div>
-          ${d.desc?`<div class="doc-desc">${d.desc}</div>`:''}
-        </div>
-      </div>
-      <div class="doc-meta">
-        <span class="pill" style="background:${color}22;color:${color};">${d.cat}</span>
-        ${d.addedBy?`<span>by ${d.addedBy}</span>`:''}
-        ${date?`<span>${date}</span>`:''}
-        ${size?`<span>${size}</span>`:''}
-      </div>
-      <div class="doc-actions">
-        ${d.hasFile&&d.fileData?`<a class="doc-btn" href="${d.fileData}" download="${d.fileName||d.title}"><i class="fas fa-download"></i> Download</a>`:'<span class="doc-btn" style="opacity:0.4;cursor:default;"><i class="fas fa-file"></i> No file</span>'}
-        <button class="doc-btn del" onclick="deleteDoc('${d.id}')"><i class="fas fa-trash"></i> Remove</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
 async function deleteDoc(id){
   if(!confirm('Remove this document?'))return;
   delete wikiDocs[id];
@@ -2210,15 +2206,20 @@ function renderRefs(refs){
 }
 async function addReference(){
   const name=document.getElementById('refName').value.trim();
-  const url=document.getElementById('refUrl').value.trim();
+  let url=document.getElementById('refUrl').value.trim();
   if(!name||!url){toast('Name and URL are required');return;}
+  if(!/^https?:\/\//i.test(url))url='https://'+url;
   const id='ref_'+Date.now();
-  const r={id,name,url,desc:document.getElementById('refDesc').value.trim(),cat:document.getElementById('refCat').value,addedBy:currentUser};
+  const r={id,name,url,desc:document.getElementById('refDesc').value.trim(),cat:document.getElementById('refCat').value,addedBy:currentUser,addedAt:Date.now()};
   wikiRefs[id]=r;
-  if(_db)await _db.ref(FB.refs+id).set(r).catch(()=>{});
-  document.getElementById('refName').value='';document.getElementById('refUrl').value='';document.getElementById('refDesc').value='';
+  if(_db){
+    await _db.ref(FB.refs+id).set(r).catch(e=>console.error('Firebase ref save error:',e));
+  }
+  document.getElementById('refName').value='';
+  document.getElementById('refUrl').value='';
+  document.getElementById('refDesc').value='';
   renderRefs(Object.values(wikiRefs));
-  toast(`"${name}" added`,'ok');
+  toast('"'+name+'" added','ok');
 }
 async function deleteRef(id){
   delete wikiRefs[id];
