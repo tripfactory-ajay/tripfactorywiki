@@ -638,10 +638,10 @@ select.oedit-inp{cursor:pointer;}
     <div class="doc-form-row">
       <input class="doc-inp" id="docTitle" placeholder="Document title *">
       <select class="doc-inp" id="docCat">
-        <option value="Policy">\ud83d\udccb Policy</option><option value="Presentation">\ud83d\udcca Presentation</option>
-        <option value="Report">\ud83d\udcc8 Report</option><option value="Training">\ud83c\udf93 Training Material</option>
-        <option value="Template">\ud83d\udcc4 Template</option><option value="Contract">\ud83d\udcdd Contract</option>
-        <option value="Other">\ud83d\udcce Other</option>
+        <option value="Policy">📋 Policy</option><option value="Presentation">📊 Presentation</option>
+        <option value="Report">📈 Report</option><option value="Training">🎓 Training Material</option>
+        <option value="Template">📄 Template</option><option value="Contract">📝 Contract</option>
+        <option value="Other">📎 Other</option>
       </select>
     </div>
     <textarea class="doc-textarea" id="docDesc" placeholder="Short description (optional)" style="margin-bottom:10px;"></textarea>
@@ -1086,7 +1086,26 @@ async function loadOffices(){
 }
 async function loadDocs(){
   if(!_db){renderDocs([]);return;}
-  try{const snap=await _db.ref(FB.docs).once('value');const d=snap.val();if(d){wikiDocs=d;}renderDocs(Object.values(wikiDocs));}catch(e){renderDocs([]);}
+  try{
+    const snap=await _db.ref(FB.docs).once('value');
+    const d=snap.val();
+    if(d){
+      wikiDocs={};
+      Object.entries(d).forEach(([id,val])=>{
+        if(!val)return;
+        if(val.meta){
+          const doc={...val.meta};
+          if(val.file)doc.fileData=val.file;
+          doc.id=doc.id||id;
+          wikiDocs[id]=doc;
+        } else {
+          // flat or malformed — store as-is with id
+          wikiDocs[id]={...val,id:val.id||id};
+        }
+      });
+    }
+    renderDocs(Object.values(wikiDocs));
+  }catch(e){renderDocs([]);}
 }
 function getDefaultRefs(){
   return[
@@ -1533,11 +1552,12 @@ function renderDocs(docs){
     const color=DOC_COLORS[d.cat]||'#94a3b8';
     const date=d.addedAt?new Date(d.addedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
     const size=d.fileSize?`${Math.round(d.fileSize/1024)}KB`:'';
+    const title=d.title||'(untitled)';
     return`<div class="doc-card">
       <div class="doc-card-top">
         <div class="doc-icon" style="background:${color}22;font-size:1.2rem;">${icon}</div>
         <div style="flex:1;min-width:0;">
-          <div class="doc-name">${d.title}</div>
+          <div class="doc-name">${title}</div>
           ${d.desc?`<div class="doc-desc">${d.desc}</div>`:''}
         </div>
       </div>
