@@ -270,6 +270,8 @@ function dismissIOSBanner(){
     <i class="fas fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);font-size:0.72rem;pointer-events:none;"></i>
     <input id="searchInp" type="text" oninput="applyFilters()" placeholder="Search offices…" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 12px 7px 30px;color:white;font-size:0.78rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:200px;transition:all 0.18s;" onfocus="this.style.borderColor='#0891b2';this.style.background='rgba(8,145,178,0.1)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.06)'">
   </div>
+  <!-- Add Office button -->
+  <button onclick="openAddOffice()" style="display:flex;align-items:center;gap:6px;padding:6px 13px;background:rgba(8,145,178,0.15);border:1px solid rgba(8,145,178,0.3);border-radius:8px;color:var(--cyan);font-size:0.73rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;margin-left:8px;transition:all 0.15s;" onmouseover="this.style.background='rgba(8,145,178,0.25)'" onmouseout="this.style.background='rgba(8,145,178,0.15)'"><i class="fas fa-plus"></i> Add Office</button>
   <!-- View toggle -->
   <div style="display:flex;gap:3px;margin-left:10px;flex-shrink:0;">
     <button id="btnGrid" onclick="setView('grid',this)" style="width:30px;height:30px;border:1px solid rgba(255,255,255,0.15);border-radius:7px;background:rgba(8,145,178,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.72rem;color:var(--cyan);transition:all 0.15s;" title="Grid"><i class="fas fa-th-large"></i></button>
@@ -1059,11 +1061,14 @@ let activeOnly   = false;
 let viewMode     = 'grid';
 
 // ── INIT ───────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   buildTopStats();
   buildHeroStats();
   buildRegionChips();
+  await loadOfficesFromDB();
+  buildTopStats();
   render();
+  document.getElementById('statTotal').textContent=OFFICES.length;
 });
 
 function buildTopStats(){
@@ -1232,6 +1237,10 @@ function officeCard(o){
         ${staff > 0  ? `<div class="oc-row"><i class="fas fa-users"></i><span>${staff} staff${drivers>0?' · '+drivers+' fleet drivers':''}</span></div>` : ''}
         ${o.purpose  ? `<div class="oc-purpose">${o.purpose}</div>` : ''}
         <div class="oc-capabilities">${capBadges(o)}</div>
+        <div style="display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+          <button onclick="openEditOffice('${o.id}')" style="flex:1;padding:5px;border:1px solid var(--border);border-radius:6px;background:white;font-size:0.7rem;color:var(--slate);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;" onmouseover="this.style.borderColor='#0891b2';this.style.color='#0891b2'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--slate)'"><i class="fas fa-pen"></i> Edit</button>
+          <button onclick="deleteOffice('${o.id}')" style="padding:5px 10px;border:1px solid #fecaca;border-radius:6px;background:white;font-size:0.7rem;color:#dc2626;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='white'"><i class="fas fa-trash"></i></button>
+        </div>
       </div>
     </div>`;
 }
@@ -1262,7 +1271,99 @@ function officeRow(o){
       </div>
     </div>`;
 }
+
+// ── Firebase Setup ─────────────────────────────────────────────
+let _db=null;
+try{
+  const _fbCfg={apiKey:"AIzaSyBxyz_placeholder",authDomain:"tripfactory-hr.firebaseapp.com",
+    databaseURL:"https://tripfactory-hr-default-rtdb.firebaseio.com",projectId:"tripfactory-hr"};
+  _db=firebase.database(firebase.initializeApp(_fbCfg,'ornwiki_offices'));
+}catch(e){console.warn('Firebase offices:',e);}
+const FB_OFF='tripfactory/wiki-offices/';
+
+async function loadOfficesFromDB(){
+  if(!_db) return;
+  try{
+    const snap=await _db.ref(FB_OFF).once('value');
+    const d=snap.val();
+    if(d&&Object.keys(d).length>0){
+      OFFICES.length=0;
+      Object.values(d).forEach(o=>OFFICES.push(o));
+    } else {
+      const seed={};OFFICES.forEach(o=>{seed[o.id]=o;});
+      await _db.ref(FB_OFF).set(seed).catch(()=>{});
+    }
+  }catch(e){console.warn('loadOfficesFromDB:',e);}
+}
+function openAddOffice(){
+  document.getElementById('officeModal').style.display='flex';
+  document.getElementById('omTitle').textContent='Add Office';
+  document.getElementById('omForm').reset();
+  document.getElementById('omId').value='';
+}
+function openEditOffice(id){
+  const o=OFFICES.find(x=>x.id===id);if(!o)return;
+  document.getElementById('officeModal').style.display='flex';
+  document.getElementById('omTitle').textContent='Edit — '+o.country;
+  document.getElementById('omId').value=id;
+  document.getElementById('omCountry').value=o.country||'';
+  document.getElementById('omCity').value=o.city||'';
+  document.getElementById('omFlag').value=o.flag||'';
+  document.getElementById('omRegion').value=o.region||'Europe';
+  document.getElementById('omStatus').value=o.status||'Active';
+  document.getElementById('omContacts').value=o.contacts||'';
+  document.getElementById('omAddress').value=o.address||'';
+  document.getElementById('omStaff').value=o.staff||'0';
+  document.getElementById('omDrivers').value=o.drivers||'0';
+  document.getElementById('omPurpose').value=o.purpose||'';
+  document.getElementById('omMarket').value=o.market||'';
+  document.getElementById('omInbound').checked=o.inbound==='Yes';
+  document.getElementById('omOutbound').checked=o.outbound==='Yes';
+  document.getElementById('omPhysical').checked=o.physical==='Yes';
+  document.getElementById('omTransport').checked=o.transport==='Yes';
+}
+function closeOfficeModal(){document.getElementById('officeModal').style.display='none';}
+async function saveOffice(){
+  const country=document.getElementById('omCountry').value.trim();
+  if(!country){alert('Country is required');return;}
+  const existingId=document.getElementById('omId').value;
+  const id=existingId||'off_'+Date.now();
+  const o={id,country,
+    city:document.getElementById('omCity').value.trim(),
+    flag:document.getElementById('omFlag').value.trim(),
+    region:document.getElementById('omRegion').value,
+    status:document.getElementById('omStatus').value,
+    contacts:document.getElementById('omContacts').value.trim(),
+    address:document.getElementById('omAddress').value.trim(),
+    staff:document.getElementById('omStaff').value||'0',
+    drivers:document.getElementById('omDrivers').value||'0',
+    purpose:document.getElementById('omPurpose').value.trim(),
+    market:document.getElementById('omMarket').value.trim(),
+    inbound:document.getElementById('omInbound').checked?'Yes':'No',
+    outbound:document.getElementById('omOutbound').checked?'Yes':'No',
+    physical:document.getElementById('omPhysical').checked?'Yes':'No',
+    transport:document.getElementById('omTransport').checked?'Yes':'No',
+    type:'Trip Factory',credits:'',tier:2};
+  const idx=OFFICES.findIndex(x=>x.id===id);
+  if(idx>=0)OFFICES[idx]=o;else OFFICES.push(o);
+  if(_db)await _db.ref(FB_OFF+id).set(o).catch(e=>console.error('Save:',e));
+  closeOfficeModal();render();buildTopStats();
+  document.getElementById('statTotal').textContent=OFFICES.length;
+}
+async function deleteOffice(id){
+  const o=OFFICES.find(x=>x.id===id);
+  if(!confirm('Remove '+(o?.country||'this office')+'?'))return;
+  const idx=OFFICES.findIndex(x=>x.id===id);
+  if(idx>=0)OFFICES.splice(idx,1);
+  if(_db)await _db.ref(FB_OFF+id).remove().catch(()=>{});
+  render();buildTopStats();
+  document.getElementById('statTotal').textContent=OFFICES.length;
+}
 </script>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
 // Show username + clock from wiki session
@@ -1287,5 +1388,47 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
+
+<!-- Office Edit Modal -->
+<div id="officeModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:14px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="padding:20px 24px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:1rem;font-weight:800;color:#0f172a;" id="omTitle">Add Office</div>
+      <button onclick="closeOfficeModal()" style="background:none;border:none;font-size:1.2rem;color:#94a3b8;cursor:pointer;">✕</button>
+    </div>
+    <form id="omForm" onsubmit="event.preventDefault();saveOffice();" style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <input type="hidden" id="omId">
+      <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Country *</label><input id="omCountry" required style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. United Kingdom"></div>
+        <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">City</label><input id="omCity" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. London"></div>
+      </div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Flag emoji</label><input id="omFlag" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="🇬🇧"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Region</label>
+        <select id="omRegion" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;">
+          <option>Europe</option><option>Middle East</option><option>South Asia</option><option>Asia Pacific</option><option>Americas</option><option>Oceania</option>
+        </select></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Status</label>
+        <select id="omStatus" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;">
+          <option value="Active">Active</option><option value="Non-Operational">Non-Operational</option>
+        </select></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Staff count</label><input id="omStaff" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Fleet drivers</label><input id="omDrivers" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Key Contacts</label><input id="omContacts" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="Name - role"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Address</label><input id="omAddress" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="Full address"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Market / Purpose</label><input id="omMarket" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. Global, B2C, Inbound DMC"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Purpose description</label><textarea id="omPurpose" rows="2" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;resize:vertical;" placeholder="Brief description of this office's role"></textarea></div>
+      <div style="grid-column:1/-1;display:flex;gap:20px;flex-wrap:wrap;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omPhysical" style="accent-color:#0891b2;"> Physical location</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omInbound" style="accent-color:#0891b2;"> Inbound</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omOutbound" style="accent-color:#0891b2;"> Outbound</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omTransport" style="accent-color:#0891b2;"> Transport/Fleet</label>
+      </div>
+      <div style="grid-column:1/-1;display:flex;gap:10px;margin-top:4px;">
+        <button type="submit" style="flex:1;padding:10px;background:linear-gradient(135deg,#0891b2,#0e7490);border:none;border-radius:8px;color:white;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-save"></i> Save Office</button>
+        <button type="button" onclick="closeOfficeModal()" style="padding:10px 18px;background:white;border:1.5px solid #e2e8f0;border-radius:8px;color:#475569;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
 </body>
 </html>
