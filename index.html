@@ -1,680 +1,615 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trip Factory — Global Office Directory</title>
+<title>ARA Wiki — Trip Factory</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
-:root {
-  --ink:#0a0f1e; --ink2:#111827; --ink3:#1f2937;
-  --orange:#f97316; --orange2:#fb923c; --gold:#f59e0b;
-  --slate:#64748b; --slate2:#94a3b8; --border:#e2e8f0;
-  --white:#fff; --green:#059669; --green-l:#ecfdf5;
-  --red:#dc2626; --red-l:#fef2f2; --amber:#d97706; --amber-l:#fffbeb;
-  --blue:#2563eb; --blue-l:#eff6ff; --purple:#7c3aed; --purple-l:#f5f3ff;
-  --r:10px; --r-lg:16px;
-  --sh:0 1px 3px rgba(0,0,0,0.07),0 4px 12px rgba(0,0,0,0.05);
-  --sh-lg:0 8px 32px rgba(0,0,0,0.12);
+:root{
+  --navy:#0f2744;--navy2:#1a3a5c;--navy3:#0a1a2e;
+  --magenta:#e91e63;--magenta2:#c2185b;
+  --cyan:#00bcd4;--cyan2:#0097a7;
+  --orange:#f97316;--orange2:#ea6c05;
+  --gold:#f59e0b;--gold2:#d97706;
+  --green:#059669;--green2:#047857;
+  --purple:#7c3aed;--purple2:#6d28d9;
+  --slate:#64748b;--slate2:#94a3b8;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --bg:#f0f4f8;--card:#fff;
+  --ink:#0f172a;--ink2:#1e293b;
+  --r:10px;--r-lg:16px;
+  --sh:0 1px 3px rgba(0,0,0,0.07),0 4px 16px rgba(0,0,0,0.06);
+  --sh-lg:0 8px 32px rgba(0,0,0,0.13);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:#f8fafc;color:var(--ink);min-height:100vh;line-height:1.5;}
+html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;}
+body{display:flex;flex-direction:column;}
 
-/* ── Topbar ── */
-.topbar{background:var(--ink);height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;box-shadow:0 2px 12px rgba(0,0,0,0.4);}
-.topbar-brand{display:flex;align-items:center;gap:12px;}
-.orn-logo{height:32px;width:auto;display:block;}
-.orn-logo-fallback{height:32px;width:80px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:white;letter-spacing:-0.5px;}
-.topbar-divider{width:1px;height:28px;background:#334155;margin:0 4px;}
-.topbar-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:white;}
-.topbar-sub{font-size:0.7rem;color:var(--slate2);}
-.topbar-right{display:flex;align-items:center;gap:12px;}
-.top-stat{text-align:center;}
-.top-stat-n{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--orange);}
-.top-stat-l{font-size:0.62rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;}
-.top-div{width:1px;height:24px;background:#334155;}
-.btn-top{background:var(--orange);color:white;border:none;border-radius:8px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.2s;}
-.btn-top:hover{background:#ea6c05;}
-
-/* ── Tab nav ── */
-.tab-nav{background:white;border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0;position:sticky;top:58px;z-index:200;}
-.tab-btn{padding:14px 20px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;display:flex;align-items:center;gap:7px;white-space:nowrap;}
-.tab-btn:hover{color:var(--orange);}
-.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);font-weight:600;}
-
-/* ── Tab panels ── */
-.tab-panel{display:none;} .tab-panel.active{display:block;}
-
-/* ════════════════════ MAP TAB ════════════════════ */
-.map-section{background:#0d1b2a;padding:0;position:relative;overflow:hidden;}
-.map-wrap{position:relative;max-width:100%;user-select:none;line-height:0;}
-.world-map-img{width:100%;height:auto;display:block;min-height:300px;object-fit:cover;}
-.map-fallback{width:100%;height:460px;background:linear-gradient(135deg,#0d1b2a 0%,#0f2a1a 100%);}
-.map-dots-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
-.map-dots-svg .dot-group{pointer-events:all;}
-.world-map-svg{width:100%;height:auto;display:block;}
-
-/* Map title overlay */
-.map-title-overlay{
-  position:absolute;top:18px;left:50%;transform:translateX(-50%);
-  text-align:center;pointer-events:none;
+/* ── Login ─────────────────────────────────────────────────── */
+#loginOverlay{
+  position:fixed;inset:0;background:linear-gradient(135deg,var(--navy3) 0%,var(--navy) 50%,var(--navy2) 100%);
+  display:flex;align-items:center;justify-content:center;z-index:9999;
 }
-.map-title-overlay span{
-  font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;
-  color:white;text-shadow:0 2px 8px rgba(0,0,0,0.6);letter-spacing:0.02em;
-  display:block;
+#loginOverlay::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(0,188,212,0.12) 0%,transparent 70%);
+  pointer-events:none;
 }
-.map-title-sub{font-family:'DM Sans',sans-serif;font-size:0.75rem!important;font-weight:400!important;color:rgba(255,255,255,0.6)!important;margin-top:3px;}
-
-/* Map dots */
-.map-dot{cursor:pointer;transition:all 0.2s;}
-.map-dot circle{transition:all 0.2s;}
-.map-dot:hover circle{r:8;opacity:1;}
-.map-dot.tier-1 circle{fill:#f97316;stroke:#fff;stroke-width:1.5;}
-.map-dot.tier-2 circle{fill:#f59e0b;stroke:#fff;stroke-width:1.5;}
-.map-dot.tier-3 circle{fill:#22c55e;stroke:#fff;stroke-width:1.5;}
-.map-dot.tier-4 circle{fill:#94a3b8;stroke:#fff;stroke-width:1.5;}
-.map-dot.tier-5 circle{fill:#475569;stroke:#fff;stroke-width:1.5;}
-.map-dot.status-inactive circle{fill:#ef4444;}
-.map-dot.status-opportunity circle{fill:#a78bfa;}
-
-/* Map tooltip */
-.map-tooltip{
-  position:absolute;background:white;border-radius:10px;padding:12px 16px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.25);pointer-events:none;opacity:0;
-  transition:opacity 0.15s;z-index:150;min-width:200px;max-width:270px;
-  border:1px solid var(--border);
+.login-box{
+  background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.12);border-radius:20px;
+  padding:44px 48px;width:400px;text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);position:relative;z-index:1;
 }
-.map-tooltip.show{opacity:1;}
-.mtt-flag{font-size:1.4rem;margin-bottom:4px;}
-.mtt-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:var(--ink);}
-.mtt-meta{font-size:0.75rem;color:var(--slate);margin-top:2px;}
-.mtt-status{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.68rem;font-weight:600;margin-top:6px;}
-.mtt-hint{font-size:0.68rem;color:var(--slate2);margin-top:8px;border-top:1px solid var(--border);padding-top:6px;}
-
-/* Map legend */
-.map-legend{
-  position:absolute;bottom:16px;left:16px;
-  background:rgba(10,15,30,0.85);border-radius:10px;padding:12px 16px;
-  display:flex;flex-direction:column;gap:6px;border:1px solid rgba(255,255,255,0.1);
+.login-brand{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:white;letter-spacing:-0.5px;margin-bottom:4px;}
+.login-brand span{color:var(--cyan);}
+.login-sub{font-size:0.8rem;color:rgba(255,255,255,0.45);margin-bottom:28px;letter-spacing:0.05em;text-transform:uppercase;}
+.login-label{display:block;font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.5);text-align:left;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em;}
+.login-inp{
+  width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:10px;padding:11px 14px;color:white;font-family:'DM Sans',sans-serif;
+  font-size:0.9rem;outline:none;transition:all 0.2s;margin-bottom:12px;
 }
-.legend-row{display:flex;align-items:center;gap:8px;font-size:0.72rem;color:rgba(255,255,255,0.8);}
-.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.login-inp:focus{border-color:var(--cyan);background:rgba(255,255,255,0.12);}
+.login-inp::placeholder{color:rgba(255,255,255,0.3);}
+.login-btn{
+  width:100%;background:linear-gradient(135deg,var(--magenta),var(--magenta2));
+  color:white;border:none;border-radius:10px;padding:12px;
+  font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;
+  cursor:pointer;transition:all 0.2s;margin-top:4px;letter-spacing:0.02em;
+}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(233,30,99,0.4);}
+.login-err{color:#f87171;font-size:0.78rem;margin-top:8px;display:none;}
+.login-divider{width:40px;height:3px;background:linear-gradient(90deg,var(--cyan),var(--magenta));border-radius:2px;margin:0 auto 20px;}
 
-/* ════════════════════ DASHBOARD TAB ════════════════════ */
-.dash-wrap{max-width:1200px;margin:0 auto;padding:24px;}
-.dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:28px;}
-.dash-card{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:20px;box-shadow:var(--sh);}
-.dash-n{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--orange);}
-.dash-l{font-size:0.75rem;color:var(--slate);margin-top:4px;font-weight:500;}
-.dash-sub{font-size:0.72rem;color:var(--slate2);margin-top:2px;}
+/* ── Header ─────────────────────────────────────────────────── */
+.topbar{
+  background:var(--navy);height:60px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,0.3);z-index:200;position:relative;
+}
+.topbar-brand{display:flex;align-items:center;gap:10px;}
+.wiki-wordmark{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:white;letter-spacing:-0.3px;}
+.wiki-wordmark span{color:var(--cyan);}
+.wiki-sub{font-size:0.65rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase;display:block;margin-top:-2px;}
+.topbar-divider{width:1px;height:30px;background:rgba(255,255,255,0.12);}
+.topbar-logos{display:flex;align-items:center;gap:16px;}
+.topbar-logo-img{height:28px;width:auto;opacity:0.9;filter:brightness(1.1);}
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.topbar-user{font-size:0.78rem;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px;}
+.topbar-user i{color:var(--cyan);}
+.topbar-time{font-family:'Syne',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.5);font-weight:500;}
+.btn-logout{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);border-radius:7px;padding:5px 11px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.btn-logout:hover{background:rgba(233,30,99,0.2);border-color:var(--magenta);color:white;}
 
-.chart-section{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:24px;margin-bottom:20px;box-shadow:var(--sh);}
-.chart-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
-.chart-title i{color:var(--orange);}
+/* ── Tab Nav ─────────────────────────────────────────────────── */
+.tab-nav{
+  background:white;border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;gap:0;flex-shrink:0;
+  position:relative;z-index:100;overflow-x:auto;
+}
+.tab-nav::-webkit-scrollbar{height:0;}
+.tab-btn{
+  padding:0 20px;height:48px;border:none;background:transparent;
+  font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;
+  color:var(--slate);cursor:pointer;border-bottom:2.5px solid transparent;
+  transition:all 0.2s;display:flex;align-items:center;gap:7px;
+  white-space:nowrap;flex-shrink:0;
+}
+.tab-btn:hover{color:var(--navy);}
+.tab-btn.active{color:var(--magenta);border-bottom-color:var(--magenta);font-weight:600;}
+.tab-btn i{font-size:0.78rem;}
 
-/* Bar chart */
-.bar-chart{display:flex;flex-direction:column;gap:10px;}
-.bar-row{display:flex;align-items:center;gap:12px;}
-.bar-label{width:140px;font-size:0.78rem;color:var(--slate);text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.bar-track{flex:1;background:var(--border);border-radius:4px;height:22px;position:relative;overflow:hidden;}
-.bar-fill{height:100%;border-radius:4px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:center;padding-left:8px;}
-.bar-fill span{font-size:0.72rem;font-weight:600;color:white;white-space:nowrap;}
-.bar-val{width:60px;font-size:0.75rem;color:var(--slate);flex-shrink:0;}
+/* ── Main Layout ─────────────────────────────────────────────── */
+.main-area{flex:1;overflow:hidden;display:flex;}
+.tab-panel{display:none;flex:1;overflow-y:auto;padding:28px;}
+.tab-panel.active{display:block;}
+.tab-panel::-webkit-scrollbar{width:5px;}
+.tab-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 
-/* Donut */
-.donut-wrap{display:flex;align-items:center;gap:28px;flex-wrap:wrap;}
-.donut-svg{flex-shrink:0;}
-.donut-legend{display:flex;flex-direction:column;gap:8px;}
-.donut-item{display:flex;align-items:center;gap:8px;font-size:0.8rem;}
-.donut-swatch{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+/* ── Shared Components ───────────────────────────────────────── */
+.page-hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+  border-radius:var(--r-lg);padding:28px 32px;margin-bottom:24px;
+  position:relative;overflow:hidden;
+}
+.page-hero::after{
+  content:'';position:absolute;right:-30px;top:-30px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(0,188,212,0.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.page-hero h1{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:white;margin-bottom:6px;}
+.page-hero p{font-size:0.88rem;color:rgba(255,255,255,0.6);line-height:1.6;max-width:700px;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:4px 12px;font-size:0.72rem;color:rgba(255,255,255,0.8);margin-top:10px;font-weight:500;}
 
-/* Tier visual */
-.tier-visual{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
-.tier-col{background:var(--border);border-radius:var(--r);padding:14px 12px;text-align:center;}
-.tier-col.t1{background:#fff7ed;border:1.5px solid #fed7aa;}
-.tier-col.t2{background:#fefce8;border:1.5px solid #fef08a;}
-.tier-col.t3{background:#f0fdf4;border:1.5px solid #bbf7d0;}
-.tier-col.t4{background:#f8fafc;border:1.5px solid var(--border);}
-.tier-col.t5{background:#f8fafc;border:1.5px solid var(--border);}
-.tier-stars{font-size:0.8rem;margin-bottom:6px;}
-.tier-count{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;}
-.tier-label{font-size:0.68rem;color:var(--slate);margin-top:3px;}
-.t1 .tier-count{color:#ea580c;}
-.t2 .tier-count{color:#ca8a04;}
-.t3 .tier-count{color:var(--green);}
+.card{background:var(--card);border-radius:var(--r-lg);border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-head-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;flex-shrink:0;}
+.card-head h3{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--ink);}
+.card-head .card-count{margin-left:auto;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--magenta);}
+.card-body{padding:20px;}
 
-/* ════════════════════ DIRECTORY TAB ════════════════════ */
-.dir-wrap{max-width:1200px;margin:0 auto;padding:24px;}
-.filters-bar{background:white;border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:100px;z-index:100;}
-.filter-pill{padding:5px 13px;border:1.5px solid var(--border);border-radius:20px;background:white;color:var(--slate);font-family:'DM Sans',sans-serif;font-size:0.77rem;font-weight:500;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
-.filter-pill:hover{border-color:var(--orange);color:var(--orange);}
-.filter-pill.active{background:var(--ink);border-color:var(--ink);color:white;}
-.filter-search{margin-left:auto;display:flex;align-items:center;gap:8px;background:#f1f5f9;border-radius:8px;padding:7px 12px;}
-.filter-search input{border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--ink);outline:none;width:200px;}
-.filter-search i{color:var(--slate);font-size:0.8rem;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:1fr 1fr;}.grid-2{grid-template-columns:1fr;}}
 
-.region-block{margin-bottom:32px;}
-.region-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-.region-label{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--slate);background:var(--border);border-radius:4px;padding:3px 10px;}
-.region-line{flex:1;height:1px;background:var(--border);}
-.region-count{font-size:0.72rem;color:var(--slate2);}
-.offices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;}
+.stat-pill{background:var(--bg);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;}
+.stat-pill-n{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--magenta);}
+.stat-pill-l{font-size:0.72rem;color:var(--slate);margin-top:1px;}
 
-/* ── Office card ── */
-.office-card{background:white;border-radius:var(--r-lg);border:1.5px solid var(--border);box-shadow:var(--sh);transition:all 0.22s;overflow:hidden;animation:fadeUp 0.35s ease both;}
-.office-card:hover{box-shadow:var(--sh-lg);transform:translateY(-2px);border-color:var(--orange);}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.card-top{padding:16px 18px 12px;display:flex;align-items:flex-start;gap:12px;border-bottom:1px solid var(--border);background:linear-gradient(to bottom,#fafafa,white);}
-.card-flag{font-size:1.8rem;line-height:1;flex-shrink:0;}
-.card-info{flex:1;min-width:0;}
-.card-country{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:2px;}
-.card-city{font-size:0.75rem;color:var(--slate);margin-bottom:6px;}
-.card-badges{display:flex;gap:5px;flex-wrap:wrap;}
-.badge{padding:2px 8px;border-radius:10px;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;}
-.badge-type-owned{background:#dbeafe;color:#1d4ed8;}
-.badge-type-franchised{background:#f3e8ff;color:#6d28d9;}
-.badge-type-partner{background:#dcfce7;color:#166534;}
-.badge-type-virtual{background:#fef9c3;color:#854d0e;}
-.badge-status-active{background:var(--green-l);color:var(--green);}
-.badge-status-inactive{background:var(--red-l);color:var(--red);}
-.badge-status-opportunity{background:var(--amber-l);color:var(--amber);}
-.badge-status-planned{background:var(--blue-l);color:var(--blue);}
-.card-rev{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;}
-.rev-tier-lbl{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--slate2);margin-bottom:2px;}
-.rev-stars{color:var(--gold);font-size:0.72rem;letter-spacing:1px;}
-.card-body{padding:12px 18px;}
-.card-purpose{font-size:0.8rem;color:var(--slate);line-height:1.55;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.card-meta{display:flex;gap:14px;flex-wrap:wrap;}
-.meta-item{display:flex;align-items:center;gap:4px;font-size:0.72rem;color:var(--slate);}
-.meta-item i{color:var(--orange);font-size:0.65rem;width:11px;}
-.card-foot{padding:9px 18px;background:#f8fafc;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);}
-.card-staff{font-size:0.72rem;color:var(--slate);}
-.card-staff strong{color:var(--ink);}
-.btn-edit{background:transparent;border:1.5px solid var(--border);border-radius:7px;padding:4px 11px;font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;transition:all 0.18s;display:flex;align-items:center;gap:4px;}
-.btn-edit:hover{border-color:var(--orange);color:var(--orange);background:white;}
-.empty-state{text-align:center;padding:60px 20px;color:var(--slate2);}
-.empty-state i{font-size:2.5rem;margin-bottom:14px;color:var(--border);}
+.section-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* ════════════════════ MODAL ════════════════════ */
-.modal-overlay{position:fixed;inset:0;background:rgba(10,15,30,0.75);display:flex;align-items:center;justify-content:center;z-index:500;padding:16px;animation:fadeIn 0.2s ease;}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-.modal-overlay.hidden{display:none;}
-.modal{background:white;border-radius:var(--r-lg);width:100%;max-width:700px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.25s ease;}
-@keyframes slideUp{from{transform:translateY(18px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.modal-head{background:var(--ink);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
-.modal-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:white;}
-.modal-sub{font-size:0.75rem;color:var(--slate2);margin-top:2px;}
-.modal-close{background:rgba(255,255,255,0.1);border:none;border-radius:7px;width:30px;height:30px;cursor:pointer;color:white;font-size:0.85rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
-.modal-close:hover{background:rgba(255,255,255,0.2);}
-.modal-body{padding:22px;}
-.mform-section{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
-.mform-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.mform-stitle{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.mform-stitle::after{content:'';flex:1;height:1px;background:var(--border);}
-.mform-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.mform-row.s1{grid-template-columns:1fr;}
-.mform-row.s3{grid-template-columns:1fr 1fr 1fr;}
-.mform-row.s4{grid-template-columns:1fr 1fr 1fr 1fr;}
-.mform-field{display:flex;flex-direction:column;gap:4px;}
-.mform-label{font-size:0.76rem;font-weight:600;color:var(--slate);}
-.mform-input,.mform-select,.mform-textarea{border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:0.83rem;color:var(--ink);outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;}
-.mform-input:focus,.mform-select:focus,.mform-textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,0.1);}
-.mform-textarea{resize:vertical;min-height:75px;line-height:1.6;}
-.pill-group{display:flex;gap:7px;flex-wrap:wrap;}
-.sel-pill{padding:6px 13px;border:1.5px solid var(--border);border-radius:20px;cursor:pointer;font-size:0.76rem;font-weight:500;color:var(--slate);transition:all 0.18s;font-family:'DM Sans',sans-serif;}
-.sel-pill:hover{border-color:var(--orange);color:var(--orange);}
-.sel-pill.active{background:var(--ink);border-color:var(--ink);color:white;}
-.rev-tier-group{display:flex;gap:7px;}
-.rev-btn{flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;text-align:center;transition:all 0.18s;font-family:'DM Sans',sans-serif;}
-.rev-btn span{display:block;font-size:0.6rem;color:var(--slate);margin-top:2px;}
-.rev-btn.sel-1{border-color:#f97316;background:#fff7ed;}
-.rev-btn.sel-2{border-color:#f59e0b;background:#fefce8;}
-.rev-btn.sel-3{border-color:#22c55e;background:#f0fdf4;}
-.rev-btn.sel-4{border-color:#94a3b8;background:#f8fafc;}
-.rev-btn.sel-5{border-color:#475569;background:#f1f5f9;}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.7rem;font-weight:600;}
 
-/* Staff tags */
-.staff-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:10px;}
-.staff-tag{background:#f1f5f9;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:0.76rem;color:var(--ink);display:flex;align-items:center;gap:6px;}
-.staff-tag-rm{background:none;border:none;cursor:pointer;color:var(--slate2);font-size:0.65rem;padding:0;line-height:1;display:flex;align-items:center;}
-.staff-tag-rm:hover{color:var(--red);}
-.staff-add-row{display:flex;gap:7px;}
-.staff-add-input{border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--ink);outline:none;transition:border-color 0.2s;flex:1;}
-.staff-add-input:focus{border-color:var(--orange);}
-.btn-staff-add{background:var(--ink);color:white;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:0.82rem;transition:background 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
-.btn-staff-add:hover{background:var(--orange);}
-
-/* ORN Credit section */
-.orn-credit-box{background:linear-gradient(135deg,var(--ink) 0%,#1a2744 100%);border-radius:var(--r);padding:18px;margin-bottom:12px;border:1px solid rgba(249,115,22,0.3);}
-.orn-credit-title{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;color:var(--orange);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
-.orn-credit-inputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
-.orn-credit-input-wrap{display:flex;flex-direction:column;gap:4px;}
-.orn-credit-lbl{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:rgba(255,255,255,0.6);}
-.orn-credit-inp{border:1.5px solid rgba(255,255,255,0.15);border-radius:7px;padding:8px 11px;background:rgba(255,255,255,0.08);font-family:'DM Sans',sans-serif;font-size:0.85rem;color:white;outline:none;width:100%;transition:border-color 0.2s;}
-.orn-credit-inp:focus{border-color:var(--orange);}
-.orn-credit-inp option{background:var(--ink);color:white;}
-.orn-credit-result{background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-.orn-result-item{text-align:center;}
-.orn-result-n{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--orange);}
-.orn-result-l{font-size:0.65rem;color:rgba(255,255,255,0.6);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;}
-.orn-fx-note{font-size:0.68rem;color:rgba(255,255,255,0.4);margin-top:8px;text-align:right;}
-
-/* Modal footer */
-.modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;bottom:0;background:white;z-index:10;}
-.btn-cancel{background:white;border:1.5px solid var(--border);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;color:var(--slate);cursor:pointer;transition:all 0.18s;}
-.btn-cancel:hover{border-color:var(--slate);}
-.btn-delete{background:white;border:1.5px solid var(--red);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;color:var(--red);cursor:pointer;transition:all 0.18s;}
-.btn-delete:hover{background:var(--red);color:white;}
-.btn-save-modal{background:var(--orange);color:white;border:none;border-radius:8px;padding:9px 22px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all 0.2s;}
-.btn-save-modal:hover{background:#ea6c05;transform:translateY(-1px);}
-.btn-save-modal.saved{background:var(--green);}
-.hidden{display:none!important;}
-
-/* Login */
-.login-overlay{position:fixed;inset:0;background:rgba(10,15,30,0.92);display:flex;align-items:center;justify-content:center;z-index:900;}
-.login-box{background:white;border-radius:var(--r-lg);padding:38px 42px;width:360px;box-shadow:var(--sh-lg);text-align:center;}
-.login-icon{width:52px;height:52px;background:var(--orange);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:white;margin:0 auto 16px;}
-.login-box h2{font-family:'Syne',sans-serif;font-size:1.3rem;color:var(--ink);margin-bottom:4px;}
-.login-box p{font-size:0.82rem;color:var(--slate);margin-bottom:22px;}
-.login-inp{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;margin-bottom:10px;transition:border-color 0.2s;}
-.login-inp:focus{border-color:var(--orange);}
-.login-btn-el{width:100%;background:var(--ink);color:white;border:none;border-radius:8px;padding:11px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.2s;}
-.login-btn-el:hover{background:var(--orange);}
-.login-err{color:var(--red);font-size:0.78rem;margin-top:8px;display:none;}
+.badge-navy{background:#dbeafe;color:#1e40af;}
+.badge-magenta{background:#fce7f3;color:#9d174d;}
+.badge-green{background:#dcfce7;color:#166534;}
+.badge-orange{background:#ffedd5;color:#9a3412;}
+.badge-purple{background:#f3e8ff;color:#6b21a8;}
+.badge-cyan{background:#cffafe;color:#155e75;}
+.badge-amber{background:#fef9c3;color:#854d0e;}
 
 /* Toast */
-.toast{position:fixed;bottom:20px;right:20px;background:var(--ink);color:white;padding:10px 18px;border-radius:10px;font-size:0.82rem;display:flex;align-items:center;gap:8px;box-shadow:var(--sh-lg);transform:translateY(60px);opacity:0;transition:all 0.3s;z-index:1000;pointer-events:none;}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:white;padding:10px 18px;border-radius:10px;font-size:0.82rem;display:flex;align-items:center;gap:8px;box-shadow:var(--sh-lg);transform:translateY(60px);opacity:0;transition:all 0.3s;z-index:1000;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.green{background:var(--green);}
-.toast.red{background:var(--red);}
 
-@media(max-width:700px){
-  .offices-grid{grid-template-columns:1fr;}
-  .mform-row{grid-template-columns:1fr;}
-  .mform-row.s3,.mform-row.s4{grid-template-columns:1fr 1fr;}
-  .orn-credit-inputs{grid-template-columns:1fr 1fr;}
-  .tier-visual{grid-template-columns:1fr 1fr;}
-  .topbar-right .top-stat:nth-child(n+4){display:none;}
+/* ══════════════════════════════════════
+   OVERVIEW TAB
+══════════════════════════════════════ */
+.overview-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
+.ov-stat{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:20px;box-shadow:var(--sh);text-align:center;}
+.ov-stat-n{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;}
+.ov-stat-l{font-size:0.72rem;color:var(--slate);margin-top:4px;font-weight:500;}
+.ov-stat-s{font-size:0.68rem;color:var(--slate2);margin-top:2px;}
+
+.pipeline-strip{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:24px;margin-bottom:24px;box-shadow:var(--sh);}
+.pipeline-steps{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:8px;}
+.pipeline-step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:80px;position:relative;}
+.pipeline-step:not(:last-child)::after{content:'';position:absolute;top:16px;left:50%;width:100%;height:2px;background:linear-gradient(90deg,var(--magenta),var(--cyan));z-index:0;}
+.ps-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy2));color:white;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:800;z-index:1;position:relative;flex-shrink:0;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.ps-label{font-size:0.65rem;font-weight:600;color:var(--slate);margin-top:7px;text-align:center;line-height:1.3;}
+.ps-role{font-size:0.6rem;color:var(--slate2);text-align:center;line-height:1.2;margin-top:2px;}
+
+/* ══════════════════════════════════════
+   DEPARTMENTS TAB
+══════════════════════════════════════ */
+.dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;}
+.dept-card{background:white;border-radius:var(--r-lg);border:1.5px solid var(--border);box-shadow:var(--sh);overflow:hidden;transition:all 0.22s;}
+.dept-card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg);border-color:var(--magenta);}
+.dept-card-top{padding:18px 20px;color:white;position:relative;overflow:hidden;}
+.dept-card-top::after{content:'';position:absolute;right:-20px;top:-20px;width:100px;height:100px;background:rgba(255,255,255,0.08);border-radius:50%;}
+.dept-top-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:2px;}
+.dept-top-sub{font-size:0.75rem;opacity:0.8;}
+.dept-top-count{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;opacity:0.4;}
+.dept-card-body{padding:16px 20px;}
+.dept-roles{display:flex;flex-direction:column;gap:7px;}
+.dept-role{padding:8px 12px;background:var(--bg);border-radius:8px;border-left:3px solid var(--magenta);font-size:0.8rem;color:var(--ink);}
+.dept-role-title{font-weight:600;margin-bottom:2px;}
+.dept-role-desc{font-size:0.72rem;color:var(--slate);line-height:1.4;}
+.dept-workflow{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.dept-wf-title{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--slate2);margin-bottom:8px;}
+.wf-flow{display:flex;flex-wrap:wrap;align-items:center;gap:4px;}
+.wf-node{font-size:0.68rem;font-weight:500;color:white;padding:3px 8px;border-radius:5px;background:var(--navy);}
+.wf-arrow{font-size:0.6rem;color:var(--slate2);}
+
+/* ══════════════════════════════════════
+   WORKFLOWS TAB
+══════════════════════════════════════ */
+.wf-section{background:white;border-radius:var(--r-lg);border:1px solid var(--border);margin-bottom:18px;overflow:hidden;box-shadow:var(--sh);}
+.wf-header{padding:16px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;transition:background 0.2s;}
+.wf-header:hover{background:var(--bg);}
+.wf-header-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:white;font-size:0.9rem;flex-shrink:0;}
+.wf-header h3{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--ink);flex:1;}
+.wf-header .wf-chevron{color:var(--slate2);transition:transform 0.25s;font-size:0.75rem;}
+.wf-header.open .wf-chevron{transform:rotate(180deg);}
+.wf-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;}
+.wf-body.open{max-height:1200px;padding:20px;}
+.wf-steps{display:flex;flex-direction:column;gap:10px;}
+.wf-step{display:flex;gap:14px;align-items:flex-start;}
+.wf-step-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--magenta),var(--magenta2));color:white;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+.wf-step-content{flex:1;}
+.wf-step-title{font-weight:600;font-size:0.85rem;color:var(--ink);margin-bottom:2px;}
+.wf-step-desc{font-size:0.78rem;color:var(--slate);line-height:1.5;}
+.wf-step-dept{font-size:0.65rem;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:4px;display:inline-block;}
+.wf-connector{width:1px;background:var(--border);height:10px;margin-left:13px;}
+
+/* ══════════════════════════════════════
+   JARGON TAB
+══════════════════════════════════════ */
+.jargon-search-bar{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:10px;box-shadow:var(--sh);}
+.jargon-search-bar i{color:var(--slate2);}
+.jargon-search-bar input{flex:1;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--ink);}
+.jargon-search-bar input::placeholder{color:var(--slate2);}
+.jargon-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;}
+.jargon-chip{padding:5px 13px;border:1.5px solid var(--border);border-radius:20px;font-size:0.76rem;font-weight:500;color:var(--slate);cursor:pointer;transition:all 0.18s;background:white;}
+.jargon-chip:hover,.jargon-chip.active{background:var(--navy);border-color:var(--navy);color:white;}
+.jargon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;}
+.jargon-card{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:16px;box-shadow:var(--sh);cursor:pointer;transition:all 0.18s;position:relative;overflow:hidden;}
+.jargon-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.jargon-card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg);}
+.jargon-term{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.jargon-full{font-size:0.75rem;color:var(--slate);margin-bottom:8px;font-style:italic;}
+.jargon-def{font-size:0.8rem;color:var(--ink2);line-height:1.55;}
+.jargon-context{margin-top:8px;padding:7px 10px;background:var(--bg);border-radius:7px;font-size:0.73rem;color:var(--slate);border-left:3px solid var(--gold);line-height:1.4;}
+.jargon-context i{color:var(--gold);margin-right:4px;}
+.jargon-cat-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;color:var(--slate);display:flex;align-items:center;gap:8px;}
+.jargon-cat-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ══════════════════════════════════════
+   HISTORY TAB
+══════════════════════════════════════ */
+.timeline{position:relative;padding-left:36px;}
+.timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--magenta),var(--cyan),var(--navy));}
+.tl-item{position:relative;margin-bottom:28px;}
+.tl-dot{position:absolute;left:-30px;top:4px;width:18px;height:18px;border-radius:50%;border:3px solid white;box-shadow:0 0 0 2px var(--magenta),var(--sh);z-index:1;}
+.tl-date{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--magenta);margin-bottom:4px;}
+.tl-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.tl-content{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:16px 20px;box-shadow:var(--sh);font-size:0.85rem;color:var(--ink2);line-height:1.65;}
+.tl-content ul{margin-top:8px;padding-left:18px;display:flex;flex-direction:column;gap:4px;}
+.tl-content li{color:var(--slate);}
+.tl-content li::marker{color:var(--magenta);}
+.tl-milestone{display:inline-block;background:var(--navy);color:white;font-size:0.68rem;font-weight:600;padding:2px 9px;border-radius:5px;margin:3px 3px 3px 0;}
+
+/* ══════════════════════════════════════
+   ORN VALUES TAB
+══════════════════════════════════════ */
+.values-hero{
+  background:linear-gradient(135deg,var(--navy3) 0%,#0f2744 60%,#1a1040 100%);
+  border-radius:var(--r-lg);padding:36px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden;
 }
+.values-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 90% 70% at 50% 50%,rgba(0,188,212,0.1) 0%,transparent 65%);
+}
+.values-hero-title{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:white;margin-bottom:6px;position:relative;}
+.values-hero-title span{color:var(--cyan);}
+.values-hero-sub{font-size:0.9rem;color:rgba(255,255,255,0.55);position:relative;margin-bottom:20px;}
+.values-tagline{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:600;color:var(--cyan);position:relative;letter-spacing:0.02em;}
+
+.pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px;}
+.pillar-card{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:24px;text-align:center;box-shadow:var(--sh);transition:all 0.22s;position:relative;overflow:hidden;}
+.pillar-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg);}
+.pillar-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.pillar-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 14px;}
+.pillar-name{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ink);margin-bottom:8px;}
+.pillar-desc{font-size:0.82rem;color:var(--slate);line-height:1.6;}
+
+.ecosystem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px;}
+.eco-card{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:18px;box-shadow:var(--sh);}
+.eco-card-title{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.eco-card-sub{font-size:0.72rem;color:var(--slate2);margin-bottom:10px;}
+.eco-bullets{display:flex;flex-direction:column;gap:4px;}
+.eco-bullet{font-size:0.78rem;color:var(--slate);display:flex;gap:6px;align-items:flex-start;}
+.eco-bullet::before{content:'→';color:var(--cyan);flex-shrink:0;font-size:0.7rem;margin-top:1px;}
+
+.brand-arch{background:var(--navy);border-radius:var(--r-lg);padding:24px;text-align:center;}
+.brand-arch-title{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+.brand-mother{background:var(--cyan);color:var(--navy);border-radius:10px;padding:12px 24px;display:inline-block;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:16px;}
+.brand-children{display:flex;gap:14px;justify-content:center;margin-bottom:12px;}
+.brand-child{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:12px 20px;text-align:center;}
+.brand-child-name{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:white;}
+.brand-child-type{font-size:0.68rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;}
+.brand-flow{font-size:0.72rem;color:rgba(255,255,255,0.4);text-align:center;}
+
+/* ══════════════════════════════════════
+   REFERENCES TAB
+══════════════════════════════════════ */
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.ref-card{background:white;border-radius:var(--r-lg);border:1px solid var(--border);padding:18px;box-shadow:var(--sh);transition:all 0.2s;display:flex;flex-direction:column;gap:10px;}
+.ref-card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg);border-color:var(--cyan);}
+.ref-card-top{display:flex;align-items:flex-start;gap:12px;}
+.ref-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;color:white;flex-shrink:0;}
+.ref-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--ink);}
+.ref-url{font-size:0.72rem;color:var(--slate2);word-break:break-all;margin-top:2px;}
+.ref-desc{font-size:0.78rem;color:var(--slate);line-height:1.5;}
+.ref-btn{background:var(--navy);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:0.78rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;text-decoration:none;font-family:'DM Sans',sans-serif;transition:all 0.18s;width:fit-content;}
+.ref-btn:hover{background:var(--cyan);color:var(--navy);}
+.ref-add-form{background:white;border-radius:var(--r-lg);border:2px dashed var(--border);padding:20px;margin-bottom:18px;}
+.ref-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.ref-inp{border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:0.83rem;color:var(--ink);outline:none;transition:border-color 0.2s;width:100%;}
+.ref-inp:focus{border-color:var(--cyan);}
+.btn-add-ref{background:var(--navy);color:white;border:none;border-radius:8px;padding:9px 18px;font-family:'DM Sans',sans-serif;font-size:0.83rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.18s;}
+.btn-add-ref:hover{background:var(--magenta);}
+.btn-del-ref{background:none;border:none;color:var(--slate2);cursor:pointer;font-size:0.75rem;padding:3px 6px;transition:color 0.18s;margin-left:auto;}
+.btn-del-ref:hover{color:#dc2626;}
 </style>
 </head>
 <body>
 
-<!-- Login -->
-<div class="login-overlay" id="loginOverlay">
+<!-- ── Login ──────────────────────────────────────────────────── -->
+<div id="loginOverlay">
   <div class="login-box">
-    <div class="login-icon"><i class="fas fa-globe"></i></div>
-    <h2>Global Office Directory</h2>
-    <p>Trip Factory · ORN Worldwide · Authorised access only</p>
-    <input class="login-inp" id="loginUser" type="text" placeholder="Your name" value="Ajay K">
-    <input class="login-inp" id="loginPass" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn-el" onclick="doLogin()">Sign In</button>
+    <div class="login-divider"></div>
+    <div class="login-brand">ARA <span>Wiki</span></div>
+    <div class="login-sub">Trip Factory · Authorised Access Only</div>
+    <label class="login-label">Your Name</label>
+    <input class="login-inp" id="loginName" placeholder="e.g. Alia Taub" value="">
+    <label class="login-label">Password</label>
+    <input class="login-inp" id="loginPass" type="password" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()"><i class="fas fa-unlock-alt" style="margin-right:6px;"></i>Access Wiki</button>
     <div class="login-err" id="loginErr">Incorrect password. Please try again.</div>
   </div>
 </div>
 
-<!-- Topbar -->
+<!-- ── Header ──────────────────────────────────────────────────── -->
 <div class="topbar">
   <div class="topbar-brand">
-    <img src="orn-logo.png" class="orn-logo" alt="ORN" onerror="this.style.display='none';document.getElementById('ornFallback').style.display='flex';">
-    <div class="orn-logo-fallback" id="ornFallback" style="display:none;">ORN</div>
-    <div class="topbar-divider"></div>
     <div>
-      <div class="topbar-title">Global Office Directory</div>
-      <div class="topbar-sub">ORN Worldwide · Trip Factory</div>
+      <div class="wiki-wordmark">ARA <span>Wiki</span></div>
+      <span class="wiki-sub">Trip Factory Internal Knowledge Base</span>
+    </div>
+    <div class="topbar-divider"></div>
+    <div class="topbar-logos">
+      <img src="Logos/orn-logo.png" class="topbar-logo-img" alt="ORN" onerror="this.style.display='none'">
+      <img src="Logos/tripfactory-logo.png" class="topbar-logo-img" alt="TripFactory" onerror="this.style.display='none'">
+      <img src="Logos/nexus-logo.png" class="topbar-logo-img" alt="Nexus" onerror="this.style.display='none'">
     </div>
   </div>
   <div class="topbar-right">
-    <div class="top-stat"><div class="top-stat-n" id="tsTotalOffices">0</div><div class="top-stat-l">Offices</div></div>
-    <div class="top-div"></div>
-    <div class="top-stat"><div class="top-stat-n" id="tsActive">0</div><div class="top-stat-l">Active</div></div>
-    <div class="top-div"></div>
-    <div class="top-stat"><div class="top-stat-n" id="tsCountries">0</div><div class="top-stat-l">Countries</div></div>
-    <div class="top-div"></div>
-    <button class="btn-top" onclick="openModal()"><i class="fas fa-plus"></i> Add Office</button>
+    <div class="topbar-user"><i class="fas fa-user-circle"></i><span id="topUser">—</span></div>
+    <div class="topbar-divider"></div>
+    <div class="topbar-time" id="topTime">—</div>
+    <button class="btn-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
   </div>
 </div>
 
-<!-- Tab nav -->
+<!-- ── Tab Nav ──────────────────────────────────────────────────── -->
 <div class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('map',this)"><i class="fas fa-globe-europe"></i> World Map</button>
-  <button class="tab-btn" onclick="switchTab('dashboard',this)"><i class="fas fa-chart-pie"></i> Dashboard</button>
-  <button class="tab-btn" onclick="switchTab('directory',this)"><i class="fas fa-building"></i> Directory</button>
+  <button class="tab-btn active" onclick="showTab('overview',this)"><i class="fas fa-home"></i> Overview</button>
+  <button class="tab-btn" onclick="showTab('departments',this)"><i class="fas fa-sitemap"></i> Departments</button>
+  <button class="tab-btn" onclick="showTab('workflows',this)"><i class="fas fa-project-diagram"></i> Workflows</button>
+  <button class="tab-btn" onclick="showTab('jargon',this)"><i class="fas fa-book-open"></i> Travel Jargon</button>
+  <button class="tab-btn" onclick="showTab('history',this)"><i class="fas fa-landmark"></i> TF History</button>
+  <button class="tab-btn" onclick="showTab('values',this)"><i class="fas fa-star"></i> ORN Values</button>
+  <button class="tab-btn" onclick="showTab('references',this)"><i class="fas fa-link"></i> References</button>
 </div>
 
-<!-- ════ MAP TAB ════ -->
-<div class="tab-panel active" id="tab-map">
-  <div class="map-section">
-    <div class="map-wrap" id="mapWrap">
-      <!-- Real map image as background -->
-      <img src="global-map.png" class="world-map-img" id="mapBgImg" alt="ORN Worldwide"
-           onerror="this.style.display='none';document.getElementById('mapFallback').style.display='block';"
-           onload="renderMap()">
-      <div class="map-fallback" id="mapFallback" style="display:none;"></div>
-      <!-- SVG dot overlay — injected by JS, sits on top of image -->
-      <svg class="map-dots-svg" id="mapDotsSVG" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet"></svg>
-      <div class="map-legend">
-        <div style="font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Revenue Tier</div>
-        <div class="legend-row"><div class="legend-dot" style="background:#f97316;"></div>Tier 1 — Highest</div>
-        <div class="legend-row"><div class="legend-dot" style="background:#f59e0b;"></div>Tier 2 — High</div>
-        <div class="legend-row"><div class="legend-dot" style="background:#22c55e;"></div>Tier 3 — Medium</div>
-        <div class="legend-row"><div class="legend-dot" style="background:#94a3b8;"></div>Tier 4 — Lower</div>
-        <div class="legend-row"><div class="legend-dot" style="background:#a78bfa;"></div>Opportunity</div>
-        <div class="legend-row"><div class="legend-dot" style="background:#ef4444;"></div>Inactive</div>
+<!-- ── Main Area ──────────────────────────────────────────────────── -->
+<div class="main-area">
+
+<!-- ══ OVERVIEW TAB ══════════════════════════════════════════════ -->
+<div class="tab-panel active" id="tab-overview">
+  <div class="page-hero">
+    <h1>Welcome to ARA Wiki</h1>
+    <p>The complete internal knowledge base for Trip Factory — covering departments, staff, workflows, travel terminology, company history, and ORN values. Your single source of truth.</p>
+    <span class="hero-badge"><i class="fas fa-lock"></i> Confidential · Internal Use Only</span>
+  </div>
+
+  <div class="overview-stats" id="overviewStats">
+    <div class="ov-stat"><div class="ov-stat-n" style="color:var(--magenta)">698</div><div class="ov-stat-l">Total Staff</div><div class="ov-stat-s">Across all departments</div></div>
+    <div class="ov-stat"><div class="ov-stat-n" style="color:var(--cyan)">8</div><div class="ov-stat-l">Departments</div><div class="ov-stat-s">India HQ + Overseas</div></div>
+    <div class="ov-stat"><div class="ov-stat-n" style="color:var(--green)">37</div><div class="ov-stat-l">Global Offices</div><div class="ov-stat-s">ORN Worldwide footprint</div></div>
+    <div class="ov-stat"><div class="ov-stat-n" style="color:var(--gold)">12</div><div class="ov-stat-l">Pipeline Stages</div><div class="ov-stat-s">Booking to delivery</div></div>
+    <div class="ov-stat"><div class="ov-stat-n" style="color:var(--purple)">88k+</div><div class="ov-stat-l">Agent Network</div><div class="ov-stat-s">B2B partner agents</div></div>
+  </div>
+
+  <div class="section-title"><i class="fas fa-map-signs" style="color:var(--magenta)"></i> The 12-Stage TripFactory Booking Pipeline</div>
+  <div class="pipeline-strip">
+    <div class="pipeline-steps" id="pipelineSteps"></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:linear-gradient(135deg,var(--magenta),var(--magenta2))"><i class="fas fa-sitemap"></i></div>
+        <h3>Department Summary</h3>
       </div>
-      <div class="map-title-overlay">
-        <span>ORN Worldwide</span>
-        <span class="map-title-sub" id="mapOfficeCount">— offices across — countries</span>
+      <div class="card-body">
+        <div id="deptSummaryList" style="display:flex;flex-direction:column;gap:8px;"></div>
       </div>
     </div>
-    <div class="map-tooltip" id="mapTooltip"></div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:linear-gradient(135deg,var(--cyan),var(--cyan2))"><i class="fas fa-globe"></i></div>
+        <h3>Key Facts</h3>
+      </div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="stat-pill"><div><div class="stat-pill-l">Founded</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink);">2018 — Vinay Gupta & co-founders</div></div></div>
+          <div class="stat-pill"><div><div class="stat-pill-l">Headquarters</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink);">India — Siliguri, Gurgaon, Mumbai</div></div></div>
+          <div class="stat-pill"><div><div class="stat-pill-l">Overseas Control Hub</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink);">London, UK</div></div></div>
+          <div class="stat-pill"><div><div class="stat-pill-l">Group Structure</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink);">ORN Group → Trip Factory (B2C) + Nexus TMC (B2B)</div></div></div>
+          <div class="stat-pill"><div><div class="stat-pill-l">Voyager Club</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink);">Loyalty programme — ORN Credits system</div></div></div>
+          <div class="stat-pill"><div><div class="stat-pill-l">Tech Platform</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink);">Proprietary booking engine + 3rd party API integrations</div></div></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ════ DASHBOARD TAB ════ -->
-<div class="tab-panel" id="tab-dashboard">
-  <div class="dash-wrap">
-    <div class="dash-grid" id="dashGrid"></div>
-    <div class="chart-section">
-      <div class="chart-title"><i class="fas fa-layer-group"></i> Offices by Revenue Tier</div>
-      <div class="tier-visual" id="tierVisual"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-      <div class="chart-section">
-        <div class="chart-title"><i class="fas fa-chart-bar"></i> Top Offices by Potential</div>
-        <div class="bar-chart" id="barChart"></div>
+<!-- ══ DEPARTMENTS TAB ════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-departments">
+  <div class="page-hero">
+    <h1>Departments & Teams</h1>
+    <p>All departments at Trip Factory India HQ, with staff counts, key roles, and responsibilities. Data sourced from the FY25 org chart.</p>
+    <span class="hero-badge"><i class="fas fa-users"></i> 698 staff across 8 departments</span>
+  </div>
+  <div class="dept-grid" id="deptGrid"></div>
+</div>
+
+<!-- ══ WORKFLOWS TAB ════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-workflows">
+  <div class="page-hero">
+    <h1>Workflows & Processes</h1>
+    <p>Key operational workflows from enquiry to delivery. Each workflow shows the departments involved, the steps taken, and who is responsible at each stage.</p>
+    <span class="hero-badge"><i class="fas fa-cogs"></i> 10 core workflows documented</span>
+  </div>
+  <div id="workflowsContainer"></div>
+</div>
+
+<!-- ══ JARGON TAB ════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-jargon">
+  <div class="page-hero">
+    <h1>Travel Industry Jargon</h1>
+    <p>Comprehensive glossary of travel industry terms, acronyms, and jargon. Essential for anyone new to the travel sector or moving from another industry.</p>
+    <span class="hero-badge"><i class="fas fa-book"></i> Click any term to copy to clipboard</span>
+  </div>
+  <div class="jargon-search-bar">
+    <i class="fas fa-search"></i>
+    <input type="text" id="jargonSearch" placeholder="Search terms e.g. FIT, BSP, GDS, MICE, yield management..." oninput="filterJargon()">
+  </div>
+  <div class="jargon-filter" id="jargonFilter"></div>
+  <div id="jargonContainer"></div>
+</div>
+
+<!-- ══ HISTORY TAB ════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-history">
+  <div class="page-hero">
+    <h1>TripFactory History</h1>
+    <p>The story of Trip Factory — from founding in 2018 to becoming one of India's leading technology-first travel companies, now expanding globally under the ORN Group.</p>
+    <span class="hero-badge"><i class="fas fa-calendar"></i> Founded 2018 · 7 years of growth</span>
+  </div>
+  <div class="grid-2" style="align-items:start;">
+    <div class="timeline" id="timelineContainer"></div>
+    <div>
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-head">
+          <div class="card-head-icon" style="background:linear-gradient(135deg,var(--purple),var(--purple2))"><i class="fas fa-trophy"></i></div>
+          <h3>Key Milestones</h3>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:8px;" id="milestonesList"></div>
+        </div>
       </div>
-      <div class="chart-section">
-        <div class="chart-title"><i class="fas fa-chart-pie"></i> Breakdown by Type</div>
-        <div class="donut-wrap" id="donutWrap"></div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-icon" style="background:linear-gradient(135deg,var(--gold),var(--gold2))"><i class="fas fa-binoculars"></i></div>
+          <h3>Future Vision 2026+</h3>
+        </div>
+        <div class="card-body" style="font-size:0.85rem;color:var(--slate);line-height:1.65;">
+          <p style="margin-bottom:10px;">TripFactory is positioning for international growth with focus on technology leadership and market expansion under the ORN Group umbrella.</p>
+          <ul style="padding-left:18px;display:flex;flex-direction:column;gap:5px;">
+            <li>London office establishment as UK & European Control Hub</li>
+            <li>Dubai hub for Middle East operations and Gulf markets</li>
+            <li>Enhanced digital platforms and mobile apps</li>
+            <li>Expansion of B2B agent network (target: 150,000+ agents)</li>
+            <li>ORN Credits / Voyager Club global rollout</li>
+            <li>Nexus TMC B2B platform international launch</li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="chart-section" style="margin-top:20px;">
-      <div class="chart-title"><i class="fas fa-map-marker-alt"></i> Offices by Region</div>
-      <div class="bar-chart" id="regionChart"></div>
     </div>
   </div>
 </div>
 
-<!-- ════ DIRECTORY TAB ════ -->
-<div class="tab-panel" id="tab-directory">
-  <div class="filters-bar">
-    <div class="filter-pill active" onclick="setFilter('all','all',this)">All</div>
-    <div class="filter-pill" onclick="setFilter('status','active',this)">✅ Active</div>
-    <div class="filter-pill" onclick="setFilter('status','inactive',this)">⏸ Inactive</div>
-    <div class="filter-pill" onclick="setFilter('status','opportunity',this)">🚀 Opportunity</div>
-    <div class="filter-pill" onclick="setFilter('type','owned',this)">🏢 Owned</div>
-    <div class="filter-pill" onclick="setFilter('type','franchised',this)">🤝 Franchised</div>
-    <div class="filter-pill" onclick="setFilter('type','partner',this)">🔗 Partner</div>
-    <div class="filter-search">
-      <i class="fas fa-search"></i>
-      <input type="text" id="searchInput" placeholder="Search country, city, staff…" oninput="renderDirectory()">
+<!-- ══ VALUES TAB ════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-values">
+  <div class="values-hero">
+    <div class="values-hero-title">ORN — <span>The Light That Guides</span></div>
+    <div class="values-hero-sub">Removing blindness in the travel ecosystem. Connecting agents, customers, DMCs, and suppliers with clarity, purpose, and vision.</div>
+    <div class="values-tagline">Care · Impact · Innovation</div>
+  </div>
+
+  <div class="section-title"><i class="fas fa-columns" style="color:var(--cyan)"></i> Three Pillars of Light</div>
+  <div class="pillars-grid">
+    <div class="pillar-card" style="--pc:var(--cyan);">
+      <div class="pillar-card-before" style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--cyan);border-radius:4px 4px 0 0;"></div>
+      <div class="pillar-icon" style="background:#cffafe;color:var(--cyan2);"><i class="fas fa-heart"></i></div>
+      <div class="pillar-name">Care</div>
+      <div class="pillar-desc">Integrity, quality, honesty, excellence. If you care, you design better, deliver better, and never cut corners. Care is the foundation of everything we build.</div>
+    </div>
+    <div class="pillar-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--magenta);border-radius:4px 4px 0 0;"></div>
+      <div class="pillar-icon" style="background:#fce7f3;color:var(--magenta2);"><i class="fas fa-bolt"></i></div>
+      <div class="pillar-name">Impact</div>
+      <div class="pillar-desc">What impact does this care bring, in whose life? Focus effort on who we care about and what changes for them. Measure everything by impact.</div>
+    </div>
+    <div class="pillar-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);border-radius:4px 4px 0 0;"></div>
+      <div class="pillar-icon" style="background:#fef9c3;color:var(--gold2);"><i class="fas fa-lightbulb"></i></div>
+      <div class="pillar-name">Innovation</div>
+      <div class="pillar-desc">Make the rules or break the rules — you cannot follow the rules. Act as Game Master: change the game, not the players. Innovation is our competitive edge.</div>
     </div>
   </div>
-  <div class="dir-wrap" id="dirContent"></div>
-</div>
 
-<!-- ════ MODAL ════ -->
-<div class="modal-overlay hidden" id="modalOverlay" onclick="handleOverlayClick(event)">
-  <div class="modal" id="modal">
-    <div class="modal-head">
-      <div>
-        <div class="modal-title" id="modalTitle">Add New Office</div>
-        <div class="modal-sub" id="modalSub">Complete details to add to the global directory</div>
-      </div>
-      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
+  <div class="section-title"><i class="fas fa-network-wired" style="color:var(--cyan)"></i> The Ecosystem — Illuminating Every Connection</div>
+  <div class="ecosystem-grid">
+    <div class="eco-card"><div class="eco-card-title"><span style="font-size:1.2rem;">🤝</span> Partners & Agents</div><div class="eco-card-sub">Travel agents and B2B network</div><div class="eco-bullets"><div class="eco-bullet">Training, tools, knowledge, support systems</div><div class="eco-bullet">Higher sales, better knowledge, stronger businesses</div><div class="eco-bullet">Agent Intelligence Hub with 88,000+ registered agents</div></div></div>
+    <div class="eco-card"><div class="eco-card-title"><span style="font-size:1.2rem;">✈️</span> Travellers & Customers</div><div class="eco-card-sub">B2C end consumers</div><div class="eco-bullets"><div class="eco-bullet">Better experiences, not just tickets and hotels</div><div class="eco-bullet">More meaningful trips, better choices, greater value</div><div class="eco-bullet">Voyager Club loyalty — ORN Credits redemption</div></div></div>
+    <div class="eco-card"><div class="eco-card-title"><span style="font-size:1.2rem;">🏨</span> Suppliers & DMCs</div><div class="eco-card-sub">Hotels, airlines, ground handlers</div><div class="eco-bullets"><div class="eco-bullet">Visibility to the right agents and customers</div><div class="eco-bullet">Better demand, better yield, targeted corridors</div><div class="eco-bullet">Direct contracting for net rates and exclusives</div></div></div>
+    <div class="eco-card"><div class="eco-card-title"><span style="font-size:1.2rem;">👥</span> Internal Team</div><div class="eco-card-sub">698 staff across all departments</div><div class="eco-bullets"><div class="eco-bullet">Training, tools, and support they need to excel</div><div class="eco-bullet">Daily workflow and output improvements</div><div class="eco-bullet">ARA Wiki as single source of internal truth</div></div></div>
+  </div>
 
-      <!-- Location -->
-      <div class="mform-section">
-        <div class="mform-stitle">Location</div>
-        <div class="mform-row s3">
-          <div class="mform-field">
-            <label class="mform-label">Country *</label>
-            <input class="mform-input" id="mf_country" placeholder="e.g. United Kingdom" oninput="autoUpdateFlag()">
-          </div>
-          <div class="mform-field">
-            <label class="mform-label">City / Region</label>
-            <input class="mform-input" id="mf_city" placeholder="e.g. London">
-          </div>
-          <div class="mform-field">
-            <label class="mform-label">Flag 🏳️</label>
-            <input class="mform-input" id="mf_flag" placeholder="🇬🇧" style="font-size:1.1rem;">
-          </div>
+  <div class="section-title"><i class="fas fa-gamepad" style="color:var(--cyan)"></i> The Game Master Approach</div>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-body">
+      <div class="grid-3" style="gap:20px;">
+        <div style="text-align:center;padding:16px;">
+          <div style="font-size:2rem;margin-bottom:10px;">🏏</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--ink);margin-bottom:6px;">The Cricket Analogy</div>
+          <div style="font-size:0.8rem;color:var(--slate);line-height:1.6;">ORN is bowling; agents and customers are buyers; others are sellers. Different balls for different conditions — we adapt the game.</div>
         </div>
-        <div class="mform-row">
-          <div class="mform-field">
-            <label class="mform-label">Address</label>
-            <input class="mform-input" id="mf_address" placeholder="Street address (optional)">
-          </div>
-          <div class="mform-field">
-            <label class="mform-label">Region</label>
-            <select class="mform-select" id="mf_region">
-              <option value="">— Select region —</option>
-              <option value="Europe">Europe</option>
-              <option value="Asia Pacific">Asia Pacific</option>
-              <option value="Middle East">Middle East</option>
-              <option value="Americas">Americas</option>
-              <option value="Africa">Africa</option>
-              <option value="South Asia">South Asia</option>
-              <option value="Oceania">Oceania</option>
-            </select>
-          </div>
+        <div style="text-align:center;padding:16px;border-left:1px solid var(--border);border-right:1px solid var(--border);">
+          <div style="font-size:2rem;margin-bottom:10px;">💳</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--ink);margin-bottom:6px;">Travel Credits</div>
+          <div style="font-size:0.8rem;color:var(--slate);line-height:1.6;">Dynamic redemption multipliers (2×, 3×, 4×) by corridor, destination, and season. Credits drive loyalty and repeat purchase.</div>
+        </div>
+        <div style="text-align:center;padding:16px;">
+          <div style="font-size:2rem;margin-bottom:10px;">📖</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--ink);margin-bottom:6px;">Living Rulebook</div>
+          <div style="font-size:0.8rem;color:var(--slate);line-height:1.6;">Our innovation keeps changing so others cannot copy us easily. We write new rules faster than competitors can follow the old ones.</div>
         </div>
       </div>
-
-      <!-- Classification -->
-      <div class="mform-section">
-        <div class="mform-stitle">Classification</div>
-        <div class="mform-row">
-          <div class="mform-field">
-            <label class="mform-label">Office Type</label>
-            <div class="pill-group" id="pg_type">
-              <div class="sel-pill active" onclick="selectPill('pg_type','owned',this)" data-val="owned">🏢 Owned</div>
-              <div class="sel-pill" onclick="selectPill('pg_type','franchised',this)" data-val="franchised">🤝 Franchised</div>
-              <div class="sel-pill" onclick="selectPill('pg_type','partner',this)" data-val="partner">🔗 Partner</div>
-              <div class="sel-pill" onclick="selectPill('pg_type','virtual',this)" data-val="virtual">💻 Virtual</div>
-            </div>
-          </div>
-          <div class="mform-field">
-            <label class="mform-label">Status</label>
-            <div class="pill-group" id="pg_status">
-              <div class="sel-pill active" onclick="selectPill('pg_status','active',this)" data-val="active">✅ Active</div>
-              <div class="sel-pill" onclick="selectPill('pg_status','inactive',this)" data-val="inactive">⏸ Inactive</div>
-              <div class="sel-pill" onclick="selectPill('pg_status','opportunity',this)" data-val="opportunity">🚀 Opportunity</div>
-              <div class="sel-pill" onclick="selectPill('pg_status','planned',this)" data-val="planned">📋 Planned</div>
-            </div>
-          </div>
-        </div>
-        <div class="mform-row s1">
-          <div class="mform-field">
-            <label class="mform-label">Revenue / Market Potential Tier</label>
-            <div class="rev-tier-group" id="revTierGroup">
-              <button type="button" class="rev-btn" onclick="selectRevTier(1,this)" data-val="1">⭐⭐⭐⭐⭐<span>Tier 1 · Highest</span></button>
-              <button type="button" class="rev-btn" onclick="selectRevTier(2,this)" data-val="2">⭐⭐⭐⭐<span>Tier 2 · High</span></button>
-              <button type="button" class="rev-btn" onclick="selectRevTier(3,this)" data-val="3">⭐⭐⭐<span>Tier 3 · Medium</span></button>
-              <button type="button" class="rev-btn" onclick="selectRevTier(4,this)" data-val="4">⭐⭐<span>Tier 4 · Low</span></button>
-              <button type="button" class="rev-btn" onclick="selectRevTier(5,this)" data-val="5">⭐<span>Tier 5 · Minimal</span></button>
-            </div>
-          </div>
-        </div>
-        <div class="mform-row">
-          <div class="mform-field">
-            <label class="mform-label">Est. Revenue / Potential</label>
-            <input class="mform-input" id="mf_revenue" placeholder="e.g. £500k, £2M, Unknown">
-          </div>
-          <div class="mform-field">
-            <label class="mform-label">Market Size Notes</label>
-            <input class="mform-input" id="mf_marketSize" placeholder="e.g. Large outbound, Indian diaspora">
-          </div>
-        </div>
-      </div>
-
-      <!-- Purpose -->
-      <div class="mform-section">
-        <div class="mform-stitle">Purpose & Operations</div>
-        <div class="mform-row s1">
-          <div class="mform-field">
-            <label class="mform-label">What does this office do?</label>
-            <textarea class="mform-textarea" id="mf_purpose" placeholder="Primary function, products sold, role in the wider business…"></textarea>
-          </div>
-        </div>
-        <div class="mform-row">
-          <div class="mform-field">
-            <label class="mform-label">Primary Function</label>
-            <select class="mform-select" id="mf_function">
-              <option value="">— Select —</option>
-              <option value="Sales &amp; B2C">Sales &amp; B2C</option>
-              <option value="Sales &amp; B2B">Sales &amp; B2B</option>
-              <option value="Operations &amp; Delivery">Operations &amp; Delivery</option>
-              <option value="DMC / Contracting">DMC / Contracting</option>
-              <option value="Tech &amp; Product">Tech &amp; Product</option>
-              <option value="Finance &amp; Admin">Finance &amp; Admin</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Franchise / Partner Hub">Franchise / Partner Hub</option>
-              <option value="Virtual / Remote Team">Virtual / Remote Team</option>
-            </select>
-          </div>
-          <div class="mform-field">
-            <label class="mform-label">Products / Destinations</label>
-            <input class="mform-input" id="mf_products" placeholder="e.g. Europe holidays, India packages">
-          </div>
-        </div>
-        <div class="mform-row s1">
-          <div class="mform-field">
-            <label class="mform-label">Audit Notes — current situation & opportunities</label>
-            <textarea class="mform-textarea" id="mf_auditNotes" placeholder="Current state, challenges, strategic importance…"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- ORN Credit Opportunity -->
-      <div class="mform-section">
-        <div class="mform-stitle">ORN Credit Opportunity</div>
-        <div class="orn-credit-box">
-          <div class="orn-credit-title"><i class="fas fa-coins"></i> ORN Credit Calculator</div>
-          <div class="orn-credit-inputs">
-            <div class="orn-credit-input-wrap">
-              <div class="orn-credit-lbl">No. of Members</div>
-              <input class="orn-credit-inp" type="number" id="orn_members" placeholder="e.g. 100" min="0" oninput="calcORNCredit()">
-            </div>
-            <div class="orn-credit-input-wrap">
-              <div class="orn-credit-lbl">Credits per Member</div>
-              <input class="orn-credit-inp" type="number" id="orn_credits" placeholder="e.g. 10" min="0" oninput="calcORNCredit()">
-            </div>
-            <div class="orn-credit-input-wrap">
-              <div class="orn-credit-lbl">Currency</div>
-              <select class="orn-credit-inp" id="orn_currency" onchange="calcORNCredit()">
-                <option value="GBP">£ GBP</option>
-                <option value="USD">$ USD</option>
-                <option value="EUR">€ EUR</option>
-                <option value="AED">د.إ AED</option>
-                <option value="INR">₹ INR</option>
-                <option value="SGD">S$ SGD</option>
-                <option value="MYR">RM MYR</option>
-                <option value="AUD">A$ AUD</option>
-                <option value="BHD">BD BHD</option>
-                <option value="QAR">﷼ QAR</option>
-                <option value="OMR">﷼ OMR</option>
-                <option value="BRL">R$ BRL</option>
-                <option value="ZAR">R ZAR</option>
-                <option value="NZD">NZ$ NZD</option>
-                <option value="HKD">HK$ HKD</option>
-                <option value="THB">฿ THB</option>
-                <option value="IDR">Rp IDR</option>
-                <option value="PHP">₱ PHP</option>
-              </select>
-            </div>
-          </div>
-          <div class="orn-credit-result" id="ornResult">
-            <div class="orn-result-item">
-              <div class="orn-result-n" id="orn_totalCredits">—</div>
-              <div class="orn-result-l">Total Credits</div>
-            </div>
-            <div style="font-size:1.4rem;color:rgba(255,255,255,0.2);">×</div>
-            <div class="orn-result-item">
-              <div class="orn-result-n" id="orn_creditVal">—</div>
-              <div class="orn-result-l">Credit Value</div>
-            </div>
-            <div style="font-size:1.4rem;color:rgba(255,255,255,0.2);">=</div>
-            <div class="orn-result-item">
-              <div class="orn-result-n" id="orn_totalLocal">—</div>
-              <div class="orn-result-l">Spend in Market</div>
-            </div>
-            <div style="font-size:1.4rem;color:rgba(255,255,255,0.2);">≈</div>
-            <div class="orn-result-item">
-              <div class="orn-result-n" id="orn_totalUSD" style="color:#4ade80;">—</div>
-              <div class="orn-result-l">US Dollars</div>
-            </div>
-          </div>
-          <div class="orn-fx-note" id="orn_fxNote">Enter members and credits above to calculate</div>
-        </div>
-        <div class="mform-row s1">
-          <div class="mform-field">
-            <label class="mform-label">ORN Credit Notes</label>
-            <textarea class="mform-textarea" id="mf_ornNotes" placeholder="Notes on ORN credit opportunity in this market…" style="min-height:55px;"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- Key Staff -->
-      <div class="mform-section">
-        <div class="mform-stitle">Key Staff & Contacts</div>
-        <div class="staff-tags" id="staffTagList"></div>
-        <div class="staff-add-row">
-          <input class="staff-add-input" id="staffNameInput" placeholder="Name (e.g. Saif Khan)">
-          <input class="staff-add-input" id="staffRoleInput" placeholder="Role (e.g. Contracting Head)" style="max-width:180px;">
-          <input class="staff-add-input" id="staffEmailInput" placeholder="Email" style="max-width:170px;">
-          <button type="button" class="btn-staff-add" onclick="addStaffTag()"><i class="fas fa-plus"></i> Add</button>
-        </div>
-        <div style="font-size:0.7rem;color:var(--slate2);margin-top:5px;">Enter name, role and email separately then click Add</div>
-      </div>
-
-      <!-- Additional -->
-      <div class="mform-section">
-        <div class="mform-stitle">Additional Info</div>
-        <div class="mform-row s4">
-          <div class="mform-field">
-            <label class="mform-label">Year Est.</label>
-            <input class="mform-input" id="mf_yearEst" placeholder="2019">
-          </div>
-          <div class="mform-field">
-            <label class="mform-label">Staff Count</label>
-            <input class="mform-input" id="mf_staffCount" type="number" placeholder="0" min="0">
-          </div>
-          <div class="mform-field" style="grid-column:span 2;">
-            <label class="mform-label">Website / Social</label>
-            <input class="mform-input" id="mf_website" placeholder="https://…">
-          </div>
-        </div>
-        <div class="mform-row s1">
-          <div class="mform-field">
-            <label class="mform-label">General Notes</label>
-            <textarea class="mform-textarea" id="mf_notes" placeholder="Any other relevant information…" style="min-height:55px;"></textarea>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end modal-body -->
-    <div class="modal-foot">
-      <div style="display:flex;gap:8px;">
-        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-        <button class="btn-delete hidden" id="btnDelete" onclick="deleteOffice()"><i class="fas fa-trash"></i> Delete</button>
-      </div>
-      <button class="btn-save-modal" id="btnSaveModal" onclick="saveOffice(this)"><i class="fas fa-save"></i> Save Office</button>
     </div>
   </div>
+
+  <div class="section-title"><i class="fas fa-layer-group" style="color:var(--cyan)"></i> Brand Architecture</div>
+  <div class="brand-arch">
+    <div class="brand-arch-title">ORN Group Structure</div>
+    <div class="brand-mother">ORN — The Mother Brand</div>
+    <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);margin-bottom:12px;">↓ Values flow through every brand and touchpoint ↓</div>
+    <div class="brand-children">
+      <div class="brand-child"><div class="brand-child-name">Trip Factory</div><div class="brand-child-type">B2C · Consumer</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px;max-width:140px;line-height:1.4;">Consumer-facing experiences that illuminate the path to extraordinary journeys</div></div>
+      <div class="brand-child"><div class="brand-child-name">Nexus TMC</div><div class="brand-child-type">B2B · Trade</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px;max-width:140px;line-height:1.4;">Trade-facing solutions that empower agents and DMCs with vision and tools</div></div>
+    </div>
+    <div class="brand-flow">Trip Factory · Nexus TMC · ORN Group — Care &amp; Impact &amp; Innovation</div>
+  </div>
 </div>
+
+<!-- ══ REFERENCES TAB ════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-references">
+  <div class="page-hero">
+    <h1>References & Links</h1>
+    <p>Quick-access links to key platforms, documents, presentations and resources. Add new links using the form below — saved to Firebase and available to all authorised users.</p>
+    <span class="hero-badge"><i class="fas fa-cloud"></i> Saved to Firebase · Shared across team</span>
+  </div>
+
+  <div class="ref-add-form">
+    <div class="section-title" style="margin-bottom:14px;"><i class="fas fa-plus-circle" style="color:var(--cyan)"></i> Add New Reference Link</div>
+    <div class="ref-form-row">
+      <input class="ref-inp" id="refName" placeholder="Name e.g. Trip Factory Website">
+      <input class="ref-inp" id="refUrl" placeholder="URL e.g. https://tripfactory.com">
+    </div>
+    <div class="ref-form-row">
+      <input class="ref-inp" id="refDesc" placeholder="Description (optional)">
+      <select class="ref-inp" id="refCat" style="cursor:pointer;">
+        <option value="Website">🌐 Website</option>
+        <option value="Presentation">📊 Presentation</option>
+        <option value="Document">📄 Document</option>
+        <option value="Dashboard">📈 Dashboard</option>
+        <option value="Tool">🔧 Tool</option>
+        <option value="Other">📎 Other</option>
+      </select>
+    </div>
+    <button class="btn-add-ref" onclick="addReference()"><i class="fas fa-plus"></i> Add Reference</button>
+  </div>
+
+  <div id="refsGrid" class="ref-grid"></div>
+</div>
+
+</div><!-- end main-area -->
 
 <div class="toast" id="toast"></div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-// ── Firebase ──────────────────────────────────────────────────────────
+// ── Firebase ────────────────────────────────────────────────────
 const _fbCfg = {
   apiKey:"AIzaSyC_placeholder_same_as_orgchart",
   authDomain:"tripfactory-hr.firebaseapp.com",
@@ -682,597 +617,579 @@ const _fbCfg = {
   projectId:"tripfactory-hr"
 };
 let _db;
-try { _db = firebase.database(firebase.initializeApp(_fbCfg,'offices')); }
-catch(e){ console.warn('Firebase:',e); }
+try{ _db = firebase.database(firebase.initializeApp(_fbCfg,'wiki')); }catch(e){ console.warn('Firebase:',e); }
 
-// ── State ─────────────────────────────────────────────────────────────
-const PASSWORD = 'AliaTF2025';
-const FB_PATH  = 'tripfactory/offices/';
-let offices    = {};
-let editingId  = null;
-let staffTags  = [];
-let revTier    = 0;
-let filterMode = { key:'all', val:'all' };
-let currentUser = 'Ajay K';
-let fxRates    = {}; // live FX rates
-let fxLoaded   = false;
+const FB_REFS = 'tripfactory/wiki-references/';
+const PASSWORD = 'TFIndia2026';
+let currentUser = '';
+let wikiRefs = {};
 
-// ── Currency symbols ──────────────────────────────────────────────────
-const CURRENCY_SYMBOLS = {
-  GBP:'£',USD:'$',EUR:'€',AED:'د.إ',INR:'₹',SGD:'S$',MYR:'RM ',
-  AUD:'A$',BHD:'BD ',QAR:'﷼',OMR:'﷼',BRL:'R$',ZAR:'R ',
-  NZD:'NZ$',HKD:'HK$',THB:'฿',IDR:'Rp ',PHP:'₱'
-};
-
-// ── Seed data ─────────────────────────────────────────────────────────
-const SEED_OFFICES = [
-  {country:'United Kingdom',city:'London',flag:'🇬🇧',region:'Europe',type:'owned',status:'active',revTier:1,revenue:'£5M+',marketSize:'Primary source market — large UK outbound travel industry',purpose:'Head office for UK & European operations. B2C sales, B2B partnerships, contracting hub for European product.',primaryFunction:'Sales & B2C',products:'Europe, India, Dubai, World holidays',staff:[{name:'Saif Ansar Khan',role:'Contracting & Marketing Head UK & Europe',email:''}],staffCount:5,yearEst:'2018',auditNotes:'Core revenue market. Needs full audit of team structure and sales performance.',notes:'European Control Hub',orn_members:500,orn_credits:10,orn_currency:'GBP',ornNotes:''},
-  {country:'Germany',city:'',flag:'🇩🇪',region:'Europe',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large outbound European market',purpose:'Partner office supporting German-speaking market sales.',primaryFunction:'Sales & B2C',products:'India, Asia, Middle East packages',staff:[],staffCount:0,yearEst:'',auditNotes:'Needs contact confirmation and status audit.',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'France',city:'Paris',flag:'🇫🇷',region:'Europe',type:'partner',status:'opportunity',revTier:2,revenue:'Unknown',marketSize:'Strong outbound European market',purpose:'Market opportunity — French-speaking travel market.',primaryFunction:'Sales & B2C',products:'India, World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Opportunity to establish formal presence.',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'Spain',city:'',flag:'🇪🇸',region:'Europe',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large outbound market',purpose:'Spanish market partner network.',primaryFunction:'Franchise / Partner Hub',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'Italy',city:'',flag:'🇮🇹',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Medium outbound market',purpose:'Italian market sales partner.',primaryFunction:'Sales & B2C',products:'India, Asia packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'Switzerland',city:'',flag:'🇨🇭',region:'Europe',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Affluent — high spend per traveller',purpose:'Swiss market partner — premium travel segment.',primaryFunction:'Sales & B2C',products:'Luxury world holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'High potential — affluent customer base.',notes:'',orn_members:0,orn_credits:10,orn_currency:'CHF',ornNotes:''},
-  {country:'Ireland',city:'Dublin',flag:'🇮🇪',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Medium outbound market',purpose:'Irish market sales operations.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'Czech Republic',city:'Prague',flag:'🇨🇿',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Growing Eastern European market',purpose:'Czech and Central European market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'CZK',ornNotes:''},
-  {country:'Poland',city:'',flag:'🇵🇱',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Large Eastern European outbound market',purpose:'Polish market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'PLN',ornNotes:''},
-  {country:'Slovakia',city:'',flag:'🇸🇰',region:'Europe',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Small outbound market',purpose:'Slovak market presence.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'Austria',city:'Vienna',flag:'🇦🇹',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Affluent mid-size market',purpose:'Austrian market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'Greece',city:'Athens',flag:'🇬🇷',region:'Europe',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Growing outbound market',purpose:'Greek market partner — outbound and inbound DMC.',primaryFunction:'DMC / Contracting',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'Croatia',city:'',flag:'🇭🇷',region:'Europe',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Smaller outbound market',purpose:'Croatian market presence and DMC.',primaryFunction:'DMC / Contracting',products:'European packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'EUR',ornNotes:''},
-  {country:'Bulgaria',city:'Sofia',flag:'🇧🇬',region:'Europe',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Growing Eastern European market',purpose:'Bulgarian market sales partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'BGN',ornNotes:''},
-  {country:'Turkey',city:'Istanbul',flag:'🇹🇷',region:'Europe',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large outbound with strong travel culture',purpose:'Turkish market partner — inbound DMC and outbound sales.',primaryFunction:'DMC / Contracting',products:'World holidays, European packages',staff:[],staffCount:0,yearEst:'',auditNotes:'Strong DMC potential.',notes:'',orn_members:0,orn_credits:10,orn_currency:'TRY',ornNotes:''},
-  {country:'UAE',city:'Dubai',flag:'🇦🇪',region:'Middle East',type:'owned',status:'active',revTier:1,revenue:'£2M+',marketSize:'Premium Gulf market — very high travel spend',purpose:'UAE hub — B2C sales, corporate travel, luxury packages.',primaryFunction:'Sales & B2C',products:'World holidays, India packages, luxury travel',staff:[],staffCount:0,yearEst:'',auditNotes:'One of highest revenue markets. Needs team audit.',notes:'',orn_members:0,orn_credits:10,orn_currency:'AED',ornNotes:''},
-  {country:'Bahrain',city:'Manama',flag:'🇧🇭',region:'Middle East',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Affluent Gulf market',purpose:'Bahrain partner — Gulf market sales.',primaryFunction:'Sales & B2C',products:'World holidays, India packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'BHD',ornNotes:''},
-  {country:'Qatar',city:'Doha',flag:'🇶🇦',region:'Middle East',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'High spending Gulf market',purpose:'Qatar partner operations.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'QAR',ornNotes:''},
-  {country:'Oman',city:'Muscat',flag:'🇴🇲',region:'Middle East',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Mid-size Gulf market',purpose:'Oman market partner.',primaryFunction:'Sales & B2C',products:'World holidays, India packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'OMR',ornNotes:''},
-  {country:'India',city:'Multiple',flag:'🇮🇳',region:'South Asia',type:'owned',status:'active',revTier:1,revenue:'Core ops',marketSize:'HQ and execution centre — 650+ staff',purpose:'Primary execution hub — Operations, Tech, Finance, HR, Product, Contracting. All back-office functions.',primaryFunction:'Operations & Delivery',products:'All products — execution hub',staff:[{name:'Multiple departments',role:'650+ staff',email:''}],staffCount:650,yearEst:'2014',auditNotes:'Org chart fully documented. Separate HR audit in progress.',notes:'Siliguri, Gurgaon, Mumbai offices',orn_members:0,orn_credits:10,orn_currency:'INR',ornNotes:''},
-  {country:'Singapore',city:'Singapore',flag:'🇸🇬',region:'Asia Pacific',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'High-income outbound market',purpose:'Singapore partner — SEA hub and premium outbound sales.',primaryFunction:'Sales & B2C',products:'World holidays, India packages',staff:[],staffCount:0,yearEst:'',auditNotes:'Strategic hub for SEA expansion.',notes:'',orn_members:0,orn_credits:10,orn_currency:'SGD',ornNotes:''},
-  {country:'Malaysia',city:'Kuala Lumpur',flag:'🇲🇾',region:'Asia Pacific',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large Muslim-friendly travel market',purpose:'Malaysian market partner — halal travel and Muslim-friendly packages.',primaryFunction:'Sales & B2C',products:'India, Middle East, World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Growing Muslim travel market opportunity.',notes:'',orn_members:0,orn_credits:10,orn_currency:'MYR',ornNotes:''},
-  {country:'Thailand',city:'Bangkok',flag:'🇹🇭',region:'Asia Pacific',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Large inbound tourism market',purpose:'Thailand DMC partner — inbound tourism and product contracting.',primaryFunction:'DMC / Contracting',products:'Thailand packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'THB',ornNotes:''},
-  {country:'Indonesia',city:'Bali',flag:'🇮🇩',region:'Asia Pacific',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Growing outbound market',purpose:'Indonesia partner — Bali DMC and outbound sales.',primaryFunction:'DMC / Contracting',products:'Bali, Asia packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'IDR',ornNotes:''},
-  {country:'Philippines',city:'Manila',flag:'🇵🇭',region:'Asia Pacific',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Growing outbound market',purpose:'Philippines market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'PHP',ornNotes:''},
-  {country:'Hong Kong',city:'Hong Kong',flag:'🇭🇰',region:'Asia Pacific',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'High-income compact market',purpose:'Hong Kong partner — premium outbound sales.',primaryFunction:'Sales & B2C',products:'World holidays, India packages',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'HKD',ornNotes:''},
-  {country:'United States',city:'Multiple',flag:'🇺🇸',region:'Americas',type:'partner',status:'active',revTier:1,revenue:'Unknown',marketSize:'Largest travel market — Indian diaspora very large',purpose:'US market presence covering New York, Seattle, Los Angeles, Texas.',primaryFunction:'Sales & B2C',products:'India packages, World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Multiple city presence. Needs dedicated team audit.',notes:'New York, Seattle, Los Angeles, Texas',orn_members:0,orn_credits:10,orn_currency:'USD',ornNotes:''},
-  {country:'Mexico',city:'Mexico City',flag:'🇲🇽',region:'Americas',type:'partner',status:'opportunity',revTier:4,revenue:'Unknown',marketSize:'Growing outbound Latin American market',purpose:'Mexico market opportunity.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Opportunity — needs assessment.',notes:'',orn_members:0,orn_credits:10,orn_currency:'MXN',ornNotes:''},
-  {country:'Brazil',city:'São Paulo',flag:'🇧🇷',region:'Americas',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Large Latin American market',purpose:'Brazil partner — South American market hub.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'BRL',ornNotes:''},
-  {country:'Colombia',city:'Bogotá',flag:'🇨🇴',region:'Americas',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Growing market',purpose:'Colombia market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'COP',ornNotes:''},
-  {country:'Ecuador',city:'Quito',flag:'🇪🇨',region:'Americas',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Small outbound market',purpose:'Ecuador market presence.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'USD',ornNotes:''},
-  {country:'Peru',city:'Lima',flag:'🇵🇪',region:'Americas',type:'partner',status:'active',revTier:4,revenue:'Unknown',marketSize:'Growing Peruvian market',purpose:'Peru market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'PEN',ornNotes:''},
-  {country:'Argentina',city:'Buenos Aires',flag:'🇦🇷',region:'Americas',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Large South American market',purpose:'Argentina market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'ARS',ornNotes:''},
-  {country:'Chile',city:'Santiago',flag:'🇨🇱',region:'Americas',type:'partner',status:'active',revTier:3,revenue:'Unknown',marketSize:'Affluent South American market',purpose:'Chile market partner.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'',notes:'',orn_members:0,orn_credits:10,orn_currency:'CLP',ornNotes:''},
-  {country:'Australia',city:'Multiple',flag:'🇦🇺',region:'Oceania',type:'partner',status:'active',revTier:2,revenue:'Unknown',marketSize:'Large high-income — strong Indian diaspora',purpose:'Australia partner — Indian diaspora and mainstream outbound travel.',primaryFunction:'Sales & B2C',products:'India packages, World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Strong Indian diaspora opportunity.',notes:'',orn_members:0,orn_credits:10,orn_currency:'AUD',ornNotes:''},
-  {country:'New Zealand',city:'Auckland',flag:'🇳🇿',region:'Oceania',type:'partner',status:'opportunity',revTier:3,revenue:'Unknown',marketSize:'Affluent small outbound market',purpose:'New Zealand market opportunity.',primaryFunction:'Sales & B2C',products:'World holidays',staff:[],staffCount:0,yearEst:'',auditNotes:'Opportunity — smaller but affluent market.',notes:'',orn_members:0,orn_credits:10,orn_currency:'NZD',ornNotes:''},
-];
-
-// ── Map coordinates (% of SVG viewBox 0 0 1000 500) ──────────────────
-const MAP_COORDS = {
-  'United Kingdom':[455,145], 'Germany':[490,152], 'France':[468,163],
-  'Spain':[448,175], 'Italy':[492,175], 'Switzerland':[485,162],
-  'Ireland':[444,148], 'Czech Republic':[502,152], 'Poland':[510,143],
-  'Slovakia':[510,152], 'Austria':[502,157], 'Greece':[516,176],
-  'Croatia':[504,163], 'Bulgaria':[520,166], 'Turkey':[540,165],
-  'UAE':[574,200], 'Bahrain':[569,195], 'Qatar':[572,198],
-  'Oman':[576,205], 'India':[625,210], 'Singapore':[686,245],
-  'Malaysia':[680,240], 'Thailand':[670,225], 'Indonesia':[695,255],
-  'Philippines':[715,225], 'Hong Kong':[705,210],
-  'United States':[175,165], 'Mexico':[165,210], 'Brazil':[255,285],
-  'Colombia':[215,250], 'Ecuador':[210,265], 'Peru':[215,275],
-  'Argentina':[235,320], 'Chile':[225,315],
-  'Australia':[730,310], 'New Zealand':[775,330],
-};
-
-// ── FX Rates (fallback static — updated periodically) ─────────────────
-const STATIC_FX = {
-  GBP:1,USD:1.27,EUR:1.17,AED:4.67,INR:105.8,SGD:1.71,MYR:5.97,
-  AUD:1.97,BHD:0.478,QAR:4.63,OMR:0.489,BRL:6.44,ZAR:23.4,
-  NZD:2.15,HKD:9.93,THB:44.8,IDR:20500,PHP:72.3,CZK:29.1,
-  PLN:5.03,BGN:2.29,TRY:40.8,MXN:21.9,COP:5200,PEN:4.77,
-  ARS:1190,CLP:1200,CHF:1.14
-};
-
-async function loadFXRates() {
-  try {
-    const r = await fetch('https://api.exchangerate-api.com/v4/latest/GBP');
-    const d = await r.json();
-    if (d && d.rates) { fxRates = d.rates; fxLoaded = true; }
-  } catch(e) { fxRates = STATIC_FX; }
-  finally { if (!fxLoaded) { fxRates = STATIC_FX; fxLoaded = true; } }
-}
-
-function toUSD(amount, fromCurrency) {
-  const ratesFromGBP = fxRates;
-  const gbpAmount = amount / (ratesFromGBP[fromCurrency] || STATIC_FX[fromCurrency] || 1);
-  return gbpAmount * (ratesFromGBP['USD'] || STATIC_FX['USD'] || 1.27);
-}
-
-// ── Login ─────────────────────────────────────────────────────────────
-function doLogin() {
-  if (document.getElementById('loginPass').value !== PASSWORD) {
+// ── Login ────────────────────────────────────────────────────────
+function doLogin(){
+  if(document.getElementById('loginPass').value !== PASSWORD){
     document.getElementById('loginErr').style.display='block'; return;
   }
-  currentUser = document.getElementById('loginUser').value.trim() || 'Ajay K';
+  currentUser = document.getElementById('loginName').value.trim() || 'Team Member';
   document.getElementById('loginOverlay').style.display='none';
-  loadFXRates();
-  loadOffices();
-}
-document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
-
-// ── Firebase CRUD ─────────────────────────────────────────────────────
-function genId(){ return 'off_'+Date.now()+'_'+Math.random().toString(36).slice(2,7); }
-
-function loadOffices() {
-  if (!_db) { seedAndRender(); return; }
-  _db.ref(FB_PATH).once('value').then(snap => {
-    const data = snap.val();
-    if (data && Object.keys(data).length > 0) { offices = data; }
-    else { SEED_OFFICES.forEach(o => { const id=genId(); o.id=id; o.updatedAt=Date.now(); o.updatedBy=currentUser; offices[id]=o; }); if(_db) _db.ref(FB_PATH).set(offices).catch(()=>{}); }
-    renderAll();
-  }).catch(()=>{ seedAndRender(); });
-}
-
-function seedAndRender() {
-  SEED_OFFICES.forEach(o => { const id=genId(); o.id=id; o.updatedAt=Date.now(); o.updatedBy=currentUser; offices[id]=o; });
+  document.getElementById('topUser').textContent = currentUser;
+  startClock();
+  loadReferences();
   renderAll();
 }
-
-function renderAll() {
-  updateStats();
-  // Render map — if image already loaded call directly, else onload handles it
-  const img = document.getElementById('mapBgImg');
-  if (!img || img.complete) {
-    renderMap();
-  }
-  // Always render fallback map too (in case image fails)
-  renderFallbackMap();
-  renderDashboard();
-  renderDirectory();
+function doLogout(){ document.getElementById('loginOverlay').style.display='flex'; }
+function startClock(){
+  const tick=()=>{ document.getElementById('topTime').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); };
+  tick(); setInterval(tick,1000);
 }
 
-function renderFallbackMap() {
-  const fb = document.getElementById('mapFallback');
-  if (!fb || fb.style.display === 'none') return;
-  // If image failed, render the SVG-only version on the fallback div
-  fb.style.background = 'linear-gradient(135deg,#0d1b2a 0%,#0a2218 100%)';
-  renderMap();
-}
-
-async function saveOffice(btn) {
-  if (!document.getElementById('mf_country').value.trim()) { showToast('Country is required','red'); return; }
-  const orig = btn.innerHTML;
-  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Saving…';
-  const type   = document.querySelector('#pg_type .active')?.dataset.val || 'owned';
-  const status = document.querySelector('#pg_status .active')?.dataset.val || 'active';
-  const data = {
-    id:editingId||genId(),
-    country:document.getElementById('mf_country').value.trim(),
-    city:document.getElementById('mf_city').value.trim(),
-    flag:document.getElementById('mf_flag').value.trim()||'🌍',
-    address:document.getElementById('mf_address').value.trim(),
-    region:document.getElementById('mf_region').value,
-    type,status,revTier,
-    revenue:document.getElementById('mf_revenue').value.trim(),
-    marketSize:document.getElementById('mf_marketSize').value.trim(),
-    purpose:document.getElementById('mf_purpose').value.trim(),
-    primaryFunction:document.getElementById('mf_function').value,
-    products:document.getElementById('mf_products').value.trim(),
-    auditNotes:document.getElementById('mf_auditNotes').value.trim(),
-    orn_members:parseInt(document.getElementById('orn_members').value)||0,
-    orn_credits:parseInt(document.getElementById('orn_credits').value)||0,
-    orn_currency:document.getElementById('orn_currency').value,
-    ornNotes:document.getElementById('mf_ornNotes').value.trim(),
-    staff:[...staffTags],
-    staffCount:parseInt(document.getElementById('mf_staffCount').value)||0,
-    yearEst:document.getElementById('mf_yearEst').value.trim(),
-    website:document.getElementById('mf_website').value.trim(),
-    notes:document.getElementById('mf_notes').value.trim(),
-    updatedAt:Date.now(), updatedBy:currentUser
-  };
-  offices[data.id] = data;
-  if (_db) { try { await _db.ref(FB_PATH+data.id).set(data); } catch(e){ showToast('Save failed','red'); btn.innerHTML=orig; return; } }
-  btn.innerHTML='<i class="fas fa-check"></i> Saved'; btn.classList.add('saved');
-  setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('saved'); closeModal(); },1200);
-  showToast((editingId?'Office updated':'Office added')+' — '+data.country,'green');
-  renderAll();
-}
-
-async function deleteOffice() {
-  if (!editingId||!confirm('Delete this office?')) return;
-  delete offices[editingId];
-  if (_db) { try { await _db.ref(FB_PATH+editingId).remove(); } catch(e){} }
-  closeModal(); showToast('Office deleted','red'); renderAll();
-}
-
-// ── Stats ─────────────────────────────────────────────────────────────
-function updateStats() {
-  const list = Object.values(offices);
-  document.getElementById('tsTotalOffices').textContent = list.length;
-  document.getElementById('tsActive').textContent = list.filter(o=>o.status==='active').length;
-  document.getElementById('tsCountries').textContent = new Set(list.map(o=>o.country)).size;
-}
-
-// ── Tab switching ─────────────────────────────────────────────────────
-function switchTab(tab, btn) {
+// ── Tab switching ────────────────────────────────────────────────
+function showTab(name,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
 }
 
-// ══════════════════════════════════════════════════════════
-// MAP
-// ══════════════════════════════════════════════════════════
-function renderMap() {
-  const svg = document.getElementById('mapDotsSVG');
-  if (!svg) return;
-  // Clear previous dots
-  while (svg.firstChild) svg.removeChild(svg.firstChild);
+// ── Toast ────────────────────────────────────────────────────────
+function toast(msg,type=''){const t=document.getElementById('toast');t.innerHTML=`<i class="fas fa-${type==='green'?'check':'info-circle'}"></i> ${msg}`;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',3000);}
 
-  // Update title
-  const list = Object.values(offices);
-  const titleEl = document.getElementById('mapOfficeCount');
-  if (titleEl) titleEl.textContent = `${list.length} offices across ${new Set(list.map(o=>o.country)).size} countries`;
+// ── DATA ─────────────────────────────────────────────────────────
+const PIPELINE = [
+  {n:'1',label:'Enquiry',role:'Sales Consultant'},
+  {n:'2',label:'Assessment',role:'Travel Advisor'},
+  {n:'3',label:'Itinerary Build',role:'Product Specialist'},
+  {n:'4',label:'Quote & Price',role:'Sales Consultant'},
+  {n:'5',label:'Compliance Check',role:'Compliance Officer'},
+  {n:'6',label:'Supplier Booking',role:'Reservation Executive'},
+  {n:'7',label:'Confirmation',role:'Operations Coordinator'},
+  {n:'8',label:'Quality Check',role:'Senior Operations'},
+  {n:'9',label:'Documentation',role:'Ops Admin'},
+  {n:'10',label:'Pre-Departure',role:'Customer Success'},
+  {n:'11',label:'Accounts',role:'Finance Controller'},
+  {n:'12',label:'Review',role:'Department Head'},
+];
 
-  const svgNS = 'http://www.w3.org/2000/svg';
+const DEPARTMENTS = [
+  {
+    name:'Operations',count:285,icon:'fa-cogs',color:'#00bcd4',color2:'#0097a7',
+    subtitle:'Largest Department — The Engine Room',
+    desc:'Handles bookings from confirmation to departure, supplier management, and on-ground execution.',
+    roles:[
+      {title:'Reservation Executive (120)',desc:'Booking file creation, supplier availability checks, service confirmations, voucher generation, documentation prep.'},
+      {title:'Operations Coordinator (80)',desc:'Multi-booking management, supplier relationships, amendment processing, crisis management, 24/7 emergency coverage.'},
+      {title:'Tour Coordinator (50)',desc:'Guide allocation & briefing, ground handling coordination, manifest management, pre-departure client calls, post-tour feedback.'},
+      {title:'Senior Operations (35)',desc:'Escalation handling, quality control on files, team leadership, process improvement.'},
+    ],
+    workflow:['File Opened','Services Confirmed','Deposit Paid','Balance Due','Final Docs','Pre-departure Call','Departure'],
+    wfTitle:'Booking Confirmation to Departure'
+  },
+  {
+    name:'Sales',count:120,icon:'fa-chart-line',color:'#e91e63',color2:'#c2185b',
+    subtitle:'Revenue Generation Hub',
+    desc:'Converts enquiries into bookings across B2C, B2B, and Tour Operator channels.',
+    roles:[
+      {title:'Sales Consultant (70)',desc:'Initial client enquiry handling, needs assessment, itinerary quoting, closing sales, securing deposits, CRM data entry.'},
+      {title:'Team Leader (20)',desc:'Daily team huddles, quote quality checks, escalation handling, performance coaching, pipeline review with management.'},
+      {title:'Sales Manager (15)',desc:'Monthly target setting, strategic account management, cross-department coordination, P&L responsibility, market expansion planning.'},
+      {title:'B2B Sales Executive (15)',desc:'Agent relationship management, B2B pipeline, trade presentations, commercial negotiations.'},
+    ],
+    workflow:['Enquiry Received','Profile Created','Quote Sent','Follow-up','Booking Confirmed','Deposit Taken','Handed to Ops'],
+    wfTitle:'B2C Booking Journey'
+  },
+  {
+    name:'Technology',count:85,icon:'fa-microchip',color:'#3f51b5',color2:'#303f9f',
+    subtitle:'Digital Infrastructure',
+    desc:'Maintains all digital infrastructure, booking platforms, API integrations, and internal tools.',
+    roles:[
+      {title:'Software Developer (40)',desc:'Booking engine maintenance, API integration (GDS, suppliers), bug fixes, feature development, code reviews.'},
+      {title:'Systems Administrator (15)',desc:'Server maintenance, network security, backup management, user access control, hardware procurement.'},
+      {title:'QA Analyst (15)',desc:'Testing new releases, automated test scripts, UAT coordination with Ops, bug reporting, performance monitoring.'},
+      {title:'Product / UX (15)',desc:'Platform UX design, user research, feature prioritisation, product roadmap management.'},
+    ],
+    workflow:['Requirement Raised','Dev Sprint','QA Testing','UAT Sign-Off','Deployment','Monitoring'],
+    wfTitle:'Feature Development Cycle'
+  },
+  {
+    name:'Finance',count:30,icon:'fa-chart-pie',color:'#4caf50',color2:'#388e3c',
+    subtitle:'Financial Control & Compliance',
+    desc:'Manages all financial transactions, supplier payments, BSP reconciliation, and reporting.',
+    roles:[
+      {title:'Accounts Payable Clerk (12)',desc:'Supplier invoice processing, BSP reconciliation, payment runs, statement reconciliation, query resolution.'},
+      {title:'Revenue Accountant (8)',desc:'Customer receipting, refund processing, commission calculations, revenue recognition, month-end close.'},
+      {title:'Financial Controller (5)',desc:'Management accounts, budget vs actual analysis, cash flow forecasting, audit coordination, board reporting.'},
+      {title:'Finance Admin (5)',desc:'Filing, compliance documentation, expense management, payroll support.'},
+    ],
+    workflow:['Import BSP Data','Match to Bookings','Identify Discrepancies','Raise ADMs','Process Payments','Reconciled'],
+    wfTitle:'BSP Reconciliation (Monthly)'
+  },
+  {
+    name:'Marketing',count:18,icon:'fa-bullhorn',color:'#ff9800',color2:'#f57c00',
+    subtitle:'Brand & Growth',
+    desc:'Drives brand awareness, lead generation, and customer retention through multi-channel campaigns.',
+    roles:[
+      {title:'Content Creator (6)',desc:'Blog and article writing, social media content, email copywriting, destination guides, SEO content strategy.'},
+      {title:'Digital Marketing Executive (5)',desc:'Paid campaigns (Google, Meta), SEO management, analytics tracking, conversion optimisation.'},
+      {title:'Brand & Design (4)',desc:'Visual identity, campaign creative, collateral design, video production, brand guidelines.'},
+      {title:'Marketing Manager (3)',desc:'Strategy, budget management, agency coordination, performance reporting to board.'},
+    ],
+    workflow:['Campaign Brief','Creative Build','Approval','Launch','Monitor','Optimise','Report'],
+    wfTitle:'Campaign Launch Process'
+  },
+  {
+    name:'Commercial / Contracting',count:62,icon:'fa-handshake',color:'#9c27b0',color2:'#7b1fa2',
+    subtitle:'Product, Suppliers & Margins',
+    desc:'Manages supplier relationships, hotel and airline contracting, product development, and margin control.',
+    roles:[
+      {title:'Contracting Manager (10)',desc:'Hotel and supplier negotiations, rate agreements, override targets, preferred partner programme, annual renewals.'},
+      {title:'Product Manager (20)',desc:'Package design, itinerary creation, destination research, pricing strategy, competitive analysis.'},
+      {title:'Buyer / Commercial Executive (20)',desc:'Rate loading, inventory management, yield monitoring, ADM management, supplier communication.'},
+      {title:'Contracting Admin (12)',desc:'Contract filing, rate sheet management, system loading, supplier database maintenance.'},
+    ],
+    workflow:['Destination Identified','Supplier Approached','Rates Negotiated','Contract Signed','Rates Loaded','Package Built','Published'],
+    wfTitle:'New Product / Contract Workflow'
+  },
+  {
+    name:'HR & People',count:25,icon:'fa-users-cog',color:'#009688',color2:'#00796b',
+    subtitle:'People, Culture & Development',
+    desc:'Recruitment, onboarding, training, performance management, and culture across all departments.',
+    roles:[
+      {title:'HR Manager (3)',desc:'Strategy, policies, employment law compliance, board reporting, culture initiatives, senior recruitment.'},
+      {title:'HR Business Partner (8)',desc:'Department-level HR support, performance management, ER cases, coaching managers.'},
+      {title:'Recruiter (6)',desc:'Job specs, advertising, screening, interviews, offers, onboarding coordination.'},
+      {title:'L&D / Training (5)',desc:'Induction programmes, GDS training, travel product knowledge, soft skills, management development.'},
+      {title:'HR Admin (3)',desc:'Employee records, payroll input, leave management, contract administration.'},
+    ],
+    workflow:['Role Raised','JD Written','Advertised','Screened','Interviewed','Offer','Onboarding','Probation Review'],
+    wfTitle:'Recruitment & Onboarding Process'
+  },
+  {
+    name:'Management',count:12,icon:'fa-crown',color:'#0f2744',color2:'#1a3a5c',
+    subtitle:'Executive Leadership',
+    desc:'Board-level leadership and functional heads driving strategy, culture, and business performance.',
+    roles:[
+      {title:'Founder / CEO — Vinay Gupta',desc:'Vision, strategy, investor relations, brand direction, major commercial decisions.'},
+      {title:'COO — Raj Kumar',desc:'Operational excellence, cross-department coordination, process governance, KPI ownership.'},
+      {title:'CTO — Ajay Kawa',desc:'Digital transformation, tech team leadership, platform roadmap, system architecture.'},
+      {title:'Co-Founders (3)',desc:'Amit Aggarwal, Ankit Agarwal, Ankush Agarwal, Varun Gupta — commercial, product and marketing leadership.'},
+    ],
+    workflow:['Strategy','Planning','Execution','Review','Adjust'],
+    wfTitle:'Business Rhythm'
+  },
+];
 
-  list.forEach(o => {
-    const coords = MAP_COORDS[o.country];
-    if (!coords) return;
-    const [cx, cy] = coords;
-    const tierColor = {1:'#f97316',2:'#f59e0b',3:'#22c55e',4:'#94a3b8',5:'#475569'};
-    const color = o.status==='inactive' ? '#ef4444' : o.status==='opportunity' ? '#a78bfa' : (tierColor[o.revTier] || '#94a3b8');
-    const r = o.revTier===1 ? 8 : o.revTier===2 ? 7 : 6;
+const WORKFLOWS = [
+  {
+    title:'B2C Customer Booking Journey',icon:'fa-route',color:'#e91e63',
+    desc:'End-to-end journey from first enquiry to post-trip review for a direct B2C customer.',
+    steps:[
+      {title:'Enquiry Received',desc:'Customer contacts Trip Factory via website, phone, WhatsApp, or walk-in. Sales Consultant takes initial details.',dept:'Sales',deptColor:'#e91e63'},
+      {title:'Needs Assessment',desc:'Consultant profiles the customer — party size, budget, dates, interests, past travel, visa requirements.',dept:'Sales',deptColor:'#e91e63'},
+      {title:'Itinerary Building',desc:'Product specialist builds custom itinerary. Checks hotel availability, transfers, flights via GDS/API.',dept:'Sales + Commercial',deptColor:'#9c27b0'},
+      {title:'Quote Issued',desc:'Detailed written quote sent within agreed SLA. Includes flights, hotels, transfers, guide, visa info.',dept:'Sales',deptColor:'#e91e63'},
+      {title:'Follow-up & Negotiation',desc:'Sales consultant follows up within 24hrs. Amends quote as needed. Applies discount authority if required.',dept:'Sales',deptColor:'#e91e63'},
+      {title:'Booking Confirmed + Deposit',desc:'Customer accepts quote. Deposit collected. Booking file created in system. PNR generated.',dept:'Sales → Finance',deptColor:'#4caf50'},
+      {title:'Supplier Confirmations',desc:'Ops team books all components — hotel, flights, transfers, guides, visa applications initiated.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Documentation Pack',desc:'Vouchers, booking confirmations, visa docs, insurance, travel pack compiled and sent to customer.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Balance Collection',desc:'Finance team issues balance payment reminder at agreed date (usually 70 days before departure).',dept:'Finance',deptColor:'#4caf50'},
+      {title:'Pre-Departure Call',desc:'Customer Success calls customer 7 days before to confirm all details, answer questions, share emergency contacts.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Travel + On-Trip Support',desc:'24/7 emergency line active. Ops monitors any issues — flight delays, hotel problems, medical emergencies.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Post-Trip Review',desc:'Feedback survey sent. Reviews requested. ADMs checked. File closed in system. Loyalty points awarded.',dept:'Sales + Finance',deptColor:'#4caf50'},
+    ]
+  },
+  {
+    title:'BSP Reconciliation Process',icon:'fa-calculator',color:'#4caf50',
+    desc:'Monthly IATA Billing & Settlement Plan reconciliation — critical financial process for airline ticket settlement.',
+    steps:[
+      {title:'BSP Data Import',desc:'Finance team downloads BSP report from IATA portal — list of all airline tickets issued in the period.',dept:'Finance',deptColor:'#4caf50'},
+      {title:'Match to Bookings',desc:'Each BSP line matched against internal booking records by PNR and ticket number.',dept:'Finance',deptColor:'#4caf50'},
+      {title:'Identify Discrepancies',desc:'Unmatched items flagged. Could be: incorrect fares, void tickets, refund errors, booking system mismatches.',dept:'Finance',deptColor:'#4caf50'},
+      {title:'ADM Review',desc:'Agency Debit Memos (airline penalty charges) reviewed and disputed where incorrect. Staff training implications noted.',dept:'Finance + Ops',deptColor:'#ff9800'},
+      {title:'Approval & Payment',desc:'Reconciled report approved by Financial Controller. BSP payment processed on IATA due date.',dept:'Finance',deptColor:'#4caf50'},
+      {title:'Reporting',desc:'Month-end report to management showing ADM costs, any errors by staff member, trend analysis.',dept:'Finance',deptColor:'#4caf50'},
+    ]
+  },
+  {
+    title:'New Hotel Contracting Workflow',icon:'fa-hotel',color:'#9c27b0',
+    desc:'Process for contracting a new hotel property — from identification to rates being live on the system.',
+    steps:[
+      {title:'Destination / Property Identified',desc:'Commercial team identifies gap in product. Could be from customer feedback, sales request, competitive analysis.',dept:'Commercial',deptColor:'#9c27b0'},
+      {title:'Due Diligence',desc:'Property research — star rating, location, reviews, competitor rates, preferred segments.',dept:'Commercial',deptColor:'#9c27b0'},
+      {title:'Initial Approach',desc:'Contracting Manager contacts hotel reservations or revenue manager. Introduces Trip Factory, shares volume projections.',dept:'Commercial',deptColor:'#9c27b0'},
+      {title:'Rate Negotiation',desc:'Net rates, markup, allotment, release periods, override targets, blackout dates, special offers negotiated.',dept:'Commercial',deptColor:'#9c27b0'},
+      {title:'Contract Issued & Signed',desc:'Legal contract or rate agreement signed by both parties. Payment terms agreed.',dept:'Commercial + Finance',deptColor:'#4caf50'},
+      {title:'Rates Loaded to System',desc:'Product admin loads net rates, room types, validity, supplements into booking system.',dept:'Commercial',deptColor:'#9c27b0'},
+      {title:'Quality Check',desc:'Test booking made. Room descriptions, images, mapping coordinates verified. Pricing sanity check.',dept:'Ops + Commercial',deptColor:'#00bcd4'},
+      {title:'Live & Bookable',desc:'Product published and available to sales team and agents. Announcement to sales floor.',dept:'Commercial + Sales',deptColor:'#e91e63'},
+    ]
+  },
+  {
+    title:'Technology Feature Development',icon:'fa-code',color:'#3f51b5',
+    desc:'Sprint-based development cycle for new platform features from requirement to production deployment.',
+    steps:[
+      {title:'Requirement Raised',desc:'Feature request raised by any department via the product backlog. PO assesses priority and business impact.',dept:'Tech / Product',deptColor:'#3f51b5'},
+      {title:'Scoping & Design',desc:'UX designs created. Technical scoping completed. Story points estimated. Sprint slot assigned.',dept:'Tech',deptColor:'#3f51b5'},
+      {title:'Development Sprint',desc:'2-week sprint. Daily standups. Code review by peers. PR raised and reviewed before merge.',dept:'Tech',deptColor:'#3f51b5'},
+      {title:'QA Testing',desc:'Automated and manual tests run. Regression testing on affected areas. Bug log maintained.',dept:'Tech / QA',deptColor:'#3f51b5'},
+      {title:'UAT with Business',desc:'Business team tests in staging environment. Signoff required before production release.',dept:'All Depts',deptColor:'#ff9800'},
+      {title:'Deployment',desc:'Release to production following change management process. Rollback plan prepared.',dept:'Tech',deptColor:'#3f51b5'},
+      {title:'Post-Launch Monitoring',desc:'Error monitoring, performance dashboards, user feedback tracked for 2 weeks post-launch.',dept:'Tech',deptColor:'#3f51b5'},
+    ]
+  },
+  {
+    title:'Visa Management Process',icon:'fa-passport',color:'#ff9800',
+    desc:'End-to-end visa application management for customers — one of the most compliance-critical operational workflows.',
+    steps:[
+      {title:'Visa Requirement Check',desc:'Ops checks visa requirements for customer nationality and destination at booking stage. Any specialist visa flagged early.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Documentation Checklist Sent',desc:'Customer sent required documents list — passport, photos, bank statements, hotel bookings, itinerary.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Documents Received & Checked',desc:'Ops checks completeness, passport validity (6 months), photo compliance, supporting document accuracy.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Application Submitted',desc:'Application lodged with embassy, consulate, or via VFS/BLS depending on destination.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Tracking & Chasing',desc:'Visa status tracked daily. Customer updated. If delays — escalated to senior ops or consulate liaison.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Visa Received & Quality Checked',desc:'Visa dates, name spelling, passport number checked against booking. Any errors actioned immediately.',dept:'Operations',deptColor:'#00bcd4'},
+      {title:'Visa Dispatched to Customer',desc:'Visa shared with customer in documentation pack with instructions. File updated in system.',dept:'Operations',deptColor:'#00bcd4'},
+    ]
+  },
+  {
+    title:'Recruitment & Onboarding',icon:'fa-user-plus',color:'#009688',
+    desc:'From role identification to a new team member being fully productive in their role.',
+    steps:[
+      {title:'Role Identified',desc:'Department head raises resource request. JD reviewed/written. Salary band confirmed. HR approves headcount.',dept:'HR + Management',deptColor:'#009688'},
+      {title:'Advertising',desc:'Role posted on job boards, LinkedIn, internal referral scheme. Agency brief if required.',dept:'HR',deptColor:'#009688'},
+      {title:'Screening',desc:'CV screening against criteria. Phone screen for shortlisted candidates. Skills test for tech/commercial roles.',dept:'HR',deptColor:'#009688'},
+      {title:'Interview Process',desc:'1st interview HR, 2nd interview hiring manager, 3rd (senior roles) with department head or COO.',dept:'HR + Department',deptColor:'#009688'},
+      {title:'Offer & References',desc:'Verbal offer, written offer, reference checks, right-to-work checks, contract issued.',dept:'HR',deptColor:'#009688'},
+      {title:'Onboarding Week 1',desc:'IT setup, system access, induction pack, meet the team, org chart familiarisation, ARA Wiki access.',dept:'HR + IT',deptColor:'#3f51b5'},
+      {title:'Training Programme',desc:'Role-specific training: GDS (Ops), CRM (Sales), financial systems (Finance). Minimum 2-week structured programme.',dept:'HR + L&D',deptColor:'#009688'},
+      {title:'Probation Review (3 months)',desc:'Formal review against objectives set at week 1. Pass = confirmed. Concern = PIP or extension.',dept:'HR + Manager',deptColor:'#009688'},
+    ]
+  },
+];
 
-    const g = document.createElementNS(svgNS, 'g');
-    g.setAttribute('class','dot-group');
+const JARGON = {
+  'Booking & Reservations':[
+    {term:'FIT',full:'Fully Independent Traveller',def:'A traveller who books individual components (flights, hotels, tours) separately rather than buying a package. FIT bookings require more customisation and typically yield higher margins than group packages.',context:'FIT consultants need higher skill levels than package tour sellers. Complex to service but more profitable.',badge:'badge-navy'},
+    {term:'PNR',full:'Passenger Name Record',def:'The unique 6-character alphanumeric code for a booking in the GDS system. Contains all traveller details, itinerary, special requests (meals, seats, assistance), and ticketing deadlines.',context:'Staff need training on PNR creation and management. Loss or error of a PNR can cause serious service failures.',badge:'badge-cyan'},
+    {term:'GDS',full:'Global Distribution System',def:'The computerised network (Amadeus, Sabre, Galileo/Travelport) used to book flights, hotels, car rentals in real-time. The backbone of travel agency operations worldwide.',context:'GDS certification is required for most operational roles. Training takes 4–6 weeks minimum. Amadeus is most common in UK.',badge:'badge-magenta'},
+    {term:'BSP',full:'Billing and Settlement Plan',def:'IATA-managed system for processing and remitting airline ticket payments between travel agencies and airlines. Used outside the US (ARC is the US equivalent). Monthly settlement cycle.',context:'Finance roles require BSP reconciliation skills. ADMs are raised through BSP. Critical monthly process.',badge:'badge-green'},
+    {term:'NDC',full:'New Distribution Capability',def:'IATA standard allowing airlines to offer personalised content and dynamic pricing directly to travel agents, bypassing traditional GDS limitations. The future of airline distribution.',context:'Growing skill requirement. Staff need NDC training as airlines (BA, Lufthansa, Emirates) adopt it. Changes fare structures.',badge:'badge-amber'},
+    {term:'GIT',full:'Group Inclusive Tour',def:'Pre-packaged tour sold to groups (usually 10+ people) at special rates. Requires advance contracting with suppliers and group PNRs with airlines.',context:'Different skill set to FIT. Group departures need dedicated coordinating staff and supplier negotiations.',badge:'badge-navy'},
+    {term:'SIT',full:'Special Interest Tour',def:'Tours designed around a specific interest — adventure sports, culinary experiences, pilgrimage, wildlife safaris. Higher engagement, premium pricing, specialist knowledge required.',context:'Growing segment. Requires product managers with deep destination and interest-specific knowledge.',badge:'badge-cyan'},
+    {term:'Allotment',full:'Pre-blocked inventory',def:'A block of rooms or seats pre-contracted by Tour Operator at fixed rates, held for a release date. If unsold by release date, the allotment returns to the supplier.',context:'Contracting team manages allotments. Release date discipline is critical — failure to release causes supplier charges.',badge:'badge-purple'},
+    {term:'Release Date',full:'Inventory release deadline',def:'The date by which a tour operator must either confirm or release contracted allotment inventory back to the supplier without penalty.',context:'Missed release dates can lead to supplier ADM charges and damaged relationships.',badge:'badge-orange'},
+    {term:'Waitlist',full:'Booking on hold pending availability',def:'When a product or flight is fully sold, customers can be placed on a waitlist. If a cancellation occurs, the first on the waitlist is offered the space.',context:'Managing waitlists is a key sales skill. Must be communicated clearly to customers — not a confirmed booking.',badge:'badge-amber'},
+  ],
+  'Financial & Commercial':[
+    {term:'Net Rate',full:'Wholesale supplier price',def:'The price a supplier charges the tour operator, excluding commission and markup. The tour operator adds margin to create the selling price. The foundation of all package pricing.',context:'Product managers negotiate net rates. A 1% improvement in net rates across volume can significantly impact profit.',badge:'badge-green'},
+    {term:'ADM',full:'Agency Debit Memo',def:'Financial penalty raised by an airline against a travel agency for errors — wrong fare class used, refund rules broken, ticketing deadline missed, duplicate booking. Typically £50–£500+ per incident.',context:'Training quality directly impacts ADM costs. Track ADMs by staff member monthly. High ADMs = training issue.',badge:'badge-magenta'},
+    {term:'Commission',full:'Supplier payment to agent',def:'Percentage paid by suppliers to travel agencies for booking their product. Hotels typically 10–15%, airlines now largely zero or 1–3%. Overrides paid for volume targets.',context:'Sales roles often have commission-based bonuses. Commission structures vary massively by supplier and contract.',badge:'badge-navy'},
+    {term:'Override',full:'Volume bonus commission',def:'Additional commission paid by a supplier once a travel agency hits a pre-agreed volume target. E.g., 10% base + 3% override above 500 room nights.',context:'Commercial team tracks override performance monthly. Key revenue line that impacts annual profitability.',badge:'badge-green'},
+    {term:'Yield',full:'Revenue per available unit',def:'In hotels: Revenue Per Available Room (RevPAR). In aviation: revenue per seat kilometre. Yield management = optimising pricing to maximise revenue from available inventory.',context:'When suppliers talk about "yield," they mean how efficiently they monetise inventory. Trip Factory targets high-yield corridors.',badge:'badge-amber'},
+    {term:'Reconciliation',full:'Matching financial records',def:'Matching internal booking records against supplier statements (BSP, hotel invoices, credit card) to ensure accuracy and catch discrepancies. Critical monthly finance process.',context:'Finance team workload peaks at month-end. High attention to detail required. Discrepancies must be investigated same day.',badge:'badge-cyan'},
+    {term:'Margin',full:'Profit on a booking',def:'The difference between the selling price to the customer and the total cost of all components (net rates, fees, taxes). Expressed as £ or %. Gross margin before staff and overhead costs.',context:'Margin review is a key management meeting. Product managers are accountable for margin on their destinations.',badge:'badge-purple'},
+    {term:'FX Risk',full:'Foreign exchange exposure',def:'The risk that currency movements between booking date and supplier payment date will erode margin. E.g., booking in USD but paying hotel in EUR.',context:'Finance team manages FX risk through hedging and forward contracts. Relevant for all international product.',badge:'badge-orange'},
+    {term:'ARC',full:'Airlines Reporting Corporation',def:'The US equivalent of BSP for airline ticket settlement. Used by agencies in the United States.',context:'Relevant for US office operations. Different processes and deadlines to BSP.',badge:'badge-navy'},
+    {term:'IATA',full:'International Air Transport Association',def:'The trade association for airlines worldwide, setting standards for safety, operations, and financial settlement (BSP/ARC). IATA accreditation required to issue tickets.',context:'Trip Factory holds IATA accreditation. Loss of IATA number would be catastrophic for the business.',badge:'badge-magenta'},
+  ],
+  'Operations & Logistics':[
+    {term:'Manifest',full:'Passenger/booking list',def:'A detailed list of all passengers on a tour, flight, or transfer, including names, passport numbers, special requirements, room allocations. Must be sent to suppliers before travel.',context:'Operations team creates manifests. Errors cause on-ground problems. Manifest deadline is typically 30 days before.',badge:'badge-navy'},
+    {term:'MICE',full:'Meetings, Incentives, Conferences, Exhibitions',def:'Corporate travel segment involving group bookings for business events. High-value, complex coordination requiring event management skills alongside travel expertise.',context:'MICE coordinators need exceptional organisational skills. High margin but high complexity. Separate team or skills.',badge:'badge-cyan'},
+    {term:'DMC',full:'Destination Management Company',def:'A local specialist company at a destination providing on-ground services — guides, transfers, activities, hotel sourcing. Trip Factory uses DMCs and Nexus acts as a DMC in some markets.',context:'Building strong DMC relationships is critical for quality control on the ground. DMC performance = customer experience.',badge:'badge-green'},
+    {term:'Rooming List',full:'Hotel room allocation',def:'Detailed list of guest names mapped to room types sent to hotels before group arrival. Must include special requests (twin, double, adjoining, accessibility).',context:'Late or inaccurate rooming lists cause hotel check-in chaos. Ops team responsibility 14 days before arrival.',badge:'badge-orange'},
+    {term:'SLA',full:'Service Level Agreement',def:'Agreed response and resolution times for different types of queries. E.g., new enquiry responded to within 2 hours, complaint acknowledged within 1 hour.',context:'SLAs are tracked by management daily. Key performance metric for operations, sales, and customer service.',badge:'badge-amber'},
+    {term:'ROE',full:'Rate of Exchange',def:'The exchange rate applied to convert foreign currency costs to GBP for pricing. May be fixed at time of contracting or floating with market rates.',context:'ROE fluctuations can affect margin significantly on international products. Finance team monitors daily.',badge:'badge-purple'},
+    {term:'PAX',full:'Passengers / Travellers',def:'Industry shorthand for the number of people travelling. "PAX count" = number of travellers. Pax details = traveller information needed for bookings.',context:'Used constantly in operations and manifests. "How many PAX?" is the first operational question on any booking.',badge:'badge-navy'},
+    {term:'STPC',full:'Stopover Paid by Carrier',def:'When an airline pays for a hotel night at a transit hub as part of a connection. Often used in fare construction for long-haul routes with overnight stops.',context:'Can add perceived value to packages routed through airline hubs. Worth including in quote when available.',badge:'badge-cyan'},
+    {term:'ETA / ETD',full:'Estimated Time of Arrival / Departure',def:'The predicted arrival or departure time. Critical for coordinating transfers, hotel check-ins, guided tours, and restaurant reservations.',context:'Ops team monitors live ETAs on day of travel for transfer coordination. Flight delays require immediate action.',badge:'badge-magenta'},
+    {term:'No-Show',full:'Customer fails to travel',def:'When a booked customer fails to appear for their flight or hotel without prior cancellation. Typically results in full loss of booking cost.',context:'No-shows are expensive. Finance team must track and attempt recovery. Insurance claims where applicable.',badge:'badge-orange'},
+  ],
+  'Industry Structure & Regulation':[
+    {term:'ATOL',full:'Air Travel Organiser\'s Licence',def:'UK Civil Aviation Authority licence required by companies selling package holidays including flights. Provides financial protection to customers if the company fails. ATOL certificate must be issued at point of sale.',context:'Trip Factory UK must hold ATOL. Compliance is non-negotiable. Failure to hold ATOL when required is a criminal offence.',badge:'badge-magenta'},
+    {term:'ABTA',full:'Association of British Travel Agents',def:'UK trade association for travel agents and tour operators. Membership provides consumer protection and industry credibility. ABTA code of conduct must be followed.',context:'ABTA membership adds trust for UK customers. Complaint escalation can go to ABTA if not resolved.',badge:'badge-navy'},
+    {term:'PTD',full:'Package Travel Directive',def:'EU (and retained UK) regulation setting consumer protection rules for package holidays — cancellation rights, price change limits, insolvency protection.',context:'Legal and compliance team must ensure all packages comply with PTD. Breach can result in significant fines.',badge:'badge-green'},
+    {term:'GDS',full:'Global Distribution System',def:'See Booking & Reservations. Critical infrastructure for the industry.',badge:'badge-cyan'},
+    {term:'B2C',full:'Business to Consumer',def:'Selling directly to individual customers. Trip Factory\'s consumer brand sells B2C holidays direct to the public via website, phone, agents, and walk-in.',context:'B2C requires strong sales, marketing, and customer service capability. Higher revenue per booking than B2B.',badge:'badge-orange'},
+    {term:'B2B',full:'Business to Business',def:'Selling to trade partners — travel agents, tour operators, corporates — rather than directly to the public. Nexus TMC is Trip Factory\'s B2B brand.',context:'B2B requires different skills: trade relationship management, trade pricing, wholesale rates, agent support.',badge:'badge-purple'},
+    {term:'OTA',full:'Online Travel Agency',def:'A website selling travel directly to consumers online — Booking.com, Expedia, TripAdvisor. Competition to traditional travel agents. Trip Factory competes against OTAs on personalisation and expertise.',context:'OTAs have disrupted traditional agencies. Trip Factory differentiates through service quality and specialist knowledge.',badge:'badge-amber'},
+    {term:'RevPAR',full:'Revenue Per Available Room',def:'Hotel performance metric: Total Room Revenue ÷ Total Available Rooms. Used by hotels to assess yield performance and set pricing strategy.',context:'Understanding RevPAR helps contracting team negotiate better rates in low-demand periods.',badge:'badge-navy'},
+    {term:'Corridor',full:'Origin-Destination market pair',def:'A specific origin and destination pairing — e.g., UK to India, UAE to Maldives. Travel businesses often specialise in specific corridors where they have scale and relationships.',context:'Trip Factory\'s strongest corridors are UK→India and Gulf→India. New corridors require investment in contracting and marketing.',badge:'badge-cyan'},
+    {term:'Fam Trip',full:'Familiarisation Trip',def:'A subsidised or free trip offered to travel agents or staff by a destination, airline, or hotel to experience the product and sell it with confidence.',context:'L&D should incorporate fam trips into agent training programme. Agents who\'ve been to a destination sell it far better.',badge:'badge-green'},
+  ],
+  'Technology & Data':[
+    {term:'API',full:'Application Programming Interface',def:'Technology allowing different software systems to communicate. In travel, APIs connect booking engines to supplier systems for real-time availability, pricing, and booking confirmation.',context:'Tech team manages all API integrations. Any API downtime affects booking capability across the business.',badge:'badge-cyan'},
+    {term:'CRM',full:'Customer Relationship Management',def:'Software system (e.g., Salesforce, HubSpot) for managing customer interactions, enquiry tracking, sales pipeline, and communication history.',context:'Sales and marketing rely on CRM data quality. Poor CRM data = missed follow-ups and lost sales.',badge:'badge-purple'},
+    {term:'Mid-Office',full:'Back-office booking management',def:'Software layer between the booking/GDS and the accounting system. Manages PNRs, automations, quality checks, and supplier communication.',context:'Mid-office system is the operational backbone. Tech team maintains. Downtime impacts entire ops team.',badge:'badge-navy'},
+    {term:'LMS',full:'Learning Management System',def:'Online platform for delivering and tracking training — courses, certifications, onboarding modules. L&D team uses LMS to manage staff training compliance.',context:'Trip Factory uses LMS for GDS training and compliance modules. Completion tracking is HR responsibility.',badge:'badge-orange'},
+    {term:'UAT',full:'User Acceptance Testing',def:'Testing phase where business users (not developers) test new software before it goes live, to confirm it works as expected in real-world scenarios.',context:'Ops and sales teams required for UAT on any booking system changes. Always test edge cases.',badge:'badge-green'},
+    {term:'Uptime',full:'System availability percentage',def:'The percentage of time a system is operational and available to users. Travel industry standard expectation is 99.9%+ uptime for booking systems.',context:'Tech team monitors and reports uptime. Downtime during peak booking periods is extremely costly.',badge:'badge-amber'},
+  ],
+};
 
-    // Pulse animation for tier 1 active
-    if (o.revTier===1 && o.status==='active') {
-      const pulse = document.createElementNS(svgNS,'circle');
-      pulse.setAttribute('cx',cx); pulse.setAttribute('cy',cy);
-      pulse.setAttribute('r',r+5); pulse.setAttribute('fill','none');
-      pulse.setAttribute('stroke',color); pulse.setAttribute('stroke-width','2');
-      pulse.setAttribute('opacity','0.4');
-      const a1 = document.createElementNS(svgNS,'animate');
-      a1.setAttribute('attributeName','r'); a1.setAttribute('values',`${r+2};${r+14};${r+2}`);
-      a1.setAttribute('dur','2.5s'); a1.setAttribute('repeatCount','indefinite');
-      const a2 = document.createElementNS(svgNS,'animate');
-      a2.setAttribute('attributeName','opacity'); a2.setAttribute('values','0.4;0;0.4');
-      a2.setAttribute('dur','2.5s'); a2.setAttribute('repeatCount','indefinite');
-      pulse.appendChild(a1); pulse.appendChild(a2);
-      g.appendChild(pulse);
-    }
+const HISTORY_TIMELINE = [
+  {
+    date:'2018–2019',color:'#e91e63',
+    title:'Foundation & Early Days',
+    content:'TripFactory was founded by <strong>Vinay Gupta</strong> with a vision to disrupt the traditional travel agency model through technology-enabled personalised service.',
+    bullets:['Co-founders: Amit Aggarwal, Ankit Agarwal, Ankush Agarwal, Varun Gupta','Started with 12 employees in the Management team','Initial focus: B2C FIT travel to Indian subcontinent','First office established in India','Early investment in proprietary booking technology'],
+  },
+  {
+    date:'2020–2022',color:'#ff9800',
+    title:'Growth & Expansion',
+    content:'Despite global travel challenges during COVID-19, TripFactory invested in infrastructure and talent — emerging stronger as travel markets reopened.',
+    bullets:['Raj Kumar joined as COO to professionalise operations','Ajay Kawa appointed CTO to lead digital transformation','Operations team scaled to 285 staff (largest department)','Technology team grew to 48 employees','Launched B2B and Tour Operator divisions (Commercial: 22 staff)','Implemented 12-stage workflow pipeline','Established overseas office strategy (London / Dubai)'],
+  },
+  {
+    date:'2023–2024',color:'#00bcd4',
+    title:'Command Centre & Systems Era',
+    content:'Major investment in internal tools and dashboards. The Command Centre system was launched, giving management real-time visibility across all business metrics.',
+    bullets:['Command Centre dashboard system implemented','Agent Intelligence System launched (88,000+ agents)','Voyager Club loyalty programme launched','ORN Credits dynamic redemption system built','European expansion planning initiated','Staff grew to 452+ across 8 departments'],
+  },
+  {
+    date:'2025–Present',color:'#059669',
+    title:'ORN Group & Global Ambition',
+    content:'Trip Factory becomes part of the wider <strong>ORN Group</strong> structure with Trip Factory (B2C) and Nexus TMC (B2B) as sister brands. ARA appointed as Business Transition Officer UK & Europe.',
+    bullets:['Total staff: 698 across all departments','UK office established as European Control Hub','ORN Worldwide footprint: 37 offices across 6 regions','Nexus TMC B2B brand launched','ARA Wiki (this platform) built as internal knowledge base','HR audit programme launched with dedicated HR leadership'],
+  },
+];
 
-    // Shadow/glow
-    const shadow = document.createElementNS(svgNS,'circle');
-    shadow.setAttribute('cx',cx); shadow.setAttribute('cy',cy+1);
-    shadow.setAttribute('r',r+2); shadow.setAttribute('fill','rgba(0,0,0,0.4)');
-    g.appendChild(shadow);
+const MILESTONES = [
+  'IATA accreditation secured',
+  'Command Centre: 45+ dashboards live',
+  '88,000+ agents in Agent Intelligence System',
+  'Voyager Club loyalty programme launched',
+  'ORN Credits dynamic redemption system',
+  'London office — UK & European Control Hub',
+  'Nexus TMC B2B brand established',
+  '37 global offices under ORN Worldwide',
+  'ARA Wiki internal knowledge platform',
+];
 
-    // Main dot
-    const circle = document.createElementNS(svgNS,'circle');
-    circle.setAttribute('cx',cx); circle.setAttribute('cy',cy); circle.setAttribute('r',r);
-    circle.setAttribute('fill',color); circle.setAttribute('stroke','#fff'); circle.setAttribute('stroke-width','1.5');
-    g.appendChild(circle);
+// Default references
+const DEFAULT_REFS = [
+  {id:'ref_001',name:'Trip Factory Website',url:'https://www.tripfactory.com',desc:'Main consumer-facing B2C travel website',cat:'Website',color:'#e91e63'},
+  {id:'ref_002',name:'Nexus DMC',url:'https://www.nexustmc.com',desc:'B2B trade-facing platform for agents and DMCs',cat:'Website',color:'#3f51b5'},
+  {id:'ref_003',name:'ORN Group',url:'https://www.orngroup.com',desc:'ORN mother brand — The Light That Guides',cat:'Website',color:'#00bcd4'},
+  {id:'ref_004',name:'ARA GitHub — org-workflows',url:'https://tripfactory-ajay.github.io/org-workflows/',desc:'Internal tools, org chart, office directory and workflows',cat:'Tool',color:'#009688'},
+];
 
-    // Label for tier 1 & 2
-    if (o.revTier <= 2) {
-      const lbl = document.createElementNS(svgNS,'text');
-      lbl.setAttribute('x', cx + r + 3); lbl.setAttribute('y', cy + 4);
-      lbl.setAttribute('font-size','9'); lbl.setAttribute('fill','rgba(255,255,255,0.85)');
-      lbl.setAttribute('font-family','DM Sans,sans-serif');
-      lbl.setAttribute('font-weight','600');
-      lbl.setAttribute('text-shadow','0 1px 3px rgba(0,0,0,0.8)');
-      // Drop shadow via filter
-      lbl.setAttribute('filter','drop-shadow(0 1px 2px rgba(0,0,0,0.9))');
-      lbl.textContent = o.country.replace('United ','').replace(' Republic','');
-      g.appendChild(lbl);
-    }
+// ── Render Functions ─────────────────────────────────────────────
 
-    // Interaction — pointer events work on the group
-    g.style.cursor = 'pointer';
-    g.addEventListener('mouseenter', (e) => showMapTooltip(e, o));
-    g.addEventListener('mouseleave', hideMapTooltip);
-    g.addEventListener('click', () => {
-      openModal(o.id);
-      // Switch to directory tab
-      const dirBtn = document.querySelectorAll('.tab-btn')[2];
-      switchTab('directory', dirBtn);
-    });
-
-    svg.appendChild(g);
-  });
+function renderAll(){
+  renderPipeline();
+  renderDeptSummary();
+  renderDepartments();
+  renderWorkflows();
+  renderJargon();
+  renderTimeline();
 }
 
-function showMapTooltip(e, o) {
-  const tt = document.getElementById('mapTooltip');
-  const wrap = document.getElementById('mapWrap');
-  const wRect = wrap.getBoundingClientRect();
-  let left = e.clientX - wRect.left + 14;
-  let top  = e.clientY - wRect.top  + 14;
-  // Keep tooltip within bounds
-  if (left + 270 > wRect.width)  left = e.clientX - wRect.left - 274;
-  if (top  + 160 > wRect.height) top  = e.clientY - wRect.top  - 164;
-
-  const tierStars = '⭐'.repeat(Math.max(0, 6-(o.revTier||5)));
-  const statusColors = {active:'#059669',inactive:'#dc2626',opportunity:'#d97706',planned:'#2563eb'};
-  const sc = statusColors[o.status]||'#64748b';
-  tt.innerHTML = `
-    <div class="mtt-flag">${o.flag||'🌍'}</div>
-    <div class="mtt-name">${o.country}${o.city?' · '+o.city:''}</div>
-    <div class="mtt-meta">${o.region||''} · ${(o.type||'').charAt(0).toUpperCase()+(o.type||'').slice(1)} · ${tierStars}</div>
-    <div><span class="mtt-status" style="background:${sc}20;color:${sc};border:1px solid ${sc}40;">${statusLabel(o.status)}</span></div>
-    ${o.purpose?`<div style="font-size:0.75rem;color:#475569;margin-top:8px;line-height:1.4;">${o.purpose.slice(0,110)}${o.purpose.length>110?'…':''}</div>`:''}
-    <div class="mtt-hint"><i class="fas fa-hand-pointer"></i> Click to open &amp; edit</div>`;
-  tt.style.left = left + 'px';
-  tt.style.top  = top  + 'px';
-  tt.classList.add('show');
-}
-
-function hideMapTooltip() {
-  document.getElementById('mapTooltip').classList.remove('show');
-}
-
-// ══════════════════════════════════════════════════════════
-// DASHBOARD
-// ══════════════════════════════════════════════════════════
-function renderDashboard() {
-  const list = Object.values(offices);
-
-  // Summary cards
-  const byStatus = s => list.filter(o=>o.status===s).length;
-  const byType   = t => list.filter(o=>o.type===t).length;
-  document.getElementById('dashGrid').innerHTML = [
-    {n:list.length, l:'Total Offices', s:'across '+new Set(list.map(o=>o.region)).size+' regions'},
-    {n:byStatus('active'), l:'Active', s:'currently operating'},
-    {n:byStatus('opportunity'), l:'Opportunities', s:'market potential identified'},
-    {n:byStatus('inactive'), l:'Inactive', s:'paused or dormant'},
-    {n:byType('owned'), l:'Owned', s:'TF/ORN controlled'},
-    {n:byType('franchised'), l:'Franchised', s:'franchise model'},
-    {n:byType('partner'), l:'Partners', s:'partner network'},
-    {n:list.filter(o=>o.revTier===1).length, l:'Tier 1 Markets', s:'highest revenue potential'},
-  ].map(c=>`<div class="dash-card"><div class="dash-n">${c.n}</div><div class="dash-l">${c.l}</div><div class="dash-sub">${c.s}</div></div>`).join('');
-
-  // Tier visual
-  const tierCounts = [1,2,3,4,5].map(t=>({t,n:list.filter(o=>o.revTier===t).length}));
-  document.getElementById('tierVisual').innerHTML = tierCounts.map(({t,n})=>`
-    <div class="tier-col t${t}">
-      <div class="tier-stars">${'⭐'.repeat(6-t)}</div>
-      <div class="tier-count">${n}</div>
-      <div class="tier-label">Tier ${t}<br>${['Highest','High','Medium','Low','Minimal'][t-1]}</div>
+function renderPipeline(){
+  const container = document.getElementById('pipelineSteps');
+  container.innerHTML = PIPELINE.map((s,i)=>`
+    <div class="pipeline-step">
+      <div class="ps-circle">${s.n}</div>
+      <div class="ps-label">${s.label}</div>
+      <div class="ps-role">${s.role}</div>
     </div>`).join('');
+}
 
-  // Bar chart — top offices by tier (sorted)
-  const sorted = [...list].filter(o=>o.revTier).sort((a,b)=>a.revTier-b.revTier).slice(0,12);
-  const maxBar = 100;
-  const barColors = {1:'#f97316',2:'#f59e0b',3:'#22c55e',4:'#94a3b8',5:'#475569'};
-  document.getElementById('barChart').innerHTML = sorted.map(o=>`
-    <div class="bar-row">
-      <div class="bar-label">${o.flag||''} ${o.country}</div>
-      <div class="bar-track">
-        <div class="bar-fill" style="width:${Math.round((6-o.revTier)/5*100)}%;background:${barColors[o.revTier]||'#94a3b8'}">
-          <span>Tier ${o.revTier}</span>
+function renderDeptSummary(){
+  const el = document.getElementById('deptSummaryList');
+  const total = DEPARTMENTS.reduce((s,d)=>s+d.count,0);
+  el.innerHTML = DEPARTMENTS.map(d=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);">
+      <div style="width:32px;height:32px;border-radius:8px;background:${d.color};display:flex;align-items:center;justify-content:center;color:white;font-size:0.72rem;flex-shrink:0;"><i class="fas ${d.icon}"></i></div>
+      <div style="flex:1;"><div style="font-size:0.82rem;font-weight:600;color:var(--ink);">${d.name}</div><div style="font-size:0.7rem;color:var(--slate);">${d.subtitle}</div></div>
+      <div style="text-align:right;"><div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:${d.color};">${d.count}</div><div style="font-size:0.65rem;color:var(--slate2);">staff</div></div>
+    </div>`).join('');
+}
+
+function renderDepartments(){
+  const el = document.getElementById('deptGrid');
+  el.innerHTML = DEPARTMENTS.map(d=>`
+    <div class="dept-card">
+      <div class="dept-card-top" style="background:linear-gradient(135deg,${d.color},${d.color2});">
+        <div class="dept-top-count">${d.count}</div>
+        <div style="display:flex;align-items:center;gap:10px;position:relative;">
+          <div style="width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;"><i class="fas ${d.icon}" style="color:white;font-size:0.95rem;"></i></div>
+          <div>
+            <div class="dept-top-title">${d.name}</div>
+            <div class="dept-top-sub">${d.subtitle}</div>
+          </div>
         </div>
       </div>
-      <div class="bar-val">${o.revenue&&o.revenue!=='Unknown'?o.revenue:''}</div>
-    </div>`).join('');
-
-  // Donut — by type
-  const typeData = [
-    {label:'Owned',val:byType('owned'),color:'#2563eb'},
-    {label:'Partner',val:byType('partner'),color:'#22c55e'},
-    {label:'Franchised',val:byType('franchised'),color:'#7c3aed'},
-    {label:'Virtual',val:byType('virtual'),color:'#f59e0b'},
-  ].filter(d=>d.val>0);
-  const total = typeData.reduce((s,d)=>s+d.val,0);
-  let offset = 0;
-  const r2=60,cx2=70,cy2=70,circ=2*Math.PI*r2;
-  const segments = typeData.map(d=>{
-    const pct=d.val/total; const stroke=pct*circ;
-    const seg={...d,dash:`${stroke} ${circ}`,offset:circ*0.25-offset*circ};
-    offset+=pct; return seg;
-  });
-  document.getElementById('donutWrap').innerHTML = `
-    <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
-      <circle cx="${cx2}" cy="${cy2}" r="${r2}" fill="none" stroke="#e2e8f0" stroke-width="18"/>
-      ${segments.map(s=>`<circle cx="${cx2}" cy="${cy2}" r="${r2}" fill="none" stroke="${s.color}" stroke-width="18" stroke-dasharray="${s.dash}" stroke-dashoffset="${s.offset}" transform="rotate(-90 ${cx2} ${cy2})"/>`).join('')}
-      <text x="${cx2}" y="${cy2-4}" text-anchor="middle" font-size="18" font-weight="800" fill="#0a0f1e" font-family="Syne">${total}</text>
-      <text x="${cx2}" y="${cy2+12}" text-anchor="middle" font-size="8" fill="#64748b" font-family="DM Sans">Offices</text>
-    </svg>
-    <div class="donut-legend">${typeData.map(d=>`<div class="donut-item"><div class="donut-swatch" style="background:${d.color}"></div>${d.label}: <strong>${d.val}</strong></div>`).join('')}</div>`;
-
-  // Region bar chart
-  const regions = {};
-  list.forEach(o=>{ if(o.region){regions[o.region]=(regions[o.region]||0)+1;} });
-  const regSorted = Object.entries(regions).sort((a,b)=>b[1]-a[1]);
-  const regMax = Math.max(...regSorted.map(r=>r[1]));
-  document.getElementById('regionChart').innerHTML = regSorted.map(([reg,count])=>`
-    <div class="bar-row">
-      <div class="bar-label">${reg}</div>
-      <div class="bar-track">
-        <div class="bar-fill" style="width:${Math.round(count/regMax*100)}%;background:linear-gradient(90deg,#f97316,#f59e0b)">
-          <span>${count} office${count!==1?'s':''}</span>
+      <div class="dept-card-body">
+        <div style="font-size:0.78rem;color:var(--slate);margin-bottom:12px;line-height:1.55;">${d.desc}</div>
+        <div class="dept-roles">
+          ${d.roles.map(r=>`<div class="dept-role"><div class="dept-role-title">${r.title}</div><div class="dept-role-desc">${r.desc}</div></div>`).join('')}
+        </div>
+        <div class="dept-workflow">
+          <div class="dept-wf-title"><i class="fas fa-arrow-right"></i> ${d.wfTitle}</div>
+          <div class="wf-flow">
+            ${d.workflow.map((s,i)=>`<span class="wf-node" style="background:${d.color};">${s}</span>${i<d.workflow.length-1?'<span class="wf-arrow">→</span>':''}`).join('')}
+          </div>
         </div>
       </div>
-      <div class="bar-val">${count}</div>
     </div>`).join('');
 }
 
-// ══════════════════════════════════════════════════════════
-// DIRECTORY
-// ══════════════════════════════════════════════════════════
-function renderDirectory() {
-  const search = (document.getElementById('searchInput')?.value||'').toLowerCase();
-  let list = Object.values(offices);
-  if (filterMode.key!=='all') list = list.filter(o=>o[filterMode.key]===filterMode.val);
-  if (search) list = list.filter(o=>
-    (o.country||'').toLowerCase().includes(search)||
-    (o.city||'').toLowerCase().includes(search)||
-    (o.region||'').toLowerCase().includes(search)||
-    (o.primaryFunction||'').toLowerCase().includes(search)||
-    (o.staff||[]).some(s=>(s.name||'').toLowerCase().includes(search))
-  );
-  list.sort((a,b)=>(a.revTier||9)-(b.revTier||9)||a.country.localeCompare(b.country));
-  const byTier={};
-  list.forEach(o=>{ const t=o.revTier||5; if(!byTier[t])byTier[t]=[]; byTier[t].push(o); });
-  const tierLabels={1:'Tier 1 — Highest Revenue Potential',2:'Tier 2 — High Revenue Potential',3:'Tier 3 — Medium Revenue Potential',4:'Tier 4 — Lower Revenue Potential',5:'Tier 5 — Minimal / Unknown'};
-  const main=document.getElementById('dirContent');
-  if(!list.length){main.innerHTML=`<div class="empty-state"><i class="fas fa-globe"></i><p>No offices match current filters.</p></div>`;return;}
-  main.innerHTML=[1,2,3,4,5].filter(t=>byTier[t]).map(t=>`
-    <div class="region-block">
-      <div class="region-header">
-        <span class="region-label">${tierLabels[t]}</span>
-        <div class="region-line"></div>
-        <span class="region-count">${byTier[t].length} office${byTier[t].length!==1?'s':''}</span>
+function renderWorkflows(){
+  const el = document.getElementById('workflowsContainer');
+  el.innerHTML = WORKFLOWS.map((w,wi)=>`
+    <div class="wf-section">
+      <div class="wf-header" onclick="toggleWF(${wi},this)">
+        <div class="wf-header-icon" style="background:linear-gradient(135deg,${w.color},${w.color}cc);"><i class="fas ${w.icon}"></i></div>
+        <h3>${w.title}</h3>
+        <div style="font-size:0.75rem;color:var(--slate);margin-right:12px;">${w.steps.length} steps</div>
+        <i class="fas fa-chevron-down wf-chevron"></i>
       </div>
-      <div class="offices-grid">${byTier[t].map(o=>officeCardHTML(o)).join('')}</div>
-    </div>`).join('');
-}
-
-function officeCardHTML(o) {
-  const stars='⭐'.repeat(Math.max(0,6-(o.revTier||5)));
-  const staffNames=(o.staff||[]).slice(0,2).map(s=>s.name).join(', ');
-  const staffMore=(o.staff||[]).length>2?` +${(o.staff||[]).length-2} more`:'';
-  const purpose=o.purpose?o.purpose.slice(0,110)+(o.purpose.length>110?'…':''):`<em style="color:#94a3b8">No purpose defined — click Edit</em>`;
-  const ornSpend = (o.orn_members&&o.orn_credits) ? formatCurrency(o.orn_members*o.orn_credits,o.orn_currency) : null;
-  return `<div class="office-card" style="animation-delay:${Math.random()*0.15}s">
-    <div class="card-top">
-      <div class="card-flag">${o.flag||'🌍'}</div>
-      <div class="card-info">
-        <div class="card-country">${o.country}</div>
-        <div class="card-city">${[o.city,o.region].filter(Boolean).join(' · ')}</div>
-        <div class="card-badges">
-          <span class="badge badge-type-${o.type||'partner'}">${(o.type||'partner').charAt(0).toUpperCase()+(o.type||'partner').slice(1)}</span>
-          <span class="badge badge-status-${o.status||'active'}">${statusLabel(o.status)}</span>
-          ${o.primaryFunction?`<span class="badge" style="background:#f1f5f9;color:#475569;">${o.primaryFunction}</span>`:''}
+      <div class="wf-body" id="wfb-${wi}">
+        <p style="font-size:0.82rem;color:var(--slate);margin-bottom:16px;line-height:1.55;">${w.desc}</p>
+        <div class="wf-steps">
+          ${w.steps.map((s,si)=>`
+            <div class="wf-step">
+              <div class="wf-step-num">${si+1}</div>
+              <div class="wf-step-content">
+                <div class="wf-step-title">${s.title}</div>
+                <div class="wf-step-desc">${s.desc}</div>
+                <span class="wf-step-dept tag" style="background:${s.deptColor}22;color:${s.deptColor};border:1px solid ${s.deptColor}44;">${s.dept}</span>
+              </div>
+            </div>
+            ${si<w.steps.length-1?'<div class="wf-connector"></div>':''}`).join('')}
         </div>
       </div>
-      <div class="card-rev">
-        <div class="rev-tier-lbl">Tier ${o.revTier||'?'}</div>
-        <div class="rev-stars">${stars}</div>
+    </div>`).join('');
+}
+
+function toggleWF(idx,hdr){
+  const body = document.getElementById('wfb-'+idx);
+  hdr.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+function renderJargon(){
+  const cats = Object.keys(JARGON);
+  // Build filter chips
+  const filterEl = document.getElementById('jargonFilter');
+  filterEl.innerHTML = `<div class="jargon-chip active" onclick="filterJargon('all',this)">All Terms</div>` +
+    cats.map(c=>`<div class="jargon-chip" onclick="filterJargon('${c}',this)">${c}</div>`).join('');
+
+  const container = document.getElementById('jargonContainer');
+  container.innerHTML = cats.map(cat=>`
+    <div class="jargon-category" data-cat="${cat}">
+      <div class="jargon-cat-label"><i class="fas fa-tag" style="color:var(--gold);"></i> ${cat}</div>
+      <div class="jargon-grid">
+        ${JARGON[cat].map(j=>`
+          <div class="jargon-card ${j.badge}" onclick="copyTerm('${j.term}')" data-term="${j.term.toLowerCase()}" data-def="${j.def.toLowerCase()}">
+            <div class="jargon-term">${j.term}</div>
+            ${j.full?`<div class="jargon-full">${j.full}</div>`:''}
+            <div class="jargon-def">${j.def}</div>
+            ${j.context?`<div class="jargon-context"><i class="fas fa-briefcase"></i><strong>Trip Factory Context:</strong> ${j.context}</div>`:''}
+          </div>`).join('')}
       </div>
-    </div>
-    <div class="card-body">
-      <div class="card-purpose">${purpose}</div>
-      <div class="card-meta">
-        ${o.revenue&&o.revenue!=='Unknown'?`<div class="meta-item"><i class="fas fa-pound-sign"></i>${o.revenue}</div>`:''}
-        ${o.yearEst?`<div class="meta-item"><i class="fas fa-calendar"></i>Est. ${o.yearEst}</div>`:''}
-        ${o.staffCount?`<div class="meta-item"><i class="fas fa-users"></i>${o.staffCount} staff</div>`:''}
-        ${ornSpend?`<div class="meta-item"><i class="fas fa-coins"></i>ORN: ${ornSpend}</div>`:''}
-      </div>
-    </div>
-    <div class="card-foot">
-      <div class="card-staff">${staffNames?`<strong>${staffNames}</strong>${staffMore}`:`<em style="color:#94a3b8">No contacts added</em>`}</div>
-      <button class="btn-edit" onclick="openModal('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
-    </div>
-  </div>`;
+    </div>`).join('');
 }
 
-function statusLabel(s){return{active:'Active',inactive:'Inactive',opportunity:'Opportunity',planned:'Planned'}[s]||s||'Active';}
-function formatCurrency(amount,currency){const sym=CURRENCY_SYMBOLS[currency]||currency+' ';return sym+Number(amount).toLocaleString();}
-
-// ── Filters ────────────────────────────────────────────────────────────
-function setFilter(key,val,el) {
-  filterMode={key,val};
-  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  renderDirectory();
-}
-
-// ── Flag auto-fill ─────────────────────────────────────────────────────
-const FLAG_MAP={'united kingdom':'🇬🇧','uk':'🇬🇧','germany':'🇩🇪','france':'🇫🇷','spain':'🇪🇸','italy':'🇮🇹','switzerland':'🇨🇭','ireland':'🇮🇪','czech republic':'🇨🇿','poland':'🇵🇱','slovakia':'🇸🇰','austria':'🇦🇹','greece':'🇬🇷','croatia':'🇭🇷','bulgaria':'🇧🇬','turkey':'🇹🇷','uae':'🇦🇪','united arab emirates':'🇦🇪','bahrain':'🇧🇭','qatar':'🇶🇦','oman':'🇴🇲','india':'🇮🇳','singapore':'🇸🇬','malaysia':'🇲🇾','thailand':'🇹🇭','indonesia':'🇮🇩','philippines':'🇵🇭','hong kong':'🇭🇰','united states':'🇺🇸','usa':'🇺🇸','mexico':'🇲🇽','brazil':'🇧🇷','colombia':'🇨🇴','ecuador':'🇪🇨','peru':'🇵🇪','argentina':'🇦🇷','chile':'🇨🇱','australia':'🇦🇺','new zealand':'🇳🇿','south africa':'🇿🇦'};
-function autoUpdateFlag(){const c=document.getElementById('mf_country').value.toLowerCase().trim();const f=FLAG_MAP[c];if(f)document.getElementById('mf_flag').value=f;}
-
-// ── ORN Credit Calculator ──────────────────────────────────────────────
-async function calcORNCredit() {
-  const members  = parseInt(document.getElementById('orn_members').value)||0;
-  const credits  = parseInt(document.getElementById('orn_credits').value)||0;
-  const currency = document.getElementById('orn_currency').value;
-  const sym      = CURRENCY_SYMBOLS[currency]||currency+' ';
-  const total    = members * credits;
-
-  document.getElementById('orn_totalCredits').textContent = members.toLocaleString();
-  document.getElementById('orn_creditVal').textContent    = credits.toLocaleString();
-  document.getElementById('orn_totalLocal').textContent   = sym + total.toLocaleString();
-
-  if (!fxLoaded) await loadFXRates();
-  const usd = toUSD(total, currency);
-  document.getElementById('orn_totalUSD').textContent = '$' + Math.round(usd).toLocaleString();
-  document.getElementById('orn_fxNote').textContent   = `Exchange rate: 1 ${currency} ≈ $${(toUSD(1,currency)).toFixed(4)} USD · ${fxLoaded?'Live rate':'Static fallback rate'}`;
-}
-
-// ── Modal ──────────────────────────────────────────────────────────────
-function openModal(id) {
-  editingId=id||null; staffTags=[]; revTier=0;
-  resetPillGroup('pg_type','owned'); resetPillGroup('pg_status','active');
-  document.querySelectorAll('.rev-btn').forEach(b=>b.className='rev-btn');
-  ['mf_country','mf_city','mf_flag','mf_address','mf_revenue','mf_marketSize','mf_purpose','mf_products','mf_auditNotes','mf_yearEst','mf_website','mf_notes','mf_ornNotes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('mf_staffCount').value='';
-  document.getElementById('mf_region').value=''; document.getElementById('mf_function').value='';
-  document.getElementById('staffTagList').innerHTML='';
-  document.getElementById('orn_members').value=''; document.getElementById('orn_credits').value='';
-  document.getElementById('orn_currency').value='GBP';
-  document.getElementById('orn_totalCredits').textContent='—'; document.getElementById('orn_creditVal').textContent='—';
-  document.getElementById('orn_totalLocal').textContent='—'; document.getElementById('orn_totalUSD').textContent='—';
-  document.getElementById('orn_fxNote').textContent='Enter members and credits above to calculate';
-
-  if (id&&offices[id]) {
-    const o=offices[id];
-    document.getElementById('modalTitle').textContent=o.country+(o.city?' — '+o.city:'');
-    document.getElementById('modalSub').textContent='Editing · Last updated: '+(o.updatedAt?new Date(o.updatedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'Never');
-    document.getElementById('btnDelete').classList.remove('hidden');
-    ['country','city','flag','address','revenue','marketSize','purpose','products','auditNotes','yearEst','website','notes'].forEach(k=>{const el=document.getElementById('mf_'+k);if(el&&o[k]!==undefined)el.value=o[k];});
-    document.getElementById('mf_staffCount').value=o.staffCount||'';
-    if(o.region)document.getElementById('mf_region').value=o.region;
-    if(o.primaryFunction)document.getElementById('mf_function').value=o.primaryFunction;
-    resetPillGroup('pg_type',o.type||'owned'); resetPillGroup('pg_status',o.status||'active');
-    if(o.revTier){revTier=o.revTier;const rb=document.querySelector(`.rev-btn[data-val="${o.revTier}"]`);if(rb)rb.classList.add('sel-'+o.revTier);}
-    staffTags=[...(o.staff||[])]; renderStaffTags();
-    // ORN Credit
-    if(o.orn_members)document.getElementById('orn_members').value=o.orn_members;
-    if(o.orn_credits)document.getElementById('orn_credits').value=o.orn_credits;
-    if(o.orn_currency)document.getElementById('orn_currency').value=o.orn_currency;
-    if(o.ornNotes)document.getElementById('mf_ornNotes').value=o.ornNotes;
-    if(o.orn_members&&o.orn_credits)calcORNCredit();
-  } else {
-    document.getElementById('modalTitle').textContent='Add New Office';
-    document.getElementById('modalSub').textContent='Complete details to add to the global directory';
-    document.getElementById('btnDelete').classList.add('hidden');
+let activeJargonCat = 'all';
+function filterJargon(cat, chipEl){
+  if(cat !== undefined){
+    activeJargonCat = cat;
+    document.querySelectorAll('.jargon-chip').forEach(c=>c.classList.remove('active'));
+    if(chipEl) chipEl.classList.add('active');
   }
-  document.getElementById('modalOverlay').classList.remove('hidden');
-  document.getElementById('modal').scrollTop=0;
+  const search = (document.getElementById('jargonSearch')?.value||'').toLowerCase();
+  document.querySelectorAll('.jargon-category').forEach(cat_el=>{
+    const catName = cat_el.dataset.cat;
+    const matchCat = activeJargonCat==='all' || catName===activeJargonCat;
+    let visible = 0;
+    cat_el.querySelectorAll('.jargon-card').forEach(card=>{
+      const term = card.dataset.term||'';
+      const def = card.dataset.def||'';
+      const matchSearch = !search || term.includes(search) || def.includes(search);
+      const show = matchCat && matchSearch;
+      card.style.display = show ? 'block' : 'none';
+      if(show) visible++;
+    });
+    cat_el.style.display = visible > 0 ? 'block' : 'none';
+  });
 }
 
-function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');editingId=null;}
-function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
-function resetPillGroup(gid,val){document.querySelectorAll(`#${gid} .sel-pill`).forEach(p=>p.classList.toggle('active',p.dataset.val===val));}
-function selectPill(gid,val,el){document.querySelectorAll(`#${gid} .sel-pill`).forEach(p=>p.classList.remove('active'));el.classList.add('active');}
-function selectRevTier(tier,btn){revTier=tier;document.querySelectorAll('.rev-btn').forEach(b=>b.className='rev-btn');btn.classList.add('sel-'+tier);}
-
-// ── Staff tags — FIXED with separate fields ────────────────────────────
-function addStaffTag() {
-  const nameEl  = document.getElementById('staffNameInput');
-  const roleEl  = document.getElementById('staffRoleInput');
-  const emailEl = document.getElementById('staffEmailInput');
-  const name    = nameEl.value.trim();
-  if (!name) { nameEl.focus(); showToast('Please enter a name','red'); return; }
-  staffTags.push({ name, role: roleEl.value.trim(), email: emailEl.value.trim() });
-  nameEl.value=''; roleEl.value=''; emailEl.value='';
-  nameEl.focus();
-  renderStaffTags();
+function copyTerm(term){
+  navigator.clipboard.writeText(term).catch(()=>{});
+  toast(`"${term}" copied to clipboard`,'green');
 }
 
-function removeStaffTag(i){staffTags.splice(i,1);renderStaffTags();}
-function renderStaffTags(){
-  document.getElementById('staffTagList').innerHTML=staffTags.map((s,i)=>
-    `<div class="staff-tag">
-      <i class="fas fa-user" style="color:var(--orange);font-size:0.62rem;"></i>
-      <span><strong>${s.name}</strong>${s.role?' · '+s.role:''}${s.email?' · '+s.email:''}</span>
-      <button type="button" class="staff-tag-rm" onclick="removeStaffTag(${i})"><i class="fas fa-times"></i></button>
+function renderTimeline(){
+  const el = document.getElementById('timelineContainer');
+  el.innerHTML = HISTORY_TIMELINE.map(t=>`
+    <div class="tl-item">
+      <div class="tl-dot" style="background:${t.color};"></div>
+      <div class="tl-date">${t.date}</div>
+      <div class="tl-title">${t.title}</div>
+      <div class="tl-content">
+        <p style="margin-bottom:10px;">${t.content}</p>
+        <ul>${t.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>
+    </div>`).join('');
+
+  const ml = document.getElementById('milestonesList');
+  ml.innerHTML = MILESTONES.map(m=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);">
+      <i class="fas fa-check-circle" style="color:var(--green);font-size:0.8rem;flex-shrink:0;"></i>
+      <span style="font-size:0.82rem;color:var(--ink2);">${m}</span>
     </div>`).join('');
 }
 
-// ── Toast ──────────────────────────────────────────────────────────────
-function showToast(msg,type){const t=document.getElementById('toast');t.innerHTML=`<i class="fas fa-${type==='green'?'check':type==='red'?'times':'info-circle'}"></i> ${msg}`;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',3000);}
+// ── References ──────────────────────────────────────────────────
+function loadReferences(){
+  if(!_db){ renderRefs(DEFAULT_REFS); return; }
+  _db.ref(FB_REFS).once('value').then(snap=>{
+    const data = snap.val();
+    if(data && Object.keys(data).length>0){ wikiRefs=data; }
+    else { DEFAULT_REFS.forEach(r=>{ wikiRefs[r.id]=r; }); if(_db)_db.ref(FB_REFS).set(wikiRefs).catch(()=>{}); }
+    renderRefs(Object.values(wikiRefs));
+  }).catch(()=>{ renderRefs(DEFAULT_REFS); });
+}
+
+function renderRefs(refs){
+  const catColors = {'Website':'#e91e63','Presentation':'#ff9800','Document':'#4caf50','Dashboard':'#3f51b5','Tool':'#009688','Other':'#9c27b0'};
+  const catIcons = {'Website':'fa-globe','Presentation':'fa-chart-bar','Document':'fa-file-alt','Dashboard':'fa-tachometer-alt','Tool':'fa-wrench','Other':'fa-link'};
+  document.getElementById('refsGrid').innerHTML = refs.map(r=>`
+    <div class="ref-card">
+      <div class="ref-card-top">
+        <div class="ref-icon" style="background:${catColors[r.cat]||'#64748b'};"><i class="fas ${catIcons[r.cat]||'fa-link'}"></i></div>
+        <div style="flex:1;min-width:0;">
+          <div class="ref-name">${r.name}</div>
+          <div class="ref-url">${r.url||''}</div>
+        </div>
+        <button class="btn-del-ref" onclick="deleteRef('${r.id}')" title="Remove"><i class="fas fa-trash"></i></button>
+      </div>
+      ${r.desc?`<div class="ref-desc">${r.desc}</div>`:''}
+      <a class="ref-btn" href="${r.url}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Open</a>
+    </div>`).join('');
+}
+
+async function addReference(){
+  const name = document.getElementById('refName').value.trim();
+  const url  = document.getElementById('refUrl').value.trim();
+  const desc = document.getElementById('refDesc').value.trim();
+  const cat  = document.getElementById('refCat').value;
+  if(!name||!url){ toast('Name and URL are required'); return; }
+  const id = 'ref_'+Date.now();
+  const ref = {id,name,url,desc,cat,addedBy:currentUser,addedAt:Date.now()};
+  wikiRefs[id] = ref;
+  if(_db) await _db.ref(FB_REFS+id).set(ref).catch(()=>{});
+  document.getElementById('refName').value=''; document.getElementById('refUrl').value='';
+  document.getElementById('refDesc').value='';
+  renderRefs(Object.values(wikiRefs));
+  toast(`"${name}" added`,'green');
+}
+
+async function deleteRef(id){
+  if(!confirm('Remove this reference?')) return;
+  delete wikiRefs[id];
+  if(_db) await _db.ref(FB_REFS+id).remove().catch(()=>{});
+  renderRefs(Object.values(wikiRefs));
+  toast('Reference removed');
+}
 </script>
 </body>
 </html>
