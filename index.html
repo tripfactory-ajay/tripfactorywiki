@@ -646,7 +646,7 @@ select.oedit-inp{cursor:pointer;}
     </div>
     <textarea class="doc-textarea" id="docDesc" placeholder="Short description (optional)" style="margin-bottom:10px;"></textarea>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-      <label class="doc-file-label"><i class="fas fa-paperclip"></i><span id="docFileName">Choose file to upload</span><input type="file" id="docFile" style="display:none" onchange="onFileSelect()"></label>
+      <label class="doc-file-label"><i class="fas fa-paperclip"></i><span id="docFileName">Choose file or drag &amp; drop here</span><input type="file" id="docFile" style="display:none" onchange="onFileSelect()"></label>
       <button class="btn-upload" onclick="addDocument()"><i class="fas fa-cloud-upload-alt"></i> Upload Document</button>
     </div>
     <div style="font-size:0.72rem;color:var(--slate2);margin-top:8px;"><i class="fas fa-info-circle"></i> Files are stored as base64 in Firebase. Max recommended: 1MB per file.</div>
@@ -1448,10 +1448,38 @@ async function deleteOffice(id){
 const DOC_ICONS={Policy:'\ud83d\udccb',Presentation:'\ud83d\udcca',Report:'\ud83d\udcc8',Training:'\ud83c\udf93',Template:'\ud83d\udcc4',Contract:'\ud83d\udcdd',Other:'\ud83d\udcce'};
 const DOC_COLORS={Policy:'#d4145a',Presentation:'#b45309',Report:'#1d4ed8',Training:'#059669',Template:'#7c3aed',Contract:'#0891b2',Other:'#94a3b8'};
 
+function toast(msg,type){
+  const el=document.getElementById('toast');
+  if(!el)return;
+  el.textContent=msg;
+  el.className='toast'+(type==='ok'?' ok':'');
+  void el.offsetWidth;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove('show'),2800);
+}
 function onFileSelect(){
   const f=document.getElementById('docFile').files[0];
   document.getElementById('docFileName').textContent=f?f.name:'Choose file to upload';
 }
+
+// Drag and drop
+(function initDocDrop(){
+  function ready(){
+    const zone=document.getElementById('docDropArea');
+    if(!zone)return setTimeout(ready,300);
+    ['dragenter','dragover'].forEach(ev=>zone.addEventListener(ev,e=>{e.preventDefault();zone.style.borderColor='var(--cyan)';zone.style.background='rgba(8,145,178,0.04)';}));
+    ['dragleave','drop'].forEach(ev=>zone.addEventListener(ev,e=>{e.preventDefault();zone.style.borderColor='';zone.style.background='';}));
+    zone.addEventListener('drop',e=>{
+      const f=e.dataTransfer.files[0];
+      if(!f)return;
+      const dt=new DataTransfer();dt.items.add(f);
+      document.getElementById('docFile').files=dt.files;
+      document.getElementById('docFileName').textContent=f.name;
+    });
+  }
+  ready();
+})();
 
 async function addDocument(){
   const title=document.getElementById('docTitle').value.trim();
@@ -1479,7 +1507,6 @@ async function addDocument(){
   
   wikiDocs[id]=doc;
   if(_db){
-    // Store without file data for listing, file data separate
     const docMeta={...doc};delete docMeta.fileData;
     await _db.ref(FB.docs+id+'/meta').set(docMeta).catch(()=>{});
     if(fileData)await _db.ref(FB.docs+id+'/file').set(fileData).catch(()=>{});
@@ -1492,7 +1519,7 @@ async function addDocument(){
   document.getElementById('docFileName').textContent='Choose file to upload';
   
   renderDocs(Object.values(wikiDocs));
-  toast(`"${title}" uploaded`,'ok');
+  toast(`✓ "${title}" saved successfully`,'ok');
 }
 
 function renderDocs(docs){
@@ -1522,14 +1549,24 @@ function renderDocs(docs){
       </div>
       <div class="doc-actions">
         ${d.hasFile&&d.fileData?`<a class="doc-btn" href="${d.fileData}" download="${d.fileName||d.title}"><i class="fas fa-download"></i> Download</a>`:'<span class="doc-btn" style="opacity:0.4;cursor:default;"><i class="fas fa-file"></i> No file</span>'}
-        <button class="doc-btn del" onclick="deleteDoc('${d.id}')"><i class="fas fa-trash"></i> Remove</button>
+        <button class="doc-btn del" data-delid="${d.id}" onclick="deleteDoc('${d.id}')"><i class="fas fa-trash"></i> Remove</button>
       </div>
     </div>`;
   }).join('');
 }
 
 async function deleteDoc(id){
-  if(!confirm('Remove this document?'))return;
+  const d=wikiDocs[id];
+  if(!d)return;
+  // Inline confirm on the card instead of browser confirm()
+  const btn=document.querySelector(`[data-delid="${id}"]`);
+  if(btn&&!btn.dataset.confirmed){
+    btn.dataset.confirmed='1';
+    btn.innerHTML='<i class="fas fa-exclamation-triangle"></i> Confirm?';
+    btn.style.background='#dc2626';btn.style.color='white';btn.style.borderColor='#dc2626';
+    setTimeout(()=>{if(btn){delete btn.dataset.confirmed;btn.innerHTML='<i class="fas fa-trash"></i> Remove';btn.style.cssText='';}},2500);
+    return;
+  }
   delete wikiDocs[id];
   if(_db)await _db.ref(FB.docs+id).remove().catch(()=>{});
   renderDocs(Object.values(wikiDocs));
