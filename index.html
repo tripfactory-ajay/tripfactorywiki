@@ -803,7 +803,7 @@ function dismissIOSBanner(){
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
 // ── Firebase ─────────────────────────────────────────────────────
-const _fbCfg={apiKey:"AIzaSyBxyz_placeholder",authDomain:"tripfactory-hr.firebaseapp.com",databaseURL:"https://tripfactory-hr-default-rtdb.firebaseio.com",projectId:"tripfactory-hr"};
+const _fbCfg={apiKey:"AIzaSyCJXOlSMyFlrcnQ2air1h1dbhFqLxXzOdI",authDomain:"orn-wiki.firebaseapp.com",databaseURL:"https://orn-wiki-default-rtdb.europe-west1.firebasedatabase.app",projectId:"orn-wiki",storageBucket:"orn-wiki.firebasestorage.app",messagingSenderId:"25736842668",appId:"1:25736842668:web:754f9cf6268e2a5552fe09"};
 let _db;
 try{_db=firebase.database(firebase.initializeApp(_fbCfg,'ornwiki'));}catch(e){console.warn('FB:',e);}
 const FB={refs:'tripfactory/wiki-refs/',offices:'tripfactory/wiki-offices/',docs:'tripfactory/wiki-docs/'};
@@ -1742,6 +1742,7 @@ const STAFF_DATA=[
 // STATE
 // ══════════════════════════════════════════════════════════════════
 let wikiRefs={}, wikiOffices={}, wikiDocs={};
+let _pendingFile=null;
 let activeJargonCat='all', activeLocFilter='all', activeDeptFilter='all';
 let officeFilter='all';
 
@@ -2139,38 +2140,43 @@ function resetDropArea(){
 }
 
 async function addDocument(){
-  const title=document.getElementById('docTitle').value.trim();
-  if(!title){toast('Document title is required');return;}
-  const cat=document.getElementById('docCat').value;
-  const desc=document.getElementById('docDesc').value.trim();
-  const file=_pendingFile||document.getElementById('docFile').files[0];
+  try{
+    const title=document.getElementById('docTitle').value.trim();
+    if(!title){toast('Document title is required');return;}
+    const cat=document.getElementById('docCat').value;
+    const desc=document.getElementById('docDesc').value.trim();
+    const file=_pendingFile||document.getElementById('docFile').files[0];
 
-  let fileData=null,fileName='',fileType='',fileSize=0;
-  if(file){
-    if(file.size>10*1024*1024){toast('File too large — max 10MB');return;}
-    fileSize=file.size;fileName=file.name;fileType=file.type;
-    fileData=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});
+    let fileData=null,fileName='',fileType='',fileSize=0;
+    if(file){
+      if(file.size>10*1024*1024){toast('File too large — max 10MB');return;}
+      fileSize=file.size;fileName=file.name;fileType=file.type;
+      fileData=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});
+    }
+
+    const id='doc_'+Date.now();
+    const doc={id,title,cat,desc,fileName,fileType,fileSize,addedBy:currentUser,addedAt:Date.now(),hasFile:!!file};
+    if(fileData)doc.fileData=fileData;
+    wikiDocs[id]=doc;
+
+    if(_db){
+      const docMeta={...doc};delete docMeta.fileData;
+      await _db.ref(FB.docs+id+'/meta').set(docMeta).catch(e=>console.error('FB doc meta:',e));
+      if(fileData)await _db.ref(FB.docs+id+'/file').set(fileData).catch(e=>console.error('FB doc file:',e));
+    }
+
+    document.getElementById('docTitle').value='';
+    document.getElementById('docDesc').value='';
+    document.getElementById('docFile').value='';
+    _pendingFile=null;
+    setDropLabel('Drag & drop file here, or click to browse');
+    resetDropArea();
+    renderDocs(Object.values(wikiDocs));
+    toast('"'+title+'" uploaded','ok');
+  }catch(err){
+    console.error('addDocument error:',err);
+    toast('Upload failed: '+err.message);
   }
-
-  const id='doc_'+Date.now();
-  const doc={id,title,cat,desc,fileName,fileType,fileSize,addedBy:currentUser,addedAt:Date.now(),hasFile:!!file};
-  if(fileData)doc.fileData=fileData;
-  wikiDocs[id]=doc;
-
-  if(_db){
-    const docMeta={...doc};delete docMeta.fileData;
-    await _db.ref(FB.docs+id+'/meta').set(docMeta).catch(()=>{});
-    if(fileData)await _db.ref(FB.docs+id+'/file').set(fileData).catch(()=>{});
-  }
-
-  document.getElementById('docTitle').value='';
-  document.getElementById('docDesc').value='';
-  document.getElementById('docFile').value='';
-  _pendingFile=null;
-  setDropLabel('Drag & drop file here, or click to browse');
-  resetDropArea();
-  renderDocs(Object.values(wikiDocs));
-  toast('"'+title+'" uploaded','ok');
 }
 async function deleteDoc(id){
   if(!confirm('Remove this document?'))return;
@@ -2205,21 +2211,26 @@ function renderRefs(refs){
     </div>`).join('');
 }
 async function addReference(){
-  const name=document.getElementById('refName').value.trim();
-  let url=document.getElementById('refUrl').value.trim();
-  if(!name||!url){toast('Name and URL are required');return;}
-  if(!/^https?:\/\//i.test(url))url='https://'+url;
-  const id='ref_'+Date.now();
-  const r={id,name,url,desc:document.getElementById('refDesc').value.trim(),cat:document.getElementById('refCat').value,addedBy:currentUser,addedAt:Date.now()};
-  wikiRefs[id]=r;
-  if(_db){
-    await _db.ref(FB.refs+id).set(r).catch(e=>console.error('Firebase ref save error:',e));
+  try{
+    const name=document.getElementById('refName').value.trim();
+    let url=document.getElementById('refUrl').value.trim();
+    if(!name||!url){toast('Name and URL are required');return;}
+    if(!/^https?:\/\//i.test(url))url='https://'+url;
+    const id='ref_'+Date.now();
+    const r={id,name,url,desc:document.getElementById('refDesc').value.trim(),cat:document.getElementById('refCat').value,addedBy:currentUser,addedAt:Date.now()};
+    wikiRefs[id]=r;
+    if(_db){
+      await _db.ref(FB.refs+id).set(r).catch(e=>console.error('FB ref save error:',e));
+    }
+    document.getElementById('refName').value='';
+    document.getElementById('refUrl').value='';
+    document.getElementById('refDesc').value='';
+    renderRefs(Object.values(wikiRefs));
+    toast('"'+name+'" added','ok');
+  }catch(err){
+    console.error('addReference error:',err);
+    toast('Save failed: '+err.message);
   }
-  document.getElementById('refName').value='';
-  document.getElementById('refUrl').value='';
-  document.getElementById('refDesc').value='';
-  renderRefs(Object.values(wikiRefs));
-  toast('"'+name+'" added','ok');
 }
 async function deleteRef(id){
   delete wikiRefs[id];
