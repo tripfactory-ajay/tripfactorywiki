@@ -181,7 +181,7 @@ body{display:flex;flex-direction:column;}
 .modal-search-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--slate2);font-size:0.75rem;pointer-events:none;}
 .modal-filter-row{display:flex;gap:6px;flex-wrap:wrap;}
 .modal-chip{padding:5px 11px;border:1.5px solid var(--border);border-radius:20px;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;transition:all 0.15s;background:white;font-family:'Plus Jakarta Sans',sans-serif;}
-.modal-chip:hover,.modal-chip.on{background:var(--navy);border-color:var(--navy);color:white;}
+.modal-chip:hover,.modal-chip.on{background:var(--chip-on,var(--navy));border-color:var(--chip-on,var(--navy));color:white;}
 .modal-stats{padding:10px 18px;background:white;border-bottom:1px solid var(--border);font-size:0.75rem;color:var(--slate2);font-weight:500;}
 .staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:16px;}
 .staff-card{border:1px solid var(--border);border-radius:10px;padding:14px;transition:all 0.15s;cursor:default;}
@@ -614,6 +614,12 @@ select.oedit-inp{cursor:pointer;}
   <div class="offices-toolbar">
     <div class="offices-search"><i class="fas fa-search"></i><input type="text" id="officeSearch" placeholder="Search country, city or region..." oninput="filterOffices()"></div>
     <div class="modal-filter-row" id="officeFilterChips"></div>
+    <div class="modal-filter-row" style="margin-left:0;" id="officeStatusChips">
+      <div class="modal-chip on" onclick="setOfficeStatus('all',this)">All</div>
+      <div class="modal-chip" onclick="setOfficeStatus('Active',this)" style="--chip-on:#059669;">Active</div>
+      <div class="modal-chip" onclick="setOfficeStatus('Non-Operational',this)" style="--chip-on:#dc2626;">Non-Operational</div>
+      <div class="modal-chip" onclick="setOfficeStatus('Planning',this)" style="--chip-on:#b45309;">Planning</div>
+    </div>
     <button class="btn-add-office" onclick="openOfficeEdit(null)"><i class="fas fa-plus"></i> Add Office</button>
   </div>
   <div style="font-size:0.75rem;color:var(--slate2);margin-bottom:12px;" id="officeCount"></div>
@@ -1324,11 +1330,20 @@ const TIER_META={
 const STATUS_COLORS={Active:'#059669',Planning:'#b45309',Opportunity:'#7c3aed',Inactive:'#94a3b8'};
 const REGIONS=['All Regions','India HQ','Europe','Middle East','Asia Pacific','Americas','Africa'];
 
+let officeStatusFilter='all';
+function setOfficeStatus(s,el){
+  officeStatusFilter=s;
+  document.querySelectorAll('#officeStatusChips .modal-chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  filterOffices();
+}
 function renderOffices(){
   // Build region filter
   const el=document.getElementById('officeFilterChips');
   el.innerHTML=REGIONS.map(r=>`<div class="modal-chip ${r==='All Regions'?'on':''}" onclick="setOfficeRegion('${r}',this)">${r}</div>`).join('');
   officeFilter='All Regions';
+  officeStatusFilter='all';
+  document.querySelectorAll('#officeStatusChips .modal-chip').forEach((c,i)=>{c.classList.toggle('on',i===0);});
   filterOffices();
 }
 function setOfficeRegion(r,el){
@@ -1342,8 +1357,9 @@ function filterOffices(){
   const offices=Object.values(wikiOffices);
   const filtered=offices.filter(o=>{
     const regionOk=officeFilter==='All Regions'||(o.region||'')===(officeFilter);
+    const statusOk=officeStatusFilter==='all'||(o.status||'')===(officeStatusFilter);
     const searchOk=!q||(o.country||'').toLowerCase().includes(q)||(o.city||'').toLowerCase().includes(q)||(o.region||'').toLowerCase().includes(q);
-    return regionOk&&searchOk;
+    return regionOk&&statusOk&&searchOk;
   });
   document.getElementById('officeCount').textContent=`Showing ${filtered.length} of ${offices.length} offices`;
   
@@ -1352,14 +1368,20 @@ function filterOffices(){
   document.getElementById('officesGrid').innerHTML=filtered.map(o=>{
     const tm=TIER_META[o.tier]||TIER_META['4'];
     const sc=STATUS_COLORS[o.status]||'#94a3b8';
+    const isActive=o.status==='Active';
+    const isInactive=o.status==='Non-Operational';
+    const bannerBg=isActive?'linear-gradient(90deg,#059669,#10b981)':isInactive?'linear-gradient(90deg,#dc2626,#ef4444)':'linear-gradient(90deg,#b45309,#f59e0b)';
+    const bannerIcon=isActive?'fa-check-circle':isInactive?'fa-times-circle':'fa-clock';
     return`<div class="office-card">
+      <div style="background:${bannerBg};padding:5px 14px;display:flex;align-items:center;gap:6px;font-size:0.67rem;font-weight:700;color:white;letter-spacing:0.04em;text-transform:uppercase;">
+        <i class="fas ${bannerIcon}" style="font-size:0.65rem;opacity:0.9;"></i>${o.status||'Unknown'}
+      </div>
       <div class="office-top">
         <div class="office-flag">${o.flag||'\ud83c\udfe2'}</div>
         <div class="office-country">${o.country}</div>
         <div class="office-city">${o.city||o.region}</div>
         <div class="office-badges">
           <span class="tier-badge" style="background:${tm.bg}22;color:${tm.bg};">${tm.label}</span>
-          <span class="pill" style="background:${sc}22;color:${sc};">${o.status}</span>
           <span class="pill pill-navy">${o.type||'B2B'}</span>
         </div>
       </div>
