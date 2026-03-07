@@ -696,13 +696,13 @@ function dismissIOSBanner(){
       style="border:2px dashed var(--border);border-radius:10px;padding:20px 16px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--bg);margin-bottom:10px;">
       <i class="fas fa-cloud-upload-alt" style="font-size:1.6rem;color:var(--slate2);display:block;margin-bottom:6px;" id="dropIcon"></i>
       <div id="docFileName" style="font-size:0.8rem;color:var(--slate);font-weight:600;">Drag & drop file here, or click to browse</div>
-      <div style="font-size:0.68rem;color:var(--slate2);margin-top:3px;">Max 10MB · PDF, PPTX, DOCX, XLSX, images and more</div>
+      <div style="font-size:0.68rem;color:var(--slate2);margin-top:3px;">Max 50MB · PDF, PPTX, DOCX, XLSX, images and more</div>
       <input type="file" id="docFile" style="display:none" onchange="onFileSelect()" accept="*/*">
     </div>
    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
       <button class="btn-upload" onclick="addDocument()"><i class="fas fa-cloud-upload-alt"></i> Upload Document</button>
     </div>
-    <div style="font-size:0.72rem;color:var(--slate2);margin-top:8px;"><i class="fas fa-info-circle"></i> Files are stored as base64 in Firebase. Max recommended: 1MB per file.</div>
+    <div style="font-size:0.72rem;color:var(--slate2);margin-top:8px;"><i class="fas fa-info-circle"></i> Files stored in Firebase. Up to 50MB — large files upload in parts automatically.</div>
   </div>
   <div class="section-label"><i class="fas fa-folder" style="color:var(--cyan)"></i> Uploaded Documents</div>
   <div class="docs-grid" id="docsGrid"><div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-folder-open" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No documents yet. Upload one above.</div></div>
@@ -1762,7 +1762,22 @@ async function loadOffices(){
 }
 async function loadDocs(){
   if(!_db){renderDocs([]);return;}
-  try{const snap=await _db.ref(FB.docs).once('value');const d=snap.val();if(d){wikiDocs=d;}renderDocs(Object.values(wikiDocs));}catch(e){renderDocs([]);}
+  try{
+    const snap=await _db.ref(FB.docs).once('value');
+    const d=snap.val();
+    if(d){
+      // Reassemble chunked files
+      for(const [id,entry] of Object.entries(d)){
+        const meta=entry.meta||entry;
+        if(entry.chunks){
+          const chunkKeys=Object.keys(entry.chunks).sort((a,b)=>+a-+b);
+          meta.fileData=chunkKeys.map(k=>entry.chunks[k]).join('');
+        }
+        wikiDocs[id]=meta;
+      }
+    }
+    renderDocs(Object.values(wikiDocs));
+  }catch(e){console.error('loadDocs:',e);renderDocs([]);}
 }
 function getDefaultRefs(){
   return[
@@ -2149,20 +2164,30 @@ async function addDocument(){
 
     let fileData=null,fileName='',fileType='',fileSize=0;
     if(file){
-      if(file.size>10*1024*1024){toast('File too large — max 10MB');return;}
+      if(file.size>50*1024*1024){toast('File too large — max 50MB');return;}
       fileSize=file.size;fileName=file.name;fileType=file.type;
       fileData=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});
     }
 
     const id='doc_'+Date.now();
     const doc={id,title,cat,desc,fileName,fileType,fileSize,addedBy:currentUser,addedAt:Date.now(),hasFile:!!file};
-    if(fileData)doc.fileData=fileData;
     wikiDocs[id]=doc;
 
-    if(_db){
-      const docMeta={...doc};delete docMeta.fileData;
-      await _db.ref(FB.docs+id+'/meta').set(docMeta).catch(e=>console.error('FB doc meta:',e));
-      if(fileData)await _db.ref(FB.docs+id+'/file').set(fileData).catch(e=>console.error('FB doc file:',e));
+    if(_db && fileData){
+      // Store metadata first
+      await _db.ref(FB.docs+id+'/meta').set(doc).catch(e=>console.error('FB meta:',e));
+      // Chunk file data into 500KB pieces (safe under Firebase 10MB node limit)
+      const CHUNK=500*1024; // 500KB chars per chunk
+      const totalChunks=Math.ceil(fileData.length/CHUNK);
+      doc.totalChunks=totalChunks;
+      await _db.ref(FB.docs+id+'/meta/totalChunks').set(totalChunks).catch(()=>{});
+      toast('Uploading... ('+totalChunks+' parts)');
+      for(let i=0;i<totalChunks;i++){
+        const chunk=fileData.slice(i*CHUNK,(i+1)*CHUNK);
+        await _db.ref(FB.docs+id+'/chunks/'+i).set(chunk).catch(e=>console.error('Chunk '+i+':',e));
+      }
+    } else if(_db){
+      await _db.ref(FB.docs+id+'/meta').set(doc).catch(e=>console.error('FB meta:',e));
     }
 
     document.getElementById('docTitle').value='';
@@ -2172,7 +2197,7 @@ async function addDocument(){
     setDropLabel('Drag & drop file here, or click to browse');
     resetDropArea();
     renderDocs(Object.values(wikiDocs));
-    toast('"'+title+'" uploaded','ok');
+    toast('"'+title+'" uploaded successfully ✓','ok');
   }catch(err){
     console.error('addDocument error:',err);
     toast('Upload failed: '+err.message);
