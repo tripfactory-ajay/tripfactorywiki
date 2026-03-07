@@ -34,6 +34,8 @@ body{display:flex;flex-direction:column;}
   background:var(--navy3);
 }
 .login-bg{position:absolute;inset:0;overflow:hidden;}
+.login-bg-img{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');background-size:cover;background-position:center;filter:brightness(0.45) saturate(1.2);}
+.login-bg-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(7,21,38,0.7) 0%,rgba(8,145,178,0.15) 100%);}
 .login-bg-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(8,145,178,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(8,145,178,0.06) 1px,transparent 1px);background-size:60px 60px;}
 .login-bg-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(8,145,178,0.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);}
 .login-panel{
@@ -432,7 +434,7 @@ select.oedit-inp{cursor:pointer;}
 </head>
 <body>
 <div id="loginOverlay">
-  <div class="login-bg"><div class="login-bg-lines"></div><div class="login-bg-glow"></div></div>
+  <div class="login-bg"><div class="login-bg-img"></div><div class="login-bg-overlay"></div><div class="login-bg-lines"></div><div class="login-bg-glow"></div></div>
   <div class="login-panel">
     <div class="login-logo">
       <div class="login-logo-mark">O</div>
