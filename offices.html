@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ORN Worldwide Offices</title>
+<meta name="theme-color" content="#0c1e35">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ORN Offices">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="orn-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
@@ -23,7 +30,7 @@
   --sh-md:0 4px 20px rgba(0,0,0,0.1);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);}
+html,body{height:100%;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);}
 
 /* ── TOPBAR ─────────────────────────────────────────────────── */
 .topbar{
@@ -193,7 +200,7 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
   <div class="topbar-mark">O</div>
   <div class="topbar-name">ORN <span>/ Worldwide Offices</span></div>
   <div class="topbar-sep"></div>
-  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Wiki</a>
+  <a href="index.html" class="back-btn" onclick="try{var u=localStorage.getItem('orn_wiki_user')||sessionStorage.getItem('orn_wiki_user');if(u)sessionStorage.setItem('orn_wiki_user',u);}catch(e){}"><i class="fas fa-arrow-left"></i> Back to Wiki</a>
   <div class="topbar-right">
     <div class="topbar-stat"><div class="topbar-stat-n" id="topActive">—</div><div class="topbar-stat-l">Active</div></div>
     <div class="topbar-sep"></div>
@@ -1198,6 +1205,16 @@ function officeRow(o){
         <div class="or-stat"><div class="or-stat-n">${o.drivers||'—'}</div><div class="or-stat-l">Drivers</div></div>
       </div>
     </div>`;
+}
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/tripfactorywiki/sw.js')
+      .then(r => console.log('ORN Wiki SW registered:', r.scope))
+      .catch(e => console.warn('SW registration failed:', e));
+  });
 }
 </script>
 </body>
