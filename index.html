@@ -34,8 +34,38 @@ body{display:flex;flex-direction:column;}
   background:var(--navy3);
 }
 .login-bg{position:absolute;inset:0;overflow:hidden;}
-.login-bg-img{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');background-size:cover;background-position:center;filter:brightness(0.45) saturate(1.2);}
-.login-bg-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(7,21,38,0.7) 0%,rgba(8,145,178,0.15) 100%);}
+.login-bg-img{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(8,145,178,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(212,20,90,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 50% at 50% 100%, rgba(4,120,87,0.2) 0%, transparent 50%),
+    linear-gradient(160deg, #071526 0%, #0c1e35 40%, #0e2a45 70%, #071526 100%);
+}
+/* Animated shimmer dots like city lights */
+.login-bg-img::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(1px 1px at 15% 75%, rgba(255,220,100,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 82%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 78%, rgba(255,200,80,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 80%, rgba(255,220,100,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 65% 76%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 83%, rgba(255,200,80,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 79%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 88%, rgba(255,220,100,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 86%, rgba(255,200,80,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 50% 72%, rgba(8,145,178,0.8) 0%, transparent 100%),
+    radial-gradient(2px 2px at 30% 68%, rgba(212,20,90,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 70% 70%, rgba(8,145,178,0.7) 0%, transparent 100%);
+}
+/* Skyline silhouette via box-shadows */
+.login-bg-img::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:35%;
+  background:linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+}
+.login-bg-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(7,21,38,0.5) 0%,rgba(8,145,178,0.08) 100%);}
 .login-bg-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(8,145,178,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(8,145,178,0.06) 1px,transparent 1px);background-size:60px 60px;}
 .login-bg-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(8,145,178,0.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);}
 .login-panel{
@@ -831,12 +861,30 @@ function doLogout(){
   location.reload();
 };
 const TIMELINE=[
-  {date:'2018–2019',c:'#d4145a',title:'Foundation & Early Days',content:'TripFactory founded by <strong>Vinay Gupta</strong> with a vision to disrupt the traditional travel agency model through technology-enabled personalised service.',bullets:['Co-founders: Amit Aggarwal, Ankit Agarwal, Ankush Agarwal, Varun Gupta','Started with 12 employees in Management','Initial focus: B2C FIT travel to Indian subcontinent','Early investment in proprietary booking technology']},
-  {date:'2020–2022',c:'#b45309',title:'Growth & Expansion',content:'Despite COVID-19, TripFactory invested in infrastructure and talent — emerging stronger as travel markets reopened.',bullets:['Raj Kumar joined as COO to professionalise operations','Ajay Kawa appointed CTO to lead digital transformation','Operations scaled to 285 staff (largest department)','12-stage workflow pipeline implemented','Overseas office strategy initiated (London / Dubai)']},
-  {date:'2023–2024',c:'#0891b2',title:'Systems & Command Centre Era',content:'Major investment in internal tools and dashboards. Command Centre launched with real-time visibility across all metrics.',bullets:['Command Centre dashboard system implemented','Agent Intelligence System launched (88,000+ agents)','Voyager Club loyalty programme launched','ORN Credits dynamic redemption system built','Staff grew to 452+ across departments']},
-  {date:'2025–Present',c:'#059669',title:'ORN Group & Global Ambition',content:'Trip Factory becomes part of <strong>ORN Group</strong> with Trip Factory (B2C) and Nexus TMC (B2B). Global expansion under way.',bullets:['Total staff: 711 across all departments','UK office as European Control Hub','37 offices under ORN Worldwide','Nexus TMC B2B brand launched','ORN Project Wiki built as internal knowledge base']},
+  {date:'Pre-2020',c:'#d4145a',title:'Founding & Semantic Search Vision',content:'The company began with a mission to build a travel-first search engine — the first semantic travel search engine with a conversational, dialog-driven interface, well before ChatGPT existed.',bullets:['Conversational search for natural language queries like "half day in Rome"','Billions of content points structured, driving traffic from 190–195 countries','Evolved from pure search into sourcing and curating packages from multiple DMCs','Moved from "just search" to a consumer-facing vacation platform underpinned by a strong content engine']},
+  {date:'2020',c:'#b45309',title:'COVID & Reorientation Toward Agents',content:'COVID was a major shock to the B2C business and forced a rethink — leading to the birth of TF Nexus / Nexus DMC as a B2B avatar.',bullets:['Recognised that the itinerary-creation problem existed for travel agents too','Offered the itinerary engine to agents, not just direct consumers','Core insight: the engine built could help the entire ecosystem']},
+  {date:'2022',c:'#0891b2',title:'Travel Reopening & B2B Scaling',content:'As markets reopened, the company leaned into B2B — onboarding agents to the platform with strong stickiness: ~88% of onboarded agents stayed.',bullets:['Went out to agents and onboarded them at scale','88% retention once agents experienced the platform','Recognised need for more control over DMC supply, not just aggregation']},
+  {date:'2022–2024',c:'#7c3aed',title:'Ground Infrastructure & Early DMC Moves',content:'Built serious ground infrastructure and DMC capability, including a 24/7 delivery team and the operational backbone for on-ground service.',bullets:['Brought in Ankit and team (GoFlySmart) to strengthen air and buying side','Built driver-tracking app and DMC system for bookings and invoices','Developed concept of "service points" — where a customer can get lost or confused','Experimented with DMCs in Thailand and other markets']},
+  {date:'2024',c:'#059669',title:'$50M Fundraise & DMC Investment',content:'Raised approximately $50M from the HNL Group with a clear intent: invest in DMCs and on-ground infrastructure to control the service experience.',bullets:['$50M raised from HNL Group','July–August 2024: teams repurposed toward ground strategy','Sharper pivot from B2C to B2B — go global faster via agents','Consolidate destinations first, consumer markets later']},
+  {date:'Late 2024–2025',c:'#c2410c',title:'Operational Cleanup & Leadership Reorganisation',content:'A deliberate cleanup of legacy leadership structures — clarifying who the real drivers of the business are for the next stage.',bullets:['Hard calls made on people no longer right for the next phase','Key leaders: Lalita (India CEO, process & systems), Seema (DMC expertise), Priscilla (B2C & sales training), Sachin (commercial operator)','Newer talents: Ashish, Judy, Angad; content: Asad','Finance: Surya, Dhruv, Bandana (investor/fundraising)','Regional: Paris (Turkey), Sail (Australia), Adil (Indonesia/Malaysia), Noria (South America), Chris & Julia (Europe/Nexus)']},
+  {date:'2024–2025',c:'#0891b2',title:'Geographic Focus: Europe, Dubai & Australia',content:'Strategically focused on markets with the largest leverage — one in two passengers globally travel to Europe.',bullets:['Europe: top priority for inbound and outbound flows','Dubai: visa quota, coaches, and structured ground presence built out','Australia: entry point to influence U.S. via wholesalers','Some DMC acquisitions (e.g. Thailand) did not work — reinforced need for cleaner models and stronger operators']},
+  {date:'Feb–Mar 2025',c:'#d4145a',title:'Strategic Decision to Go All-In on AI',content:'A pivotal call: if the company did not step into AI meaningfully, it would become obsolete. The guiding philosophy — if anyone was going to disrupt the business with AI, it should be us.',bullets:['Put brakes on traditional investments potentially rendered obsolete by AI','Invested personal time and enterprise energy into building AI capabilities','Brought in right technical profiles: ethical hacking, strong computer backgrounds']},
+  {date:'2025–Jan 2026',c:'#7c3aed',title:'Building the AI Conversation Engine & Expert Twins',content:'Built an AI ecosystem that goes beyond information processing — teaching it to operate like a domain expert and scale that expertise globally.',bullets:['System can be taught to sell ski holidays in a couple of hours, then scale globally','Every interaction is a sequence of decisions — AI helps users take each in the right order','Mimics experts (ski, scuba specialists), keeps track of advice given','Hooks into strategy, org charts, and KPIs — AI "twins" can drive workflows of distinct roles']},
+  {date:'2025–2026',c:'#059669',title:'Product Repositioning: Destinations to Ideas',content:'Re-imagined the user experience — starting from "ideas" (anniversary, beach & nightlife) rather than destinations, mapping to experiences and then to suppliers.',bullets:['AI understands why a person is travelling, their anxieties and constraints','Avoids overwhelming users — sequences information to match decision-making pace','Plugging in new expertise modules makes system more intelligent with each domain','Single conversational interface for a person\'s travel life — past, present, future']},
+  {date:'Jan 2026 – Present',c:'#b45309',title:'Engine Completion & Current Priorities',content:'By end-January 2026 the conversation engine, design, and architecture reached a substantial completion point — a natural inflection for the next phase.',bullets:['Scaling B2B especially through Nexus DMC','Standardising how DMCs and regional teams use the system','Preparing Nexus DMC marketing collateral for ITV (Paulina, Julia)','Demonstrating both the original semantic-search implementation and the new AI conversation engine']},
 ];
-const MILESTONES=['IATA accreditation secured','Command Centre: 45+ dashboards live','88,000+ agents in Agent Intelligence System','Voyager Club loyalty programme launched','ORN Credits dynamic redemption system','London — UK & European Control Hub','Nexus TMC B2B brand launched','37 global offices under ORN Worldwide','ORN Project Wiki internal knowledge platform'];
+const MILESTONES=[
+  'First semantic travel search engine — pre-ChatGPT',
+  'Traffic from 190–195 countries via content engine',
+  '88% agent retention on platform onboarding',
+  '$50M raised from HNL Group (2024)',
+  '24/7 delivery team and driver-tracking app built',
+  'AI conversation engine completed — Jan 2026',
+  'Expert "twins" system: domain expertise at scale',
+  'Nexus DMC B2B brand launched',
+  'Europe, Dubai & Australia as strategic priority markets',
+  'ORN Project Wiki internal knowledge platform',
+];
 
 // Default offices dataset
 const DEFAULT_OFFICES=[
