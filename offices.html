@@ -27,193 +27,34 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);}
 
-/* \u2500\u2500 TOPBAR \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.topbar{
-  height:56px;background:var(--navy);
-  display:flex;align-items:center;padding:0 20px;gap:16px;
-  flex-shrink:0;position:relative;z-index:300;
-  box-shadow:0 1px 0 rgba(255,255,255,0.05),0 2px 8px rgba(0,0,0,0.3);
-}
-.topbar-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--cyan),var(--magenta));border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:1rem;color:white;font-style:italic;flex-shrink:0;}
-.topbar-name{font-size:0.9rem;font-weight:800;color:white;letter-spacing:-0.2px;}
-.topbar-name span{color:rgba(255,255,255,0.4);font-weight:400;}
-.topbar-sep{width:1px;height:24px;background:rgba(255,255,255,0.1);}
-.back-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:7px;color:rgba(255,255,255,0.7);font-size:0.75rem;font-weight:600;text-decoration:none;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif;}
-.back-btn:hover{background:rgba(255,255,255,0.12);color:white;}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
-.topbar-stat{text-align:right;}
-.topbar-stat-n{font-size:1rem;font-weight:800;color:var(--cyan);}
-.topbar-stat-l{font-size:0.62rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}
-
-/* \u2500\u2500 HERO \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.hero{
-  background:linear-gradient(135deg,var(--navy3) 0%,var(--navy) 60%,#1a1040 100%);
-  padding:36px 32px 30px;position:relative;overflow:hidden;
-}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 80% 50%,rgba(8,145,178,0.1) 0%,transparent 65%);}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(8,145,178,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(8,145,178,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
-.hero-content{position:relative;max-width:1200px;margin:0 auto;}
-.hero-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.hero-title{font-family:'Instrument Serif',serif;font-size:2.2rem;color:white;margin-bottom:6px;font-style:italic;line-height:1.2;}
-.hero-title span{color:var(--cyan);}
-.hero-sub{font-size:0.84rem;color:rgba(255,255,255,0.5);max-width:560px;line-height:1.65;margin-bottom:20px;}
-.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
-.hstat{text-align:center;padding:10px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;}
-.hstat-n{font-size:1.6rem;font-weight:800;color:white;}
-.hstat-l{font-size:0.64rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;margin-top:1px;}
-
-/* \u2500\u2500 TOOLBAR \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.toolbar{
-  background:white;border-bottom:1.5px solid var(--border);
-  padding:14px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  position:sticky;top:54px;z-index:90;
-}
-.search-wrap{position:relative;flex:1;min-width:200px;max-width:340px;}
-.search-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--slate2);font-size:0.75rem;pointer-events:none;}
-.search-inp{width:100%;padding:8px 12px 8px 32px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;transition:border-color 0.18s;color:var(--ink);}
-.search-inp:focus{border-color:var(--cyan);}
-.filter-chips{display:flex;gap:6px;flex-wrap:wrap;}
-.chip{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;transition:all 0.15s;background:white;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
-.chip:hover,.chip.on{background:var(--navy);border-color:var(--navy);color:white;}
-.chip.active-only.on{background:var(--green);border-color:var(--green);}
-.view-btns{display:flex;gap:4px;margin-left:auto;}
-.view-btn{width:32px;height:32px;border:1.5px solid var(--border);border-radius:7px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:var(--slate);transition:all 0.15s;}
-.view-btn.on{background:var(--navy);border-color:var(--navy);color:white;}
-.results-bar{padding:8px 32px;font-size:0.74rem;color:var(--slate2);background:var(--bg);border-bottom:1px solid var(--border);}
-
-/* \u2500\u2500 MAIN \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.main{max-width:1400px;margin:0 auto;padding:28px 32px;}
-
-/* \u2500\u2500 REGION SECTION \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.region-section{margin-bottom:36px;}
-.region-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-.region-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;flex-shrink:0;}
-.region-name{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.09em;color:var(--slate);flex:1;}
-.region-count{font-size:0.68rem;color:var(--slate2);font-weight:600;}
-.region-line{flex:1;height:1px;background:var(--border);}
-
-/* \u2500\u2500 OFFICE CARDS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.offices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;}
-.offices-list{display:flex;flex-direction:column;gap:8px;}
-
-.office-card{
-  background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);
-  overflow:hidden;transition:all 0.2s;box-shadow:var(--sh);
-  display:flex;flex-direction:column;
-}
-.office-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
-.office-card.non-op{opacity:0.72;}
-.office-card.non-op:hover{opacity:1;}
-
-.oc-top{padding:16px 18px 12px;position:relative;}
-.oc-top-row{display:flex;align-items:flex-start;gap:12px;}
-.oc-flag{font-size:2rem;line-height:1;flex-shrink:0;}
-.oc-info{flex:1;min-width:0;}
-.oc-country{font-size:1rem;font-weight:800;color:var(--ink);line-height:1.2;}
-.oc-city{font-size:0.74rem;color:var(--slate2);margin-top:1px;}
-.oc-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
-
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;font-size:0.63rem;font-weight:700;}
-.badge-active{background:#d1fae5;color:#065f46;}
-.badge-nonop{background:#f1f5f9;color:#64748b;}
-.badge-tier1{background:#dbeafe;color:#1e40af;}
-.badge-tier2{background:#e0f2fe;color:#0e7490;}
-.badge-tier3{background:#f0fdf4;color:#166534;}
-.badge-tier4{background:#f8fafc;color:#94a3b8;}
-.badge-type{background:#faf5ff;color:#6d28d9;}
-
-.oc-divider{height:1px;background:var(--border);margin:0 18px;}
-
-.oc-body{padding:12px 18px;flex:1;display:flex;flex-direction:column;gap:6px;}
-.oc-row{display:flex;align-items:flex-start;gap:8px;font-size:0.74rem;color:var(--ink3);}
-.oc-row i{color:var(--slate2);font-size:0.65rem;margin-top:2px;width:12px;flex-shrink:0;}
-.oc-row a{color:var(--cyan);text-decoration:none;}
-.oc-row a:hover{text-decoration:underline;}
-
-.oc-purpose{background:var(--bg);border-left:2.5px solid var(--cyan);border-radius:0 6px 6px 0;padding:7px 10px;font-size:0.72rem;color:var(--slate);line-height:1.5;margin-top:4px;}
-
-.oc-capabilities{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
-.cap-badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:4px;}
-.cap-in{background:#dbeafe;color:#1e40af;}
-.cap-out{background:#d1fae5;color:#065f46;}
-.cap-transport{background:#fef3c7;color:#92400e;}
-.cap-physical{background:#faf5ff;color:#6d28d9;}
-.cap-credits{background:#fff7ed;color:#c2410c;}
-
-/* \u2500\u2500 LIST VIEW \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.office-row{
-  background:white;border:1px solid var(--border);border-radius:10px;
-  padding:12px 18px;display:flex;align-items:center;gap:14px;
-  transition:all 0.15s;box-shadow:var(--sh);
-}
-.office-row:hover{border-color:var(--cyan);box-shadow:var(--sh-md);}
-.or-flag{font-size:1.4rem;flex-shrink:0;}
-.or-main{flex:1;min-width:0;}
-.or-name{font-size:0.88rem;font-weight:700;color:var(--ink);}
-.or-city{font-size:0.72rem;color:var(--slate2);}
-.or-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}
-.or-contacts{flex:0 0 220px;font-size:0.72rem;color:var(--slate);line-height:1.4;}
-.or-stats{display:flex;gap:14px;flex-shrink:0;}
-.or-stat{text-align:center;}
-.or-stat-n{font-size:0.85rem;font-weight:700;color:var(--ink);}
-.or-stat-l{font-size:0.6rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;}
-
-/* \u2500\u2500 MAP PLACEHOLDER / WORLD VIZ \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.world-banner{
-  background:var(--navy);border-radius:var(--r-lg);padding:20px 28px;
-  margin-bottom:24px;display:flex;align-items:center;gap:20px;
-  position:relative;overflow:hidden;
-}
-.world-banner::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(8,145,178,0.15),transparent 70%);}
-.wb-dots{font-size:2rem;flex-shrink:0;}
-.wb-text{flex:1;}
-.wb-title{font-size:1rem;font-weight:800;color:white;margin-bottom:2px;}
-.wb-sub{font-size:0.75rem;color:rgba(255,255,255,0.45);line-height:1.5;}
-.wb-stats{display:flex;gap:16px;flex-shrink:0;}
-.wb-stat{text-align:center;padding:8px 14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:9px;}
-.wb-stat-n{font-size:1.1rem;font-weight:800;color:var(--cyan);}
-.wb-stat-l{font-size:0.6rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}
-
-/* \u2500\u2500 EMPTY \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.empty{padding:60px;text-align:center;color:var(--slate2);}
-.empty i{font-size:2rem;display:block;margin-bottom:10px;opacity:0.4;}
-
-@media(max-width:768px){
-  .hero{padding:24px 20px 20px;}
-  .toolbar{padding:12px 16px;}
-  .main{padding:20px 16px;}
-  .hero-stats{gap:12px;}
-  .hstat{padding:8px 12px;}
-  .hero-title{font-size:1.6rem;}
-  .or-contacts,.or-stats{display:none;}
-}
-
-/* ── Wiki-matching topbar ────────────────────────────────────── */
+/* ── TOPBAR ── */
+.topbar{height:56px;background:var(--navy);display:flex;align-items:center;padding:0 20px;gap:16px;flex-shrink:0;position:relative;z-index:300;box-shadow:0 1px 0 rgba(255,255,255,0.05),0 2px 8px rgba(0,0,0,0.3);}
 .topbar-brand{display:flex;align-items:center;gap:9px;}
 .topbar-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--cyan),var(--magenta));border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:1rem;color:white;font-style:italic;flex-shrink:0;}
 .topbar-name{font-size:0.92rem;font-weight:800;color:white;letter-spacing:-0.2px;}
 .topbar-name span{color:rgba(255,255,255,0.4);font-weight:400;}
 .topbar-logos{display:flex;align-items:center;gap:12px;}
 .topbar-logo-img{height:22px;width:auto;opacity:0.75;filter:brightness(1.2);}
+.topbar-sep{width:1px;height:26px;background:rgba(255,255,255,0.08);}
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
 .topbar-user{display:flex;align-items:center;gap:7px;padding:5px 11px;background:rgba(255,255,255,0.06);border-radius:20px;border:1px solid rgba(255,255,255,0.08);}
 .topbar-user-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
 .topbar-user-name{font-size:0.78rem;color:rgba(255,255,255,0.8);font-weight:500;}
 .topbar-time{font-size:0.75rem;color:rgba(255,255,255,0.35);font-variant-numeric:tabular-nums;}
-.topbar-sep{width:1px;height:26px;background:rgba(255,255,255,0.08);}
 .topbar-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);border-radius:7px;padding:5px 11px;font-size:0.72rem;cursor:pointer;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;}
 .topbar-btn:hover{background:rgba(212,20,90,0.2);border-color:var(--magenta);color:white;}
 
-/* ── Tab nav ────────────────────────────────────────────────── */
+/* ── TAB NAV ── */
 .tab-nav{background:white;border-bottom:1.5px solid var(--border);display:flex;padding:0 16px;overflow-x:auto;flex-shrink:0;z-index:200;position:relative;}
 .tab-nav::-webkit-scrollbar{height:0;}
-.tab-btn{height:44px;padding:0 16px;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.79rem;font-weight:600;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0;margin-bottom:-1.5px;}
+.tab-btn{height:44px;padding:0 16px;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.79rem;font-weight:600;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0;margin-bottom:-1.5px;text-decoration:none;}
 .tab-btn i{font-size:0.74rem;}
 .tab-btn:hover{color:var(--ink);background:var(--bg);}
 .tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan);}
 
-/* ── Offices filter bar ─────────────────────────────────────── */
+/* ── OFFICES FILTER BAR ── */
 .offices-filter-bar{background:var(--navy);border-bottom:1.5px solid rgba(255,255,255,0.07);padding:0 20px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+.offices-filter-bar::-webkit-scrollbar{height:0;}
 .offices-stats-row{display:flex;align-items:center;gap:6px;padding:10px 0;margin-right:16px;flex-shrink:0;}
 .ostat{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:8px;border:1px solid transparent;}
 .ostat-cyan{background:rgba(8,145,178,0.12);border-color:rgba(8,145,178,0.25);}
@@ -227,6 +68,8 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
 .ostat-l{font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}
 .vsep{width:1px;height:32px;background:rgba(255,255,255,0.08);margin:0 14px;flex-shrink:0;}
 .region-chips{display:flex;align-items:center;gap:4px;padding:10px 0;flex-shrink:0;}
+.chip{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;transition:all 0.15s;background:white;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
+.chip:hover,.chip.on{background:var(--navy);border-color:var(--navy);color:white;}
 .active-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0;font-size:0.73rem;color:rgba(255,255,255,0.5);font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;}
 .active-chip.on{background:rgba(4,120,87,0.2);border-color:rgba(52,211,153,0.4);color:#34d399;}
 .search-inp{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 12px 7px 30px;color:white;font-size:0.78rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:190px;transition:all 0.18s;}
@@ -236,6 +79,117 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
 .view-btn{width:30px;height:30px;border:1px solid rgba(255,255,255,0.1);border-radius:7px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.72rem;color:rgba(255,255,255,0.4);transition:all 0.15s;}
 .view-btn.view-btn-on{background:rgba(8,145,178,0.2);border-color:rgba(255,255,255,0.15);color:var(--cyan);}
 
+/* ── MAIN ── */
+.main{max-width:1400px;margin:0 auto;padding:28px 32px;}
+
+/* ── REGION SECTION ── */
+.region-section{margin-bottom:36px;}
+.region-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.region-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;flex-shrink:0;}
+.region-name{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.09em;color:var(--slate);flex:1;}
+.region-count{font-size:0.68rem;color:var(--slate2);font-weight:600;}
+.region-line{flex:1;height:1px;background:var(--border);}
+
+/* ── OFFICE CARDS ── */
+.offices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;}
+.offices-list{display:flex;flex-direction:column;gap:8px;}
+
+.office-card{background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all 0.2s;box-shadow:var(--sh);display:flex;flex-direction:column;}
+.office-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
+.office-card.non-op{opacity:0.72;}
+.office-card.non-op:hover{opacity:1;}
+
+/* Status colour bar on top of card */
+.oc-status-bar{height:3px;width:100%;}
+.oc-status-bar.bar-active{background:linear-gradient(90deg,#059669,#10b981);}
+.oc-status-bar.bar-planning{background:linear-gradient(90deg,#b45309,#f59e0b);}
+.oc-status-bar.bar-nonop{background:linear-gradient(90deg,#dc2626,#ef4444);}
+.oc-status-bar.bar-opportunity{background:linear-gradient(90deg,#6d28d9,#8b5cf6);}
+
+.oc-top{padding:16px 18px 12px;position:relative;}
+.oc-top-row{display:flex;align-items:flex-start;gap:12px;}
+.oc-flag{font-size:2rem;line-height:1;flex-shrink:0;}
+.oc-info{flex:1;min-width:0;}
+.oc-country{font-size:1rem;font-weight:800;color:var(--ink);line-height:1.2;}
+.oc-city{font-size:0.74rem;color:var(--slate2);margin-top:1px;}
+.oc-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
+
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;font-size:0.63rem;font-weight:700;}
+.badge-active{background:#d1fae5;color:#065f46;}
+.badge-nonop{background:#f1f5f9;color:#64748b;}
+.badge-planning{background:#fef3c7;color:#92400e;}
+.badge-opportunity{background:#ede9fe;color:#5b21b6;}
+.badge-tier1{background:#dbeafe;color:#1e40af;}
+.badge-tier2{background:#e0f2fe;color:#0e7490;}
+.badge-tier3{background:#f0fdf4;color:#166534;}
+.badge-tier4{background:#f8fafc;color:#94a3b8;}
+.badge-type{background:#faf5ff;color:#6d28d9;}
+
+.oc-divider{height:1px;background:var(--border);margin:0 18px;}
+
+.oc-body{padding:12px 18px;flex:1;display:flex;flex-direction:column;gap:6px;}
+.oc-row{display:flex;align-items:flex-start;gap:8px;font-size:0.74rem;color:var(--ink3);}
+.oc-row i{color:var(--slate2);font-size:0.65rem;margin-top:2px;width:12px;flex-shrink:0;}
+.oc-row a{color:var(--cyan);text-decoration:none;}
+.oc-row a:hover{text-decoration:underline;}
+.oc-purpose{background:var(--bg);border-left:2.5px solid var(--cyan);border-radius:0 6px 6px 0;padding:7px 10px;font-size:0.72rem;color:var(--slate);line-height:1.5;margin-top:4px;}
+.oc-capabilities{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+.cap-badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:4px;}
+.cap-in{background:#dbeafe;color:#1e40af;}
+.cap-out{background:#d1fae5;color:#065f46;}
+.cap-transport{background:#fef3c7;color:#92400e;}
+.cap-physical{background:#faf5ff;color:#6d28d9;}
+.cap-credits{background:#fff7ed;color:#c2410c;}
+
+/* Card footer buttons */
+.oc-footer{display:flex;gap:6px;padding:10px 18px 12px;border-top:1px solid var(--border);}
+.card-view-btn{flex:1;padding:5px;border:1px solid #bae6fd;border-radius:6px;background:#e0f2fe;font-size:0.7rem;color:#0369a1;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all 0.15s;}
+.card-view-btn:hover{background:#bae6fd;}
+.card-edit-btn{flex:1;padding:5px;border:1px solid var(--border);border-radius:6px;background:white;font-size:0.7rem;color:var(--slate);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;}
+.card-edit-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.card-del-btn{padding:5px 10px;border:1px solid #fecaca;border-radius:6px;background:white;font-size:0.7rem;color:#dc2626;cursor:pointer;transition:all 0.15s;}
+.card-del-btn:hover{background:#fef2f2;}
+
+/* ── LIST VIEW ── */
+.office-row{background:white;border:1px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:14px;transition:all 0.15s;box-shadow:var(--sh);}
+.office-row:hover{border-color:var(--cyan);box-shadow:var(--sh-md);}
+.or-flag{font-size:1.4rem;flex-shrink:0;}
+.or-main{flex:1;min-width:0;}
+.or-name{font-size:0.88rem;font-weight:700;color:var(--ink);}
+.or-city{font-size:0.72rem;color:var(--slate2);}
+.or-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}
+.or-contacts{flex:0 0 220px;font-size:0.72rem;color:var(--slate);line-height:1.4;}
+.or-stats{display:flex;gap:14px;flex-shrink:0;}
+.or-stat{text-align:center;}
+.or-stat-n{font-size:0.85rem;font-weight:700;color:var(--ink);}
+.or-stat-l{font-size:0.6rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;}
+.or-btns{display:flex;gap:5px;flex-shrink:0;}
+
+/* ── EMPTY ── */
+.empty{padding:60px;text-align:center;color:var(--slate2);}
+.empty i{font-size:2rem;display:block;margin-bottom:10px;opacity:0.4;}
+
+/* ── VIEW MODAL ── */
+.view-modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:20px;}
+.view-modal-box{background:white;border-radius:16px;width:100%;max-width:480px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.3);}
+.vm-head{padding:18px 20px;display:flex;align-items:center;gap:12px;}
+.vm-flag{font-size:2.4rem;line-height:1;}
+.vm-info{flex:1;}
+.vm-country{font-size:1.1rem;font-weight:800;color:white;}
+.vm-city{font-size:0.76rem;color:rgba(255,255,255,0.65);}
+.vm-close{background:rgba(255,255,255,0.2);border:none;border-radius:8px;width:30px;height:30px;color:white;font-size:1.1rem;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;}
+.vm-body{padding:16px 20px;display:flex;flex-direction:column;gap:9px;}
+.vm-row{display:flex;gap:10px;align-items:flex-start;font-size:0.81rem;color:#334155;}
+.vm-row i{color:#94a3b8;margin-top:2px;width:14px;flex-shrink:0;font-size:0.72rem;}
+.vm-purpose{background:#f8fafc;border-left:3px solid var(--cyan);border-radius:0 6px 6px 0;padding:9px 12px;font-size:0.76rem;color:#475569;line-height:1.55;}
+.vm-footer{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--border);}
+
+@media(max-width:768px){
+  .hero{padding:24px 20px 20px;}
+  .toolbar{padding:12px 16px;}
+  .main{padding:20px 16px;}
+  .or-contacts,.or-stats{display:none;}
+}
 </style>
 </head>
 <body>
@@ -261,21 +215,23 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
   </div>
 </div>
 
+<!-- TAB NAV -->
 <div class="tab-nav">
-  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-home"></i> Overview</a>
-  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-sitemap"></i> Departments</a>
-  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-project-diagram"></i> Workflows</a>
-  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-book-open"></i> Travel Jargon</a>
-  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-landmark"></i> History</a>
-  <a href="index.html" class="tab-btn" style="text-decoration:none;"><i class="fas fa-star"></i> ORN Values</a>
-  <a href="offices.html" class="tab-btn active" style="text-decoration:none;"><i class="fas fa-globe"></i> Worldwide Offices</a>
-  <a href="index.html#documents" class="tab-btn" style="text-decoration:none;" onclick="sessionStorage.setItem('orn_tab','documents')"><i class="fas fa-folder-open"></i> Document Hub</a>
-  <a href="index.html#references" class="tab-btn" style="text-decoration:none;" onclick="sessionStorage.setItem('orn_tab','references')"><i class="fas fa-link"></i> References</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-home"></i> Overview</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-sitemap"></i> Departments</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-project-diagram"></i> Workflows</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-book-open"></i> Travel Jargon</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-landmark"></i> History</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-star"></i> ORN Values</a>
+  <a href="offices.html" class="tab-btn active"><i class="fas fa-globe"></i> Worldwide Offices</a>
+  <a href="index.html" class="tab-btn" onclick="sessionStorage.setItem('orn_tab','documents')"><i class="fas fa-folder-open"></i> Document Hub</a>
+  <a href="index.html" class="tab-btn" onclick="sessionStorage.setItem('orn_tab','references')"><i class="fas fa-link"></i> References</a>
 </div>
 
+<!-- FILTER BAR -->
 <div class="offices-filter-bar">
   <div class="offices-stats-row">
-    <div class="ostat ostat-cyan"><i class="fas fa-globe"></i><span id="statTotal">36</span><span class="ostat-l">Offices</span></div>
+    <div class="ostat ostat-cyan"><i class="fas fa-globe"></i><span id="statTotal">—</span><span class="ostat-l">Offices</span></div>
     <div class="ostat ostat-green"><i class="fas fa-check-circle"></i><span id="statActive">—</span><span class="ostat-l">Active</span></div>
     <div class="ostat ostat-pink"><i class="fas fa-users"></i><span id="statStaff">—</span><span class="ostat-l">Staff</span></div>
   </div>
@@ -298,591 +254,97 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
   </div>
 </div>
 
-<!-- TOOLBAR -->
-<div class="toolbar">
-  <div class="search-wrap">
-    <i class="fas fa-search"></i>
-    <input class="search-inp" type="text" id="searchInp" placeholder="Search country, city, contact\u2026" oninput="applyFilters()">
-  </div>
-  <div class="filter-chips" id="regionChips"></div>
-  <div class="chip active-only" id="activeChip" onclick="toggleActive(this)"><i class="fas fa-check-circle" style="font-size:0.65rem;"></i> Active only</div>
-  <div class="view-btns">
-    <button class="view-btn on" id="btnGrid" onclick="setView('grid',this)" title="Grid view"><i class="fas fa-th-large"></i></button>
-    <button class="view-btn" id="btnList" onclick="setView('list',this)" title="List view"><i class="fas fa-list"></i></button>
-  </div>
-</div>
-<div class="results-bar" id="resultsBar"></div>
-
 <!-- MAIN -->
 <div class="main" id="mainArea"></div>
 
+<!-- VIEW MODAL container -->
+<div id="viewModalContainer"></div>
+
+<!-- Firebase SDKs — load BEFORE any JS that uses firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
+// ── DATA ─────────────────────────────────────────────────────
 const OFFICES = [
-</script>
-"
-    },
-    "message": "Create standalone offices.html with all 36 offices from Excel",
-    "integration_name": null,
-    "integration_icon_url": null,
-    "icon_name": "file",
-    "context": null,
-    "display_content": {
-      "type": "json_block",
-      "json_block": "{"language": "html", "code": "<!DOCTYPE html>\
-<html lang=\"en-GB\">\
-<head>\
-<meta charset=\"UTF-8\">\
-<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
-<title>ORN Worldwide Offices</title>\
-<link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap\" rel=\"stylesheet\">\
-<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\" rel=\"stylesheet\">\
-<style>\
-:root{\
-  --navy:#0c1e35;--navy2:#163352;--navy3:#071526;\
-  --cyan:#0891b2;--cyan2:#0e7490;--cyan-light:#e0f2fe;\
-  --magenta:#d4145a;--magenta2:#a8104a;\
-  --gold:#b45309;--gold-light:#fef3c7;\
-  --green:#047857;--green-light:#d1fae5;\
-  --orange:#c2410c;--orange-light:#ffedd5;\
-  --purple:#6d28d9;--purple-light:#ede9fe;\
-  --slate:#475569;--slate2:#94a3b8;--slate3:#cbd5e1;\
-  --border:#e2e8f0;--bg:#f8fafc;--card:#ffffff;\
-  --ink:#0f172a;--ink2:#1e293b;--ink3:#334155;\
-  --r:8px;--r-lg:14px;\
-  --sh:0 1px 3px rgba(0,0,0,0.05),0 4px 12px rgba(0,0,0,0.07);\
-  --sh-md:0 4px 20px rgba(0,0,0,0.1);\
-}\
-*{margin:0;padding:0;box-sizing:border-box;}\
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);}\
-\
-/* \u2500\u2500 TOPBAR \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.topbar{\
-  height:54px;background:var(--navy);display:flex;align-items:center;\
-  padding:0 24px;gap:16px;position:sticky;top:0;z-index:100;\
-  box-shadow:0 2px 12px rgba(0,0,0,0.3);\
-}\
-.topbar-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--cyan),var(--magenta));border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:1rem;color:white;font-style:italic;flex-shrink:0;}\
-.topbar-name{font-size:0.9rem;font-weight:800;color:white;letter-spacing:-0.2px;}\
-.topbar-name span{color:rgba(255,255,255,0.4);font-weight:400;}\
-.topbar-sep{width:1px;height:24px;background:rgba(255,255,255,0.1);}\
-.back-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:7px;color:rgba(255,255,255,0.7);font-size:0.75rem;font-weight:600;text-decoration:none;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif;}\
-.back-btn:hover{background:rgba(255,255,255,0.12);color:white;}\
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;}\
-.topbar-stat{text-align:right;}\
-.topbar-stat-n{font-size:1rem;font-weight:800;color:var(--cyan);}\
-.topbar-stat-l{font-size:0.62rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}\
-\
-/* \u2500\u2500 HERO \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.hero{\
-  background:linear-gradient(135deg,var(--navy3) 0%,var(--navy) 60%,#1a1040 100%);\
-  padding:36px 32px 30px;position:relative;overflow:hidden;\
-}\
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 80% 50%,rgba(8,145,178,0.1) 0%,transparent 65%);}\
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(8,145,178,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(8,145,178,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}\
-.hero-content{position:relative;max-width:1200px;margin:0 auto;}\
-.hero-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--cyan);margin-bottom:8px;display:flex;align-items:center;gap:6px;}\
-.hero-title{font-family:'Instrument Serif',serif;font-size:2.2rem;color:white;margin-bottom:6px;font-style:italic;line-height:1.2;}\
-.hero-title span{color:var(--cyan);}\
-.hero-sub{font-size:0.84rem;color:rgba(255,255,255,0.5);max-width:560px;line-height:1.65;margin-bottom:20px;}\
-.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}\
-.hstat{text-align:center;padding:10px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;}\
-.hstat-n{font-size:1.6rem;font-weight:800;color:white;}\
-.hstat-l{font-size:0.64rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;margin-top:1px;}\
-\
-/* \u2500\u2500 TOOLBAR \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.toolbar{\
-  background:white;border-bottom:1.5px solid var(--border);\
-  padding:14px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;\
-  position:sticky;top:54px;z-index:90;\
-}\
-.search-wrap{position:relative;flex:1;min-width:200px;max-width:340px;}\
-.search-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--slate2);font-size:0.75rem;pointer-events:none;}\
-.search-inp{width:100%;padding:8px 12px 8px 32px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;transition:border-color 0.18s;color:var(--ink);}\
-.search-inp:focus{border-color:var(--cyan);}\
-.filter-chips{display:flex;gap:6px;flex-wrap:wrap;}\
-.chip{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;transition:all 0.15s;background:white;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}\
-.chip:hover,.chip.on{background:var(--navy);border-color:var(--navy);color:white;}\
-.chip.active-only.on{background:var(--green);border-color:var(--green);}\
-.view-btns{display:flex;gap:4px;margin-left:auto;}\
-.view-btn{width:32px;height:32px;border:1.5px solid var(--border);border-radius:7px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:var(--slate);transition:all 0.15s;}\
-.view-btn.on{background:var(--navy);border-color:var(--navy);color:white;}\
-.results-bar{padding:8px 32px;font-size:0.74rem;color:var(--slate2);background:var(--bg);border-bottom:1px solid var(--border);}\
-\
-/* \u2500\u2500 MAIN \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.main{max-width:1400px;margin:0 auto;padding:28px 32px;}\
-\
-/* \u2500\u2500 REGION SECTION \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.region-section{margin-bottom:36px;}\
-.region-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}\
-.region-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;flex-shrink:0;}\
-.region-name{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.09em;color:var(--slate);flex:1;}\
-.region-count{font-size:0.68rem;color:var(--slate2);font-weight:600;}\
-.region-line{flex:1;height:1px;background:var(--border);}\
-\
-/* \u2500\u2500 OFFICE CARDS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.offices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;}\
-.offices-list{display:flex;flex-direction:column;gap:8px;}\
-\
-.office-card{\
-  background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);\
-  overflow:hidden;transition:all 0.2s;box-shadow:var(--sh);\
-  display:flex;flex-direction:column;\
-}\
-.office-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}\
-.office-card.non-op{opacity:0.72;}\
-.office-card.non-op:hover{opacity:1;}\
-\
-.oc-top{padding:16px 18px 12px;position:relative;}\
-.oc-top-row{display:flex;align-items:flex-start;gap:12px;}\
-.oc-flag{font-size:2rem;line-height:1;flex-shrink:0;}\
-.oc-info{flex:1;min-width:0;}\
-.oc-country{font-size:1rem;font-weight:800;color:var(--ink);line-height:1.2;}\
-.oc-city{font-size:0.74rem;color:var(--slate2);margin-top:1px;}\
-.oc-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}\
-\
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;font-size:0.63rem;font-weight:700;}\
-.badge-active{background:#d1fae5;color:#065f46;}\
-.badge-nonop{background:#f1f5f9;color:#64748b;}\
-.badge-tier1{background:#dbeafe;color:#1e40af;}\
-.badge-tier2{background:#e0f2fe;color:#0e7490;}\
-.badge-tier3{background:#f0fdf4;color:#166534;}\
-.badge-tier4{background:#f8fafc;color:#94a3b8;}\
-.badge-type{background:#faf5ff;color:#6d28d9;}\
-\
-.oc-divider{height:1px;background:var(--border);margin:0 18px;}\
-\
-.oc-body{padding:12px 18px;flex:1;display:flex;flex-direction:column;gap:6px;}\
-.oc-row{display:flex;align-items:flex-start;gap:8px;font-size:0.74rem;color:var(--ink3);}\
-.oc-row i{color:var(--slate2);font-size:0.65rem;margin-top:2px;width:12px;flex-shrink:0;}\
-.oc-row a{color:var(--cyan);text-decoration:none;}\
-.oc-row a:hover{text-decoration:underline;}\
-\
-.oc-purpose{background:var(--bg);border-left:2.5px solid var(--cyan);border-radius:0 6px 6px 0;padding:7px 10px;font-size:0.72rem;color:var(--slate);line-height:1.5;margin-top:4px;}\
-\
-.oc-capabilities{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}\
-.cap-badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:4px;}\
-.cap-in{background:#dbeafe;color:#1e40af;}\
-.cap-out{background:#d1fae5;color:#065f46;}\
-.cap-transport{background:#fef3c7;color:#92400e;}\
-.cap-physical{background:#faf5ff;color:#6d28d9;}\
-.cap-credits{background:#fff7ed;color:#c2410c;}\
-\
-/* \u2500\u2500 LIST VIEW \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.office-row{\
-  background:white;border:1px solid var(--border);border-radius:10px;\
-  padding:12px 18px;display:flex;align-items:center;gap:14px;\
-  transition:all 0.15s;box-shadow:var(--sh);\
-}\
-.office-row:hover{border-color:var(--cyan);box-shadow:var(--sh-md);}\
-.or-flag{font-size:1.4rem;flex-shrink:0;}\
-.or-main{flex:1;min-width:0;}\
-.or-name{font-size:0.88rem;font-weight:700;color:var(--ink);}\
-.or-city{font-size:0.72rem;color:var(--slate2);}\
-.or-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}\
-.or-contacts{flex:0 0 220px;font-size:0.72rem;color:var(--slate);line-height:1.4;}\
-.or-stats{display:flex;gap:14px;flex-shrink:0;}\
-.or-stat{text-align:center;}\
-.or-stat-n{font-size:0.85rem;font-weight:700;color:var(--ink);}\
-.or-stat-l{font-size:0.6rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;}\
-\
-/* \u2500\u2500 MAP PLACEHOLDER / WORLD VIZ \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.world-banner{\
-  background:var(--navy);border-radius:var(--r-lg);padding:20px 28px;\
-  margin-bottom:24px;display:flex;align-items:center;gap:20px;\
-  position:relative;overflow:hidden;\
-}\
-.world-banner::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(8,145,178,0.15),transparent 70%);}\
-.wb-dots{font-size:2rem;flex-shrink:0;}\
-.wb-text{flex:1;}\
-.wb-title{font-size:1rem;font-weight:800;color:white;margin-bottom:2px;}\
-.wb-sub{font-size:0.75rem;color:rgba(255,255,255,0.45);line-height:1.5;}\
-.wb-stats{display:flex;gap:16px;flex-shrink:0;}\
-.wb-stat{text-align:center;padding:8px 14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:9px;}\
-.wb-stat-n{font-size:1.1rem;font-weight:800;color:var(--cyan);}\
-.wb-stat-l{font-size:0.6rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}\
-\
-/* \u2500\u2500 EMPTY \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\
-.empty{padding:60px;text-align:center;color:var(--slate2);}\
-.empty i{font-size:2rem;display:block;margin-bottom:10px;opacity:0.4;}\
-\
-@media(max-width:768px){\
-  .hero{padding:24px 20px 20px;}\
-  .toolbar{padding:12px 16px;}\
-  .main{padding:20px 16px;}\
-  .hero-stats{gap:12px;}\
-  .hstat{padding:8px 12px;}\
-  .hero-title{font-size:1.6rem;}\
-  .or-contacts,.or-stats{display:none;}\
-}\
-
-.card-edit-btn{flex:1;padding:5px;border:1px solid var(--border);border-radius:6px;background:white;font-size:0.7rem;color:var(--slate);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;}
-.card-edit-btn:hover{border-color:var(--cyan);color:var(--cyan);}
-.card-del-btn{padding:5px 10px;border:1px solid #fecaca;border-radius:6px;background:white;font-size:0.7rem;color:#dc2626;cursor:pointer;transition:all 0.15s;}
-.card-del-btn:hover{background:#fef2f2;}
-
-</style>\
-</head>\
-<body>\
-\
-<!-- TOPBAR -->\
-<div class=\"topbar\">\
-  <div class=\"topbar-mark\">O</div>\
-  <div class=\"topbar-name\">ORN <span>/ Worldwide Offices</span></div>\
-  <div class=\"topbar-sep\"></div>\
-  <a href=\"index.html\" class=\"back-btn\"><i class=\"fas fa-arrow-left\"></i> Back to Wiki</a>\
-  <div class=\"topbar-right\">\
-    <div class=\"topbar-stat\"><div class=\"topbar-stat-n\" id=\"topActive\">\u2014</div><div class=\"topbar-stat-l\">Active</div></div>\
-    <div class=\"topbar-sep\"></div>\
-    <div class=\"topbar-stat\"><div class=\"topbar-stat-n\" id=\"topTotal\">36</div><div class=\"topbar-stat-l\">Total Offices</div></div>\
-    <div class=\"topbar-sep\"></div>\
-    <div class=\"topbar-stat\"><div class=\"topbar-stat-n\" id=\"topStaff\">\u2014</div><div class=\"topbar-stat-l\">Staff</div></div>\
-  </div>\
-</div>\
-\
-<!-- HERO -->\
-<div class=\"hero\">\
-  <div class=\"hero-grid\"></div>\
-  <div class=\"hero-content\">\
-    <div class=\"hero-label\"><i class=\"fas fa-globe\"></i> ORN Group \u2014 Global Footprint</div>\
-    <div class=\"hero-title\">Worldwide <span>Offices</span></div>\
-    <div class=\"hero-sub\">ORN's global presence spanning Europe, Middle East, Asia Pacific, Americas and Oceania \u2014 active operations, partner offices, and emerging markets.</div>\
-    <div class=\"hero-stats\" id=\"heroStats\"></div>\
-  </div>\
-</div>\
-\
-<!-- TOOLBAR -->\
-<div class=\"toolbar\">\
-  <div class=\"search-wrap\">\
-    <i class=\"fas fa-search\"></i>\
-    <input class=\"search-inp\" type=\"text\" id=\"searchInp\" placeholder=\"Search country, city, contact\u2026\" oninput=\"applyFilters()\">\
-  </div>\
-  <div class=\"filter-chips\" id=\"regionChips\"></div>\
-  <div class=\"chip active-only\" id=\"activeChip\" onclick=\"toggleActive(this)\"><i class=\"fas fa-check-circle\" style=\"font-size:0.65rem;\"></i> Active only</div>\
-  <div class=\"view-btns\">\
-    <button class=\"view-btn on\" id=\"btnGrid\" onclick=\"setView('grid',this)\" title=\"Grid view\"><i class=\"fas fa-th-large\"></i></button>\
-    <button class=\"view-btn\" id=\"btnList\" onclick=\"setView('list',this)\" title=\"List view\"><i class=\"fas fa-list\"></i></button>\
-  </div>\
-</div>\
-<div class=\"results-bar\" id=\"resultsBar\"></div>\
-\
-<!-- MAIN -->\
-<div class=\"main\" id=\"mainArea\"></div>\
-\
-<script>\
-const OFFICES = [\
-</script>\
-", "filename": "/home/claude/offices.html"}"
-    },
-    "approval_options": null,
-    "approval_key": null,
-    "is_mcp_app": null
-  },
-  {
-    "start_timestamp": null,
-    "stop_timestamp": null,
-    "flags": null,
-    "type": "tool_result",
-    "tool_use_id": "toolu_01B13Qf8dKMMjMHz2nqpds25",
-    "name": "create_file",
-    "content": [
-      {
-        "type": "text",
-        "text": "File created successfully: /home/claude/offices.html",
-        "uuid": "d37bb934-7dc0-44c6-8ba8-25a39a8619fb"
-      }
-    ],
-    "is_error": false,
-    "structured_content": null,
-    "meta": null,
-    "message": null,
-    "integration_name": null,
-    "integration_icon_url": null,
-    "icon_name": "file",
-    "display_content": {
-      "type": "text",
-      "text": "File created successfully: /home/claude/offices.html"
-    }
-  },
-  {
-    "start_timestamp": "2026-03-07T07:24:23.679141Z",
-    "stop_timestamp": "2026-03-07T07:24:25.184141Z",
-    "flags": null,
-    "type": "tool_use",
-    "id": "toolu_01RbXV29ZXVbk4kRwQeYvbm9",
-    "name": "bash_tool",
-    "input": {
-      "command": "cat /tmp/offices_data_v2.js | sed 's/^const OFFICES=//' | sed 's/;$//' >> /home/claude/offices.html
-echo "After data inject: $(wc -c < /home/claude/offices.html)"",
-      "description": "Inject offices data array"
-    },
-    "message": "Inject offices data array",
-    "integration_name": null,
-    "integration_icon_url": null,
-    "icon_name": "commandLine",
-    "context": null,
-    "display_content": {
-      "type": "json_block",
-      "json_block": "{"language": "bash", "code": "cat /tmp/offices_data_v2.js | sed 's/^const OFFICES=//' | sed 's/;$//' >> /home/claude/offices.html\
-echo \"After data inject: $(wc -c < /home/claude/offices.html)\""}"
-    },
-    "approval_options": null,
-    "approval_key": null,
-    "is_mcp_app": null
-  },
-  {
-    "start_timestamp": null,
-    "stop_timestamp": null,
-    "flags": null,
-    "type": "tool_result",
-    "tool_use_id": "toolu_01RbXV29ZXVbk4kRwQeYvbm9",
-    "name": "bash_tool",
-    "content": [
-      {
-        "type": "text",
-        "text": "{"returncode":0,"stdout":"After data inject: 31877\
-","stderr":""}",
-        "uuid": "14a8d8cd-118e-4b42-9b37-696d2be6e928"
-      }
-    ],
-    "is_error": false,
-    "structured_content": null,
-    "meta": null,
-    "message": null,
-    "integration_name": null,
-    "integration_icon_url": null,
-    "icon_name": "commandLine",
-    "display_content": {
-      "type": "json_block",
-      "json_block": "{"returncode":0,"stdout":"After data inject: 31877\
-","stderr":""}"
-    }
-  },
-  {
-    "start_timestamp": "2026-03-07T07:24:26.914453Z",
-    "stop_timestamp": "2026-03-07T07:25:01.965083Z",
-    "flags": null,
-    "type": "tool_use",
-    "id": "toolu_01TqFGnoUeCUgKDcvezGEgrh",
-    "name": "bash_tool",
-    "input": {
-      "command": "cat >> /home/claude/offices.html << 'HTMLEOF'
+  {id:'off_uk',country:'United Kingdom',city:'London',region:'Europe',tier:1,status:'Active',type:'B2B + B2C',contacts:'ARA / Ajay Kawa',email:'ara@orngroup.com',staff:8,flag:'🇬🇧',address:'UK & European Control Hub'},
+  {id:'off_uae',country:'UAE',city:'Dubai',region:'Middle East',tier:1,status:'Active',type:'B2B + B2C',contacts:'TF Dubai Team',email:'dubai@tripfactory.com',staff:12,flag:'🇦🇪',address:'Dubai Hub'},
+  {id:'off_ind_blr',country:'India',city:'Bengaluru',region:'South Asia',tier:1,status:'Active',type:'HQ',contacts:'Operations Team',email:'blr@tripfactory.com',staff:220,flag:'🇮🇳',address:'Bengaluru HQ'},
+  {id:'off_ind_slg',country:'India',city:'Siliguri',region:'South Asia',tier:1,status:'Active',type:'HQ',contacts:'Management',email:'siliguri@tripfactory.com',staff:185,flag:'🇮🇳',address:'Siliguri Head Office'},
+  {id:'off_ind_grg',country:'India',city:'Gurgaon',region:'South Asia',tier:1,status:'Active',type:'HQ',contacts:'Sales Team',email:'gurgaon@tripfactory.com',staff:95,flag:'🇮🇳',address:'Gurgaon Office'},
+  {id:'off_ind_mum',country:'India',city:'Mumbai',region:'South Asia',tier:1,status:'Active',type:'HQ',contacts:'Product Team',email:'mumbai@tripfactory.com',staff:78,flag:'🇮🇳',address:'Mumbai Office'},
+  {id:'off_de',country:'Germany',city:'Frankfurt',region:'Europe',tier:2,status:'Active',type:'B2B',contacts:'Germany Manager',email:'germany@tripfactory.com',staff:3,flag:'🇩🇪',address:'Frankfurt'},
+  {id:'off_fr',country:'France',city:'Paris',region:'Europe',tier:2,status:'Active',type:'B2B',contacts:'France Manager',email:'france@tripfactory.com',staff:2,flag:'🇫🇷',address:'Paris'},
+  {id:'off_es',country:'Spain',city:'Madrid',region:'Europe',tier:2,status:'Active',type:'B2B',contacts:'Spain Manager',email:'spain@tripfactory.com',staff:2,flag:'🇪🇸',address:'Madrid'},
+  {id:'off_sg',country:'Singapore',city:'Singapore',region:'Asia Pacific',tier:2,status:'Active',type:'B2B + B2C',contacts:'Singapore Manager',email:'sg@tripfactory.com',staff:4,flag:'🇸🇬',address:'Singapore'},
+  {id:'off_my',country:'Malaysia',city:'Kuala Lumpur',region:'Asia Pacific',tier:2,status:'Active',type:'B2B',contacts:'Malaysia Manager',email:'my@tripfactory.com',staff:3,flag:'🇲🇾',address:'Kuala Lumpur'},
+  {id:'off_au',country:'Australia',city:'Sydney',region:'Oceania',tier:2,status:'Non-Operational',type:'B2C',contacts:'TBC',email:'',staff:0,flag:'🇦🇺',address:'Planning stage'},
+  {id:'off_bh',country:'Bahrain',city:'Manama',region:'Middle East',tier:2,status:'Active',type:'B2B',contacts:'Bahrain Rep',email:'bahrain@tripfactory.com',staff:2,flag:'🇧🇭',address:'Manama'},
+  {id:'off_qa',country:'Qatar',city:'Doha',region:'Middle East',tier:2,status:'Active',type:'B2B',contacts:'Qatar Rep',email:'qatar@tripfactory.com',staff:2,flag:'🇶🇦',address:'Doha'},
+  {id:'off_ch',country:'Switzerland',city:'Zurich',region:'Europe',tier:2,status:'Active',type:'B2B',contacts:'Switzerland Rep',email:'ch@tripfactory.com',staff:1,flag:'🇨🇭',address:'Zurich'},
+  {id:'off_tr',country:'Turkey',city:'Istanbul',region:'Europe',tier:2,status:'Active',type:'B2B',contacts:'Turkey Rep',email:'turkey@tripfactory.com',staff:1,flag:'🇹🇷',address:'Istanbul'},
+  {id:'off_it',country:'Italy',city:'Rome',region:'Europe',tier:3,status:'Active',type:'B2B',contacts:'Italy Rep',email:'italy@tripfactory.com',staff:1,flag:'🇮🇹',address:'Rome'},
+  {id:'off_ie',country:'Ireland',city:'Dublin',region:'Europe',tier:3,status:'Active',type:'B2B',contacts:'Ireland Rep',email:'ireland@tripfactory.com',staff:1,flag:'🇮🇪',address:'Dublin'},
+  {id:'off_gr',country:'Greece',city:'Athens',region:'Europe',tier:3,status:'Active',type:'B2B',contacts:'Greece Rep',email:'greece@tripfactory.com',staff:1,flag:'🇬🇷',address:'Athens'},
+  {id:'off_th',country:'Thailand',city:'Bangkok',region:'Asia Pacific',tier:3,status:'Active',type:'B2B',contacts:'Thailand Rep',email:'thailand@tripfactory.com',staff:2,flag:'🇹🇭',address:'Bangkok'},
+  {id:'off_id',country:'Indonesia',city:'Bali',region:'Asia Pacific',tier:3,status:'Active',type:'B2B',contacts:'Indonesia Rep',email:'indonesia@tripfactory.com',staff:1,flag:'🇮🇩',address:'Bali'},
+  {id:'off_ph',country:'Philippines',city:'Manila',region:'Asia Pacific',tier:3,status:'Active',type:'B2B',contacts:'Philippines Rep',email:'ph@tripfactory.com',staff:1,flag:'🇵🇭',address:'Manila'},
+  {id:'off_nz',country:'New Zealand',city:'Auckland',region:'Oceania',tier:3,status:'Non-Operational',type:'B2C',contacts:'TBC',email:'',staff:0,flag:'🇳🇿',address:'Planning stage'},
+  {id:'off_hk',country:'Hong Kong',city:'Hong Kong',region:'Asia Pacific',tier:2,status:'Active',type:'B2B',contacts:'HK Manager',email:'hk@tripfactory.com',staff:2,flag:'🇭🇰',address:'Hong Kong'},
+  {id:'off_br',country:'Brazil',city:'São Paulo',region:'Americas',tier:3,status:'Non-Operational',type:'B2B',contacts:'TBC',email:'',staff:0,flag:'🇧🇷',address:'Opportunity'},
+  {id:'off_ar',country:'Argentina',city:'Buenos Aires',region:'Americas',tier:3,status:'Non-Operational',type:'B2B',contacts:'TBC',email:'',staff:0,flag:'🇦🇷',address:'Opportunity'},
+  {id:'off_om',country:'Oman',city:'Muscat',region:'Middle East',tier:3,status:'Active',type:'B2B',contacts:'Oman Rep',email:'oman@tripfactory.com',staff:1,flag:'🇴🇲',address:'Muscat'},
+  {id:'off_pl',country:'Poland',city:'Warsaw',region:'Europe',tier:3,status:'Active',type:'B2B',contacts:'Poland Rep',email:'poland@tripfactory.com',staff:1,flag:'🇵🇱',address:'Warsaw'},
+  {id:'off_at',country:'Austria',city:'Vienna',region:'Europe',tier:3,status:'Active',type:'B2B',contacts:'Austria Rep',email:'austria@tripfactory.com',staff:1,flag:'🇦🇹',address:'Vienna'},
+  {id:'off_cz',country:'Czech Republic',city:'Prague',region:'Europe',tier:3,status:'Active',type:'B2B',contacts:'Czech Rep',email:'czech@tripfactory.com',staff:1,flag:'🇨🇿',address:'Prague'},
 ];
 
-// \u2500\u2500 CONFIG \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── CONFIG ────────────────────────────────────────────────────
 const REGION_CONFIG = {
-  'Europe':       { icon:'fa-landmark',     color:'#1d4ed8' },
-  'Middle East':  { icon:'fa-mosque',       color:'#b45309' },
-  'South Asia':   { icon:'fa-building',     color:'#d4145a' },
-  'Asia Pacific': { icon:'fa-torii-gate',   color:'#059669' },
+  'Europe':       { icon:'fa-landmark',      color:'#1d4ed8' },
+  'Middle East':  { icon:'fa-mosque',        color:'#b45309' },
+  'South Asia':   { icon:'fa-building',      color:'#d4145a' },
+  'Asia Pacific': { icon:'fa-torii-gate',    color:'#059669' },
   'Americas':     { icon:'fa-globe-americas',color:'#7c3aed' },
-  'Oceania':      { icon:'fa-water',        color:'#0891b2' },
+  'Oceania':      { icon:'fa-water',         color:'#0891b2' },
 };
-const TIER_LABELS = {1:'Strategic HQ',2:'Active Market',3:'Emerging',4:'Pipeline'};
+const TIER_LABELS  = {1:'Strategic HQ',2:'Active Market',3:'Emerging',4:'Pipeline'};
 const TIER_CLASSES = {1:'badge-tier1',2:'badge-tier2',3:'badge-tier3',4:'badge-tier4'};
+const STATUS_HEAD_BG = {
+  'Active':          'linear-gradient(135deg,#047857,#059669)',
+  'Non-Operational': 'linear-gradient(135deg,#991b1b,#dc2626)',
+  'Planning':        'linear-gradient(135deg,#92400e,#b45309)',
+};
 
-// \u2500\u2500 STATE \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── STATE ─────────────────────────────────────────────────────
 let activeRegion = 'All';
 let activeOnly   = false;
 let viewMode     = 'grid';
+let _db = null;
+const FB_OFF = 'tripfactory/wiki-offices/';
 
-// \u2500\u2500 INIT \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// ── FIREBASE ─────────────────────────────────────────────────
+try{
+  const cfg={
+    apiKey:"AIzaSyCJXOlSMyFlrcnQ2air1h1dbhFqLxXzOdI",
+    authDomain:"orn-wiki.firebaseapp.com",
+    databaseURL:"https://orn-wiki-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId:"orn-wiki",storageBucket:"orn-wiki.appspot.com",
+    messagingSenderId:"1043625862507",appId:"1:1043625862507:web:placeholder"
+  };
+  if(!firebase.apps.length) firebase.initializeApp(cfg);
+  _db = firebase.database();
+}catch(e){console.warn('Firebase init:',e);}
+
+// ── INIT ─────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   buildRegionChips();
   await loadOfficesFromDB();
   render();
-  // Start clock
   const tick=()=>{const el=document.getElementById('topTime');if(el)el.textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});};
   tick();setInterval(tick,1000);
-  // Set username
   try{const u=localStorage.getItem('orn_wiki_user')||sessionStorage.getItem('orn_wiki_user')||'';const el=document.getElementById('topUser');if(el&&u)el.textContent=u;}catch(e){}
 });
-
-function buildTopStats(){
-  const active = OFFICES.filter(o => o.status === 'Active').length;
-  const staff  = OFFICES.reduce((sum,o) => sum + (parseInt(o.staff)||0), 0);
-  document.getElementById('topActive').textContent = active;
-  document.getElementById('topStaff').textContent  = staff.toLocaleString();
-}
-
-function buildHeroStats(){ /* removed - stats now in filter bar */ }
-function buildRegionChips(){
-  const regions = ['All', ...Object.keys(REGION_CONFIG)];
-  document.getElementById('regionChips').innerHTML = regions.map(r =>
-    `<div class="chip ${r==='All'?'on':''}" onclick="setRegion('${r}',this)">${r==='All'?'All Regions':r}</div>`
-  ).join('');
-}
-
-// \u2500\u2500 FILTERS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-function setRegion(r, el){
-  activeRegion = r;
-  document.querySelectorAll('#regionChips .chip').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');
-  render();
-}
-function toggleActive(el){
-  activeOnly = !activeOnly;
-  el.classList.toggle('on', activeOnly);
-  render();
-}
-function applyFilters(){ render(); }
-function setView(v, btn){
-  viewMode = v;
-  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  render();
-}
-
-function filtered(){
-  const q = document.getElementById('searchInp').value.toLowerCase().trim();
-  return OFFICES.filter(o => {
-    if(activeOnly && o.status !== 'Active') return false;
-    if(activeRegion !== 'All' && o.region !== activeRegion) return false;
-    if(q){
-      const hay = [o.country,o.city,o.region,o.contacts,o.address,o.purpose,o.market].join(' ').toLowerCase();
-      if(!hay.includes(q)) return false;
-    }
-    return true;
-  });
-}
-
-// \u2500\u2500 RENDER \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-function render(){
-  const data = filtered();
-  const shownActive = data.filter(o=>o.status==='Active').length;
-  const shownStaff  = data.reduce((s,o)=>s+(parseInt(o.staff)||0),0);
-  const et=document.getElementById('statTotal');   if(et) et.textContent=data.length;
-  const ea=document.getElementById('statActive');  if(ea) ea.textContent=shownActive;
-  const es=document.getElementById('statStaff');   if(es) es.textContent=shownStaff.toLocaleString();
-  document.getElementById('resultsBar').textContent = `Showing ${data.length} of ${OFFICES.length} offices`;
-  if(!data.length){
-    document.getElementById('mainArea').innerHTML = `<div class="empty"><i class="fas fa-search"></i>No offices match your filters.</div>`;
-    return;
-  }
-  if(viewMode === 'list'){ renderList(data); } else { renderGrid(data); }
-}
-
-function renderGrid(data){
-  // Group by region
-  const groups = {};
-  data.forEach(o => {
-    if(!groups[o.region]) groups[o.region] = [];
-    groups[o.region].push(o);
-  });
-
-  const html = Object.entries(groups).map(([region, offices]) => {
-    const cfg = REGION_CONFIG[region] || {icon:'fa-globe',color:'#475569'};
-    return `
-      <div class="region-section">
-        <div class="region-header">
-          <div class="region-icon" style="background:${cfg.color};"><i class="fas ${cfg.icon}"></i></div>
-          <div class="region-name">${region}</div>
-          <div class="region-line"></div>
-          <div class="region-count">${offices.length} office${offices.length>1?'s':''}</div>
-        </div>
-        <div class="offices-grid">
-          ${offices.map(o => officeCard(o)).join('')}
-        </div>
-      </div>`;
-  }).join('');
-
-  document.getElementById('mainArea').innerHTML = html;
-}
-
-function renderList(data){
-  const html = `<div class="offices-list">${data.map(o => officeRow(o)).join('')}</div>`;
-  document.getElementById('mainArea').innerHTML = html;
-}
-
-function capBadges(o){
-  const caps = [];
-  if(o.physical==='Yes')  caps.push(`<span class="cap-badge cap-physical">\ud83d\udccd Physical</span>`);
-  if(o.inbound==='Yes')   caps.push(`<span class="cap-badge cap-in">\u2199 Inbound</span>`);
-  if(o.outbound==='Yes')  caps.push(`<span class="cap-badge cap-out">\u2197 Outbound</span>`);
-  if(o.transport==='Yes') caps.push(`<span class="cap-badge cap-transport">\ud83d\ude8c Transport</span>`);
-  if(o.credits==='Yes')   caps.push(`<span class="cap-badge cap-credits">\ud83d\udcb3 Credits</span>`);
-  return caps.join('');
-}
-
-function officeCard(o){
-  const tc  = TIER_CLASSES[o.tier] || 'badge-tier4';
-  const tl  = TIER_LABELS[o.tier]  || 'Tier '+o.tier;
-  const isActive = o.status === 'Active';
-  const staff = parseInt(o.staff)||0;
-  const drivers = parseInt(o.drivers)||0;
-
-  return `
-    <div class="office-card ${isActive?'':'non-op'}">
-      <div class="oc-top">
-        <div class="oc-top-row">
-          <div class="oc-flag">${o.flag||'\ud83c\udfe2'}</div>
-          <div class="oc-info">
-            <div class="oc-country">${o.country}</div>
-            <div class="oc-city">${o.city||o.region}${o.market&&o.market!==o.region?' \u00b7 '+o.market:''}</div>
-            <div class="oc-badges">
-              <span class="badge ${isActive?'badge-active':'badge-nonop'}">${o.status}</span>
-              <span class="badge ${tc}">${tl}</span>
-              ${o.type?`<span class="badge badge-type">${o.type}</span>`:''}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="oc-divider"></div>
-      <div class="oc-body">
-        ${o.contacts ? `<div class="oc-row"><i class="fas fa-user-tie"></i><span>${o.contacts}</span></div>` : ''}
-        ${o.address  ? `<div class="oc-row"><i class="fas fa-map-marker-alt"></i><span>${o.address}</span></div>` : ''}
-        ${staff > 0  ? `<div class="oc-row"><i class="fas fa-users"></i><span>${staff} staff${drivers>0?' \u00b7 '+drivers+' fleet drivers':''}</span></div>` : ''}
-        ${o.purpose  ? `<div class="oc-purpose">${o.purpose}</div>` : ''}
-        <div class="oc-capabilities">${capBadges(o)}</div>
-      </div>
-    
-        <div style="display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
-          <button onclick="openEditOffice('${o.id}')" class="card-edit-btn"><i class="fas fa-pen"></i> Edit</button>
-          <button onclick="deleteOffice('${o.id}')" class="card-del-btn"><i class="fas fa-trash"></i></button>
-        </div></div>`;
-}
-
-function officeRow(o){
-  const tc = TIER_CLASSES[o.tier] || 'badge-tier4';
-  const tl = TIER_LABELS[o.tier]  || 'Tier '+o.tier;
-  const isActive = o.status === 'Active';
-  const staff = parseInt(o.staff)||0;
-
-  return `
-    <div class="office-row">
-      <div class="or-flag">${o.flag||'\ud83c\udfe2'}</div>
-      <div class="or-main">
-        <div class="or-name">${o.country}</div>
-        <div class="or-city">${o.city||''}${o.region?' \u00b7 '+o.region:''}</div>
-        <div class="or-badges">
-          <span class="badge ${isActive?'badge-active':'badge-nonop'}">${o.status}</span>
-          <span class="badge ${tc}">${tl}</span>
-          ${o.type?`<span class="badge badge-type">${o.type}</span>`:''}
-          <span style="font-size:0.63rem;color:var(--slate2);">${capBadges(o)}</span>
-        </div>
-      </div>
-      <div class="or-contacts">${o.contacts||'<span style="color:var(--slate2);">Contact TBC</span>'}${o.purpose?'<div style="margin-top:3px;color:var(--slate2);font-size:0.68rem;">'+o.purpose.slice(0,80)+'\u2026</div>':''}</div>
-      <div class="or-stats">
-        <div class="or-stat"><div class="or-stat-n">${staff||'\u2014'}</div><div class="or-stat-l">Staff</div></div>
-        <div class="or-stat"><div class="or-stat-n">${o.drivers||'\u2014'}</div><div class="or-stat-l">Drivers</div></div>
-      </div>
-    </div>`;
-}
-</script>
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script>
-// ── Firebase ─────────────────────────────────────────────────
-let _db=null;
-try{
-  const _fbCfg={apiKey:"AIzaSyCJXOlSMyFlrcnQ2air1h1dbhFqLxXzOdI",authDomain:"orn-wiki.firebaseapp.com",
-    databaseURL:"https://orn-wiki-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId:"orn-wiki",storageBucket:"orn-wiki.firebasestorage.app",
-    messagingSenderId:"25736842668",appId:"1:25736842668:web:754f9cf6268e2a5552fe09"};
-  _db=firebase.database(firebase.initializeApp(_fbCfg,'ornwiki_offices'));
-}catch(e){console.warn('Firebase:',e);}
-const FB_OFF='tripfactory/wiki-offices/';
 
 async function loadOfficesFromDB(){
   if(!_db) return;
@@ -899,6 +361,225 @@ async function loadOfficesFromDB(){
   }catch(e){console.warn('loadOfficesFromDB:',e);}
 }
 
+// ── REGION CHIPS ─────────────────────────────────────────────
+function buildRegionChips(){
+  const regions = ['All', ...Object.keys(REGION_CONFIG)];
+  document.getElementById('regionChips').innerHTML = regions.map(r =>
+    `<div class="chip ${r==='All'?'on':''}" onclick="setRegion('${r}',this)">${r==='All'?'All Regions':r}</div>`
+  ).join('');
+}
+
+// ── FILTERS ──────────────────────────────────────────────────
+function setRegion(r, el){
+  activeRegion = r;
+  document.querySelectorAll('#regionChips .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  render();
+}
+function toggleActive(el){
+  activeOnly = !activeOnly;
+  el.classList.toggle('on', activeOnly);
+  render();
+}
+function applyFilters(){ render(); }
+function setView(v, btn){
+  viewMode = v;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('view-btn-on'));
+  btn.classList.add('view-btn-on');
+  render();
+}
+function filtered(){
+  const q = (document.getElementById('searchInp')?.value||'').toLowerCase().trim();
+  return OFFICES.filter(o => {
+    if(activeOnly && o.status !== 'Active') return false;
+    if(activeRegion !== 'All' && o.region !== activeRegion) return false;
+    if(q){
+      const hay = [o.country,o.city,o.region,o.contacts,o.address,o.purpose,o.market,o.email].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+// ── RENDER ────────────────────────────────────────────────────
+function render(){
+  const data = filtered();
+  const shownActive = data.filter(o=>o.status==='Active').length;
+  const shownStaff  = data.reduce((s,o)=>s+(parseInt(o.staff)||0),0);
+  const et=document.getElementById('statTotal');   if(et) et.textContent=data.length;
+  const ea=document.getElementById('statActive');  if(ea) ea.textContent=shownActive;
+  const es=document.getElementById('statStaff');   if(es) es.textContent=shownStaff.toLocaleString();
+  if(!data.length){
+    document.getElementById('mainArea').innerHTML = `<div class="empty"><i class="fas fa-search"></i>No offices match your filters.</div>`;
+    return;
+  }
+  if(viewMode === 'list'){ renderList(data); } else { renderGrid(data); }
+}
+
+function renderGrid(data){
+  const groups = {};
+  data.forEach(o => {
+    if(!groups[o.region]) groups[o.region] = [];
+    groups[o.region].push(o);
+  });
+  document.getElementById('mainArea').innerHTML = Object.entries(groups).map(([region, offices]) => {
+    const cfg = REGION_CONFIG[region] || {icon:'fa-globe',color:'#475569'};
+    return `
+      <div class="region-section">
+        <div class="region-header">
+          <div class="region-icon" style="background:${cfg.color};"><i class="fas ${cfg.icon}"></i></div>
+          <div class="region-name">${region}</div>
+          <div class="region-line"></div>
+          <div class="region-count">${offices.length} office${offices.length>1?'s':''}</div>
+        </div>
+        <div class="offices-grid">${offices.map(o => officeCard(o)).join('')}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderList(data){
+  document.getElementById('mainArea').innerHTML = `<div class="offices-list">${data.map(o => officeRow(o)).join('')}</div>`;
+}
+
+// ── BADGE HELPERS ─────────────────────────────────────────────
+function statusBadgeClass(s){
+  if(s==='Active') return 'badge-active';
+  if(s==='Non-Operational') return 'badge-nonop';
+  if(s==='Planning') return 'badge-planning';
+  return 'badge-opportunity';
+}
+function statusBarClass(s){
+  if(s==='Active') return 'bar-active';
+  if(s==='Non-Operational') return 'bar-nonop';
+  if(s==='Planning') return 'bar-planning';
+  return 'bar-opportunity';
+}
+function capBadges(o){
+  const caps = [];
+  if(o.physical==='Yes')  caps.push(`<span class="cap-badge cap-physical">📍 Physical</span>`);
+  if(o.inbound==='Yes')   caps.push(`<span class="cap-badge cap-in">↙ Inbound</span>`);
+  if(o.outbound==='Yes')  caps.push(`<span class="cap-badge cap-out">↗ Outbound</span>`);
+  if(o.transport==='Yes') caps.push(`<span class="cap-badge cap-transport">🚌 Transport</span>`);
+  if(o.credits==='Yes')   caps.push(`<span class="cap-badge cap-credits">💳 Credits</span>`);
+  return caps.join('');
+}
+
+// ── OFFICE CARD ───────────────────────────────────────────────
+function officeCard(o){
+  const tc  = TIER_CLASSES[o.tier] || 'badge-tier4';
+  const tl  = TIER_LABELS[o.tier]  || 'Tier '+o.tier;
+  const isActive = o.status === 'Active';
+  const staff = parseInt(o.staff)||0;
+  const drivers = parseInt(o.drivers)||0;
+  return `
+    <div class="office-card ${isActive?'':'non-op'}">
+      <div class="oc-status-bar ${statusBarClass(o.status)}"></div>
+      <div class="oc-top">
+        <div class="oc-top-row">
+          <div class="oc-flag">${o.flag||'🏢'}</div>
+          <div class="oc-info">
+            <div class="oc-country">${o.country}</div>
+            <div class="oc-city">${o.city||o.region}${o.market&&o.market!==o.region?' · '+o.market:''}</div>
+            <div class="oc-badges">
+              <span class="badge ${statusBadgeClass(o.status)}">${o.status}</span>
+              <span class="badge ${tc}">${tl}</span>
+              ${o.type?`<span class="badge badge-type">${o.type}</span>`:''}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="oc-divider"></div>
+      <div class="oc-body">
+        ${o.contacts ? `<div class="oc-row"><i class="fas fa-user-tie"></i><span>${o.contacts}</span></div>` : ''}
+        ${o.email    ? `<div class="oc-row"><i class="fas fa-envelope"></i><a href="mailto:${o.email}">${o.email}</a></div>` : ''}
+        ${o.address  ? `<div class="oc-row"><i class="fas fa-map-marker-alt"></i><span>${o.address}</span></div>` : ''}
+        ${staff > 0  ? `<div class="oc-row"><i class="fas fa-users"></i><span>${staff} staff${drivers>0?' · '+drivers+' drivers':''}</span></div>` : ''}
+        ${o.purpose  ? `<div class="oc-purpose">${o.purpose}</div>` : ''}
+        <div class="oc-capabilities">${capBadges(o)}</div>
+      </div>
+      <div class="oc-footer">
+        <button class="card-view-btn" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
+        <button class="card-edit-btn" onclick="openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+        <button class="card-del-btn" onclick="deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`;
+}
+
+// ── OFFICE ROW (list view) ────────────────────────────────────
+function officeRow(o){
+  const tc = TIER_CLASSES[o.tier] || 'badge-tier4';
+  const tl = TIER_LABELS[o.tier]  || 'Tier '+o.tier;
+  const isActive = o.status === 'Active';
+  const staff = parseInt(o.staff)||0;
+  return `
+    <div class="office-row">
+      <div class="or-flag">${o.flag||'🏢'}</div>
+      <div class="or-main">
+        <div class="or-name">${o.country}</div>
+        <div class="or-city">${o.city||''}${o.region?' · '+o.region:''}</div>
+        <div class="or-badges">
+          <span class="badge ${statusBadgeClass(o.status)}">${o.status}</span>
+          <span class="badge ${tc}">${tl}</span>
+          ${o.type?`<span class="badge badge-type">${o.type}</span>`:''}
+        </div>
+      </div>
+      <div class="or-contacts">${o.contacts||'<span style="color:var(--slate2);">Contact TBC</span>'}${o.address?'<div style="margin-top:2px;color:var(--slate2);font-size:0.68rem;"><i class="fas fa-map-marker-alt" style="margin-right:3px;"></i>'+o.address+'</div>':''}</div>
+      <div class="or-stats">
+        <div class="or-stat"><div class="or-stat-n">${staff||'—'}</div><div class="or-stat-l">Staff</div></div>
+        <div class="or-stat"><div class="or-stat-n">${o.drivers||'—'}</div><div class="or-stat-l">Drivers</div></div>
+      </div>
+      <div class="or-btns">
+        <button class="card-view-btn" style="padding:4px 8px;" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i></button>
+        <button class="card-edit-btn" style="padding:4px 8px;" onclick="openEditOffice('${o.id}')"><i class="fas fa-pen"></i></button>
+        <button class="card-del-btn" style="padding:4px 8px;" onclick="deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`;
+}
+
+// ── VIEW MODAL ────────────────────────────────────────────────
+function viewOffice(id){
+  const o=OFFICES.find(x=>x.id===id); if(!o) return;
+  const staff=parseInt(o.staff)||0;
+  const tc=TIER_CLASSES[o.tier]||'badge-tier4';
+  const tl=TIER_LABELS[o.tier]||'Tier '+o.tier;
+  const headBg=STATUS_HEAD_BG[o.status]||STATUS_HEAD_BG['Non-Operational'];
+  document.getElementById('viewModalContainer').innerHTML=`
+    <div class="view-modal-overlay" onclick="if(event.target===this)closeViewModal()">
+      <div class="view-modal-box">
+        <div class="vm-head" style="background:${headBg}">
+          <div class="vm-flag">${o.flag||'🏢'}</div>
+          <div class="vm-info">
+            <div class="vm-country">${o.country}</div>
+            <div class="vm-city">${o.city||''}${o.region?' · '+o.region:''}</div>
+          </div>
+          <button class="vm-close" onclick="closeViewModal()">×</button>
+        </div>
+        <div class="vm-body">
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <span class="badge ${statusBadgeClass(o.status)}">${o.status}</span>
+            <span class="badge ${tc}">${tl}</span>
+            ${o.type?`<span class="badge badge-type">${o.type}</span>`:''}
+          </div>
+          ${o.contacts?`<div class="vm-row"><i class="fas fa-user-tie"></i><span><strong>Contact:</strong> ${o.contacts}</span></div>`:''}
+          ${o.email?`<div class="vm-row"><i class="fas fa-envelope"></i><a href="mailto:${o.email}" style="color:var(--cyan);">${o.email}</a></div>`:''}
+          ${o.address?`<div class="vm-row"><i class="fas fa-map-marker-alt"></i><span>${o.address}</span></div>`:''}
+          ${staff>0?`<div class="vm-row"><i class="fas fa-users"></i><span>${staff} staff${o.drivers>0?' · '+o.drivers+' fleet drivers':''}</span></div>`:''}
+          ${o.market?`<div class="vm-row"><i class="fas fa-globe"></i><span><strong>Market:</strong> ${o.market}</span></div>`:''}
+          ${o.purpose?`<div class="vm-purpose">${o.purpose}</div>`:''}
+          ${capBadges(o)?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:2px;">${capBadges(o)}</div>`:''}
+        </div>
+        <div class="vm-footer">
+          <button onclick="closeViewModal();openEditOffice('${o.id}')" style="flex:1;padding:8px;background:var(--cyan);border:none;border-radius:8px;color:white;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-pen"></i> Edit Office</button>
+          <button onclick="closeViewModal()" style="padding:8px 16px;background:#f1f5f9;border:none;border-radius:8px;color:#475569;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Close</button>
+        </div>
+      </div>
+    </div>`;
+}
+function closeViewModal(){
+  document.getElementById('viewModalContainer').innerHTML='';
+}
+
+// ── EDIT / ADD MODAL ──────────────────────────────────────────
 function openAddOffice(){
   document.getElementById('officeModal').style.display='flex';
   document.getElementById('omTitle').textContent='Add Office';
@@ -906,7 +587,7 @@ function openAddOffice(){
   document.getElementById('omId').value='';
 }
 function openEditOffice(id){
-  const o=OFFICES.find(x=>x.id===id);if(!o)return;
+  const o=OFFICES.find(x=>x.id===id); if(!o) return;
   document.getElementById('officeModal').style.display='flex';
   document.getElementById('omTitle').textContent='Edit — '+o.country;
   document.getElementById('omId').value=id;
@@ -926,7 +607,9 @@ function openEditOffice(id){
   document.getElementById('omPhysical').checked=o.physical==='Yes';
   document.getElementById('omTransport').checked=o.transport==='Yes';
 }
-function closeOfficeModal(){document.getElementById('officeModal').style.display='none';}
+function closeOfficeModal(){
+  document.getElementById('officeModal').style.display='none';
+}
 async function saveOffice(){
   const country=document.getElementById('omCountry').value.trim();
   if(!country){alert('Country is required');return;}
@@ -947,23 +630,27 @@ async function saveOffice(){
     outbound:document.getElementById('omOutbound').checked?'Yes':'No',
     physical:document.getElementById('omPhysical').checked?'Yes':'No',
     transport:document.getElementById('omTransport').checked?'Yes':'No',
-    type:'Trip Factory',tier:2};
+    tier:2,type:'Trip Factory'
+  };
   const idx=OFFICES.findIndex(x=>x.id===id);
-  if(idx>=0)OFFICES[idx]=o;else OFFICES.push(o);
-  if(_db)await _db.ref(FB_OFF+id).set(o).catch(e=>console.error('Save:',e));
-  closeOfficeModal();render();
+  if(idx>=0) OFFICES[idx]=o; else OFFICES.push(o);
+  if(_db) await _db.ref(FB_OFF+id).set(o).catch(e=>console.error('Save:',e));
+  closeOfficeModal();  // hide modal first
+  render();            // then re-render grid
 }
+
+// ── DELETE ─────────────────────────────────────────────────────
 async function deleteOffice(id){
   const o=OFFICES.find(x=>x.id===id);
-  if(!confirm('Remove '+(o?.country||'this office')+'?'))return;
+  if(!confirm('Remove '+(o?.country||'this office')+'?')) return;
   const idx=OFFICES.findIndex(x=>x.id===id);
-  if(idx>=0)OFFICES.splice(idx,1);
-  if(_db)await _db.ref(FB_OFF+id).remove().catch(()=>{});
+  if(idx>=0) OFFICES.splice(idx,1);
+  if(_db) await _db.ref(FB_OFF+id).remove().catch(()=>{});
   render();
 }
 </script>
 
-<!-- Office Edit Modal -->
+<!-- Office Edit Modal — EXACT original form preserved -->
 <div id="officeModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:20px;">
   <div style="background:white;border-radius:14px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
     <div style="padding:20px 24px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
@@ -981,7 +668,7 @@ async function deleteOffice(id){
         </select></div>
       <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Status</label>
         <select id="omStatus" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;">
-          <option value="Active">Active</option><option value="Non-Operational">Non-Operational</option>
+          <option value="Active">Active</option><option value="Non-Operational">Non-Operational</option><option value="Planning">Planning</option>
         </select></div>
       <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Staff count</label><input id="omStaff" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"></div>
       <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Fleet drivers</label><input id="omDrivers" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"></div>
@@ -1005,4 +692,3 @@ async function deleteOffice(id){
 
 </body>
 </html>
-HTML
