@@ -136,6 +136,16 @@ body{display:flex;flex-direction:column;}
 .topbar-time{font-size:0.75rem;color:rgba(255,255,255,0.35);font-variant-numeric:tabular-nums;}
 .topbar-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);border-radius:7px;padding:5px 11px;font-size:0.72rem;cursor:pointer;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;}
 .topbar-btn:hover{background:rgba(212,20,90,0.2);border-color:var(--magenta);color:white;}
+/* ══ GLOBAL FILTER BAR ══════════════════════════════════════════════ */
+.gf-bar{background:rgba(0,0,0,0.25);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:8px;padding:6px 20px;flex-shrink:0;flex-wrap:wrap;position:relative;z-index:250;}
+.gf-label{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.35);white-space:nowrap;}
+.gf-select{height:27px;padding:0 26px 0 9px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:rgba(255,255,255,0.75);font-size:0.72rem;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.3)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:all 0.18s;min-width:130px;}
+.gf-select option{background:#1e293b;color:white;}
+.gf-select:hover,.gf-select:focus{background-color:rgba(255,255,255,0.11);border-color:var(--cyan);}
+.gf-select.active{background-color:rgba(8,145,178,0.25);border-color:var(--cyan);color:white;}
+.gf-clear{font-size:0.67rem;color:rgba(255,255,255,0.35);background:none;border:1px solid rgba(255,255,255,0.1);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;padding:3px 9px;border-radius:5px;transition:all 0.15s;white-space:nowrap;}
+.gf-clear:hover{color:var(--magenta);border-color:var(--magenta);}
+.gf-active-count{font-size:0.67rem;color:var(--cyan);font-weight:700;white-space:nowrap;}
 .topbar-search input{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 12px 5px 30px;font-size:0.76rem;color:white;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:200px;transition:all 0.2s;}
 .topbar-search input::placeholder{color:rgba(255,255,255,0.3);}
 .topbar-search input:focus{background:rgba(255,255,255,0.12);border-color:var(--cyan);width:260px;}
@@ -511,6 +521,25 @@ select.oedit-inp{cursor:pointer;}
     <div class="topbar-time" id="topTime">—</div>
     <button class="topbar-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
   </div>
+</div>
+
+<!-- ══ GLOBAL FILTER BAR ════════════════════════════════════════════ -->
+<div class="gf-bar" id="gfBar">
+  <span class="gf-label"><i class="fas fa-filter"></i> Filter All</span>
+  <select class="gf-select" id="gfDest" onchange="applyGlobalFilter()" title="Filter by Destination">
+    <option value="">All Destinations</option>
+  </select>
+  <select class="gf-select" id="gfOffice" onchange="applyGlobalFilter()" title="Filter by Office / Location">
+    <option value="">All Offices</option>
+  </select>
+  <select class="gf-select" id="gfDept" onchange="applyGlobalFilter()" title="Filter by Department">
+    <option value="">All Departments</option>
+  </select>
+  <select class="gf-select" id="gfTitle" onchange="applyGlobalFilter()" title="Filter by Job Title">
+    <option value="">All Job Titles</option>
+  </select>
+  <span class="gf-active-count" id="gfCount" style="display:none;"></span>
+  <button class="gf-clear" id="gfClearBtn" onclick="clearGlobalFilter()" style="display:none;"><i class="fas fa-times-circle"></i> Clear</button>
 </div>
 
 <!-- ══ TAB NAV ════════════════════════════════════════════════════ -->
@@ -1016,36 +1045,42 @@ const MILESTONES=[
 
 // Default offices dataset
 const DEFAULT_OFFICES=[
-  {id:'off_uk',country:'United Kingdom',city:'London',region:'Europe',tier:'1',status:'Active',type:'B2B + B2C',contact:'ARA / Ajay Kawa',email:'ara@orngroup.com',staff:8,flag:'\ud83c\uddec\ud83c\udde7',address:'UK & European Control Hub'},
-  {id:'off_uae',country:'UAE',city:'Dubai',region:'Middle East',tier:'1',status:'Active',type:'B2B + B2C',contact:'TF Dubai Team',email:'dubai@tripfactory.com',staff:12,flag:'\ud83c\udde6\ud83c\uddea',address:'Dubai Hub'},
-  {id:'off_ind_blr',country:'India',city:'Bengaluru',region:'India HQ',tier:'1',status:'Active',type:'HQ',contact:'Operations Team',email:'blr@tripfactory.com',staff:220,flag:'\ud83c\uddee\ud83c\uddf3',address:'Bengaluru HQ'},
-  {id:'off_ind_slg',country:'India',city:'Siliguri',region:'India HQ',tier:'1',status:'Active',type:'HQ',contact:'Management',email:'siliguri@tripfactory.com',staff:185,flag:'\ud83c\uddee\ud83c\uddf3',address:'Siliguri Head Office'},
-  {id:'off_ind_grg',country:'India',city:'Gurgaon',region:'India HQ',tier:'1',status:'Active',type:'HQ',contact:'Sales Team',email:'gurgaon@tripfactory.com',staff:95,flag:'\ud83c\uddee\ud83c\uddf3',address:'Gurgaon Office'},
-  {id:'off_ind_mum',country:'India',city:'Mumbai',region:'India HQ',tier:'1',status:'Active',type:'HQ',contact:'Product Team',email:'mumbai@tripfactory.com',staff:78,flag:'\ud83c\uddee\ud83c\uddf3',address:'Mumbai Office'},
-  {id:'off_de',country:'Germany',city:'Frankfurt',region:'Europe',tier:'2',status:'Active',type:'B2B',contact:'Germany Manager',email:'germany@tripfactory.com',staff:3,flag:'\ud83c\udde9\ud83c\uddea',address:'Frankfurt'},
-  {id:'off_fr',country:'France',city:'Paris',region:'Europe',tier:'2',status:'Active',type:'B2B',contact:'France Manager',email:'france@tripfactory.com',staff:2,flag:'\ud83c\uddeb\ud83c\uddf7',address:'Paris'},
-  {id:'off_es',country:'Spain',city:'Madrid',region:'Europe',tier:'2',status:'Active',type:'B2B',contact:'Spain Manager',email:'spain@tripfactory.com',staff:2,flag:'\ud83c\uddea\ud83c\uddf8',address:'Madrid'},
-  {id:'off_sg',country:'Singapore',city:'Singapore',region:'Asia Pacific',tier:'2',status:'Active',type:'B2B + B2C',contact:'Singapore Manager',email:'sg@tripfactory.com',staff:4,flag:'\ud83c\uddf8\ud83c\uddec',address:'Singapore'},
-  {id:'off_my',country:'Malaysia',city:'Kuala Lumpur',region:'Asia Pacific',tier:'2',status:'Active',type:'B2B',contact:'Malaysia Manager',email:'my@tripfactory.com',staff:3,flag:'\ud83c\uddf2\ud83c\uddfe',address:'Kuala Lumpur'},
-  {id:'off_au',country:'Australia',city:'Sydney',region:'Asia Pacific',tier:'2',status:'Planning',type:'B2C',contact:'TBC',email:'',staff:0,flag:'\ud83c\udde6\ud83c\uddfa',address:'Planning stage'},
-  {id:'off_bh',country:'Bahrain',city:'Manama',region:'Middle East',tier:'2',status:'Active',type:'B2B',contact:'Bahrain Rep',email:'bahrain@tripfactory.com',staff:2,flag:'\ud83c\udde7\ud83c\udded',address:'Manama'},
-  {id:'off_qa',country:'Qatar',city:'Doha',region:'Middle East',tier:'2',status:'Active',type:'B2B',contact:'Qatar Rep',email:'qatar@tripfactory.com',staff:2,flag:'\ud83c\uddf6\ud83c\udde6',address:'Doha'},
-  {id:'off_ch',country:'Switzerland',city:'Zurich',region:'Europe',tier:'2',status:'Active',type:'B2B',contact:'Switzerland Rep',email:'ch@tripfactory.com',staff:1,flag:'\ud83c\udde8\ud83c\udded',address:'Zurich'},
-  {id:'off_tr',country:'Turkey',city:'Istanbul',region:'Europe',tier:'2',status:'Active',type:'B2B',contact:'Turkey Rep',email:'turkey@tripfactory.com',staff:1,flag:'\ud83c\uddf9\ud83c\uddf7',address:'Istanbul'},
-  {id:'off_it',country:'Italy',city:'Rome',region:'Europe',tier:'3',status:'Active',type:'B2B',contact:'Italy Rep',email:'italy@tripfactory.com',staff:1,flag:'\ud83c\uddee\ud83c\uddf9',address:'Rome'},
-  {id:'off_ie',country:'Ireland',city:'Dublin',region:'Europe',tier:'3',status:'Active',type:'B2B',contact:'Ireland Rep',email:'ireland@tripfactory.com',staff:1,flag:'\ud83c\uddee\ud83c\uddea',address:'Dublin'},
-  {id:'off_gr',country:'Greece',city:'Athens',region:'Europe',tier:'3',status:'Active',type:'B2B',contact:'Greece Rep',email:'greece@tripfactory.com',staff:1,flag:'\ud83c\uddec\ud83c\uddf7',address:'Athens'},
-  {id:'off_th',country:'Thailand',city:'Bangkok',region:'Asia Pacific',tier:'3',status:'Active',type:'B2B',contact:'Thailand Rep',email:'thailand@tripfactory.com',staff:2,flag:'\ud83c\uddf9\ud83c\udded',address:'Bangkok'},
-  {id:'off_id',country:'Indonesia',city:'Bali',region:'Asia Pacific',tier:'3',status:'Active',type:'B2B',contact:'Indonesia Rep',email:'indonesia@tripfactory.com',staff:1,flag:'\ud83c\uddee\ud83c\udde9',address:'Bali'},
-  {id:'off_ph',country:'Philippines',city:'Manila',region:'Asia Pacific',tier:'3',status:'Active',type:'B2B',contact:'Philippines Rep',email:'ph@tripfactory.com',staff:1,flag:'\ud83c\uddf5\ud83c\udded',address:'Manila'},
-  {id:'off_nz',country:'New Zealand',city:'Auckland',region:'Asia Pacific',tier:'3',status:'Planning',type:'B2C',contact:'TBC',email:'',staff:0,flag:'\ud83c\uddf3\ud83c\uddff',address:'Planning stage'},
-  {id:'off_hk',country:'Hong Kong',city:'Hong Kong',region:'Asia Pacific',tier:'2',status:'Active',type:'B2B',contact:'HK Manager',email:'hk@tripfactory.com',staff:2,flag:'\ud83c\udded\ud83c\uddf0',address:'Hong Kong'},
-  {id:'off_br',country:'Brazil',city:'São Paulo',region:'Americas',tier:'3',status:'Opportunity',type:'B2B',contact:'TBC',email:'',staff:0,flag:'\ud83c\udde7\ud83c\uddf7',address:'Opportunity'},
-  {id:'off_ar',country:'Argentina',city:'Buenos Aires',region:'Americas',tier:'3',status:'Opportunity',type:'B2B',contact:'TBC',email:'',staff:0,flag:'\ud83c\udde6\ud83c\uddf7',address:'Opportunity'},
-  {id:'off_om',country:'Oman',city:'Muscat',region:'Middle East',tier:'3',status:'Active',type:'B2B',contact:'Oman Rep',email:'oman@tripfactory.com',staff:1,flag:'\ud83c\uddf4\ud83c\uddf2',address:'Muscat'},
-  {id:'off_pl',country:'Poland',city:'Warsaw',region:'Europe',tier:'3',status:'Active',type:'B2B',contact:'Poland Rep',email:'poland@tripfactory.com',staff:1,flag:'\ud83c\uddf5\ud83c\uddf1',address:'Warsaw'},
-  {id:'off_at',country:'Austria',city:'Vienna',region:'Europe',tier:'3',status:'Active',type:'B2B',contact:'Austria Rep',email:'austria@tripfactory.com',staff:1,flag:'\ud83c\udde6\ud83c\uddf9',address:'Vienna'},
-  {id:'off_cz',country:'Czech Republic',city:'Prague',region:'Europe',tier:'3',status:'Active',type:'B2B',contact:'Czech Rep',email:'czech@tripfactory.com',staff:1,flag:'\ud83c\udde8\ud83c\uddff',address:'Prague'},
+  {"id": "off_london", "country": "United Kingdom", "city": "London", "flag": "🇬🇧", "contacts": "Raj Kumar COO , Ajay Kawa Global Business Development  & Alia Taub Chief People Officer", "address": "22 - 25 Portman Close London W1H 6BS", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 4, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Head office for UK & European operations. B2C sales, B2B partnerships, contracting hub.", "credits": "", "tier": 1},
+  {"id": "off_frankfurt", "country": "Germany", "city": "Frankfurt", "flag": "🇩🇪", "contacts": "Moaz Ghani", "address": "Fasanenweg 7E, Fasanenweg 7–9, 65451 Kelsterbach", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Partner office supporting German-speaking market.", "credits": "", "tier": 1},
+  {"id": "off_paris", "country": "France", "city": "Paris", "flag": "🇫🇷", "contacts": "Paolina Zunino and Renaud Lenne", "address": "16, Rue Ferdinand de Lesseps, 95190 Goussainville", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 5, "drivers": 5, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "Yes", "market": "Global", "purpose": "Market opportunity — French-speaking travel market.", "credits": "", "tier": 1},
+  {"id": "off_italy", "country": "Italy", "city": "", "flag": "🇮🇹", "contacts": "Daniele", "address": "Via Mazzini No. 119/C – Cesenatico (FC), Zip Code: 47042", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 6, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Italian market sales partner.", "credits": "", "tier": 1},
+  {"id": "off_prague", "country": "Czech Republic", "city": "Prague", "flag": "🇨🇿", "contacts": "Marta Zizkova", "address": "", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Remote / Virtual", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Czech and Central European market partner.", "credits": "", "tier": 1},
+  {"id": "off_poland", "country": "Poland", "city": "", "flag": "🇵🇱", "contacts": "Krzysztof Jamruszkiewicz", "address": "", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Remote / Virtual", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Polish market partner.", "credits": "", "tier": 1},
+  {"id": "off_slovakia", "country": "Slovakia", "city": "", "flag": "🇸🇰", "contacts": "Adonis", "address": "Nitra, 949 01, Mostná 29", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 8, "physical": "Physical Office", "inbound": "No", "outbound": "No", "transport": "Yes", "market": "Global", "purpose": "Transport and Fleet Operations", "credits": "", "tier": 1},
+  {"id": "off_athens", "country": "Greece", "city": "Athens", "flag": "🇬🇷", "contacts": "Argiris", "address": "", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Greek market partner — outbound and inbound DMC.", "credits": "", "tier": 1},
+  {"id": "off_sofia", "country": "Bulgaria", "city": "Sofia", "flag": "🇧🇬", "contacts": "Adonis", "address": "Sofia, 18 Hristo Belchev Street, Floor 3", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 0, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Bulgarian market sales partner.", "credits": "", "tier": 1},
+  {"id": "off_istanbul", "country": "Turkey", "city": "Istanbul", "flag": "🇹🇷", "contacts": "Baris Intepe", "address": "Maslak mahallesi, Meydan sokak, Veko giz plaza no 3, Office no 3-4, Sarıyer / Istanbul - 34485", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 9, "drivers": 0, "physical": "Inbound / Outbound Hub", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Turkish market partner — inbound DMC and outbound sales.", "credits": "", "tier": 1},
+  {"id": "off_dubai", "country": "UAE", "city": "Dubai", "flag": "🇦🇪", "contacts": "Yassir  Ahmed", "address": "WHP2-BLOCK-A COMMERCIAL, Plot No. 13-0, Saih Shuaib 3, Dubai, UAE", "region": "Middle East", "type": "Trip Factory", "status": "Active", "staff": 4, "drivers": 0, "physical": "Inbound / Outbound Hub", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "UAE hub — B2C sales, corporate travel, luxury packages.", "credits": "", "tier": 1},
+  {"id": "off_manama", "country": "Bahrain", "city": "Manama", "flag": "🇧🇭", "contacts": "KK Menon", "address": "Flat/Shop No. - 1607, Building 1565, Road / Street 1722, Diplomatic Area, Block 317, Bahrain", "region": "Middle East", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Admin Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Bahrain partner — Gulf market sales.", "credits": "", "tier": 1},
+  {"id": "off_india", "country": "India", "city": "", "flag": "🇮🇳", "contacts": "Lalitha P", "address": "4th & 5th Floor, RMZ Latitude Commercial Building, Bellary Road, Hebbal, Bangalore - 560092, Karnataka", "region": "South Asia", "type": "Trip Factory", "status": "Active", "staff": 698, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Primary execution hub — Ops, Tech, Finance, HR, Product, Contracting.", "credits": "", "tier": 1},
+  {"id": "off_singapore", "country": "Singapore", "city": "Singapore", "flag": "🇸🇬", "contacts": "Maricar Manalo Chao", "address": "Just Co.,  10, Anson Road #05-00, International Plaza, Singapore - 079903", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 3, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Singapore partner — SEA hub and premium outbound sales.", "credits": "", "tier": 1},
+  {"id": "off_kuala_lumpur", "country": "Malaysia", "city": "Kuala Lumpur", "flag": "🇲🇾", "contacts": "Noor Adilah", "address": "", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Remote / Virtual", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Malaysian market partner — halal and Muslim-friendly packages.", "credits": "", "tier": 1},
+  {"id": "off_bangkok", "country": "Thailand", "city": "Bangkok", "flag": "🇹🇭", "contacts": "Maricar Manalo Chao", "address": "2 Quant Building , Floor 6, Room 9, Soi Sukhumvit 25, Sukhumvit Road, Khlong Toei Nua, Wattana, Bangkok - 10100", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 7, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Thailand DMC partner — inbound tourism and product contracting.", "credits": "", "tier": 1},
+  {"id": "off_bali", "country": "Indonesia", "city": "Bali", "flag": "🇮🇩", "contacts": "Sachin Kurte", "address": "Park 23 Creative Hub, Jl. Kediri 3rd Floor, Tuban, Kuta, Badung Regency, Bali 80361, Indonesia", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 8, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Indonesia partner — Bali DMC and outbound sales.", "credits": "", "tier": 1},
+  {"id": "off_manila", "country": "Philippines", "city": "Manila", "flag": "🇵🇭", "contacts": "Maricar Manalo Chao", "address": "4/F Unit 2C, One E-com Center Building, Ocean Drive, Mall of Asia Complex, Pasay City, Philippines 1300", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 17, "drivers": 0, "physical": "Inbound / Outbound Hub", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Philippines market partner.", "credits": "", "tier": 1},
+  {"id": "off_united_states", "country": "United States", "city": "", "flag": "🇺🇸", "contacts": "Kirk Demeter, Kerryn Collins", "address": "Everybody's wfh", "region": "Americas", "type": "Trip Factory Partner", "status": "Active", "staff": 64, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "US market — New York, Seattle, Los Angeles, Texas.", "credits": "", "tier": 2},
+  {"id": "off_lima", "country": "Peru", "city": "Lima", "flag": "🇵🇪", "contacts": "Daniel Rodrigue", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Active", "staff": 30, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Peru market partner.", "credits": "", "tier": 2},
+  {"id": "off_buenos_aires", "country": "Argentina", "city": "Buenos Aires", "flag": "🇦🇷", "contacts": "Maria Noelia Bonvin", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Active", "staff": 6, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Argentina market partner.", "credits": "", "tier": 2},
+  {"id": "off_australia", "country": "Australia", "city": "", "flag": "🇦🇺", "contacts": "Sahil Nijhawan", "address": "Level 1,18-22 Thompson street, South Melbourne, Victoria-3205", "region": "Oceania", "type": "Trip Factory Partner", "status": "Active", "staff": 23, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Australia partner — Indian diaspora and mainstream outbound.", "credits": "", "tier": 2},
+  {"id": "off_spain", "country": "Spain", "city": "", "flag": "🇪🇸", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Spanish market partner network.", "credits": "", "tier": 3},
+  {"id": "off_switzerland", "country": "Switzerland", "city": "", "flag": "🇨🇭", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Swiss market partner — premium travel segment.", "credits": "", "tier": 3},
+  {"id": "off_dublin", "country": "Ireland", "city": "Dublin", "flag": "🇮🇪", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Irish market sales operations.", "credits": "", "tier": 3},
+  {"id": "off_vienna", "country": "Austria", "city": "Vienna", "flag": "🇦🇹", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Austrian market partner.", "credits": "", "tier": 3},
+  {"id": "off_croatia", "country": "Croatia", "city": "", "flag": "🇭🇷", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Croatian market presence and DMC.", "credits": "", "tier": 3},
+  {"id": "off_doha", "country": "Qatar", "city": "Doha", "flag": "🇶🇦", "contacts": "", "address": "", "region": "Middle East", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Qatar partner operations.", "credits": "", "tier": 3},
+  {"id": "off_kuwait", "country": "Oman", "city": "kuwait", "flag": "🇴🇲", "contacts": "", "address": "", "region": "Middle East", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Oman market partner.", "credits": "", "tier": 3},
+  {"id": "off_hong_kong", "country": "Hong Kong", "city": "Hong Kong", "flag": "🇭🇰", "contacts": "", "address": "", "region": "Asia Pacific", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Hong Kong partner — premium outbound sales.", "credits": "", "tier": 3},
+  {"id": "off_mexico_city", "country": "Mexico", "city": "Mexico City", "flag": "🇲🇽", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Mexico market opportunity.", "credits": "", "tier": 3},
+  {"id": "off_s_o_paulo", "country": "Brazil", "city": "São Paulo", "flag": "🇧🇷", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Brazil partner — South American market hub.", "credits": "", "tier": 3},
+  {"id": "off_bogot", "country": "Colombia", "city": "Bogotá", "flag": "🇨🇴", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Colombia market partner.", "credits": "", "tier": 3},
+  {"id": "off_quito", "country": "Ecuador", "city": "Quito", "flag": "🇪🇨", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Ecuador market presence.", "credits": "", "tier": 3},
+  {"id": "off_santiago", "country": "Chile", "city": "Santiago", "flag": "🇨🇱", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Chile market partner.", "credits": "", "tier": 3},
+  {"id": "off_auckland", "country": "New Zealand", "city": "Auckland", "flag": "🇳🇿", "contacts": "Sahil Nijhawan", "address": "", "region": "Oceania", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "New Zealand market opportunity.", "credits": "", "tier": 3},
 ];
 
 // ══════════════════════════════════════════════════════════════════
@@ -1250,9 +1285,26 @@ async function loadRefs(){
   if(!_db){renderRefs(getDefaultRefs());return;}
   try{const snap=await _db.ref(FB.refs).once('value');const d=snap.val();if(d&&Object.keys(d).length>0){wikiRefs=d;}else{getDefaultRefs().forEach(r=>{wikiRefs[r.id]=r;});_db.ref(FB.refs).set(wikiRefs).catch(()=>{});}renderRefs(Object.values(wikiRefs));}catch(e){renderRefs(getDefaultRefs());}
 }
+const OFFICES_DATA_VERSION='2026-03-09-v1';
 async function loadOffices(){
   if(!_db){DEFAULT_OFFICES.forEach(o=>{wikiOffices[o.id]=o;});renderOffices();return;}
-  try{const snap=await _db.ref(FB.offices).once('value');const d=snap.val();if(d&&Object.keys(d).length>0){wikiOffices=d;}else{DEFAULT_OFFICES.forEach(o=>{wikiOffices[o.id]=o;});_db.ref(FB.offices).set(wikiOffices).catch(()=>{});}renderOffices();}catch(e){DEFAULT_OFFICES.forEach(o=>{wikiOffices[o.id]=o;});renderOffices();}
+  try{
+    const verSnap=await _db.ref('tripfactory/wiki-offices-version').once('value').catch(()=>null);
+    const storedVer=verSnap&&verSnap.val();
+    if(storedVer!==OFFICES_DATA_VERSION){
+      // Version mismatch — re-seed from hardcoded data
+      const seed={};DEFAULT_OFFICES.forEach(o=>{seed[o.id]=o;});
+      await _db.ref(FB.offices).set(seed).catch(()=>{});
+      await _db.ref('tripfactory/wiki-offices-version').set(OFFICES_DATA_VERSION).catch(()=>{});
+      wikiOffices=seed;
+    } else {
+      const snap=await _db.ref(FB.offices).once('value');
+      const d=snap.val();
+      if(d&&Object.keys(d).length>0){wikiOffices=d;}
+      else{DEFAULT_OFFICES.forEach(o=>{wikiOffices[o.id]=o;});}
+    }
+    renderOffices();
+  }catch(e){DEFAULT_OFFICES.forEach(o=>{wikiOffices[o.id]=o;});renderOffices();}
 }
 async function loadDocs(){
   if(!_db){renderDocs([]);return;}
@@ -1295,6 +1347,7 @@ function renderAll(){
   renderWorkflows();
   renderJargon();
   renderTimeline();
+  buildGlobalFilterDropdowns();
 }
 function renderPipeline(){
   document.getElementById('pipelineEl').innerHTML=PIPELINE.map(s=>`<div class="p-step"><div class="p-num">${s.n}</div><div class="p-label">${s.l}</div><div class="p-role">${s.r}</div></div>`).join('');
@@ -1392,7 +1445,7 @@ function filterStaff(){
   };
   const searchOk=(s)=>!q||(s.n||'').toLowerCase().includes(q)||(s.t||'').toLowerCase().includes(q)||(s.em||'').toLowerCase().includes(q)||(s.d||'').toLowerCase().includes(q);
   
-  const filtered=STAFF_DATA.filter(s=>locOk(s)&&deptOk(s)&&searchOk(s));
+  const filtered=STAFF_DATA.filter(s=>locOk(s)&&deptOk(s)&&searchOk(s)&&staffPassesGF(s));
   document.getElementById('staffStats').textContent=`Showing ${filtered.length} of ${STAFF_DATA.length} staff members`;
   
   if(!filtered.length){
@@ -1901,6 +1954,144 @@ async function deleteRef(id){
   toast('Reference removed');
 }
 // ── Tab Navigation ───────────────────────────────────────────────
+// ══ GLOBAL CONTEXT FILTER ENGINE ════════════════════════════════════
+const GF = { dest:'', office:'', dept:'', title:'' };
+
+const DEST_SD_MAP = {
+  'Andaman':     ['Andaman'],
+  'Bali':        ['Bali','Indonesia'],
+  'Domestic':    ['Domestic'],
+  'Dubai':       ['Dubai','UAE'],
+  'Europe':      ['Europe','B2C-DE'],
+  'Field Sales': ['Field Sales'],
+  'Flights':     ['Flights'],
+  'Groups':      ['Groups'],
+  'Japan':       ['Japan'],
+  'Maldives':    ['Maldvies/ Hong Kong','Maldives/HK'],
+  'Middle East': ['Middle East'],
+  'Singapore':   ['Singapore','Malaysia / Singapore','Malaysia'],
+  'Thailand':    ['Thailand'],
+  'Vietnam':     ['Vietnam'],
+  'Visa':        ['Visa'],
+};
+
+function buildGlobalFilterDropdowns(){
+  const destEl=document.getElementById('gfDest');
+  if(destEl) destEl.innerHTML='<option value="">All Destinations</option>'+Object.keys(DEST_SD_MAP).map(d=>`<option value="${d}">${d}</option>`).join('');
+  const officeEl=document.getElementById('gfOffice');
+  if(officeEl){
+    const locs=[...new Set(STAFF_DATA.map(s=>s.l).filter(Boolean).map(l=>l.trim()))].sort();
+    officeEl.innerHTML='<option value="">All Offices</option>'+locs.map(l=>`<option value="${l}">${l}</option>`).join('');
+  }
+  const deptEl=document.getElementById('gfDept');
+  if(deptEl){
+    const depts=[...new Set(STAFF_DATA.map(s=>s.d).filter(Boolean))].sort();
+    deptEl.innerHTML='<option value="">All Departments</option>'+depts.map(d=>`<option value="${d}">${d}</option>`).join('');
+  }
+  const titleEl=document.getElementById('gfTitle');
+  if(titleEl){
+    const kws=['Advisor','Analyst','Director','Executive','Expert','Head','Intern','Lead','Manager','Officer','VP'];
+    titleEl.innerHTML='<option value="">All Job Titles</option>'+kws.map(t=>`<option value="${t}">${t}</option>`).join('');
+  }
+}
+
+function applyGlobalFilter(){
+  GF.dest  =(document.getElementById('gfDest')?.value  ||'').trim();
+  GF.office=(document.getElementById('gfOffice')?.value||'').trim();
+  GF.dept  =(document.getElementById('gfDept')?.value  ||'').trim();
+  GF.title =(document.getElementById('gfTitle')?.value ||'').trim();
+  const active=GF.dest||GF.office||GF.dept||GF.title;
+  ['gfDest','gfOffice','gfDept','gfTitle'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('active',!!el.value);
+  });
+  const clearBtn=document.getElementById('gfClearBtn');
+  const countEl=document.getElementById('gfCount');
+  if(clearBtn) clearBtn.style.display=active?'inline-flex':'none';
+  if(countEl){
+    if(active){
+      const n=STAFF_DATA.filter(staffPassesGF).length;
+      countEl.textContent=`${n} staff match`;
+      countEl.style.display='inline';
+    } else { countEl.style.display='none'; }
+  }
+  gfRenderAll();
+}
+
+function clearGlobalFilter(){
+  ['gfDest','gfOffice','gfDept','gfTitle'].forEach(id=>{
+    const el=document.getElementById(id);if(el){el.value='';el.classList.remove('active');}
+  });
+  GF.dest=GF.office=GF.dept=GF.title='';
+  const clearBtn=document.getElementById('gfClearBtn');
+  const countEl=document.getElementById('gfCount');
+  if(clearBtn) clearBtn.style.display='none';
+  if(countEl) countEl.style.display='none';
+  gfRenderAll();
+}
+
+function staffPassesGF(s){
+  if(GF.dest){
+    const sdList=DEST_SD_MAP[GF.dest]||[GF.dest];
+    if(!sdList.some(sd=>(s.sd||'').toLowerCase()===sd.toLowerCase())) return false;
+  }
+  if(GF.office&&(s.l||'').toLowerCase().trim()!==GF.office.toLowerCase()) return false;
+  if(GF.dept  &&(s.d||'').toLowerCase()!==GF.dept.toLowerCase()) return false;
+  if(GF.title &&!(s.t||'').toLowerCase().includes(GF.title.toLowerCase())) return false;
+  return true;
+}
+
+function gfIsActive(){ return !!(GF.dest||GF.office||GF.dept||GF.title); }
+
+function gfRenderAll(){
+  // Re-render staff modal if open
+  if(document.getElementById('staffModal')?.classList.contains('open')) filterStaff();
+  // Re-render offices tab (always, filtered or full)
+  renderOfficesGF();
+  // Re-render departments & workflows
+  if(typeof renderDeptSummary==='function') renderDeptSummary();
+  if(typeof renderDepts==='function') renderDepts();
+}
+
+function renderOfficesGF(){
+  if(!gfIsActive()){ renderOffices(); return; }
+  const offices=Object.values(wikiOffices);
+  const destL=GF.dest.toLowerCase();
+  const offL=GF.office.toLowerCase();
+  const filtered=offices.filter(o=>{
+    const cityC=(o.city||'').toLowerCase();
+    const cntryC=(o.country||'').toLowerCase();
+    const addrC=(o.address||'').toLowerCase();
+    const destOk=!GF.dest||(cityC.includes(destL)||cntryC.includes(destL)||addrC.includes(destL));
+    const offOk =!GF.office||(cityC.includes(offL)||cntryC.includes(offL));
+    return destOk&&offOk;
+  });
+  const grid=document.getElementById('officesGrid');
+  const countEl=document.getElementById('officeCount');
+  if(countEl) countEl.textContent=`Showing ${filtered.length} of ${offices.length} offices (filtered)`;
+  if(!grid) return;
+  if(!filtered.length){grid.innerHTML='<div style="padding:40px;text-align:center;color:var(--slate2);">No offices match the current filter.</div>';return;}
+  // Render using the same card template as renderOffices
+  grid.innerHTML=filtered.map(o=>{
+    const statusCol=o.status==='Active'?'#059669':o.status==='Non-Operational'?'#dc2626':'#b45309';
+    return`<div class="office-card" style="border-top:3px solid ${statusCol};">
+      <div class="office-card-head">
+        <span style="font-size:1.4rem;">${o.flag||'🌍'}</span>
+        <div><div class="office-card-name">${o.city||o.country}</div><div class="office-card-country">${o.country}</div></div>
+        <span style="margin-left:auto;font-size:0.65rem;font-weight:700;color:${statusCol};background:${statusCol}18;padding:2px 7px;border-radius:10px;">${o.status||'—'}</span>
+      </div>
+      <div class="office-card-meta"><i class="fas fa-globe" style="color:var(--cyan)"></i> ${o.region||'—'}</div>
+      <div class="office-card-meta"><i class="fas fa-building" style="color:var(--slate2)"></i> ${o.physical||'—'}</div>
+      ${o.contacts?`<div class="office-card-meta"><i class="fas fa-user" style="color:var(--slate2)"></i> ${o.contacts}</div>`:''}
+      <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
+        ${o.inbound==='Yes'?'<span style="font-size:0.62rem;background:#0891b218;color:#0891b2;border:1px solid #0891b240;padding:1px 6px;border-radius:8px;font-weight:700;">Inbound</span>':''}
+        ${o.outbound==='Yes'?'<span style="font-size:0.62rem;background:#7c3aed18;color:#7c3aed;border:1px solid #7c3aed40;padding:1px 6px;border-radius:8px;font-weight:700;">Outbound</span>':''}
+        ${o.transport==='Yes'?'<span style="font-size:0.62rem;background:#d4145a18;color:#d4145a;border:1px solid #d4145a40;padding:1px 6px;border-radius:8px;font-weight:700;">Transport</span>':''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function showTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -1909,6 +2100,7 @@ function showTab(id,btn){
   if(btn)btn.classList.add('active');
   if(id==='boardmeetings')loadBoardMeetings();
   if(id==='travelplans')renderTravelPlans();
+  if(id==='offices')renderOfficesGF();
 }
 
 // ── Auto-login ───────────────────────────────────────────────
