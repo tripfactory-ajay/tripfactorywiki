@@ -2,9 +2,6 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ORN Project Wiki</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -153,44 +150,6 @@ body{display:flex;flex-direction:column;}
 .gr-name{font-size:0.78rem;font-weight:600;color:white;}
 .gr-sub{font-size:0.67rem;color:rgba(255,255,255,0.4);}
 .gr-empty{padding:20px;text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.3);}
-
-/* ══ GLOBAL CONTEXT FILTER BAR ═══════════════════════════════════ */
-.gf-bar{
-  background:var(--navy2);border-bottom:1px solid rgba(255,255,255,0.07);
-  display:flex;align-items:center;gap:10px;padding:6px 20px;flex-shrink:0;
-  flex-wrap:wrap;z-index:250;position:relative;
-}
-.gf-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.35);white-space:nowrap;}
-.gf-select{
-  height:28px;padding:0 28px 0 10px;background:rgba(255,255,255,0.07);
-  border:1px solid rgba(255,255,255,0.12);border-radius:6px;
-  color:rgba(255,255,255,0.8);font-size:0.74rem;font-family:'Plus Jakarta Sans',sans-serif;
-  font-weight:500;cursor:pointer;outline:none;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.3)'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 8px center;
-  transition:all 0.18s;min-width:140px;
-}
-.gf-select:focus,.gf-select:hover{background-color:rgba(255,255,255,0.11);border-color:var(--cyan);}
-.gf-select.active{background-color:rgba(8,145,178,0.2);border-color:var(--cyan);color:white;}
-.gf-pill{
-  display:inline-flex;align-items:center;gap:5px;
-  background:rgba(8,145,178,0.2);border:1px solid var(--cyan);
-  border-radius:20px;padding:2px 8px 2px 10px;font-size:0.7rem;
-  color:var(--cyan);font-weight:700;cursor:pointer;transition:all 0.15s;
-}
-.gf-pill:hover{background:rgba(8,145,178,0.35);}
-.gf-pill i{font-size:0.6rem;}
-.gf-clear{
-  font-size:0.68rem;color:rgba(255,255,255,0.3);background:none;border:none;
-  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;padding:3px 6px;
-  border-radius:5px;transition:all 0.15s;white-space:nowrap;
-}
-.gf-clear:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.07);}
-.gf-active-indicator{
-  font-size:0.68rem;color:var(--cyan);font-weight:600;
-  background:rgba(8,145,178,0.1);border:1px solid rgba(8,145,178,0.25);
-  border-radius:20px;padding:2px 10px;white-space:nowrap;
-}
 
 /* ══ TAB NAV ══════════════════════════════════════════════════════ */
 .tab-nav{
@@ -501,55 +460,6 @@ select.oedit-inp{cursor:pointer;}
 .ref-open:hover{background:var(--cyan);}
 .ref-del{background:none;border:none;color:var(--slate2);cursor:pointer;font-size:0.72rem;padding:4px 7px;transition:color 0.15s;margin-left:auto;}
 .ref-del:hover{color:#dc2626;}
-
-/* ══ DOCS & REFS VIEW TOGGLE ════════════════════════════════════ */
-.dr-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
-.dr-view-btns{display:flex;gap:4px;}
-.dr-vbtn{height:30px;padding:0 12px;border:1.5px solid var(--border);background:white;border-radius:7px;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.15s;font-family:'Plus Jakarta Sans',sans-serif;}
-.dr-vbtn:hover{border-color:var(--cyan);color:var(--cyan);}
-.dr-vbtn.on{background:var(--cyan);border-color:var(--cyan);color:white;}
-.dr-count{font-size:0.72rem;color:var(--slate2);font-weight:600;}
-
-/* card view — existing .doc-card / .ref-card stay as-is */
-.docs-grid,.refs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
-
-/* list view */
-.docs-grid.list-view,.refs-grid.list-view{display:flex;flex-direction:column;gap:0;}
-.docs-grid.list-view .doc-card,
-.refs-grid.list-view .ref-card{
-  display:flex;align-items:center;gap:12px;
-  border-radius:0;border-bottom:1px solid var(--border);border-left:none;border-right:none;border-top:none;
-  padding:10px 14px;box-shadow:none;background:white;
-  transition:background 0.12s;
-}
-.docs-grid.list-view .doc-card:first-child,
-.refs-grid.list-view .ref-card:first-child{border-top:1px solid var(--border);border-radius:8px 8px 0 0;}
-.docs-grid.list-view .doc-card:last-child,
-.refs-grid.list-view .ref-card:last-child{border-radius:0 0 8px 8px;}
-.docs-grid.list-view .doc-card-top,
-.refs-grid.list-view .ref-card-top{flex:1;display:flex;align-items:center;gap:10px;min-width:0;}
-.docs-grid.list-view .doc-meta,
-.refs-grid.list-view .ref-desc{margin-top:0;}
-.docs-grid.list-view .doc-actions,
-.refs-grid.list-view .ref-footer{margin-top:0;display:flex;gap:6px;flex-shrink:0;}
-.docs-grid.list-view .doc-card .doc-desc,
-.refs-grid.list-view .ref-card .ref-url{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;}
-
-/* drag handle & drag states */
-.drag-handle{
-  cursor:grab;padding:0 6px;color:var(--slate2);font-size:0.75rem;
-  flex-shrink:0;transition:color 0.12s;user-select:none;
-}
-.drag-handle:hover{color:var(--cyan);}
-.drag-handle:active{cursor:grabbing;}
-.doc-card.dragging,.ref-card.dragging{opacity:0.4;border:2px dashed var(--cyan)!important;}
-.doc-card.drag-over,.ref-card.drag-over{background:rgba(8,145,178,0.06)!important;border-color:var(--cyan)!important;}
-
-/* arrow reorder buttons */
-.reorder-btns{display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
-.reorder-btn{width:18px;height:18px;background:none;border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:0.55rem;color:var(--slate2);display:flex;align-items:center;justify-content:center;transition:all 0.12s;padding:0;}
-.reorder-btn:hover{background:var(--cyan);border-color:var(--cyan);color:white;}
-
 </style>
 </head>
 <body>
@@ -603,25 +513,6 @@ select.oedit-inp{cursor:pointer;}
   </div>
 </div>
 
-<!-- ══ GLOBAL CONTEXT FILTER BAR ══════════════════════════════════ -->
-<div class="gf-bar" id="gfBar">
-  <span class="gf-label"><i class="fas fa-filter"></i> Filter All</span>
-  <select class="gf-select" id="gfDest" onchange="applyGlobalFilter()" title="Filter by Destination">
-    <option value="">All Destinations</option>
-  </select>
-  <select class="gf-select" id="gfOffice" onchange="applyGlobalFilter()" title="Filter by Office / Location">
-    <option value="">All Offices</option>
-  </select>
-  <select class="gf-select" id="gfDept" onchange="applyGlobalFilter()" title="Filter by Department">
-    <option value="">All Departments</option>
-  </select>
-  <select class="gf-select" id="gfTitle" onchange="applyGlobalFilter()" title="Filter by Job Title">
-    <option value="">All Job Titles</option>
-  </select>
-  <div id="gfActiveWrap" style="display:none;align-items:center;gap:6px;flex-wrap:wrap;"></div>
-  <button class="gf-clear" id="gfClearBtn" onclick="clearGlobalFilter()" style="display:none;"><i class="fas fa-times-circle"></i> Clear filters</button>
-</div>
-
 <!-- ══ TAB NAV ════════════════════════════════════════════════════ -->
 <div class="tab-nav">
   <button class="tab-btn active" onclick="showTab('overview',this)"><i class="fas fa-home"></i> Overview</button>
@@ -632,8 +523,6 @@ select.oedit-inp{cursor:pointer;}
   <button class="tab-btn" onclick="showTab('values',this)"><i class="fas fa-star"></i> ORN Values</button>
   <button class="tab-btn" onclick="showTab('offices',this)"><i class="fas fa-globe"></i> Worldwide Offices</button>
   <button class="tab-btn" onclick="showTab('documents',this)"><i class="fas fa-folder-open"></i> Document Hub</button>
-  <button class="tab-btn" onclick="showTab('boardmeetings',this)"><i class="fas fa-briefcase"></i> Board Meetings</button>
-  <button class="tab-btn" onclick="showTab('teamtravel',this)"><i class="fas fa-plane"></i> Team Travel</button>
   <button class="tab-btn" onclick="showTab('references',this)"><i class="fas fa-link"></i> References</button>
 </div>
 
@@ -752,11 +641,11 @@ select.oedit-inp{cursor:pointer;}
               <a href="mailto:raj@tripfactory.com" style="font-size:0.68rem;color:var(--cyan);text-decoration:none;white-space:nowrap;margin-top:2px;">raj@tripfactory.com</a>
             </div>
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-              <div><div style="font-size:0.82rem;font-weight:700;color:var(--ink);">Alia Taub</div><div style="font-size:0.7rem;color:var(--magenta);font-weight:600;">Chief People Officer</div><div style="font-size:0.68rem;color:var(--slate2);">HR, People &amp; Culture</div></div>
+              <div><div style="font-size:0.82rem;font-weight:700;color:var(--ink);">Alia Taub</div><div style="font-size:0.7rem;color:var(--magenta);font-weight:600;">CPO</div><div style="font-size:0.68rem;color:var(--slate2);">HR &amp; People</div></div>
               <a href="mailto:alia@tripfactory.com" style="font-size:0.68rem;color:var(--cyan);text-decoration:none;white-space:nowrap;margin-top:2px;">alia@tripfactory.com</a>
             </div>
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-              <div><div style="font-size:0.82rem;font-weight:700;color:var(--ink);">Ajay Kawa</div><div style="font-size:0.7rem;color:var(--magenta);font-weight:600;">Global Business Development Officer</div><div style="font-size:0.68rem;color:var(--slate2);">UK &amp; European Control Hub</div></div>
+              <div><div style="font-size:0.82rem;font-weight:700;color:var(--ink);">Ajay Kawa</div><div style="font-size:0.7rem;color:var(--magenta);font-weight:600;">—</div><div style="font-size:0.68rem;color:var(--slate2);">UK &amp; European Control Hub</div></div>
               <a href="mailto:ajay@tripfactory.com" style="font-size:0.68rem;color:var(--cyan);text-decoration:none;white-space:nowrap;margin-top:2px;">ajay@tripfactory.com</a>
             </div>
           </div>
@@ -821,14 +710,25 @@ select.oedit-inp{cursor:pointer;}
 </div>
 
 <!-- WORLDWIDE OFFICES TAB -->
-<div class="tab-panel" id="tab-offices" style="padding:0;overflow:hidden;">
-  <iframe
-    id="officesIframe"
-    src="offices.html"
-    style="width:100%;height:calc(100vh - 120px);border:none;display:block;"
-    loading="lazy"
-    title="Worldwide Offices">
-  </iframe>
+<div class="tab-panel" id="tab-offices">
+  <div class="page-hero">
+    <h1>Worldwide Offices</h1>
+    <p>ORN's global office network — view, add, and update office details. Changes are saved to Firebase and available to all authorised users.</p>
+    <span class="hero-tag"><i class="fas fa-cloud"></i> Live · Firebase synced</span>
+  </div>
+  <div class="offices-toolbar">
+    <div class="offices-search"><i class="fas fa-search"></i><input type="text" id="officeSearch" placeholder="Search country, city or region..." oninput="filterOffices()"></div>
+    <div class="modal-filter-row" id="officeFilterChips"></div>
+    <div class="modal-filter-row" style="margin-left:0;" id="officeStatusChips">
+      <div class="modal-chip on" onclick="setOfficeStatus('all',this)">All</div>
+      <div class="modal-chip" onclick="setOfficeStatus('Active',this)" style="--chip-on:#059669;">Active</div>
+      <div class="modal-chip" onclick="setOfficeStatus('Non-Operational',this)" style="--chip-on:#dc2626;">Non-Operational</div>
+      <div class="modal-chip" onclick="setOfficeStatus('Planning',this)" style="--chip-on:#b45309;">Planning</div>
+    </div>
+    <button class="btn-add-office" onclick="openOfficeEdit(null)"><i class="fas fa-plus"></i> Add Office</button>
+  </div>
+  <div style="font-size:0.75rem;color:var(--slate2);margin-bottom:12px;" id="officeCount"></div>
+  <div class="offices-grid" id="officesGrid"></div>
 </div>
 
 <!-- DOCUMENT HUB TAB -->
@@ -854,102 +754,10 @@ select.oedit-inp{cursor:pointer;}
       <label class="doc-file-label"><i class="fas fa-paperclip"></i><span id="docFileName">Choose file or drag &amp; drop here</span><input type="file" id="docFile" style="display:none" onchange="onFileSelect()"></label>
       <button class="btn-upload" onclick="addDocument()"><i class="fas fa-cloud-upload-alt"></i> Upload Document</button>
     </div>
-    <div style="font-size:0.72rem;color:var(--slate2);margin-top:8px;"><i class="fas fa-info-circle"></i> Files stored as base64 in Firebase. Max 10MB per file.</div>
+    <div style="font-size:0.72rem;color:var(--slate2);margin-top:8px;"><i class="fas fa-info-circle"></i> Files stored as base64 in Firebase. Max 50MB per file.</div>
   </div>
-  <div class="dr-toolbar">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div class="section-label" style="margin-bottom:0;"><i class="fas fa-folder" style="color:var(--cyan)"></i> Uploaded Documents</div>
-      <span class="dr-count" id="docsCount"></span>
-    </div>
-    <div class="dr-view-btns">
-      <button class="dr-vbtn on" id="btnDocsCard" onclick="setDocsView('card',this)"><i class="fas fa-th-large"></i> Cards</button>
-      <button class="dr-vbtn" id="btnDocsList" onclick="setDocsView('list',this)"><i class="fas fa-list"></i> List</button>
-    </div>
-  </div>
+  <div class="section-label"><i class="fas fa-folder" style="color:var(--cyan)"></i> Uploaded Documents</div>
   <div class="docs-grid" id="docsGrid"><div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-folder-open" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No documents yet. Upload one above.</div></div>
-</div>
-
-<!-- BOARD MEETINGS TAB -->
-<div class="tab-panel" id="tab-boardmeetings">
-  <div class="page-hero">
-    <h1>Board Meetings</h1>
-    <p>Schedule, track and manage board meetings — upload agendas, minutes and supporting documents for each session.</p>
-    <span class="hero-tag"><i class="fas fa-briefcase"></i> Firebase synced · Authorised access</span>
-  </div>
-  <div class="doc-upload-area" id="bmFormArea">
-    <div class="section-label" style="margin-bottom:14px;"><i class="fas fa-plus-circle" style="color:var(--cyan)"></i> Schedule a Board Meeting</div>
-    <div class="doc-form-row">
-      <input class="doc-inp" id="bmTitle" placeholder="Meeting title e.g. Q1 2026 Board Review *">
-      <input class="doc-inp" type="date" id="bmDate" title="Meeting date">
-    </div>
-    <textarea class="doc-textarea" id="bmNotes" placeholder="Meeting notes or agenda summary (optional)" style="margin-bottom:10px;"></textarea>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:8px;">
-      <div>
-        <div style="font-size:0.7rem;color:var(--slate2);margin-bottom:4px;font-weight:600;">📋 Agenda</div>
-        <label class="doc-file-label" style="padding:7px 14px;">
-          <i class="fas fa-file-alt"></i><span id="bmAgendaName">Choose file</span>
-          <input type="file" id="bmAgenda" style="display:none" onchange="document.getElementById('bmAgendaName').textContent=this.files[0]?.name||'Choose file'">
-        </label>
-      </div>
-      <div>
-        <div style="font-size:0.7rem;color:var(--slate2);margin-bottom:4px;font-weight:600;">📝 Minutes</div>
-        <label class="doc-file-label" style="padding:7px 14px;">
-          <i class="fas fa-file-alt"></i><span id="bmMinutesName">Choose file</span>
-          <input type="file" id="bmMinutes" style="display:none" onchange="document.getElementById('bmMinutesName').textContent=this.files[0]?.name||'Choose file'">
-        </label>
-      </div>
-      <div>
-        <div style="font-size:0.7rem;color:var(--slate2);margin-bottom:4px;font-weight:600;">📎 Additional Docs</div>
-        <label class="doc-file-label" style="padding:7px 14px;">
-          <i class="fas fa-paperclip"></i><span id="bmExtraName">Choose file</span>
-          <input type="file" id="bmExtra" style="display:none" onchange="document.getElementById('bmExtraName').textContent=this.files[0]?.name||'Choose file'">
-        </label>
-      </div>
-      <button class="btn-upload" onclick="saveBoardMeeting()"><i class="fas fa-save"></i> Save Meeting</button>
-    </div>
-    <div style="font-size:0.72rem;color:var(--slate2);"><i class="fas fa-info-circle"></i> Files stored in Firebase. Max 10MB per file.</div>
-  </div>
-  <div class="section-label"><i class="fas fa-history" style="color:var(--cyan)"></i> Recorded Meetings</div>
-  <div id="bmGrid" class="docs-grid"><div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-briefcase" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No meetings recorded yet.</div></div>
-</div>
-
-<!-- TEAM TRAVEL TAB -->
-<div class="tab-panel" id="tab-teamtravel">
-  <div class="page-hero">
-    <h1>Team Travel Plans</h1>
-    <p>Track travel plans for Raj Kumar, Alia Taub and Ajay Kawa. View in calendar or list mode.</p>
-    <span class="hero-tag"><i class="fas fa-plane"></i> Firebase synced · Leadership travel only</span>
-  </div>
-  <div class="doc-upload-area">
-    <div class="section-label" style="margin-bottom:14px;"><i class="fas fa-plus-circle" style="color:var(--cyan)"></i> Add Travel Plan</div>
-    <div class="doc-form-row">
-      <select class="doc-inp" id="ttPerson">
-        <option value="Raj Kumar">Raj Kumar — COO</option>
-        <option value="Alia Taub">Alia Taub — Chief People Officer</option>
-        <option value="Ajay Kawa">Ajay Kawa — Global Business Development Officer</option>
-      </select>
-      <input class="doc-inp" id="ttDestination" placeholder="Destination e.g. Bangalore, India *">
-    </div>
-    <div class="doc-form-row">
-      <input class="doc-inp" type="date" id="ttFrom" title="Departure date">
-      <input class="doc-inp" type="date" id="ttTo" title="Return date">
-    </div>
-    <textarea class="doc-textarea" id="ttPurpose" placeholder="Purpose / notes e.g. Partner meetings, Operations review" style="margin-bottom:10px;"></textarea>
-    <button class="btn-upload" onclick="saveTravelPlan()"><i class="fas fa-plus"></i> Add Travel Plan</button>
-  </div>
-  <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
-    <div id="ttViewBtns" style="display:flex;gap:6px;">
-      <button class="org-vbtn on" id="btnTTList" onclick="setTTView('list',this)"><i class="fas fa-list"></i> List</button>
-      <button class="org-vbtn" id="btnTTCal" onclick="setTTView('calendar',this)"><i class="fas fa-calendar-alt"></i> Calendar</button>
-    </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;" id="ttPersonChips">
-      <div class="modal-chip on" onclick="setTTPerson('all',this)">All</div>
-      <div class="modal-chip" onclick="setTTPerson('Raj Kumar',this)">Raj Kumar</div>
-      <div class="modal-chip" onclick="setTTPerson('Alia Taub',this)">Alia Taub</div>
-      <div class="modal-chip" onclick="setTTPerson('Ajay Kawa',this)">Ajay Kawa</div>
-    </div>
-  </div>
-  <div id="ttContainer"></div>
 </div>
 
 <!-- REFERENCES TAB -->
@@ -970,16 +778,6 @@ select.oedit-inp{cursor:pointer;}
     </div>
     <button class="btn-add-ref" onclick="addReference()"><i class="fas fa-plus"></i> Add Reference</button>
   </div>
-  <div class="dr-toolbar" style="margin-top:18px;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div class="section-label" style="margin-bottom:0;"><i class="fas fa-link" style="color:var(--cyan)"></i> Saved References</div>
-      <span class="dr-count" id="refsCount"></span>
-    </div>
-    <div class="dr-view-btns">
-      <button class="dr-vbtn on" id="btnRefsCard" onclick="setRefsView('card',this)"><i class="fas fa-th-large"></i> Cards</button>
-      <button class="dr-vbtn" id="btnRefsList" onclick="setRefsView('list',this)"><i class="fas fa-list"></i> List</button>
-    </div>
-  </div>
   <div class="refs-grid" id="refsGrid"></div>
 </div>
 
@@ -999,22 +797,7 @@ select.oedit-inp{cursor:pointer;}
     </div>
     <div class="modal-toolbar">
       <div class="modal-search-wrap"><i class="fas fa-search"></i><input class="modal-search" type="text" id="staffSearch" placeholder="Search name, title, email..." oninput="filterStaff()"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;padding:0 6px;">
-        <select class="doc-inp" id="staffDeptDrop" onchange="filterStaff()" style="flex:1;min-width:140px;max-width:200px;font-size:0.77rem;padding:6px 10px;height:34px;">
-          <option value="">All Departments</option>
-        </select>
-        <select class="doc-inp" id="staffLocDrop" onchange="filterStaff()" style="flex:1;min-width:140px;max-width:200px;font-size:0.77rem;padding:6px 10px;height:34px;">
-          <option value="">All Locations</option>
-        </select>
-        <select class="doc-inp" id="staffDestDrop" onchange="filterStaff()" style="flex:1;min-width:140px;max-width:200px;font-size:0.77rem;padding:6px 10px;height:34px;">
-          <option value="">All Destinations</option>
-        </select>
-        <select class="doc-inp" id="staffTitleDrop" onchange="filterStaff()" style="flex:1;min-width:140px;max-width:200px;font-size:0.77rem;padding:6px 10px;height:34px;">
-          <option value="">All Job Titles</option>
-        </select>
-        <button onclick="resetStaffFilters()" style="padding:6px 12px;font-size:0.75rem;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--slate2);cursor:pointer;height:34px;white-space:nowrap;"><i class="fas fa-times"></i> Clear</button>
-      </div>
-      <div class="modal-filter-row" id="staffLocChips" style="display:none;"></div>
+      <div class="modal-filter-row" id="staffLocChips"></div>
     </div>
     <div class="modal-stats" id="staffStats"></div>
     <div class="staff-grid" id="staffGrid"></div>
@@ -1106,7 +889,6 @@ function showWiki(){
   document.getElementById('loginOverlay').style.display='none';
   document.getElementById('topUser').textContent=currentUser;
   try{startClock();}catch(e){}
-  buildGlobalFilterDropdowns();
   loadAll();
   renderAll();
   try{
@@ -1130,8 +912,6 @@ const TIMELINE=[
   {date:'2025–Jan 2026',c:'#7c3aed',title:'Building the AI Conversation Engine & Expert Twins',content:'Built an AI ecosystem that goes beyond information processing — teaching it to operate like a domain expert and scale that expertise globally.',bullets:['System can be taught to sell ski holidays in a couple of hours, then scale globally','Every interaction is a sequence of decisions — AI helps users take each in the right order','Mimics experts (ski, scuba specialists), keeps track of advice given','Hooks into strategy, org charts, and KPIs — AI "twins" can drive workflows of distinct roles']},
   {date:'2025–2026',c:'#059669',title:'Product Repositioning: Destinations to Ideas',content:'Re-imagined the user experience — starting from "ideas" (anniversary, beach & nightlife) rather than destinations, mapping to experiences and then to suppliers.',bullets:['AI understands why a person is travelling, their anxieties and constraints','Avoids overwhelming users — sequences information to match decision-making pace','Plugging in new expertise modules makes system more intelligent with each domain','Single conversational interface for a person\'s travel life — past, present, future']},
   {date:'Jan 2026 – Present',c:'#b45309',title:'Engine Completion & Leadership Strengthening',content:'By end-January 2026 the conversation engine, design, and architecture reached a substantial completion point. Raj Kumar joined as COO to lead the next phase of operational scaling on top of this platform.',bullets:['<strong>Raj Kumar appointed COO</strong> — operations leadership to scale the next phase','Scaling B2B especially through Nexus DMC','Standardising how DMCs and regional teams use the system','Preparing Nexus DMC marketing collateral for ITV (Paulina, Julia)','Demonstrating both the original semantic-search implementation and the new AI conversation engine']},
-  {date:'2026',c:'#d4145a',title:'Alia Taub joins as Chief People Officer',content:'Alia Taub joined ORN Group as Chief People Officer (CPO), bringing dedicated leadership to HR, people strategy, culture, and organisational development across the global group.',bullets:['<strong>Alia Taub appointed CPO</strong> — driving people strategy across ORN Worldwide','HR, talent, culture and organisational development under unified leadership','Strengthening the people infrastructure to support global scaling','Building learning & development programmes for the next phase of growth']},
-  {date:'2026',c:'#059669',title:'Ajay Kawa joins as Global Business Development Officer',content:'Ajay Kawa joined ORN Group as Global Business Development Officer, leading international growth, strategic partnerships, and expansion of the global office network from the UK & European Control Hub.',bullets:['<strong>Ajay Kawa appointed Global Business Development Officer</strong>','UK & European Control Hub established as international expansion base','Driving strategic partnerships and B2B growth across global markets','ORN Worldwide footprint expansion strategy across Europe, Middle East and Americas']},
 ];
 const MILESTONES=[
   'First semantic travel search engine — pre-ChatGPT',
@@ -1376,7 +1156,7 @@ let officeFilter='all';
 // FIREBASE LOAD
 // ══════════════════════════════════════════════════════════════════
 async function loadAll(){
-  await Promise.allSettled([loadRefs(), loadOffices(), loadDocs(), loadBoardMeetings(), loadTravelPlans()]);
+  await Promise.allSettled([loadRefs(), loadOffices(), loadDocs()]);
 }
 async function loadRefs(){
   if(!_db){renderRefs(getDefaultRefs());return;}
@@ -1432,31 +1212,22 @@ function renderPipeline(){
   document.getElementById('pipelineEl').innerHTML=PIPELINE.map(s=>`<div class="p-step"><div class="p-num">${s.n}</div><div class="p-label">${s.l}</div><div class="p-role">${s.r}</div></div>`).join('');
 }
 function renderDeptSummary(){
-  const pool = gfIsActive() ? STAFF_DATA.filter(staffPassesGF) : STAFF_DATA;
   document.getElementById('deptSummary').innerHTML='<div style="display:flex;flex-direction:column;gap:8px;">'+
-    DEPT_DATA.map(d=>{
-      const liveCount = pool.filter(s=>(s.d||'').toLowerCase()===d.name.toLowerCase()).length;
-      const dim = gfIsActive() && liveCount===0;
-      return`<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);opacity:${dim?0.3:1};">
-        <div style="width:26px;height:26px;border-radius:6px;background:${d.c1};display:flex;align-items:center;justify-content:center;color:white;font-size:0.68rem;flex-shrink:0;"><i class="fas ${d.icon}"></i></div>
-        <div style="flex:1;"><div style="font-size:0.8rem;font-weight:700;color:var(--ink);">${d.name}</div><div style="font-size:0.67rem;color:var(--slate2);">${d.sub}</div></div>
-        <div style="text-align:right;"><div style="font-size:1rem;font-weight:800;color:${d.c1};">${liveCount}<span style="font-size:0.6rem;color:var(--slate2);font-weight:400;"> /${d.count}</span></div><div style="font-size:0.62rem;color:var(--slate2);">staff</div></div>
-      </div>`;
-    }).join('')+'</div>';
+    DEPT_DATA.map(d=>`<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);">
+      <div style="width:26px;height:26px;border-radius:6px;background:${d.c1};display:flex;align-items:center;justify-content:center;color:white;font-size:0.68rem;flex-shrink:0;"><i class="fas ${d.icon}"></i></div>
+      <div style="flex:1;"><div style="font-size:0.8rem;font-weight:700;color:var(--ink);">${d.name}</div><div style="font-size:0.67rem;color:var(--slate2);">${d.sub}</div></div>
+      <div style="text-align:right;"><div style="font-size:1rem;font-weight:800;color:${d.c1};">${d.count}</div><div style="font-size:0.62rem;color:var(--slate2);">staff</div></div>
+    </div>`).join('')+'</div>';
 }
 
 // ══════════════════════════════════════════════════════════════════
 // RENDER: DEPARTMENTS
 // ══════════════════════════════════════════════════════════════════
 function renderDepts(){
-  const pool = gfIsActive() ? STAFF_DATA.filter(staffPassesGF) : null;
-  document.getElementById('deptGrid').innerHTML=DEPT_DATA.map(d=>{
-    const liveCount = pool ? pool.filter(s=>(s.d||'').toLowerCase()===d.name.toLowerCase()).length : d.count;
-    if(pool && liveCount===0) return ''; // hide dept entirely when filtered out
-    return`
+  document.getElementById('deptGrid').innerHTML=DEPT_DATA.map(d=>`
     <div class="dept-card" style="--dc:${d.c1};">
       <div class="dept-top" style="background:linear-gradient(135deg,${d.c1},${d.c2});">
-        <div class="dept-top-count">${liveCount}${pool?`<span style="font-size:0.55rem;opacity:0.6;"> /${d.count}</span>`:''}</div>
+        <div class="dept-top-count">${d.count}</div>
         <div style="display:flex;align-items:center;gap:9px;position:relative;">
           <div style="width:32px;height:32px;background:rgba(255,255,255,0.18);border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas ${d.icon}" style="color:white;font-size:0.85rem;"></i></div>
           <div><div class="dept-top-title">${d.name}</div><div class="dept-top-sub">${d.sub}</div></div>
@@ -1464,12 +1235,12 @@ function renderDepts(){
       </div>
       <div class="dept-body">
         <div class="dept-roles">${d.roles.map(r=>`<div class="dept-role" style="border-left-color:${d.c1};"><div class="dept-role-title">${r.t}</div><div class="dept-role-desc">${r.d}</div></div>`).join('')}</div>
-        <div class="dept-wf"><div class="dept-wf-label"><i class="fas fa-project-diagram"></i> Workflow</div>
-          <div style="margin-top:6px;"><a onclick="const b=document.querySelector('.tab-btn[onclick*=\\'workflows\\']');showTab('workflows',b);return false;" href="#" style="font-size:0.77rem;color:var(--cyan);text-decoration:none;font-weight:600;"><i class="fas fa-arrow-right" style="margin-right:4px;"></i>See ${d.name} workflow →</a></div>
+        <div class="dept-wf"><div class="dept-wf-label"><i class="fas fa-arrow-right"></i> Workflow</div>
+          <div class="wf-chips">${d.wf.map((s,i)=>`<span class="wf-chip" style="background:${d.c1};">${s}</span>${i<d.wf.length-1?'<span class="wf-arr">→</span>':''}`).join('')}</div>
         </div>
-        <button class="dept-dir-btn" onclick="openStaffModal('${d.name}')"><i class="fas fa-users"></i> View Staff Directory (${liveCount} staff)</button>
+        <button class="dept-dir-btn" onclick="openStaffModal('${d.name}')"><i class="fas fa-users"></i> View Staff Directory (${d.count} staff)</button>
       </div>
-    </div>`;}).join('');
+    </div>`).join('');
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1501,22 +1272,12 @@ function openStaffModal(dept){
   document.getElementById('staffModalTitle').textContent=dept&&dept!=='all'?`Staff Directory — ${dept}`:'Full Staff Directory';
   document.getElementById('staffSearch').value='';
   buildLocChips();
-  buildStaffDropdowns();
-  // Pre-populate from global filter
-  if(GF.dept){const dd=document.getElementById('staffDeptDrop');if(dd){const m=[...dd.options].find(o=>o.value.toLowerCase()===GF.dept.toLowerCase());if(m)dd.value=m.value;}}
-  if(GF.office){const od=document.getElementById('staffLocDrop');if(od){const m=[...od.options].find(o=>o.value.toLowerCase()===GF.office.toLowerCase());if(m)od.value=m.value;}}
-  if(GF.dest){const sd=document.getElementById('staffDestDrop');if(sd){const sdList=DEST_SD_MAP[GF.dest]||[GF.dest];const m=[...sd.options].find(o=>sdList.some(v=>o.value.toLowerCase()===v.toLowerCase()));if(m)sd.value=m.value;}}
-  if(GF.title){const td=document.getElementById('staffTitleDrop');if(td){const m=[...td.options].find(o=>o.value.toLowerCase()===GF.title.toLowerCase());if(m)td.value=m.value;}}
-  // Override with dept card filter if explicitly provided
-  if(dept&&dept!=='all'){
-    const deptDrop=document.getElementById('staffDeptDrop');
-    if(deptDrop){const opts=[...deptDrop.options];const match=opts.find(o=>o.value.toLowerCase()===dept.toLowerCase());if(match)deptDrop.value=match.value;}
-  }
   filterStaff();
 }
 function closeStaffModal(){document.getElementById('staffModal').classList.remove('open');}
 function buildLocChips(){
-  // Keep legacy chips hidden — now using dropdowns
+  const locs=['All Locations',...new Set(STAFF_DATA.map(s=>s.l).filter(Boolean).map(l=>l.trim()).filter(Boolean))].sort((a,b)=>a==='All Locations'?-1:b==='All Locations'?1:a.localeCompare(b));
+  document.getElementById('staffLocChips').innerHTML=locs.map(l=>`<div class="modal-chip ${l==='All Locations'?'on':''}" onclick="setLocFilter('${l}',this)">${l}</div>`).join('');
   activeLocFilter='All Locations';
 }
 function setLocFilter(loc,el){
@@ -1531,14 +1292,8 @@ function getInitials(n){const p=n.trim().split(' ');return(p[0]?.[0]||'')+(p[p.l
 
 function filterStaff(){
   const q=(document.getElementById('staffSearch')?.value||'').toLowerCase().trim();
-  const deptDrop=(document.getElementById('staffDeptDrop')?.value||'').toLowerCase();
-  const locDrop=(document.getElementById('staffLocDrop')?.value||'').toLowerCase();
-  const destDrop=(document.getElementById('staffDestDrop')?.value||'').toLowerCase();
-  const titleDrop=(document.getElementById('staffTitleDrop')?.value||'').toLowerCase();
-  
+  const locOk=(s)=>activeLocFilter==='All Locations'||!activeLocFilter||(s.l||'').toLowerCase().trim()===activeLocFilter.toLowerCase().trim();
   const deptOk=(s)=>{
-    // If a dept dropdown is selected, use that; otherwise use currentDeptFilter
-    if(deptDrop) return (s.d||'').toLowerCase()===deptDrop;
     if(currentDeptFilter==='all') return true;
     const map=DEPT_FILTER_MAP[currentDeptFilter];
     if(!map) return (s.d||'').toLowerCase().includes(currentDeptFilter.toLowerCase())||(s.sd||'').toLowerCase().includes(currentDeptFilter.toLowerCase());
@@ -1547,15 +1302,10 @@ function filterStaff(){
     const exMatch=!map.exclude||!map.exclude.some(ex=>(s.sd||'').toLowerCase()===ex.toLowerCase());
     return map.sd ? (dMatch && sdMatch) : (dMatch && exMatch);
   };
-  const locOk=(s)=>!locDrop||(s.l||'').toLowerCase().trim()===locDrop;
-  const destOk=(s)=>!destDrop||(s.sd||'').toLowerCase()===destDrop;
-  const titleOk=(s)=>!titleDrop||(s.t||'').toLowerCase().includes(titleDrop);
-  const searchOk=(s)=>!q||(s.n||'').toLowerCase().includes(q)||(s.t||'').toLowerCase().includes(q)||(s.em||'').toLowerCase().includes(q)||(s.d||'').toLowerCase().includes(q)||(s.sd||'').toLowerCase().includes(q)||(s.l||'').toLowerCase().includes(q);
+  const searchOk=(s)=>!q||(s.n||'').toLowerCase().includes(q)||(s.t||'').toLowerCase().includes(q)||(s.em||'').toLowerCase().includes(q)||(s.d||'').toLowerCase().includes(q);
   
-  const gfBase = gfIsActive() ? STAFF_DATA.filter(staffPassesGF) : STAFF_DATA;
-  const filtered=gfBase.filter(s=>deptOk(s)&&locOk(s)&&destOk(s)&&titleOk(s)&&searchOk(s));
-  const gfNote = gfIsActive() ? ` (global filter active: ${gfBase.length} in scope)` : '';
-  document.getElementById('staffStats').textContent=`Showing ${filtered.length} of ${STAFF_DATA.length} staff members${gfNote}`;
+  const filtered=STAFF_DATA.filter(s=>locOk(s)&&deptOk(s)&&searchOk(s));
+  document.getElementById('staffStats').textContent=`Showing ${filtered.length} of ${STAFF_DATA.length} staff members`;
   
   if(!filtered.length){
     document.getElementById('staffGrid').innerHTML='<div class="modal-empty"><i class="fas fa-search" style="display:block;font-size:1.5rem;margin-bottom:8px;"></i>No staff match your filters.</div>';
@@ -1647,12 +1397,7 @@ function renderOrgChart(){
 }
 // ══════════════════════════════════════════════════════════════════
 function renderWorkflows(){
-  const wfList = gfIsActive() ? WORKFLOWS.filter(gfWorkflowRelevant) : WORKFLOWS;
-  const el = document.getElementById('wfContainer');
-  if(gfIsActive() && !wfList.length){
-    el.innerHTML='<div style="padding:40px;text-align:center;color:var(--slate2);"><i class="fas fa-filter" style="font-size:1.5rem;display:block;margin-bottom:10px;"></i>No workflows match the current filter.</div>';return;
-  }
-  el.innerHTML=wfList.map((w,wi)=>`
+  document.getElementById('wfContainer').innerHTML=WORKFLOWS.map((w,wi)=>`
     <div class="wf-card">
       <div class="wf-hd" onclick="toggleWF(${wi},this)">
         <div class="wf-hd-icon" style="background:linear-gradient(135deg,${w.color},${w.color}cc);"><i class="fas ${w.icon}"></i></div>
@@ -1954,7 +1699,7 @@ async function addDocument(){
   let fileSize=0;
   
   if(file){
-    if(file.size>10*1024*1024){toast('File too large — max 10MB');return;}
+    if(file.size>50*1024*1024){toast('File too large — max 50MB');return;}
     fileSize=file.size;
     fileName=file.name;
     fileType=file.type;
@@ -1983,53 +1728,23 @@ async function addDocument(){
   toast(`✓ "${title}" saved successfully`,'ok');
 }
 
-let _docsView='card';
-let _docsOrder=[];
-function setDocsView(v,btn){
-  _docsView=v;
-  document.querySelectorAll('#btnDocsCard,#btnDocsList').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  const g=document.getElementById('docsGrid');
-  if(v==='list') g.classList.add('list-view'); else g.classList.remove('list-view');
-  renderDocs(Object.values(wikiDocs));
-}
 function renderDocs(docs){
-  const grid=document.getElementById('docsGrid');
   if(!docs.length){
-    grid.innerHTML='<div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-folder-open" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No documents yet. Upload one above.</div>';
-    const c=document.getElementById('docsCount');if(c)c.textContent='';
+    document.getElementById('docsGrid').innerHTML='<div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-folder-open" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No documents yet. Upload one above.</div>';
     return;
   }
-  // Maintain order array
   const sorted=[...docs].sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
-  if(_docsOrder.length===0||_docsOrder.some(id=>!docs.find(d=>d.id===id))){
-    _docsOrder=sorted.map(d=>d.id);
-  }
-  const ordered=_docsOrder.map(id=>docs.find(d=>d.id===id)).filter(Boolean);
-  const extra=docs.filter(d=>!_docsOrder.includes(d.id));
-  const final=[...ordered,...extra];
-
-  const c=document.getElementById('docsCount');if(c)c.textContent=final.length+' item'+(final.length!==1?'s':'');
-  if(_docsView==='list') grid.classList.add('list-view'); else grid.classList.remove('list-view');
-
-  grid.innerHTML=final.map((d,idx)=>{
-    const icon=DOC_ICONS[d.cat]||'📎';
+  document.getElementById('docsGrid').innerHTML=sorted.map(d=>{
+    const icon=DOC_ICONS[d.cat]||'\ud83d\udcce';
     const color=DOC_COLORS[d.cat]||'#94a3b8';
-    const date=d.addedAt?new Date(d.addedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
-    const docTitle=d.title||'(untitled)';
+    const date=d.addedAt?new Date(d.addedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';const docTitle=d.title||'(untitled)';
     const size=d.fileSize?`${Math.round(d.fileSize/1024)}KB`:'';
-    return`<div class="doc-card" draggable="true" data-id="${d.id}" data-idx="${idx}"
-      ondragstart="drStart(event,'doc')" ondragover="drOver(event)" ondragleave="drLeave(event)" ondrop="drDrop(event,'doc')" ondragend="drEnd(event,'doc')">
+    return`<div class="doc-card">
       <div class="doc-card-top">
-        <div class="drag-handle" title="Drag to reorder"><i class="fas fa-grip-vertical"></i></div>
         <div class="doc-icon" style="background:${color}22;font-size:1.2rem;">${icon}</div>
         <div style="flex:1;min-width:0;">
           <div class="doc-name">${docTitle}</div>
           ${d.desc?`<div class="doc-desc">${d.desc}</div>`:''}
-        </div>
-        <div class="reorder-btns">
-          <button class="reorder-btn" title="Move up" onclick="reorderDoc('${d.id}',-1)"><i class="fas fa-chevron-up"></i></button>
-          <button class="reorder-btn" title="Move down" onclick="reorderDoc('${d.id}',1)"><i class="fas fa-chevron-down"></i></button>
         </div>
       </div>
       <div class="doc-meta">
@@ -2039,18 +1754,11 @@ function renderDocs(docs){
         ${size?`<span>${size}</span>`:''}
       </div>
       <div class="doc-actions">
-        ${d.hasFile&&d.fileData?`<a class="doc-btn" href="${d.fileData}" download="${d.fileName||d.title}"><i class="fas fa-download"></i> Download</a>`:`<span class="doc-btn" style="opacity:0.4;cursor:default;"><i class="fas fa-file"></i> No file</span>`}
+        ${d.hasFile&&d.fileData?`<a class="doc-btn" href="${d.fileData}" download="${d.fileName||d.title}"><i class="fas fa-download"></i> Download</a>`:'<span class="doc-btn" style="opacity:0.4;cursor:default;"><i class="fas fa-file"></i> No file</span>'}
         <button class="doc-btn del" onclick="deleteDoc('${d.id}')"><i class="fas fa-trash"></i> Remove</button>
       </div>
     </div>`;
   }).join('');
-}
-function reorderDoc(id,dir){
-  const i=_docsOrder.indexOf(id);
-  const j=i+dir;
-  if(i<0||j<0||j>=_docsOrder.length)return;
-  [_docsOrder[i],_docsOrder[j]]=[_docsOrder[j],_docsOrder[i]];
-  renderDocs(Object.values(wikiDocs));
 }
 
 async function deleteDoc(id){
@@ -2068,39 +1776,15 @@ async function deleteDoc(id){
 const REF_ICONS={Website:'fa-globe',Presentation:'fa-chart-bar',Document:'fa-file-alt',Dashboard:'fa-tachometer-alt',Tool:'fa-wrench',Other:'fa-link'};
 const REF_COLORS={Website:'#d4145a',Presentation:'#b45309',Document:'#059669',Dashboard:'#1d4ed8',Tool:'#0891b2',Other:'#94a3b8'};
 
-let _refsView='card';
-let _refsOrder=[];
-function setRefsView(v,btn){
-  _refsView=v;
-  document.querySelectorAll('#btnRefsCard,#btnRefsList').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  const g=document.getElementById('refsGrid');
-  if(v==='list') g.classList.add('list-view'); else g.classList.remove('list-view');
-  renderRefs(Object.values(wikiRefs));
-}
 function renderRefs(refs){
   if(!Array.isArray(refs))refs=Object.values(refs);
-  const grid=document.getElementById('refsGrid');
-  if(!refs.length){grid.innerHTML='<div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-link" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No references yet. Add one above.</div>';const c=document.getElementById('refsCount');if(c)c.textContent='';return;}
-  if(_refsOrder.length===0||_refsOrder.some(id=>!refs.find(r=>r.id===id))){_refsOrder=refs.map(r=>r.id);}
-  const ordered=_refsOrder.map(id=>refs.find(r=>r.id===id)).filter(Boolean);
-  const extra=refs.filter(r=>!_refsOrder.includes(r.id));
-  const final=[...ordered,...extra];
-  const c=document.getElementById('refsCount');if(c)c.textContent=final.length+' item'+(final.length!==1?'s':'');
-  if(_refsView==='list') grid.classList.add('list-view'); else grid.classList.remove('list-view');
-  grid.innerHTML=final.map((r,idx)=>`
-    <div class="ref-card" draggable="true" data-id="${r.id}" data-idx="${idx}"
-      ondragstart="drStart(event,'ref')" ondragover="drOver(event)" ondragleave="drLeave(event)" ondrop="drDrop(event,'ref')" ondragend="drEnd(event,'ref')">
+  document.getElementById('refsGrid').innerHTML=refs.map(r=>`
+    <div class="ref-card">
       <div class="ref-card-top">
-        <div class="drag-handle" title="Drag to reorder"><i class="fas fa-grip-vertical"></i></div>
         <div class="ref-icon" style="background:${REF_COLORS[r.cat]||'#94a3b8'};"><i class="fas ${REF_ICONS[r.cat]||'fa-link'}"></i></div>
         <div style="flex:1;min-width:0;">
           <div class="ref-name">${r.name}</div>
           <div class="ref-url">${r.url||''}</div>
-        </div>
-        <div class="reorder-btns">
-          <button class="reorder-btn" title="Move up" onclick="reorderRef('${r.id}',-1)"><i class="fas fa-chevron-up"></i></button>
-          <button class="reorder-btn" title="Move down" onclick="reorderRef('${r.id}',1)"><i class="fas fa-chevron-down"></i></button>
         </div>
         <button class="ref-del" onclick="deleteRef('${r.id}')"><i class="fas fa-times"></i></button>
       </div>
@@ -2109,13 +1793,6 @@ function renderRefs(refs){
         <a class="ref-open" href="${r.url}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Open</a>
       </div>
     </div>`).join('');
-}
-function reorderRef(id,dir){
-  const i=_refsOrder.indexOf(id);
-  const j=i+dir;
-  if(i<0||j<0||j>=_refsOrder.length)return;
-  [_refsOrder[i],_refsOrder[j]]=[_refsOrder[j],_refsOrder[i]];
-  renderRefs(Object.values(wikiRefs));
 }
 async function addReference(){
   const name=document.getElementById('refName').value.trim();
@@ -2135,280 +1812,6 @@ async function deleteRef(id){
   renderRefs(Object.values(wikiRefs));
   toast('Reference removed');
 }
-// ══════════════════════════════════════════════════════════════════
-// GLOBAL CONTEXT FILTER ENGINE
-// ══════════════════════════════════════════════════════════════════
-const GF = { dest:'', office:'', dept:'', title:'' };
-
-// Destination → subdepartment mapping (what sd values map to a destination)
-const DEST_SD_MAP = {
-  'Dubai':        ['Dubai','UAE'],
-  'Europe':       ['Europe','B2C-DE'],
-  'Thailand':     ['Thailand'],
-  'Singapore':    ['Singapore','Malaysia / Singapore','Malaysia'],
-  'Bali':         ['Bali','Indonesia'],
-  'Vietnam':      ['Vietnam'],
-  'Andaman':      ['Andaman'],
-  'Domestic':     ['Domestic'],
-  'Maldives':     ['Maldvies/ Hong Kong','Maldives/HK'],
-  'Japan':        ['Japan'],
-  'Middle East':  ['Middle East'],
-  'Flights':      ['Flights'],
-  'Visa':         ['Visa'],
-  'Groups':       ['Groups'],
-  'Field Sales':  ['Field Sales'],
-};
-
-// Office location values from STAFF_DATA (s.l)
-const OFFICE_LOCATIONS = [
-  'Bengaluru','Siliguri','Gurgaon','Mumbai','Delhi','Noida','Kolkata',
-  'Bhopal','Jabalpur','Gujarat','Hyderabad','Surat','kerala','lucknow',
-  'Haryana','Kochi','Thrissur','Vishakhapatnam','Faridabad','Pune','Bihar',
-  'Uttar Pradesh','Chennai','Mumbai'
-];
-
-function buildGlobalFilterDropdowns(){
-  // Destinations
-  const destEl = document.getElementById('gfDest');
-  if(destEl){
-    const dests = Object.keys(DEST_SD_MAP).sort();
-    destEl.innerHTML = '<option value="">All Destinations</option>' +
-      dests.map(d=>`<option value="${d}">${d}</option>`).join('');
-  }
-  // Office locations (from actual staff data)
-  const officeEl = document.getElementById('gfOffice');
-  if(officeEl){
-    const locs = [...new Set(STAFF_DATA.map(s=>s.l).filter(Boolean).map(l=>l.trim()))].sort();
-    officeEl.innerHTML = '<option value="">All Offices</option>' +
-      locs.map(l=>`<option value="${l}">${l}</option>`).join('');
-  }
-  // Departments
-  const deptEl = document.getElementById('gfDept');
-  if(deptEl){
-    const depts = [...new Set(STAFF_DATA.map(s=>s.d).filter(Boolean))].sort();
-    deptEl.innerHTML = '<option value="">All Departments</option>' +
-      depts.map(d=>`<option value="${d}">${d}</option>`).join('');
-  }
-  // Job title keywords
-  const titleEl = document.getElementById('gfTitle');
-  if(titleEl){
-    const keywords = ['Manager','Director','Head','VP','Lead','Executive','Analyst','Expert','Officer','Advisor','Intern'];
-    titleEl.innerHTML = '<option value="">All Job Titles</option>' +
-      keywords.map(t=>`<option value="${t}">${t}</option>`).join('');
-  }
-}
-
-function applyGlobalFilter(){
-  GF.dest   = (document.getElementById('gfDest')?.value   || '').trim();
-  GF.office = (document.getElementById('gfOffice')?.value || '').trim();
-  GF.dept   = (document.getElementById('gfDept')?.value   || '').trim();
-  GF.title  = (document.getElementById('gfTitle')?.value  || '').trim();
-
-  const active = GF.dest || GF.office || GF.dept || GF.title;
-
-  // Style active dropdowns
-  ['gfDest','gfOffice','gfDept','gfTitle'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.classList.toggle('active', !!el.value);
-  });
-
-  // Show/hide clear button and active pills
-  const clearBtn = document.getElementById('gfClearBtn');
-  const activeWrap = document.getElementById('gfActiveWrap');
-  if(clearBtn) clearBtn.style.display = active ? 'inline-flex' : 'none';
-  if(activeWrap){
-    activeWrap.style.display = active ? 'flex' : 'none';
-    const labels = [
-      GF.dest   && `✈️ ${GF.dest}`,
-      GF.office && `🏢 ${GF.office}`,
-      GF.dept   && `🗂 ${GF.dept}`,
-      GF.title  && `👤 ${GF.title}`,
-    ].filter(Boolean);
-    activeWrap.innerHTML = labels.map(l=>`<span class="gf-pill">${l}</span>`).join('');
-  }
-
-  // Re-render everything that's currently visible and applicable
-  gfRenderAll();
-}
-
-function clearGlobalFilter(){
-  ['gfDest','gfOffice','gfDept','gfTitle'].forEach(id=>{
-    const el=document.getElementById(id); if(el){el.value='';el.classList.remove('active');}
-  });
-  GF.dest=GF.office=GF.dept=GF.title='';
-  const clearBtn=document.getElementById('gfClearBtn');
-  const activeWrap=document.getElementById('gfActiveWrap');
-  if(clearBtn) clearBtn.style.display='none';
-  if(activeWrap) activeWrap.style.display='none';
-  gfRenderAll();
-}
-
-// Checks if a staff member passes the global filter
-function staffPassesGF(s){
-  if(GF.dest){
-    const sdList = DEST_SD_MAP[GF.dest] || [GF.dest];
-    if(!sdList.some(sd=>(s.sd||'').toLowerCase()===sd.toLowerCase())) return false;
-  }
-  if(GF.office && (s.l||'').toLowerCase().trim() !== GF.office.toLowerCase()) return false;
-  if(GF.dept   && (s.d||'').toLowerCase() !== GF.dept.toLowerCase()) return false;
-  if(GF.title  && !(s.t||'').toLowerCase().includes(GF.title.toLowerCase())) return false;
-  return true;
-}
-
-function gfIsActive(){ return !!(GF.dest||GF.office||GF.dept||GF.title); }
-
-function gfRenderAll(){
-  renderDeptSummary();
-  renderDepts();
-  renderWorkflows();
-  renderOfficesGF();
-  if(document.getElementById('staffModal')?.classList.contains('open')) filterStaff();
-  updateOverviewStats();
-  renderGFBanner();
-}
-
-function renderGFBanner(){
-  let banner = document.getElementById('gfBanner');
-  if(!gfIsActive()){
-    if(banner) banner.remove();
-    return;
-  }
-  const parts = [
-    GF.dest   && `✈️ Destination: <strong>${GF.dest}</strong>`,
-    GF.office && `🏢 Office: <strong>${GF.office}</strong>`,
-    GF.dept   && `🗂 Department: <strong>${GF.dept}</strong>`,
-    GF.title  && `👤 Title: <strong>${GF.title}</strong>`,
-  ].filter(Boolean).join(' &nbsp;·&nbsp; ');
-  const filtered = STAFF_DATA.filter(staffPassesGF).length;
-  if(!banner){
-    banner = document.createElement('div');
-    banner.id = 'gfBanner';
-    banner.style.cssText='background:rgba(8,145,178,0.08);border:1px solid rgba(8,145,178,0.25);border-radius:8px;padding:9px 14px;margin-bottom:16px;font-size:0.76rem;color:var(--ink2);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;';
-    // Insert at top of each visible tab panel
-    document.querySelectorAll('.tab-panel.active').forEach(p=>{
-      const clone = banner.cloneNode(true);
-      p.insertBefore(clone, p.firstChild);
-    });
-    banner = document.getElementById('gfBanner') || document.querySelectorAll('.tab-panel.active .gf-panel-banner')[0];
-  }
-  document.querySelectorAll('#gfBanner, .gf-panel-banner').forEach(el=>{
-    el.innerHTML=`<span><i class="fas fa-filter" style="color:var(--cyan);margin-right:6px;"></i>Showing ${filtered} staff matching: ${parts}</span><button onclick="clearGlobalFilter()" style="background:none;border:none;cursor:pointer;font-size:0.7rem;color:var(--cyan);font-weight:700;font-family:inherit;padding:0;">✕ Clear</button>`;
-  });
-}
-
-function updateOverviewStats(){
-  if(!gfIsActive()) return; // let original stats show when no filter
-  const filtered = STAFF_DATA.filter(staffPassesGF);
-  const el = document.querySelector('#ovStats');
-  if(!el) return;
-  // Update staff count stat only
-  const statN = el.querySelector('.ov-stat-n');
-  if(statN) statN.textContent = filtered.length;
-}
-
-// ── GF-aware office rendering ────────────────────────────────────
-function renderOfficesGF(){
-  if(!gfIsActive()){ renderOffices(); return; }
-  const offices = Object.values(wikiOffices);
-  const destLower = GF.dest.toLowerCase();
-  const officeLower = GF.office.toLowerCase();
-  // Match offices by city or country containing the dest/office filter
-  const filtered = offices.filter(o=>{
-    const cityMatch  = !GF.dest   || (o.city||'').toLowerCase().includes(destLower) || (o.country||'').toLowerCase().includes(destLower) || (o.address||'').toLowerCase().includes(destLower);
-    const locMatch   = !GF.office || (o.city||'').toLowerCase().includes(officeLower)|| (o.country||'').toLowerCase().includes(officeLower);
-    return cityMatch && locMatch;
-  });
-  const grid = document.getElementById('officesGrid');
-  const countEl = document.getElementById('officeCount');
-  if(countEl) countEl.textContent = `Showing ${filtered.length} of ${offices.length} offices (filtered)`;
-  if(!grid) return;
-  if(!filtered.length){ grid.innerHTML='<div style="padding:40px;text-align:center;color:var(--slate2);">No offices match the current filter.</div>'; return; }
-  // Re-use existing renderOffices logic but on filtered set
-  grid.innerHTML = filtered.map(o=>{
-    const statusColor = o.status==='Active'?'#059669':o.status==='Planning'?'#b45309':'#dc2626';
-    return`<div class="office-card">
-      <div class="office-card-bar" style="background:${statusColor};"></div>
-      <div class="office-card-body">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px;">
-          <div style="font-size:1.6rem;">${o.flag||'🌍'}</div>
-          <div style="flex:1;"><div style="font-size:0.9rem;font-weight:800;color:var(--ink);">${o.city||'—'}, ${o.country}</div>
-          <div style="font-size:0.72rem;color:var(--slate2);">${o.region}</div></div>
-          <span style="font-size:0.62rem;font-weight:700;color:${statusColor};background:${statusColor}18;border-radius:10px;padding:2px 7px;">${o.status||'—'}</span>
-        </div>
-        <div style="font-size:0.74rem;color:var(--slate);line-height:1.6;">
-          ${o.contact?`<div>👤 ${o.contact}</div>`:''}
-          ${o.type?`<div>🏷 ${o.type}</div>`:''}
-          ${o.staff?`<div>👥 ${o.staff} staff</div>`:''}
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// GF-aware dept rendering patch
-const _origRenderDepts = typeof renderDepts === 'function' ? renderDepts : null;
-
-// ── GF-aware workflow rendering ──────────────────────────────────
-// patch happens inside renderWorkflows below via gfWorkflowFilter()
-function gfWorkflowRelevant(w){
-  if(!gfIsActive()) return true;
-  const wTitle = (w.title||'').toLowerCase();
-  const wDesc  = (w.desc||'').toLowerCase();
-  const wDepts = (w.steps||[]).map(s=>(s.dept||'').toLowerCase()).join(' ');
-  if(GF.dept){
-    const deptLower = GF.dept.toLowerCase();
-    if(!wTitle.includes(deptLower)&&!wDesc.includes(deptLower)&&!wDepts.includes(deptLower)) return false;
-  }
-  if(GF.dest){
-    const destLower = GF.dest.toLowerCase();
-    if(!wTitle.includes(destLower)&&!wDesc.includes(destLower)) {
-      // check if dest maps to a dept that owns the workflow
-      const sdList = DEST_SD_MAP[GF.dest]||[];
-      const deptNames = [...new Set(STAFF_DATA.filter(s=>sdList.some(sd=>(s.sd||'').toLowerCase()===sd.toLowerCase())).map(s=>s.d))];
-      if(!deptNames.some(d=>wDepts.includes(d.toLowerCase()))) return false;
-    }
-  }
-  return true;
-}
-
-
-// ══════════════════════════════════════════════════════════════════
-// DRAG & DROP REORDER ENGINE (shared by Docs + Refs)
-// ══════════════════════════════════════════════════════════════════
-let _dragSrcId=null, _dragType=null;
-
-function drStart(e,type){
-  _dragSrcId=e.currentTarget.dataset.id;
-  _dragType=type;
-  e.currentTarget.classList.add('dragging');
-  e.dataTransfer.effectAllowed='move';
-}
-function drOver(e){
-  e.preventDefault();
-  e.dataTransfer.dropEffect='move';
-  e.currentTarget.classList.add('drag-over');
-}
-function drLeave(e){ e.currentTarget.classList.remove('drag-over'); }
-function drEnd(e,type){
-  e.currentTarget.classList.remove('dragging');
-  document.querySelectorAll('.doc-card,.ref-card').forEach(c=>c.classList.remove('drag-over'));
-}
-function drDrop(e,type){
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over');
-  const targetId=e.currentTarget.dataset.id;
-  if(!_dragSrcId||_dragSrcId===targetId||_dragType!==type) return;
-  const order = type==='doc' ? _docsOrder : _refsOrder;
-  const si=order.indexOf(_dragSrcId);
-  const ti=order.indexOf(targetId);
-  if(si<0||ti<0) return;
-  order.splice(si,1);
-  order.splice(ti,0,_dragSrcId);
-  if(type==='doc') renderDocs(Object.values(wikiDocs));
-  else renderRefs(Object.values(wikiRefs));
-  _dragSrcId=null;
-}
-
 // ── Tab Navigation ───────────────────────────────────────────────
 function showTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
@@ -2416,262 +1819,7 @@ function showTab(id,btn){
   const panel=document.getElementById('tab-'+id);
   if(panel)panel.classList.add('active');
   if(btn)btn.classList.add('active');
-  if(id==='teamtravel')renderTravelPlans();
-  if(id==='boardmeetings')renderBoardMeetings();
-  if(id==='offices'){
-    const iframe=document.getElementById('officesIframe');
-    if(iframe&&!iframe.dataset.loaded){iframe.src='offices.html?v='+Date.now();iframe.dataset.loaded='1';}
-  }
-  // Re-inject GF banner on new tab if filter active
-  if(gfIsActive()) setTimeout(renderGFBanner,30);
 }
-
-// ══════════════════════════════════════════════════════════════════
-// ENHANCED STAFF FILTERS (Dropdowns)
-// ══════════════════════════════════════════════════════════════════
-function buildStaffDropdowns(){
-  // Departments
-  const depts=[...new Set(STAFF_DATA.map(s=>s.d).filter(Boolean))].sort();
-  const deptEl=document.getElementById('staffDeptDrop');
-  if(deptEl){deptEl.innerHTML='<option value="">All Departments</option>'+depts.map(d=>`<option value="${d}">${d}</option>`).join('');}
-  // Locations (offices)
-  const locs=[...new Set(STAFF_DATA.map(s=>s.l).filter(Boolean).map(l=>l.trim()))].sort();
-  const locEl=document.getElementById('staffLocDrop');
-  if(locEl){locEl.innerHTML='<option value="">All Locations</option>'+locs.map(l=>`<option value="${l}">${l}</option>`).join('');}
-  // Destinations (sub-departments)
-  const dests=[...new Set(STAFF_DATA.map(s=>s.sd).filter(Boolean))].sort();
-  const destEl=document.getElementById('staffDestDrop');
-  if(destEl){destEl.innerHTML='<option value="">All Destinations</option>'+dests.map(d=>`<option value="${d}">${d}</option>`).join('');}
-  // Job title keywords (common levels)
-  const titleKeywords=['Manager','Director','Head','Lead','Executive','Analyst','Associate','VP','Intern','Expert','Officer','Advisor'];
-  const titleEl=document.getElementById('staffTitleDrop');
-  if(titleEl){titleEl.innerHTML='<option value="">All Job Titles</option>'+titleKeywords.map(t=>`<option value="${t}">${t}</option>`).join('');}
-}
-function resetStaffFilters(){
-  ['staffDeptDrop','staffLocDrop','staffDestDrop','staffTitleDrop'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  const s=document.getElementById('staffSearch');if(s)s.value='';
-  filterStaff();
-}
-
-// ══════════════════════════════════════════════════════════════════
-// BOARD MEETINGS
-// ══════════════════════════════════════════════════════════════════
-let boardMeetings={};
-
-async function loadBoardMeetings(){
-  if(!_db)return;
-  try{
-    const snap=await _db.ref('tripfactory/wiki-board-meetings/').once('value');
-    boardMeetings=snap.val()||{};
-  }catch(e){}
-  renderBoardMeetings();
-}
-
-async function fileToBase64(file){
-  return new Promise((res,rej)=>{
-    const r=new FileReader();
-    r.onload=()=>res(r.result.split(',')[1]);
-    r.onerror=rej;
-    r.readAsDataURL(file);
-  });
-}
-
-async function saveBoardMeeting(){
-  const title=document.getElementById('bmTitle').value.trim();
-  const date=document.getElementById('bmDate').value;
-  const notes=document.getElementById('bmNotes').value.trim();
-  if(!title){toast('Please enter a meeting title');return;}
-  if(!date){toast('Please select a meeting date');return;}
-  const id='bm_'+Date.now();
-  const meeting={id,title,date,notes,addedBy:currentUser,addedAt:Date.now()};
-  // Process files
-  const fileFields=[['bmAgenda','agenda'],['bmMinutes','minutes'],['bmExtra','extra']];
-  for(const [elId,key] of fileFields){
-    const el=document.getElementById(elId);
-    if(el&&el.files[0]){
-      const file=el.files[0];
-      if(file.size>10*1024*1024){toast(`${key} file must be under 10MB`);return;}
-      meeting[key+'Name']=file.name;
-      meeting[key+'Type']=file.type;
-      meeting[key+'Size']=file.size;
-      try{meeting[key+'Data']=await fileToBase64(file);}catch(e){}
-    }
-  }
-  boardMeetings[id]=meeting;
-  if(_db){
-    const meta={...meeting};
-    ['agendaData','minutesData','extraData'].forEach(k=>delete meta[k]);
-    await _db.ref('tripfactory/wiki-board-meetings/'+id+'/meta').set(meta).catch(()=>{});
-    if(meeting.agendaData)await _db.ref('tripfactory/wiki-board-meetings/'+id+'/agendaFile').set(meeting.agendaData).catch(()=>{});
-    if(meeting.minutesData)await _db.ref('tripfactory/wiki-board-meetings/'+id+'/minutesFile').set(meeting.minutesData).catch(()=>{});
-    if(meeting.extraData)await _db.ref('tripfactory/wiki-board-meetings/'+id+'/extraFile').set(meeting.extraData).catch(()=>{});
-  }
-  // Reset form
-  ['bmTitle','bmDate','bmNotes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['bmAgenda','bmMinutes','bmExtra'].forEach(fid=>{const el=document.getElementById(fid);if(el)el.value='';});
-  ['bmAgendaName','bmMinutesName','bmExtraName'].forEach(lid=>{const el=document.getElementById(lid);if(el)el.textContent='Choose file';});
-  renderBoardMeetings();
-  toast(`✓ Board meeting "${title}" saved`,'ok');
-}
-
-function renderBoardMeetings(){
-  const meetings=Object.values(boardMeetings).sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const grid=document.getElementById('bmGrid');
-  if(!grid)return;
-  if(!meetings.length){grid.innerHTML='<div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-briefcase" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No meetings recorded yet.</div>';return;}
-  grid.innerHTML=meetings.map(m=>{
-    const dateStr=m.date?new Date(m.date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'';
-    const fileBtn=(key,label,icon)=>m[key+'Name']?`<a style="font-size:0.74rem;color:var(--cyan);text-decoration:none;display:flex;align-items:center;gap:4px;cursor:pointer;" onclick="downloadBMFile('${m.id}','${key}')"><i class="fas ${icon}"></i>${label}: ${m[key+'Name']||'Download'}</a>`:`<span style="font-size:0.74rem;color:var(--slate2);display:flex;align-items:center;gap:4px;"><i class="fas ${icon}"></i>${label}: <em>not uploaded</em></span>`;
-    return`<div class="doc-card">
-      <div class="doc-card-top">
-        <div class="doc-icon" style="background:#7c3aed22;font-size:1.2rem;">📋</div>
-        <div style="flex:1;min-width:0;">
-          <div class="doc-name">${m.title}</div>
-          <div class="doc-desc" style="color:var(--cyan);font-weight:600;">${dateStr}</div>
-          ${m.notes?`<div class="doc-desc" style="margin-top:4px;">${m.notes}</div>`:''}
-        </div>
-        <button class="ref-del" onclick="deleteBoardMeeting('${m.id}')"><i class="fas fa-times"></i></button>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
-        ${fileBtn('agenda','Agenda','fa-file-alt')}
-        ${fileBtn('minutes','Minutes','fa-file-alt')}
-        ${fileBtn('extra','Additional','fa-paperclip')}
-      </div>
-      <div style="font-size:0.68rem;color:var(--slate2);margin-top:8px;">Added by ${m.addedBy||'—'} · ${m.addedAt?new Date(m.addedAt).toLocaleDateString('en-GB'):'—'}</div>
-    </div>`;
-  }).join('');
-}
-
-async function downloadBMFile(meetingId,key){
-  const m=boardMeetings[meetingId];
-  if(!m){toast('Meeting not found');return;}
-  let data=m[key+'Data'];
-  if(!data&&_db){
-    const snap=await _db.ref('tripfactory/wiki-board-meetings/'+meetingId+'/'+key+'File').once('value').catch(()=>null);
-    data=snap?snap.val():null;
-  }
-  if(!data){toast('File not available');return;}
-  const a=document.createElement('a');
-  a.href='data:'+m[key+'Type']+';base64,'+data;
-  a.download=m[key+'Name']||key;
-  a.click();
-}
-
-async function deleteBoardMeeting(id){
-  if(!confirm('Delete this board meeting record?'))return;
-  delete boardMeetings[id];
-  if(_db)await _db.ref('tripfactory/wiki-board-meetings/'+id).remove().catch(()=>{});
-  renderBoardMeetings();
-  toast('Meeting removed');
-}
-
-// ══════════════════════════════════════════════════════════════════
-// TEAM TRAVEL PLANS
-// ══════════════════════════════════════════════════════════════════
-let travelPlans={};
-let ttViewMode='list';
-let ttPersonFilter='all';
-const PERSON_COLORS={'Raj Kumar':'#0891b2','Alia Taub':'#d4145a','Ajay Kawa':'#059669'};
-
-async function loadTravelPlans(){
-  if(!_db)return;
-  try{
-    const snap=await _db.ref('tripfactory/wiki-travel-plans/').once('value');
-    travelPlans=snap.val()||{};
-  }catch(e){}
-  renderTravelPlans();
-}
-
-async function saveTravelPlan(){
-  const person=document.getElementById('ttPerson').value;
-  const destination=document.getElementById('ttDestination').value.trim();
-  const from=document.getElementById('ttFrom').value;
-  const to=document.getElementById('ttTo').value;
-  const purpose=document.getElementById('ttPurpose').value.trim();
-  if(!destination){toast('Please enter a destination');return;}
-  if(!from){toast('Please select a departure date');return;}
-  const id='tt_'+Date.now();
-  const plan={id,person,destination,from,to:to||from,purpose,addedBy:currentUser,addedAt:Date.now()};
-  travelPlans[id]=plan;
-  if(_db)await _db.ref('tripfactory/wiki-travel-plans/'+id).set(plan).catch(()=>{});
-  ['ttDestination','ttFrom','ttTo','ttPurpose'].forEach(fid=>{const el=document.getElementById(fid);if(el)el.value='';});
-  renderTravelPlans();
-  toast(`✓ Travel plan added for ${person}`,'ok');
-}
-
-function setTTView(mode,btn){
-  ttViewMode=mode;
-  document.querySelectorAll('#ttViewBtns .org-vbtn').forEach(b=>{b.classList.remove('on');});
-  if(btn)btn.classList.add('on');
-  renderTravelPlans();
-}
-
-function setTTPerson(person,el){
-  ttPersonFilter=person;
-  document.querySelectorAll('#ttPersonChips .modal-chip').forEach(c=>c.classList.remove('on'));
-  if(el)el.classList.add('on');
-  renderTravelPlans();
-}
-
-function renderTravelPlans(){
-  const container=document.getElementById('ttContainer');
-  if(!container)return;
-  let plans=Object.values(travelPlans);
-  if(ttPersonFilter!=='all')plans=plans.filter(p=>p.person===ttPersonFilter);
-  plans.sort((a,b)=>new Date(a.from)-new Date(b.from));
-  if(!plans.length){container.innerHTML='<div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-plane" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No travel plans yet. Add one above.</div>';return;}
-  if(ttViewMode==='list'){
-    container.innerHTML=`<div style="display:flex;flex-direction:column;gap:10px;">${plans.map(p=>{
-      const color=PERSON_COLORS[p.person]||'#7c3aed';
-      const fromDate=p.from?new Date(p.from+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'—';
-      const toDate=p.to&&p.to!==p.from?new Date(p.to+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
-      return`<div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--card);border-radius:10px;border:1px solid var(--border);border-left:4px solid ${color};">
-        <div style="width:36px;height:36px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;flex-shrink:0;">✈️</div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:0.84rem;font-weight:700;color:var(--ink);">${p.destination}</div>
-          <div style="font-size:0.77rem;font-weight:600;color:${color};margin-top:1px;">${p.person}</div>
-          <div style="font-size:0.74rem;color:var(--slate2);margin-top:2px;">${fromDate}${toDate?' → '+toDate:''}</div>
-          ${p.purpose?`<div style="font-size:0.74rem;color:var(--slate);margin-top:4px;">${p.purpose}</div>`:''}
-        </div>
-        <button onclick="deleteTravelPlan('${p.id}')" style="background:none;border:none;color:var(--slate2);cursor:pointer;font-size:0.85rem;padding:4px;"><i class="fas fa-times"></i></button>
-      </div>`;
-    }).join('')}</div>`;
-  } else {
-    // Calendar view — group by month
-    const byMonth={};
-    plans.forEach(p=>{
-      const key=p.from?p.from.substring(0,7):'unknown';
-      if(!byMonth[key])byMonth[key]=[];
-      byMonth[key].push(p);
-    });
-    container.innerHTML=Object.keys(byMonth).sort().map(month=>{
-      const label=month!=='unknown'?new Date(month+'-15').toLocaleDateString('en-GB',{month:'long',year:'numeric'}):'Unknown Date';
-      return`<div style="margin-bottom:20px;">
-        <div style="font-size:0.8rem;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--border);">${label}</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">${byMonth[month].map(p=>{
-          const color=PERSON_COLORS[p.person]||'#7c3aed';
-          const fromDate=p.from?new Date(p.from+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short'}):'—';
-          const toDate=p.to&&p.to!==p.from?new Date(p.to+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short'}):'';
-          return`<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:${color}14;border-radius:8px;border-left:3px solid ${color};">
-            <div style="font-size:0.75rem;font-weight:700;color:${color};min-width:90px;">${fromDate}${toDate?' → '+toDate:''}</div>
-            <div style="font-size:0.77rem;font-weight:700;color:var(--ink);flex:1;">${p.person} <span style="font-weight:400;color:var(--slate2);">→ ${p.destination}</span></div>
-            ${p.purpose?`<div style="font-size:0.72rem;color:var(--slate2);">${p.purpose}</div>`:''}
-            <button onclick="deleteTravelPlan('${p.id}')" style="background:none;border:none;color:var(--slate2);cursor:pointer;font-size:0.8rem;"><i class="fas fa-times"></i></button>
-          </div>`;
-        }).join('')}</div>
-      </div>`;
-    }).join('');
-  }
-}
-
-async function deleteTravelPlan(id){
-  delete travelPlans[id];
-  if(_db)await _db.ref('tripfactory/wiki-travel-plans/'+id).remove().catch(()=>{});
-  renderTravelPlans();
-  toast('Travel plan removed');
-}
-
-
 
 // ── Auto-login ───────────────────────────────────────────────
 (function(){
