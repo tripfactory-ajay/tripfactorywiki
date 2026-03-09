@@ -821,25 +821,14 @@ select.oedit-inp{cursor:pointer;}
 </div>
 
 <!-- WORLDWIDE OFFICES TAB -->
-<div class="tab-panel" id="tab-offices">
-  <div class="page-hero">
-    <h1>Worldwide Offices</h1>
-    <p>ORN's global office network — view, add, and update office details. Changes are saved to Firebase and available to all authorised users.</p>
-    <span class="hero-tag"><i class="fas fa-cloud"></i> Live · Firebase synced</span>
-  </div>
-  <div class="offices-toolbar">
-    <div class="offices-search"><i class="fas fa-search"></i><input type="text" id="officeSearch" placeholder="Search country, city or region..." oninput="filterOffices()"></div>
-    <div class="modal-filter-row" id="officeFilterChips"></div>
-    <div class="modal-filter-row" style="margin-left:0;" id="officeStatusChips">
-      <div class="modal-chip on" onclick="setOfficeStatus('all',this)">All</div>
-      <div class="modal-chip" onclick="setOfficeStatus('Active',this)" style="--chip-on:#059669;">Active</div>
-      <div class="modal-chip" onclick="setOfficeStatus('Non-Operational',this)" style="--chip-on:#dc2626;">Non-Operational</div>
-      <div class="modal-chip" onclick="setOfficeStatus('Planning',this)" style="--chip-on:#b45309;">Planning</div>
-    </div>
-    <button class="btn-add-office" onclick="openOfficeEdit(null)"><i class="fas fa-plus"></i> Add Office</button>
-  </div>
-  <div style="font-size:0.75rem;color:var(--slate2);margin-bottom:12px;" id="officeCount"></div>
-  <div class="offices-grid" id="officesGrid"></div>
+<div class="tab-panel" id="tab-offices" style="padding:0;overflow:hidden;">
+  <iframe
+    id="officesIframe"
+    src="offices.html"
+    style="width:100%;height:calc(100vh - 120px);border:none;display:block;"
+    loading="lazy"
+    title="Worldwide Offices">
+  </iframe>
 </div>
 
 <!-- DOCUMENT HUB TAB -->
@@ -2429,6 +2418,10 @@ function showTab(id,btn){
   if(btn)btn.classList.add('active');
   if(id==='teamtravel')renderTravelPlans();
   if(id==='boardmeetings')renderBoardMeetings();
+  if(id==='offices'){
+    const iframe=document.getElementById('officesIframe');
+    if(iframe&&!iframe.dataset.loaded){iframe.src='offices.html?v='+Date.now();iframe.dataset.loaded='1';}
+  }
   // Re-inject GF banner on new tab if filter active
   if(gfIsActive()) setTimeout(renderGFBanner,30);
 }
