@@ -146,6 +146,93 @@ body{display:flex;flex-direction:column;}
 .gf-clear{font-size:0.67rem;color:rgba(255,255,255,0.35);background:none;border:1px solid rgba(255,255,255,0.1);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;padding:3px 9px;border-radius:5px;transition:all 0.15s;white-space:nowrap;}
 .gf-clear:hover{color:var(--magenta);border-color:var(--magenta);}
 .gf-active-count{font-size:0.67rem;color:var(--cyan);font-weight:700;white-space:nowrap;}
+/* ══ OFFICE CARD / VIEW STYLES ══════════════════════════════════════ */
+.office-card{background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all 0.2s;box-shadow:var(--sh);display:flex;flex-direction:column;}
+.office-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
+.office-card.non-op{opacity:0.72;}
+.oc-status-bar{height:3px;width:100%;}
+.oc-status-bar.bar-active{background:linear-gradient(90deg,#059669,#10b981);}
+.oc-status-bar.bar-planning{background:linear-gradient(90deg,#b45309,#f59e0b);}
+.oc-status-bar.bar-nonop{background:linear-gradient(90deg,#dc2626,#ef4444);}
+.oc-top{padding:16px 18px 12px;}
+.oc-top-row{display:flex;align-items:flex-start;gap:12px;}
+.oc-flag{font-size:2rem;line-height:1;flex-shrink:0;}
+.oc-info{flex:1;min-width:0;}
+.oc-country{font-size:1rem;font-weight:800;color:var(--ink);line-height:1.2;}
+.oc-city{font-size:0.74rem;color:var(--slate2);margin-top:1px;}
+.oc-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
+.badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:10px;}
+.badge-active{background:#d1fae5;color:#065f46;}
+.badge-nonop{background:#f1f5f9;color:#64748b;}
+.badge-planning{background:#fef3c7;color:#92400e;}
+.badge-tier1{background:#dbeafe;color:#1e40af;}
+.badge-tier2{background:#e0f2fe;color:#0e7490;}
+.badge-tier3{background:#f0fdf4;color:#166534;}
+.badge-tier4{background:#f8fafc;color:#94a3b8;}
+.badge-type{background:#faf5ff;color:#6d28d9;}
+.oc-divider{height:1px;background:var(--border);margin:0 18px;}
+.oc-body{padding:12px 18px;flex:1;display:flex;flex-direction:column;gap:6px;}
+.oc-row{display:flex;align-items:flex-start;gap:8px;font-size:0.74rem;color:var(--ink);}
+.oc-row i{color:var(--slate2);font-size:0.65rem;margin-top:2px;width:12px;flex-shrink:0;}
+.oc-purpose{background:var(--bg);border-left:2.5px solid var(--cyan);border-radius:0 6px 6px 0;padding:7px 10px;font-size:0.72rem;color:var(--slate);line-height:1.5;margin-top:4px;}
+.oc-capabilities{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+.cap-badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:4px;}
+.cap-in{background:#dbeafe;color:#1e40af;}
+.cap-out{background:#d1fae5;color:#065f46;}
+.cap-transport{background:#fef3c7;color:#92400e;}
+.cap-physical{background:#faf5ff;color:#6d28d9;}
+.cap-credits{background:#fff7ed;color:#c2410c;}
+.oc-footer{display:flex;gap:6px;padding:10px 18px 12px;border-top:1px solid var(--border);}
+.card-view-btn{flex:1;padding:5px;border:1px solid #bae6fd;border-radius:6px;background:#e0f2fe;font-size:0.7rem;color:#0369a1;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all 0.15s;}
+.card-view-btn:hover{background:#bae6fd;}
+.card-edit-btn{flex:1;padding:5px;border:1px solid var(--border);border-radius:6px;background:white;font-size:0.7rem;color:var(--slate);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;}
+.card-edit-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.card-del-btn{padding:5px 10px;border:1px solid #fecaca;border-radius:6px;background:white;font-size:0.7rem;color:#dc2626;cursor:pointer;transition:all 0.15s;}
+.card-del-btn:hover{background:#fef2f2;}
+.card-email-btn{flex:1;padding:5px;border:1px solid #d1fae5;border-radius:6px;background:#ecfdf5;font-size:0.7rem;color:#059669;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all 0.15s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;}
+.region-section{margin-bottom:36px;}
+.region-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.region-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;flex-shrink:0;}
+.region-name{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.09em;color:var(--slate);flex:1;}
+.region-line{flex:1;height:1px;background:var(--border);}
+.region-count{font-size:0.68rem;color:var(--slate2);font-weight:600;}
+.offices-list{display:flex;flex-direction:column;gap:8px;}
+.office-row{background:white;border:1px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:14px;transition:all 0.15s;box-shadow:var(--sh);}
+.office-row:hover{border-color:var(--cyan);}
+.or-flag{font-size:1.4rem;flex-shrink:0;}
+.or-main{flex:1;min-width:0;}
+.or-name{font-size:0.88rem;font-weight:700;color:var(--ink);}
+.or-city{font-size:0.72rem;color:var(--slate2);}
+.or-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}
+.or-contacts{flex:0 0 200px;font-size:0.72rem;color:var(--slate);line-height:1.4;}
+.or-stats{display:flex;gap:14px;flex-shrink:0;}
+.or-stat{text-align:center;}
+.or-stat-n{font-size:0.85rem;font-weight:700;color:var(--ink);}
+.or-stat-l{font-size:0.6rem;color:var(--slate2);text-transform:uppercase;}
+.or-btns{display:flex;gap:5px;flex-shrink:0;}
+.view-modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:20px;}
+.view-modal-box{background:white;border-radius:16px;width:100%;max-width:520px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.3);max-height:90vh;overflow-y:auto;}
+.vm-head{padding:18px 20px;display:flex;align-items:center;gap:12px;}
+.vm-flag{font-size:2.4rem;line-height:1;}
+.vm-info{flex:1;}
+.vm-country{font-size:1.1rem;font-weight:800;color:white;}
+.vm-city{font-size:0.76rem;color:rgba(255,255,255,0.65);}
+.vm-close{background:rgba(255,255,255,0.2);border:none;border-radius:8px;width:30px;height:30px;color:white;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.vm-footer{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--border);}
+.odoc-section{padding:14px 20px;border-top:1px solid var(--border);}
+.odoc-label{display:flex;align-items:center;justify-content:space-between;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:10px;}
+.odoc-upload-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;}
+.odoc-file-label{display:flex;align-items:center;gap:7px;padding:6px 12px;background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:7px;cursor:pointer;font-size:0.73rem;color:#64748b;flex:1;min-width:160px;}
+.odoc-upload-btn{padding:6px 14px;background:var(--cyan);border:none;border-radius:7px;color:white;font-size:0.73rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
+.odoc-list{display:flex;flex-direction:column;gap:6px;}
+.odoc-empty{padding:14px;text-align:center;color:#94a3b8;font-size:0.75rem;}
+.odoc-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f8fafc;border-radius:7px;}
+.odoc-item-icon{font-size:0.9rem;flex-shrink:0;}
+.odoc-item-name{font-size:0.75rem;font-weight:600;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.odoc-item-meta{font-size:0.65rem;color:#94a3b8;}
+.odoc-item-btns{display:flex;gap:5px;flex-shrink:0;}
+.odoc-dl-btn{padding:3px 8px;background:#e0f2fe;border:1px solid #bae6fd;border-radius:5px;font-size:0.65rem;color:#0369a1;text-decoration:none;font-weight:600;}
+.odoc-del-btn{padding:3px 7px;background:white;border:1px solid #fecaca;border-radius:5px;font-size:0.65rem;color:#dc2626;cursor:pointer;}
 .topbar-search input{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 12px 5px 30px;font-size:0.76rem;color:white;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:200px;transition:all 0.2s;}
 .topbar-search input::placeholder{color:rgba(255,255,255,0.3);}
 .topbar-search input:focus{background:rgba(255,255,255,0.12);border-color:var(--cyan);width:260px;}
@@ -744,23 +831,42 @@ select.oedit-inp{cursor:pointer;}
 <div class="tab-panel" id="tab-offices">
   <div class="page-hero">
     <h1>Worldwide Offices</h1>
-    <p>ORN's global office network — view, add, and update office details. Changes are saved to Firebase and available to all authorised users.</p>
+    <p>ORN's global office network — view, add, and update office details. All changes saved to Firebase.</p>
     <span class="hero-tag"><i class="fas fa-cloud"></i> Live · Firebase synced</span>
   </div>
-  <div class="offices-toolbar">
-    <div class="offices-search"><i class="fas fa-search"></i><input type="text" id="officeSearch" placeholder="Search country, city or region..." oninput="filterOffices()"></div>
-    <div class="modal-filter-row" id="officeFilterChips"></div>
-    <div class="modal-filter-row" style="margin-left:0;" id="officeStatusChips">
-      <div class="modal-chip on" onclick="setOfficeStatus('all',this)">All</div>
-      <div class="modal-chip" onclick="setOfficeStatus('Active',this)" style="--chip-on:#059669;">Active</div>
-      <div class="modal-chip" onclick="setOfficeStatus('Non-Operational',this)" style="--chip-on:#dc2626;">Non-Operational</div>
-      <div class="modal-chip" onclick="setOfficeStatus('Planning',this)" style="--chip-on:#b45309;">Planning</div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;background:rgba(8,145,178,0.08);border:1px solid rgba(8,145,178,0.2);border-radius:8px;padding:5px 14px;gap:6px;">
+      <i class="fas fa-globe" style="color:var(--cyan);font-size:0.7rem;"></i>
+      <span style="font-size:0.78rem;font-weight:700;color:var(--cyan);" id="statTotal">—</span>
+      <span style="font-size:0.68rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;">Total</span>
     </div>
-    <button class="btn-add-office" onclick="openOfficeEdit(null)"><i class="fas fa-plus"></i> Add Office</button>
+    <div style="display:flex;align-items:center;background:rgba(4,120,87,0.08);border:1px solid rgba(4,120,87,0.2);border-radius:8px;padding:5px 14px;gap:6px;">
+      <i class="fas fa-check-circle" style="color:#34d399;font-size:0.7rem;"></i>
+      <span style="font-size:0.78rem;font-weight:700;color:#059669;" id="statActive">—</span>
+      <span style="font-size:0.68rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;">Active</span>
+    </div>
+    <div style="display:flex;align-items:center;background:rgba(212,20,90,0.07);border:1px solid rgba(212,20,90,0.15);border-radius:8px;padding:5px 14px;gap:6px;">
+      <i class="fas fa-users" style="color:#f472b6;font-size:0.7rem;"></i>
+      <span style="font-size:0.78rem;font-weight:700;color:#d4145a;" id="statStaff">—</span>
+      <span style="font-size:0.68rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;">Staff</span>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:6px;">
+      <input type="text" id="officeSearch" placeholder="Search country, city..." oninput="officeRender()" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;outline:none;width:200px;">
+      <button id="offViewGrid" onclick="setOfficeView('grid',this)" style="padding:6px 12px;background:var(--cyan);border:1px solid var(--cyan);border-radius:7px;color:white;font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-th-large"></i></button>
+      <button id="offViewList" onclick="setOfficeView('list',this)" style="padding:6px 12px;background:white;border:1px solid var(--border);border-radius:7px;color:var(--slate);font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-list"></i></button>
+      <button onclick="openAddOffice()" style="padding:6px 14px;background:var(--navy);border:none;border-radius:7px;color:white;font-size:0.75rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:5px;"><i class="fas fa-plus"></i> Add Office</button>
+    </div>
   </div>
-  <div style="font-size:0.75rem;color:var(--slate2);margin-bottom:12px;" id="officeCount"></div>
-  <div class="offices-grid" id="officesGrid"></div>
+  <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;" id="officeRegionChips"></div>
+  <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;" id="officeStatusChips">
+    <div class="modal-chip on" onclick="setOfficeStatus('all',this)">All</div>
+    <div class="modal-chip" onclick="setOfficeStatus('Active',this)" style="--chip-on:#059669;">Active</div>
+    <div class="modal-chip" onclick="setOfficeStatus('Non-Operational',this)" style="--chip-on:#dc2626;">Non-Operational</div>
+    <div class="modal-chip" onclick="setOfficeStatus('Planning',this)" style="--chip-on:#b45309;">Planning</div>
+  </div>
+  <div id="mainArea" style="flex:1;"></div>
 </div>
+<div id="viewModalContainer"></div>
 
 <!-- DOCUMENT HUB TAB -->
 <div class="tab-panel" id="tab-documents">
@@ -920,52 +1026,44 @@ select.oedit-inp{cursor:pointer;}
 </div>
 
 <!-- OFFICE EDIT MODAL -->
-<div class="oedit-modal" id="officeEditModal">
-  <div class="oedit-box">
-    <div class="oedit-head">
-      <h3 id="oeditTitle">Add Office</h3>
-      <button class="modal-close" onclick="closeOfficeEdit()"><i class="fas fa-times"></i></button>
+<div id="officeModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:14px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="padding:20px 24px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:1rem;font-weight:800;color:#0f172a;" id="omTitle">Add Office</div>
+      <button onclick="closeOfficeModal()" style="background:none;border:none;font-size:1.2rem;color:#94a3b8;cursor:pointer;">✕</button>
     </div>
-    <div class="oedit-body">
-      <input type="hidden" id="oeditId">
-      <div class="oedit-row">
-        <div class="oedit-field"><label class="oedit-label">Country *</label><input class="oedit-inp" id="oeCountry" placeholder="e.g. United Kingdom"></div>
-        <div class="oedit-field"><label class="oedit-label">City</label><input class="oedit-inp" id="oeCity" placeholder="e.g. London"></div>
+    <form id="omForm" onsubmit="event.preventDefault();saveOffice();" style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <input type="hidden" id="omId">
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Country *</label><input id="omCountry" required style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;" placeholder="e.g. United Kingdom"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">City</label><input id="omCity" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;" placeholder="e.g. London"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Flag emoji</label><input id="omFlag" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;" placeholder="🇬🇧"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Region</label>
+        <select id="omRegion" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;">
+          <option>Europe</option><option>Middle East</option><option>South Asia</option><option>Asia Pacific</option><option>Americas</option><option>Oceania</option><option>India HQ</option>
+        </select></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Status</label>
+        <select id="omStatus" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;">
+          <option value="Active">Active</option><option value="Non-Operational">Non-Operational</option><option value="Planning">Planning</option>
+        </select></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Staff count</label><input id="omStaff" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Fleet drivers</label><input id="omDrivers" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Key Contacts</label><input id="omContacts" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;" placeholder="Name — role"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Address</label><input id="omAddress" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;" placeholder="Full address"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Market</label><input id="omMarket" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;" placeholder="e.g. Global, B2C, Inbound DMC"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Office Type</label><select id="omType" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;background:white;"><option value="Trip Factory">Trip Factory</option><option value="Trip Factory Partner">Trip Factory Partner</option></select></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Physical Location</label><input id="omPhysical" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;box-sizing:border-box;" placeholder="e.g. Physical Office / Remote"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Purpose</label><textarea id="omPurpose" rows="2" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;resize:vertical;box-sizing:border-box;"></textarea></div>
+      <div style="grid-column:1/-1;display:flex;gap:20px;flex-wrap:wrap;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omInbound" style="accent-color:#0891b2;"> Inbound</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omOutbound" style="accent-color:#0891b2;"> Outbound</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omTransport" style="accent-color:#0891b2;"> Transport/Fleet</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omCredits" style="accent-color:#0891b2;"> Credits Market</label>
       </div>
-      <div class="oedit-row">
-        <div class="oedit-field"><label class="oedit-label">Region *</label>
-          <select class="oedit-inp" id="oeRegion">
-            <option>Europe</option><option>Middle East</option><option>Asia Pacific</option><option>South Asia</option><option>Americas</option><option>Africa</option><option>India HQ</option>
-          </select>
-        </div>
-        <div class="oedit-field"><label class="oedit-label">Revenue Tier</label>
-          <select class="oedit-inp" id="oeTier">
-            <option value="1">Tier 1 — Strategic</option><option value="2">Tier 2 — Growth</option><option value="3">Tier 3 — Emerging</option><option value="4">Tier 4 — Opportunity</option>
-          </select>
-        </div>
+      <div style="grid-column:1/-1;display:flex;gap:10px;margin-top:4px;">
+        <button type="submit" style="flex:1;padding:10px;background:linear-gradient(135deg,#0891b2,#0e7490);border:none;border-radius:8px;color:white;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-save"></i> Save Office</button>
+        <button type="button" onclick="closeOfficeModal()" style="padding:10px 18px;background:white;border:1.5px solid #e2e8f0;border-radius:8px;color:#475569;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Cancel</button>
       </div>
-      <div class="oedit-row">
-        <div class="oedit-field"><label class="oedit-label">Status</label>
-          <select class="oedit-inp" id="oeStatus"><option>Active</option><option>Planning</option><option>Opportunity</option><option>Inactive</option></select>
-        </div>
-        <div class="oedit-field"><label class="oedit-label">Office Type</label>
-          <select class="oedit-inp" id="oeType"><option>B2C</option><option>B2B</option><option>B2B + B2C</option><option>Operations</option><option>HQ</option><option>Representative</option></select>
-        </div>
-      </div>
-      <div class="oedit-row">
-        <div class="oedit-field"><label class="oedit-label">Head / Contact Name</label><input class="oedit-inp" id="oeContact" placeholder="e.g. Sonu Singh"></div>
-        <div class="oedit-field"><label class="oedit-label">Contact Email</label><input class="oedit-inp" id="oeEmail" placeholder="e.g. sonu@tripfactory.com"></div>
-      </div>
-      <div class="oedit-row">
-        <div class="oedit-field"><label class="oedit-label">Staff Count</label><input class="oedit-inp" type="number" id="oeStaff" placeholder="0" min="0"></div>
-        <div class="oedit-field"><label class="oedit-label">Flag Emoji</label><input class="oedit-inp" id="oeFlag" placeholder="🇬🇧"></div>
-      </div>
-      <div class="oedit-field"><label class="oedit-label">Address / Notes</label><input class="oedit-inp" id="oeAddress" placeholder="Office address or notes"></div>
-    </div>
-    <div class="oedit-foot">
-      <button class="btn-cancel" onclick="closeOfficeEdit()">Cancel</button>
-      <button class="btn-save" onclick="saveOffice()"><i class="fas fa-save"></i> Save Office</button>
-    </div>
+    </form>
   </div>
 </div>
 
@@ -1670,124 +1768,324 @@ function renderTimeline(){
 // ══════════════════════════════════════════════════════════════════
 // WORLDWIDE OFFICES
 // ══════════════════════════════════════════════════════════════════
-const TIER_META={
-  '1':{label:'Tier 1 — Strategic',bg:'#1e40af',text:'white'},
-  '2':{label:'Tier 2 — Growth',bg:'#0891b2',text:'white'},
-  '3':{label:'Tier 3 — Emerging',bg:'#059669',text:'white'},
-  '4':{label:'Tier 4 — Opportunity',bg:'#94a3b8',text:'white'},
-};
-const STATUS_COLORS={Active:'#059669',Planning:'#b45309',Opportunity:'#7c3aed',Inactive:'#94a3b8'};
-const REGIONS=['All Regions','India HQ','Europe','Middle East','Asia Pacific','Americas','Africa'];
+// ══ OFFICES ══════════════════════════════════════════════════════════
+const TIER_CLASSES={1:'badge-tier1',2:'badge-tier2',3:'badge-tier3',4:'badge-tier4'};
+const TIER_LABELS={1:'Tier 1',2:'Tier 2',3:'Tier 3',4:'Tier 4'};
+const STATUS_HEAD_BG={Active:'linear-gradient(135deg,#0f766e,#0891b2)','Non-Operational':'linear-gradient(135deg,#7f1d1d,#991b1b)',Planning:'linear-gradient(135deg,#78350f,#b45309)',Opportunity:'linear-gradient(135deg,#4c1d95,#6d28d9)'};
+const REGION_CONFIG={'India HQ':{icon:'fa-home',color:'#d4145a'},Europe:{icon:'fa-globe-europe',color:'#1e40af'},'Middle East':{icon:'fa-mosque',color:'#b45309'},'Asia Pacific':{icon:'fa-torii-gate',color:'#0891b2'},Americas:{icon:'fa-globe-americas',color:'#059669'},'South Asia':{icon:'fa-gem',color:'#7c3aed'},Oceania:{icon:'fa-water',color:'#0e7490'},Africa:{icon:'fa-sun',color:'#92400e'}};
+const REGIONS=['All Regions',...Object.keys(REGION_CONFIG)];
+let _offViewMode='grid', _offRegion='All Regions', _offStatus='all';
 
-let officeStatusFilter='all';
+function encodeEmail(s){ return (s||'').split(',')[0].replace(/\(.*?\)/g,'').trim().replace(/[^a-zA-Z0-9._%+\-@]/g,''); }
+function statusBadgeClass(s){ if(s==='Active')return'badge-active'; if(s==='Non-Operational')return'badge-nonop'; if(s==='Planning')return'badge-planning'; return'badge-tier4'; }
+function statusBarClass(s){ if(s==='Active')return'bar-active'; if(s==='Non-Operational')return'bar-nonop'; if(s==='Planning')return'bar-planning'; return'bar-opportunity'; }
+function capBadges(o){
+  const c=[];
+  if(o.inbound==='Yes')  c.push('<span class="cap-badge cap-in">&#8601; Inbound</span>');
+  if(o.outbound==='Yes') c.push('<span class="cap-badge cap-out">&#8599; Outbound</span>');
+  if(o.transport==='Yes')c.push('<span class="cap-badge cap-transport">&#128652; Transport</span>');
+  if(o.credits==='Yes')  c.push('<span class="cap-badge cap-credits">&#128179; Credits</span>');
+  return c.join('');
+}
+function officeCard(o){
+  const tc=TIER_CLASSES[o.tier]||'badge-tier4';
+  const tl=TIER_LABELS[o.tier]||'Tier '+o.tier;
+  const isActive=o.status==='Active';
+  const staff=parseInt(o.staff)||0;
+  const drivers=parseInt(o.drivers)||0;
+  return `<div class="office-card ${isActive?'':'non-op'}">
+    <div class="oc-status-bar ${statusBarClass(o.status)}"></div>
+    <div class="oc-top">
+      <div class="oc-top-row">
+        <div class="oc-flag">${o.flag||'\uD83C\uDFE2'}</div>
+        <div class="oc-info">
+          <div class="oc-country">${o.country}</div>
+          <div class="oc-city">${o.city||o.region||''}</div>
+          <div class="oc-badges">
+            <span class="badge ${statusBadgeClass(o.status)}">${o.status}</span>
+            <span class="badge ${tc}">${tl}</span>
+            ${o.type?`<span class="badge badge-type" style="font-size:0.6rem;">${o.type}</span>`:''}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="oc-divider"></div>
+    <div class="oc-body">
+      ${o.contacts?`<div class="oc-row"><i class="fas fa-user-tie"></i><span>${o.contacts}</span></div>`:''}
+      ${o.address?`<div class="oc-row"><i class="fas fa-map-marker-alt"></i><span style="font-size:0.71rem;color:var(--slate2);">${o.address}</span></div>`:''}
+      ${staff>0||drivers>0?`<div class="oc-row"><i class="fas fa-users"></i><span>${staff>0?staff+' staff':''}${staff>0&&drivers>0?' · ':''}${drivers>0?drivers+' drivers':''}</span></div>`:''}
+      ${o.physical?`<div class="oc-row"><i class="fas fa-building"></i><span style="font-size:0.71rem;">${o.physical}</span></div>`:''}
+      ${o.purpose?`<div class="oc-purpose">${o.purpose}</div>`:''}
+      <div class="oc-capabilities">${capBadges(o)}</div>
+    </div>
+    <div class="oc-footer">
+      <button class="card-view-btn" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
+      <button class="card-edit-btn" onclick="openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+      <button class="card-del-btn" onclick="deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
+    </div>
+  </div>`;
+}
+function officeRow(o){
+  const tc=TIER_CLASSES[o.tier]||'badge-tier4';
+  const tl=TIER_LABELS[o.tier]||'Tier '+o.tier;
+  const staff=parseInt(o.staff)||0;
+  return `<div class="office-row">
+    <div class="or-flag">${o.flag||'\uD83C\uDFE2'}</div>
+    <div class="or-main"><div class="or-name">${o.country}</div><div class="or-city">${o.city||''}${o.region?' · '+o.region:''}</div>
+      <div class="or-badges"><span class="badge ${statusBadgeClass(o.status)}">${o.status}</span><span class="badge ${tc}">${tl}</span></div>
+    </div>
+    <div class="or-contacts">${o.contacts||'<span style="color:var(--slate2);">—</span>'}</div>
+    <div class="or-stats">
+      <div class="or-stat"><div class="or-stat-n">${staff||'—'}</div><div class="or-stat-l">Staff</div></div>
+    </div>
+    <div class="or-btns">
+      <button class="card-view-btn" style="padding:4px 8px;" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
+      <button class="card-edit-btn" style="padding:4px 8px;" onclick="openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+      <button class="card-del-btn" style="padding:4px 8px;" onclick="deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
+    </div>
+  </div>`;
+}
+
+function setOfficeView(mode,btn){
+  _offViewMode=mode;
+  document.getElementById('offViewGrid').style.background=mode==='grid'?'var(--cyan)':'white';
+  document.getElementById('offViewGrid').style.color=mode==='grid'?'white':'var(--slate)';
+  document.getElementById('offViewList').style.background=mode==='list'?'var(--cyan)':'white';
+  document.getElementById('offViewList').style.color=mode==='list'?'white':'var(--slate)';
+  officeRender();
+}
 function setOfficeStatus(s,el){
-  officeStatusFilter=s;
+  _offStatus=s;
   document.querySelectorAll('#officeStatusChips .modal-chip').forEach(c=>c.classList.remove('on'));
   el.classList.add('on');
-  filterOffices();
-}
-function renderOffices(){
-  const el=document.getElementById('officeFilterChips');
-  el.innerHTML=REGIONS.map(r=>`<div class="modal-chip ${r==='All Regions'?'on':''}" onclick="setOfficeRegion('${r}',this)">${r}</div>`).join('');
-  officeFilter='All Regions';
-  officeStatusFilter='all';
-  document.querySelectorAll('#officeStatusChips .modal-chip').forEach((c,i)=>{c.classList.toggle('on',i===0);});
-  filterOffices();
+  officeRender();
 }
 function setOfficeRegion(r,el){
-  officeFilter=r;
-  document.querySelectorAll('#officeFilterChips .modal-chip').forEach(c=>c.classList.remove('on'));
+  _offRegion=r;
+  document.querySelectorAll('#officeRegionChips .modal-chip').forEach(c=>c.classList.remove('on'));
   el.classList.add('on');
-  filterOffices();
+  officeRender();
 }
-function filterOffices(){
+function renderOffices(){
+  // Build region chips
+  const rc=document.getElementById('officeRegionChips');
+  if(rc) rc.innerHTML=REGIONS.map(r=>`<div class="modal-chip ${r===_offRegion?'on':''}" onclick="setOfficeRegion('${r}',this)">${r}</div>`).join('');
+  officeRender();
+}
+function officeRender(){
   const q=(document.getElementById('officeSearch')?.value||'').toLowerCase();
-  const offices=Object.values(wikiOffices);
-  const filtered=offices.filter(o=>{
-    const regionOk=officeFilter==='All Regions'||(o.region||'')===(officeFilter);
-    const statusOk=officeStatusFilter==='all'||(o.status||'')===(officeStatusFilter);
-    const searchOk=!q||(o.country||'').toLowerCase().includes(q)||(o.city||'').toLowerCase().includes(q)||(o.region||'').toLowerCase().includes(q);
-    return regionOk&&statusOk&&searchOk;
-  });
-  document.getElementById('officeCount').textContent=`Showing ${filtered.length} of ${offices.length} offices`;
-  
-  if(!filtered.length){document.getElementById('officesGrid').innerHTML='<div style="padding:40px;text-align:center;color:var(--slate2);font-size:0.84rem;">No offices match your filters.</div>';return;}
-  
-  document.getElementById('officesGrid').innerHTML=filtered.map(o=>{
-    const tm=TIER_META[o.tier]||TIER_META['4'];
-    const sc=STATUS_COLORS[o.status]||'#94a3b8';
-    const isActive=o.status==='Active';
-    const isInactive=o.status==='Non-Operational';
-    const bannerBg=isActive?'linear-gradient(90deg,#059669,#10b981)':isInactive?'linear-gradient(90deg,#dc2626,#ef4444)':'linear-gradient(90deg,#b45309,#f59e0b)';
-    const bannerIcon=isActive?'fa-check-circle':isInactive?'fa-times-circle':'fa-clock';
-    return`<div class="office-card">
-      <div style="background:${bannerBg};padding:5px 14px;display:flex;align-items:center;gap:6px;font-size:0.67rem;font-weight:700;color:white;letter-spacing:0.04em;text-transform:uppercase;">
-        <i class="fas ${bannerIcon}" style="font-size:0.65rem;opacity:0.9;"></i>${o.status||'Unknown'}
-      </div>
-      <div class="office-top">
-        <div class="office-flag">${o.flag||'\ud83c\udfe2'}</div>
-        <div class="office-country">${o.country}</div>
-        <div class="office-city">${o.city||o.region}</div>
-        <div class="office-badges">
-          <span class="tier-badge" style="background:${tm.bg}22;color:${tm.bg};">${tm.label}</span>
-          <span class="pill pill-navy">${o.type||'B2B'}</span>
+  let data=Object.values(wikiOffices);
+  if(_offRegion&&_offRegion!=='All Regions') data=data.filter(o=>(o.region||'')===_offRegion);
+  if(_offStatus&&_offStatus!=='all') data=data.filter(o=>(o.status||'')===_offStatus);
+  if(q) data=data.filter(o=>(o.country||'').toLowerCase().includes(q)||(o.city||'').toLowerCase().includes(q)||(o.region||'').toLowerCase().includes(q)||(o.contacts||'').toLowerCase().includes(q));
+  const allData=Object.values(wikiOffices);
+  const et=document.getElementById('statTotal'); if(et)et.textContent=allData.length;
+  const ea=document.getElementById('statActive'); if(ea)ea.textContent=allData.filter(o=>o.status==='Active').length;
+  const es=document.getElementById('statStaff'); if(es)es.textContent=allData.reduce((s,o)=>s+(parseInt(o.staff)||0),0).toLocaleString();
+  const main=document.getElementById('mainArea');
+  if(!main)return;
+  if(!data.length){main.innerHTML='<div style="padding:60px;text-align:center;color:var(--slate2);"><i class="fas fa-search" style="font-size:2rem;display:block;margin-bottom:10px;opacity:0.4;"></i>No offices match your filters.</div>';return;}
+  if(_offViewMode==='list'){
+    main.innerHTML=`<div class="offices-list">${data.map(o=>officeRow(o)).join('')}</div>`;
+  } else {
+    const groups={};
+    data.forEach(o=>{if(!groups[o.region])groups[o.region]=[];groups[o.region].push(o);});
+    main.innerHTML=Object.entries(groups).map(([region,offices])=>{
+      const cfg=REGION_CONFIG[region]||{icon:'fa-globe',color:'#475569'};
+      return `<div class="region-section">
+        <div class="region-header">
+          <div class="region-icon" style="background:${cfg.color};"><i class="fas ${cfg.icon}"></i></div>
+          <div class="region-name">${region}</div>
+          <div class="region-line"></div>
+          <div class="region-count">${offices.length} office${offices.length>1?'s':''}</div>
         </div>
-      </div>
-      <div class="office-body">
-        <div class="office-meta">
-          <div class="office-meta-row"><i class="fas fa-globe-europe"></i>${o.region}</div>
-          ${o.contact?`<div class="office-meta-row"><i class="fas fa-user"></i>${o.contact}</div>`:''}
-          ${o.email?`<div class="office-meta-row"><i class="fas fa-envelope"></i><a href="mailto:${o.email}" style="color:var(--cyan);text-decoration:none;">${o.email}</a></div>`:''}
-          ${o.staff?`<div class="office-meta-row"><i class="fas fa-users"></i>${o.staff} staff</div>`:''}
-          ${o.address?`<div class="office-meta-row"><i class="fas fa-map-marker-alt"></i>${o.address}</div>`:''}
-        </div>
-      </div>
-      <div class="office-actions">
-        <button class="office-btn" onclick="openOfficeEdit('${o.id}')"><i class="fas fa-edit"></i> Edit</button>
-        <button class="office-btn del" onclick="deleteOffice('${o.id}')"><i class="fas fa-trash"></i> Remove</button>
-      </div>
-    </div>`;
-  }).join('');
+        <div class="offices-grid">${offices.map(o=>officeCard(o)).join('')}</div>
+      </div>`;
+    }).join('');
+  }
 }
 
-let editingOfficeId=null;
-function openOfficeEdit(id){
-  editingOfficeId=id;
-  const o=id?wikiOffices[id]:null;
-  document.getElementById('oeditTitle').textContent=o?'Edit Office':'Add Office';
-  document.getElementById('oeditId').value=id||'';
-  document.getElementById('oeCountry').value=o?.country||'';
-  document.getElementById('oeCity').value=o?.city||'';
-  document.getElementById('oeRegion').value=o?.region||'Europe';
-  document.getElementById('oeTier').value=o?.tier||'2';
-  document.getElementById('oeStatus').value=o?.status||'Active';
-  document.getElementById('oeType').value=o?.type||'B2B';
-  document.getElementById('oeContact').value=o?.contact||'';
-  document.getElementById('oeEmail').value=o?.email||'';
-  document.getElementById('oeStaff').value=o?.staff||0;
-  document.getElementById('oeFlag').value=o?.flag||'';
-  document.getElementById('oeAddress').value=o?.address||'';
-  document.getElementById('officeEditModal').classList.add('open');
+// ── VIEW MODAL ───────────────────────────────────────────────────────
+function viewOffice(id){
+  const o=wikiOffices[id]; if(!o)return;
+  const staff=parseInt(o.staff)||0;
+  const drivers=parseInt(o.drivers)||0;
+  const tc=TIER_CLASSES[o.tier]||'badge-tier4';
+  const tl=TIER_LABELS[o.tier]||'Tier '+o.tier;
+  const headBg=STATUS_HEAD_BG[o.status]||STATUS_HEAD_BG['Non-Operational'];
+  const capRow=(label,val,icon)=>val==='Yes'
+    ?`<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #f1f5f9;"><i class="fas ${icon}" style="width:14px;color:var(--cyan);font-size:0.72rem;"></i><span style="font-size:0.75rem;color:#374151;">${label}</span><span style="margin-left:auto;font-size:0.65rem;font-weight:700;color:#059669;background:#d1fae5;border-radius:10px;padding:1px 7px;">&#10003;</span></div>`
+    :`<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #f1f5f9;"><i class="fas ${icon}" style="width:14px;color:#cbd5e1;font-size:0.72rem;"></i><span style="font-size:0.75rem;color:#94a3b8;">${label}</span><span style="margin-left:auto;font-size:0.65rem;font-weight:700;color:#94a3b8;background:#f1f5f9;border-radius:10px;padding:1px 7px;">&#8212;</span></div>`;
+  document.getElementById('viewModalContainer').innerHTML=`
+    <div class="view-modal-overlay" onclick="if(event.target===this)closeViewModal()">
+      <div class="view-modal-box">
+        <div class="vm-head" style="background:${headBg};">
+          <div class="vm-flag">${o.flag||'\uD83C\uDFE2'}</div>
+          <div class="vm-info">
+            <div class="vm-country">${o.country}</div>
+            <div class="vm-city">${o.city?' '+o.city+' &middot; ':''} ${o.region||''}</div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">
+              <span class="badge ${statusBadgeClass(o.status)}" style="font-size:0.62rem;">${o.status}</span>
+              <span class="badge ${tc}" style="font-size:0.62rem;">${tl}</span>
+            </div>
+          </div>
+          <button class="vm-close" onclick="closeViewModal()">&#215;</button>
+        </div>
+        <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
+          ${o.contacts?`<div style="background:#f8fafc;border-radius:8px;padding:10px 14px;"><div style="font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:6px;">Key Contacts</div><div style="font-size:0.82rem;font-weight:600;color:#1e293b;">${o.contacts}</div></div>`:''}
+          ${o.address?`<div style="background:#f8fafc;border-radius:8px;padding:10px 14px;"><div style="font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:4px;"><i class="fas fa-map-marker-alt" style="margin-right:4px;"></i>Address</div><div style="font-size:0.78rem;color:#374151;line-height:1.5;">${o.address}</div></div>`:''}
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+            <div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center;"><div style="font-size:1.4rem;font-weight:800;color:var(--cyan);">${staff||'&#8212;'}</div><div style="font-size:0.63rem;color:#64748b;font-weight:600;text-transform:uppercase;">Staff</div></div>
+            <div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center;"><div style="font-size:1.4rem;font-weight:800;color:#b45309;">${drivers||'&#8212;'}</div><div style="font-size:0.63rem;color:#64748b;font-weight:600;text-transform:uppercase;">Drivers</div></div>
+            <div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.78rem;font-weight:700;color:#374151;">${o.physical||'&#8212;'}</div><div style="font-size:0.63rem;color:#64748b;font-weight:600;text-transform:uppercase;">Type</div></div>
+          </div>
+          ${o.purpose?`<div style="background:linear-gradient(135deg,rgba(8,145,178,0.06),rgba(8,145,178,0.02));border:1px solid rgba(8,145,178,0.15);border-radius:8px;padding:10px 14px;"><div style="font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#0891b2;margin-bottom:4px;">Purpose</div><div style="font-size:0.78rem;color:#374151;line-height:1.5;">${o.purpose}</div></div>`:''}
+          <div style="background:#f8fafc;border-radius:8px;padding:10px 14px;">
+            <div style="font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:8px;">Capabilities</div>
+            ${capRow('Inbound Business',o.inbound,'fa-plane-arrival')}
+            ${capRow('Outbound Business',o.outbound,'fa-plane-departure')}
+            ${capRow('Transport / Logistics',o.transport,'fa-bus')}
+            ${capRow('Credits Market',o.credits,'fa-credit-card')}
+          </div>
+        </div>
+        <div class="odoc-section" id="odocSection_${o.id}">
+          <div class="odoc-label"><span><i class="fas fa-paperclip" style="margin-right:5px;"></i>Office Documents</span><span id="odocCount_${o.id}"></span></div>
+          <div class="odoc-upload-row">
+            <label class="odoc-file-label"><i class="fas fa-upload"></i><span id="odocFileName_${o.id}">Choose file&#8230;</span><input type="file" id="odocFile_${o.id}" style="display:none" onchange="document.getElementById('odocFileName_${o.id}').textContent=this.files[0]?.name||'Choose file…'"></label>
+            <input id="odocTitle_${o.id}" placeholder="Label (optional)" style="padding:5px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.72rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;flex:1;min-width:100px;">
+            <button class="odoc-upload-btn" onclick="uploadOfficeDoc('${o.id}')"><i class="fas fa-cloud-upload-alt"></i> Attach</button>
+          </div>
+          <div id="odocList_${o.id}" class="odoc-list"><div class="odoc-empty"><i class="fas fa-folder-open"></i> No documents yet</div></div>
+        </div>
+        <div class="vm-footer">
+          <button onclick="closeViewModal();openEditOffice('${o.id}')" style="flex:1;padding:8px;background:var(--cyan);border:none;border-radius:8px;color:white;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-pen"></i> Edit Office</button>
+          <button onclick="closeViewModal()" style="padding:8px 16px;background:#f1f5f9;border:none;border-radius:8px;color:#475569;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Close</button>
+        </div>
+      </div>
+    </div>`;
+  setTimeout(()=>loadOfficeDocsForModal(id),100);
 }
-function closeOfficeEdit(){document.getElementById('officeEditModal').classList.remove('open');}
+function closeViewModal(){document.getElementById('viewModalContainer').innerHTML='';}
+
+// ── ADD / EDIT MODAL ─────────────────────────────────────────────────
+function openAddOffice(){
+  document.getElementById('officeModal').style.display='flex';
+  document.getElementById('omTitle').textContent='Add Office';
+  document.getElementById('omForm').reset();
+  document.getElementById('omId').value='';
+}
+function openEditOffice(id){
+  const o=wikiOffices[id]; if(!o)return;
+  document.getElementById('officeModal').style.display='flex';
+  document.getElementById('omTitle').textContent='Edit — '+o.country;
+  document.getElementById('omId').value=id;
+  document.getElementById('omCountry').value=o.country||'';
+  document.getElementById('omCity').value=o.city||'';
+  document.getElementById('omFlag').value=o.flag||'';
+  document.getElementById('omRegion').value=o.region||'Europe';
+  document.getElementById('omStatus').value=o.status||'Active';
+  document.getElementById('omContacts').value=o.contacts||'';
+  document.getElementById('omAddress').value=o.address||'';
+  document.getElementById('omStaff').value=o.staff||'0';
+  document.getElementById('omDrivers').value=o.drivers||'0';
+  document.getElementById('omPurpose').value=o.purpose||'';
+  document.getElementById('omMarket').value=o.market||'';
+  document.getElementById('omInbound').checked=o.inbound==='Yes';
+  document.getElementById('omOutbound').checked=o.outbound==='Yes';
+  document.getElementById('omTransport').checked=o.transport==='Yes';
+  document.getElementById('omCredits').checked=o.credits==='Yes';
+  document.getElementById('omPhysical').value=o.physical||'';
+  document.getElementById('omType').value=o.type||'Trip Factory';
+}
+function closeOfficeModal(){document.getElementById('officeModal').style.display='none';}
 async function saveOffice(){
-  const country=document.getElementById('oeCountry').value.trim();
+  const country=document.getElementById('omCountry').value.trim();
   if(!country){toast('Country is required');return;}
-  const id=editingOfficeId||'off_'+Date.now();
-  const o={id,country,city:document.getElementById('oeCity').value.trim(),region:document.getElementById('oeRegion').value,tier:document.getElementById('oeTier').value,status:document.getElementById('oeStatus').value,type:document.getElementById('oeType').value,contact:document.getElementById('oeContact').value.trim(),email:document.getElementById('oeEmail').value.trim(),staff:parseInt(document.getElementById('oeStaff').value)||0,flag:document.getElementById('oeFlag').value.trim(),address:document.getElementById('oeAddress').value.trim(),updatedBy:currentUser,updatedAt:Date.now()};
+  const existingId=document.getElementById('omId').value;
+  const id=existingId||'off_'+Date.now();
+  const o={id,country,
+    city:document.getElementById('omCity').value.trim(),
+    flag:document.getElementById('omFlag').value.trim(),
+    region:document.getElementById('omRegion').value,
+    status:document.getElementById('omStatus').value,
+    contacts:document.getElementById('omContacts').value.trim(),
+    address:document.getElementById('omAddress').value.trim(),
+    staff:document.getElementById('omStaff').value||'0',
+    drivers:document.getElementById('omDrivers').value||'0',
+    purpose:document.getElementById('omPurpose').value.trim(),
+    market:document.getElementById('omMarket').value.trim(),
+    inbound:document.getElementById('omInbound').checked?'Yes':'No',
+    outbound:document.getElementById('omOutbound').checked?'Yes':'No',
+    physical:document.getElementById('omPhysical').value.trim(),
+    transport:document.getElementById('omTransport').checked?'Yes':'No',
+    credits:document.getElementById('omCredits').checked?'Yes':'No',
+    type:document.getElementById('omType').value||'Trip Factory',
+    tier:2
+  };
   wikiOffices[id]=o;
   if(_db)await _db.ref(FB.offices+id).set(o).catch(()=>{});
-  closeOfficeEdit();
-  filterOffices();
-  toast(`${country} office saved`,'ok');
+  closeOfficeModal();
+  officeRender();
+  toast(country+' office saved','ok');
 }
 async function deleteOffice(id){
   const o=wikiOffices[id];
-  if(!confirm(`Remove ${o?.country||'this office'}?`))return;
+  if(!confirm('Remove '+(o?.country||'this office')+'?'))return;
   delete wikiOffices[id];
   if(_db)await _db.ref(FB.offices+id).remove().catch(()=>{});
-  filterOffices();
+  officeRender();
   toast('Office removed');
+}
+
+// ── OFFICE DOCUMENTS ─────────────────────────────────────────────────
+function getFileIcon(name){const ext=(name||'').split('.').pop().toLowerCase();const m={pdf:'fa-file-pdf',doc:'fa-file-word',docx:'fa-file-word',xls:'fa-file-excel',xlsx:'fa-file-excel',ppt:'fa-file-powerpoint',pptx:'fa-file-powerpoint',jpg:'fa-file-image',jpeg:'fa-file-image',png:'fa-file-image',zip:'fa-file-archive',txt:'fa-file-alt',csv:'fa-file-csv'};return m[ext]||'fa-file';}
+function fmtSize(b){if(!b)return'';if(b<1024)return b+'B';if(b<1048576)return Math.round(b/1024)+'KB';return(b/1048576).toFixed(1)+'MB';}
+async function loadOfficeDocsForModal(officeId){
+  const listEl=document.getElementById('odocList_'+officeId);
+  const countEl=document.getElementById('odocCount_'+officeId);
+  if(!listEl)return;
+  if(!_db){listEl.innerHTML='<div class="odoc-empty">Firebase not connected</div>';return;}
+  try{
+    const snap=await _db.ref('tripfactory/wiki-office-docs/'+officeId).once('value');
+    const data=snap.val();
+    if(!data||!Object.keys(data).length){listEl.innerHTML='<div class="odoc-empty"><i class="fas fa-folder-open"></i> No documents yet</div>';if(countEl)countEl.textContent='';return;}
+    const docs=Object.values(data).sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
+    if(countEl)countEl.textContent=docs.length+' file'+(docs.length!==1?'s':'');
+    listEl.innerHTML=docs.map(d=>{
+      const icon=getFileIcon(d.fileName);
+      const date=d.addedAt?new Date(d.addedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
+      return`<div class="odoc-item"><i class="fas ${icon} odoc-item-icon" style="color:#0891b2;"></i><div style="flex:1;min-width:0;"><div class="odoc-item-name">${d.title||d.fileName}</div><div class="odoc-item-meta">${d.fileName}${d.fileSize?' · '+fmtSize(d.fileSize):''}${date?' · '+date:''}</div></div><div class="odoc-item-btns">${d.fileData?`<a class="odoc-dl-btn" href="${d.fileData}" download="${d.fileName}"><i class="fas fa-download"></i> Download</a>`:''}<button class="odoc-del-btn" onclick="deleteOfficeDoc('${officeId}','${d.id}')"><i class="fas fa-trash"></i></button></div></div>`;
+    }).join('');
+  }catch(e){listEl.innerHTML='<div class="odoc-empty">Error loading documents</div>';}
+}
+async function uploadOfficeDoc(officeId){
+  const fileInput=document.getElementById('odocFile_'+officeId);
+  const titleInput=document.getElementById('odocTitle_'+officeId);
+  const uploadBtn=document.querySelector(`#odocSection_${officeId} .odoc-upload-btn`);
+  const file=fileInput?.files?.[0];
+  if(!file){alert('Please choose a file first');return;}
+  if(file.size>50*1024*1024){alert('File too large — max 50MB');return;}
+  if(uploadBtn){uploadBtn.disabled=true;uploadBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Uploading…';}
+  return new Promise((resolve)=>{
+    const reader=new FileReader();
+    reader.onload=async(e)=>{
+      const id='odoc_'+Date.now();
+      const doc={id,officeId,title:titleInput?.value.trim()||file.name,fileName:file.name,fileSize:file.size,fileData:e.target.result,addedBy:currentUser,addedAt:Date.now()};
+      if(_db){try{await _db.ref('tripfactory/wiki-office-docs/'+officeId+'/'+id).set(doc);}catch(err){alert('Upload failed');if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}resolve();return;}}
+      if(fileInput){fileInput.value='';const fn=document.getElementById('odocFileName_'+officeId);if(fn)fn.textContent='Choose file…';}
+      if(titleInput)titleInput.value='';
+      if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
+      await loadOfficeDocsForModal(officeId);
+      resolve();
+    };
+    reader.onerror=()=>{alert('Could not read file');if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}resolve();};
+    reader.readAsDataURL(file);
+  });
+}
+async function deleteOfficeDoc(officeId,docId){
+  if(!confirm('Remove this document?'))return;
+  if(_db)await _db.ref('tripfactory/wiki-office-docs/'+officeId+'/'+docId).remove().catch(()=>{});
+  loadOfficeDocsForModal(officeId);
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -2054,42 +2352,8 @@ function gfRenderAll(){
 }
 
 function renderOfficesGF(){
-  if(!gfIsActive()){ renderOffices(); return; }
-  const offices=Object.values(wikiOffices);
-  const destL=GF.dest.toLowerCase();
-  const offL=GF.office.toLowerCase();
-  const filtered=offices.filter(o=>{
-    const cityC=(o.city||'').toLowerCase();
-    const cntryC=(o.country||'').toLowerCase();
-    const addrC=(o.address||'').toLowerCase();
-    const destOk=!GF.dest||(cityC.includes(destL)||cntryC.includes(destL)||addrC.includes(destL));
-    const offOk =!GF.office||(cityC.includes(offL)||cntryC.includes(offL));
-    return destOk&&offOk;
-  });
-  const grid=document.getElementById('officesGrid');
-  const countEl=document.getElementById('officeCount');
-  if(countEl) countEl.textContent=`Showing ${filtered.length} of ${offices.length} offices (filtered)`;
-  if(!grid) return;
-  if(!filtered.length){grid.innerHTML='<div style="padding:40px;text-align:center;color:var(--slate2);">No offices match the current filter.</div>';return;}
-  // Render using the same card template as renderOffices
-  grid.innerHTML=filtered.map(o=>{
-    const statusCol=o.status==='Active'?'#059669':o.status==='Non-Operational'?'#dc2626':'#b45309';
-    return`<div class="office-card" style="border-top:3px solid ${statusCol};">
-      <div class="office-card-head">
-        <span style="font-size:1.4rem;">${o.flag||'🌍'}</span>
-        <div><div class="office-card-name">${o.city||o.country}</div><div class="office-card-country">${o.country}</div></div>
-        <span style="margin-left:auto;font-size:0.65rem;font-weight:700;color:${statusCol};background:${statusCol}18;padding:2px 7px;border-radius:10px;">${o.status||'—'}</span>
-      </div>
-      <div class="office-card-meta"><i class="fas fa-globe" style="color:var(--cyan)"></i> ${o.region||'—'}</div>
-      <div class="office-card-meta"><i class="fas fa-building" style="color:var(--slate2)"></i> ${o.physical||'—'}</div>
-      ${o.contacts?`<div class="office-card-meta"><i class="fas fa-user" style="color:var(--slate2)"></i> ${o.contacts}</div>`:''}
-      <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
-        ${o.inbound==='Yes'?'<span style="font-size:0.62rem;background:#0891b218;color:#0891b2;border:1px solid #0891b240;padding:1px 6px;border-radius:8px;font-weight:700;">Inbound</span>':''}
-        ${o.outbound==='Yes'?'<span style="font-size:0.62rem;background:#7c3aed18;color:#7c3aed;border:1px solid #7c3aed40;padding:1px 6px;border-radius:8px;font-weight:700;">Outbound</span>':''}
-        ${o.transport==='Yes'?'<span style="font-size:0.62rem;background:#d4145a18;color:#d4145a;border:1px solid #d4145a40;padding:1px 6px;border-radius:8px;font-weight:700;">Transport</span>':''}
-      </div>
-    </div>`;
-  }).join('');
+  // When global filter is active, set temp data and re-render
+  officeRender();
 }
 
 function showTab(id,btn){
