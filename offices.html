@@ -492,7 +492,7 @@ function officeCard(o){
   const staff = parseInt(o.staff)||0;
   const drivers = parseInt(o.drivers)||0;
   return `
-    <div class="office-card ${isActive?'':'non-op'}">
+    <div class="office-card ${isActive?'':'non-op'}" onclick="viewOffice('${o.id}')" style="cursor:pointer;">
       <div class="oc-status-bar ${statusBarClass(o.status)}"></div>
       <div class="oc-top">
         <div class="oc-top-row">
@@ -518,9 +518,8 @@ function officeCard(o){
         <div class="oc-capabilities">${capBadges(o)}</div>
       </div>
       <div class="oc-footer">
-        <button class="card-view-btn" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
-        <button class="card-edit-btn" onclick="openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
-        <button class="card-del-btn" onclick="deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
+        <button class="card-edit-btn" onclick="event.stopPropagation();openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+        <button class="card-del-btn" onclick="event.stopPropagation();deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
       </div>
     </div>`;
 }
@@ -549,9 +548,9 @@ function officeRow(o){
         <div class="or-stat"><div class="or-stat-n">${o.drivers||'—'}</div><div class="or-stat-l">Drivers</div></div>
       </div>
       <div class="or-btns">
-        <button class="card-view-btn" style="padding:4px 8px;" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i></button>
-        <button class="card-edit-btn" style="padding:4px 8px;" onclick="openEditOffice('${o.id}')"><i class="fas fa-pen"></i></button>
-        <button class="card-del-btn" style="padding:4px 8px;" onclick="deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
+        <button class="card-view-btn" style="padding:4px 8px;" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
+        <button class="card-edit-btn" style="padding:4px 8px;" onclick="event.stopPropagation();openEditOffice('${o.id}')"><i class="fas fa-pen"></i></button>
+        <button class="card-del-btn" style="padding:4px 8px;" onclick="event.stopPropagation();deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
       </div>
     </div>`;
 }
