@@ -149,6 +149,8 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
 .card-edit-btn:hover{border-color:var(--cyan);color:var(--cyan);}
 .card-del-btn{padding:5px 10px;border:1px solid #fecaca;border-radius:6px;background:white;font-size:0.7rem;color:#dc2626;cursor:pointer;transition:all 0.15s;}
 .card-del-btn:hover{background:#fef2f2;}
+.card-email-btn{flex:1;padding:5px;border:1px solid #d1fae5;border-radius:6px;background:#ecfdf5;font-size:0.7rem;color:#059669;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all 0.15s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;}
+.card-email-btn:hover{background:#d1fae5;}
 
 /* ── LIST VIEW ── */
 .office-row{background:white;border:1px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:14px;transition:all 0.15s;box-shadow:var(--sh);}
@@ -355,6 +357,16 @@ window.addEventListener('DOMContentLoaded', async () => {
 // Data version — bump this whenever OFFICES array is updated to force re-seed Firebase
 const OFFICES_VERSION = '2025-03-09-v2';
 
+// Extract first email from contacts string, or use contacts as fallback
+function encodeEmail(contacts){
+  if(!contacts) return '';
+  // Look for an email pattern first
+  const emailMatch = contacts.match(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i);
+  if(emailMatch) return emailMatch[0];
+  // Otherwise use the raw contacts string (opens mailto with name)
+  return contacts.split(',')[0].trim();
+}
+
 async function loadOfficesFromDB(){
   if(!_db){ render(); return; }
   try{
@@ -492,7 +504,7 @@ function officeCard(o){
   const staff = parseInt(o.staff)||0;
   const drivers = parseInt(o.drivers)||0;
   return `
-    <div class="office-card ${isActive?'':'non-op'}" onclick="viewOffice('${o.id}')" style="cursor:pointer;">
+    <div class="office-card ${isActive?'':'non-op'}" style="cursor:default;">
       <div class="oc-status-bar ${statusBarClass(o.status)}"></div>
       <div class="oc-top">
         <div class="oc-top-row">
@@ -518,7 +530,9 @@ function officeCard(o){
         <div class="oc-capabilities">${capBadges(o)}</div>
       </div>
       <div class="oc-footer">
+        <button class="card-view-btn" onclick="event.stopPropagation();viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
         <button class="card-edit-btn" onclick="event.stopPropagation();openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+        ${o.contacts?`<a class="card-email-btn" href="mailto:${encodeEmail(o.contacts)}" onclick="event.stopPropagation()" title="Email ${o.contacts}"><i class="fas fa-envelope"></i> Email</a>`:''}
         <button class="card-del-btn" onclick="event.stopPropagation();deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
       </div>
     </div>`;
@@ -549,7 +563,8 @@ function officeRow(o){
       </div>
       <div class="or-btns">
         <button class="card-view-btn" style="padding:4px 8px;" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
-        <button class="card-edit-btn" style="padding:4px 8px;" onclick="event.stopPropagation();openEditOffice('${o.id}')"><i class="fas fa-pen"></i></button>
+        <button class="card-edit-btn" style="padding:4px 8px;" onclick="event.stopPropagation();openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+        ${o.contacts?`<a class="card-email-btn" style="padding:4px 8px;flex:unset;" href="mailto:${encodeEmail(o.contacts)}" title="Email ${o.contacts}"><i class="fas fa-envelope"></i></a>`:''}
         <button class="card-del-btn" style="padding:4px 8px;" onclick="event.stopPropagation();deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
       </div>
     </div>`;
