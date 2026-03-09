@@ -523,6 +523,8 @@ select.oedit-inp{cursor:pointer;}
   <button class="tab-btn" onclick="showTab('values',this)"><i class="fas fa-star"></i> ORN Values</button>
   <button class="tab-btn" onclick="showTab('offices',this)"><i class="fas fa-globe"></i> Worldwide Offices</button>
   <button class="tab-btn" onclick="showTab('documents',this)"><i class="fas fa-folder-open"></i> Document Hub</button>
+  <button class="tab-btn" onclick="showTab('boardmeetings',this)"><i class="fas fa-briefcase"></i> Board Meetings</button>
+  <button class="tab-btn" onclick="showTab('travelplans',this)"><i class="fas fa-plane-departure"></i> Team Travel</button>
   <button class="tab-btn" onclick="showTab('references',this)"><i class="fas fa-link"></i> References</button>
 </div>
 
@@ -758,6 +760,90 @@ select.oedit-inp{cursor:pointer;}
   </div>
   <div class="section-label"><i class="fas fa-folder" style="color:var(--cyan)"></i> Uploaded Documents</div>
   <div class="docs-grid" id="docsGrid"><div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-folder-open" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No documents yet. Upload one above.</div></div>
+</div>
+
+<!-- BOARD MEETINGS TAB -->
+<div class="tab-panel" id="tab-boardmeetings">
+  <div class="page-hero">
+    <h1>Board Meetings</h1>
+    <p>Schedule, track and store board meeting materials — agendas, minutes and supporting documents. All saved to Firebase.</p>
+    <span class="hero-tag"><i class="fas fa-cloud"></i> Saved to Firebase · Shared</span>
+  </div>
+  <div style="background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;">
+    <div class="section-label" style="margin-bottom:14px;"><i class="fas fa-plus-circle" style="color:var(--cyan)"></i> Schedule a Board Meeting</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+      <input id="bmDate" type="date" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;flex:1;min-width:160px;">
+      <input id="bmTitle" placeholder="Meeting title e.g. Q1 2026 Board Review" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;flex:2;min-width:200px;">
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+      <label style="flex:1;min-width:180px;">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--slate2);margin-bottom:4px;">📋 Agenda</div>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.78rem;color:var(--slate);">
+          <i class="fas fa-paperclip"></i><span id="bmAgendaName">Choose file</span>
+          <input type="file" id="bmAgenda" style="display:none" onchange="document.getElementById('bmAgendaName').textContent=this.files[0]?.name||'Choose file'">
+        </label>
+      </label>
+      <label style="flex:1;min-width:180px;">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--slate2);margin-bottom:4px;">📝 Minutes</div>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.78rem;color:var(--slate);">
+          <i class="fas fa-paperclip"></i><span id="bmMinutesName">Choose file</span>
+          <input type="file" id="bmMinutes" style="display:none" onchange="document.getElementById('bmMinutesName').textContent=this.files[0]?.name||'Choose file'">
+        </label>
+      </label>
+      <label style="flex:1;min-width:180px;">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--slate2);margin-bottom:4px;">📎 Additional Documents</div>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.78rem;color:var(--slate);">
+          <i class="fas fa-paperclip"></i><span id="bmExtraName">Choose file</span>
+          <input type="file" id="bmExtra" style="display:none" onchange="document.getElementById('bmExtraName').textContent=this.files[0]?.name||'Choose file'">
+        </label>
+      </label>
+    </div>
+    <button onclick="saveBoardMeeting()" style="background:var(--navy);color:white;border:none;border-radius:8px;padding:10px 22px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-save"></i> Save Board Meeting</button>
+  </div>
+  <div class="section-label"><i class="fas fa-calendar-check" style="color:var(--cyan)"></i> Board Meeting Records</div>
+  <div id="bmGrid" style="display:flex;flex-direction:column;gap:12px;margin-top:12px;"><div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-briefcase" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No board meetings yet.</div></div>
+</div>
+
+<!-- TEAM TRAVEL TAB -->
+<div class="tab-panel" id="tab-travelplans">
+  <div class="page-hero">
+    <h1>Team Travel Plans</h1>
+    <p>Track travel plans for Raj Kumar, Alia Taub and Ajay Kawa. Add trips, view by grid or calendar.</p>
+    <span class="hero-tag"><i class="fas fa-plane"></i> Firebase synced · Leadership only</span>
+  </div>
+  <div style="background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;">
+    <div class="section-label" style="margin-bottom:14px;"><i class="fas fa-plus-circle" style="color:var(--cyan)"></i> Add Travel Plan</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+      <select id="tpPerson" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;flex:1;min-width:160px;">
+        <option value="">Select person...</option>
+        <option value="Raj Kumar">Raj Kumar</option>
+        <option value="Alia Taub">Alia Taub</option>
+        <option value="Ajay Kawa">Ajay Kawa</option>
+      </select>
+      <input id="tpDestination" placeholder="Destination e.g. Bangalore, India" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;flex:2;min-width:200px;">
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+      <div style="flex:1;min-width:140px;"><div style="font-size:0.7rem;font-weight:700;color:var(--slate2);margin-bottom:4px;">Departure</div><input id="tpFrom" type="date" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;box-sizing:border-box;"></div>
+      <div style="flex:1;min-width:140px;"><div style="font-size:0.7rem;font-weight:700;color:var(--slate2);margin-bottom:4px;">Return</div><input id="tpTo" type="date" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;box-sizing:border-box;"></div>
+      <input id="tpPurpose" placeholder="Purpose e.g. Partner meetings" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;flex:2;min-width:200px;">
+    </div>
+    <button onclick="saveTravelPlan()" style="background:var(--navy);color:white;border:none;border-radius:8px;padding:10px 22px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-plus"></i> Add Trip</button>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:16px;align-items:center;flex-wrap:wrap;">
+    <div style="font-size:0.72rem;font-weight:700;color:var(--slate2);margin-right:4px;">Filter:</div>
+    <select id="tpFilterPerson" onchange="renderTravelPlans()" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;outline:none;">
+      <option value="">All travellers</option>
+      <option value="Raj Kumar">Raj Kumar</option>
+      <option value="Alia Taub">Alia Taub</option>
+      <option value="Ajay Kawa">Ajay Kawa</option>
+    </select>
+    <div style="margin-left:auto;display:flex;gap:6px;">
+      <button id="tpBtnGrid" onclick="setTpView('grid',this)" style="padding:6px 14px;border:1.5px solid var(--cyan);border-radius:7px;background:var(--cyan);color:white;font-size:0.75rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-th-large"></i> Grid</button>
+      <button id="tpBtnCal" onclick="setTpView('cal',this)" style="padding:6px 14px;border:1.5px solid var(--border);border-radius:7px;background:white;color:var(--slate);font-size:0.75rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-calendar-alt"></i> Calendar</button>
+    </div>
+  </div>
+  <div id="tpGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;"></div>
+  <div id="tpCal" style="display:none;"></div>
 </div>
 
 <!-- REFERENCES TAB -->
@@ -1821,6 +1907,8 @@ function showTab(id,btn){
   const panel=document.getElementById('tab-'+id);
   if(panel)panel.classList.add('active');
   if(btn)btn.classList.add('active');
+  if(id==='boardmeetings')loadBoardMeetings();
+  if(id==='travelplans')renderTravelPlans();
 }
 
 // ── Auto-login ───────────────────────────────────────────────
@@ -1830,6 +1918,183 @@ function showTab(id,btn){
     if(u&&['Alia Taub','Raj Kumar','Ajay Kawa'].includes(u)){currentUser=u;selUser=u;initFirebase();showWiki();}
   }catch(e){}
 })();
+
+// ══ BOARD MEETINGS ══════════════════════════════════════════
+const FB_BM='tripfactory/wiki-boardmeetings/';
+
+async function fileToB64(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.onerror=rej;
+    r.readAsDataURL(file);
+  });
+}
+
+async function saveBoardMeeting(){
+  const date=document.getElementById('bmDate').value;
+  const title=document.getElementById('bmTitle').value.trim();
+  if(!date||!title){toast('Please set a date and title');return;}
+  const id='bm_'+Date.now();
+  const rec={id,date,title,by:currentUser,ts:Date.now()};
+  const agendaFile=document.getElementById('bmAgenda').files[0];
+  const minutesFile=document.getElementById('bmMinutes').files[0];
+  const extraFile=document.getElementById('bmExtra').files[0];
+  if(agendaFile){if(agendaFile.size>50*1024*1024){toast('Agenda file too large — max 50MB');return;}rec.agenda={name:agendaFile.name,size:agendaFile.size,data:await fileToB64(agendaFile)};}
+  if(minutesFile){if(minutesFile.size>50*1024*1024){toast('Minutes file too large — max 50MB');return;}rec.minutes={name:minutesFile.name,size:minutesFile.size,data:await fileToB64(minutesFile)};}
+  if(extraFile){if(extraFile.size>50*1024*1024){toast('Extra file too large — max 50MB');return;}rec.extra={name:extraFile.name,size:extraFile.size,data:await fileToB64(extraFile)};}
+  if(_db)await _db.ref(FB_BM+id).set(rec).catch(e=>console.error(e));
+  document.getElementById('bmDate').value='';
+  document.getElementById('bmTitle').value='';
+  document.getElementById('bmAgenda').value='';document.getElementById('bmAgendaName').textContent='Choose file';
+  document.getElementById('bmMinutes').value='';document.getElementById('bmMinutesName').textContent='Choose file';
+  document.getElementById('bmExtra').value='';document.getElementById('bmExtraName').textContent='Choose file';
+  toast('Board meeting saved');
+  loadBoardMeetings();
+}
+
+async function loadBoardMeetings(){
+  const grid=document.getElementById('bmGrid');
+  if(!grid)return;
+  if(!_db){grid.innerHTML='<div style="padding:20px;text-align:center;color:var(--slate2);">Not connected to Firebase.</div>';return;}
+  const snap=await _db.ref(FB_BM).once('value').catch(()=>null);
+  const d=snap&&snap.val();
+  if(!d||!Object.keys(d).length){grid.innerHTML='<div style="padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-briefcase" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No board meetings yet.</div>';return;}
+  const meetings=Object.values(d).sort((a,b)=>b.date.localeCompare(a.date));
+  grid.innerHTML=meetings.map(m=>{
+    const fmtDate=new Date(m.date+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    const docBtn=(doc,label,icon)=>doc?`<a href="${doc.data}" download="${doc.name}" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--cyan-light);border:1px solid var(--cyan);border-radius:6px;color:var(--cyan);font-size:0.72rem;font-weight:700;text-decoration:none;"><i class="fas fa-${icon}"></i>${label}</a>`:`<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--slate2);font-size:0.72rem;">No ${label}</span>`;
+    return`<div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+        <div>
+          <div style="font-size:0.9rem;font-weight:700;color:var(--ink);">${m.title}</div>
+          <div style="font-size:0.74rem;color:var(--slate2);margin-top:2px;"><i class="fas fa-calendar"></i> ${fmtDate} · Added by ${m.by||'—'}</div>
+        </div>
+        <button onclick="deleteBoardMeeting('${m.id}')" style="background:none;border:none;color:var(--slate2);cursor:pointer;font-size:0.9rem;padding:2px 6px;border-radius:5px;" title="Delete"><i class="fas fa-trash"></i></button>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${docBtn(m.agenda,'Agenda','clipboard-list')}
+        ${docBtn(m.minutes,'Minutes','pen-nib')}
+        ${docBtn(m.extra,'Documents','paperclip')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function deleteBoardMeeting(id){
+  if(!confirm('Delete this board meeting record?'))return;
+  if(_db)await _db.ref(FB_BM+id).remove().catch(()=>{});
+  toast('Deleted');
+  loadBoardMeetings();
+}
+
+// ══ TEAM TRAVEL PLANS ═══════════════════════════════════════
+const FB_TP='tripfactory/wiki-travelplans/';
+let _tpView='grid';
+
+function setTpView(v,btn){
+  _tpView=v;
+  document.getElementById('tpGrid').style.display=v==='grid'?'grid':'none';
+  document.getElementById('tpCal').style.display=v==='cal'?'block':'none';
+  document.getElementById('tpBtnGrid').style.background=v==='grid'?'var(--cyan)':'white';
+  document.getElementById('tpBtnGrid').style.color=v==='grid'?'white':'var(--slate)';
+  document.getElementById('tpBtnGrid').style.borderColor=v==='grid'?'var(--cyan)':'var(--border)';
+  document.getElementById('tpBtnCal').style.background=v==='cal'?'var(--cyan)':'white';
+  document.getElementById('tpBtnCal').style.color=v==='cal'?'white':'var(--slate)';
+  document.getElementById('tpBtnCal').style.borderColor=v==='cal'?'var(--cyan)':'var(--border)';
+  renderTravelPlans();
+}
+
+async function saveTravelPlan(){
+  const person=document.getElementById('tpPerson').value;
+  const dest=document.getElementById('tpDestination').value.trim();
+  const from=document.getElementById('tpFrom').value;
+  const to=document.getElementById('tpTo').value;
+  const purpose=document.getElementById('tpPurpose').value.trim();
+  if(!person||!dest||!from||!to){toast('Please fill in person, destination and dates');return;}
+  const id='tp_'+Date.now();
+  const rec={id,person,destination:dest,from,to,purpose,by:currentUser,ts:Date.now()};
+  if(_db)await _db.ref(FB_TP+id).set(rec).catch(e=>console.error(e));
+  document.getElementById('tpPerson').value='';
+  document.getElementById('tpDestination').value='';
+  document.getElementById('tpFrom').value='';
+  document.getElementById('tpTo').value='';
+  document.getElementById('tpPurpose').value='';
+  toast('Travel plan added');
+  renderTravelPlans();
+}
+
+const TP_COLOURS={'Raj Kumar':'#0891b2','Alia Taub':'#d4145a','Ajay Kawa':'#7c3aed'};
+const TP_INITIALS={'Raj Kumar':'RK','Alia Taub':'AT','Ajay Kawa':'AK'};
+
+async function renderTravelPlans(){
+  const gridEl=document.getElementById('tpGrid');
+  const calEl=document.getElementById('tpCal');
+  if(!gridEl||!calEl)return;
+  if(!_db){gridEl.innerHTML='<div style="color:var(--slate2);padding:20px;">Not connected.</div>';return;}
+  const snap=await _db.ref(FB_TP).once('value').catch(()=>null);
+  const d=snap&&snap.val();
+  const filterPerson=document.getElementById('tpFilterPerson')?.value||'';
+  let plans=d?Object.values(d):[];
+  if(filterPerson)plans=plans.filter(p=>p.person===filterPerson);
+  plans.sort((a,b)=>a.from.localeCompare(b.from));
+
+  if(_tpView==='grid'){
+    if(!plans.length){gridEl.innerHTML='<div style="grid-column:1/-1;padding:30px;text-align:center;color:var(--slate2);font-size:0.84rem;"><i class="fas fa-plane-departure" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No travel plans yet.</div>';return;}
+    gridEl.innerHTML=plans.map(p=>{
+      const col=TP_COLOURS[p.person]||'#374151';
+      const ini=TP_INITIALS[p.person]||p.person.slice(0,2).toUpperCase();
+      const fmtFrom=new Date(p.from+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+      const fmtTo=new Date(p.to+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+      return`<div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:16px;position:relative;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:${col};color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.78rem;flex-shrink:0;">${ini}</div>
+          <div><div style="font-weight:700;font-size:0.88rem;color:var(--ink);">${p.person}</div><div style="font-size:0.7rem;color:${col};font-weight:600;">${p.destination}</div></div>
+          <button onclick="deleteTravelPlan('${p.id}')" style="position:absolute;top:12px;right:12px;background:none;border:none;color:var(--slate2);cursor:pointer;font-size:0.85rem;" title="Delete"><i class="fas fa-trash"></i></button>
+        </div>
+        <div style="font-size:0.78rem;color:var(--slate);"><i class="fas fa-calendar-alt" style="color:${col};margin-right:4px;"></i>${fmtFrom} – ${fmtTo}</div>
+        ${p.purpose?`<div style="font-size:0.75rem;color:var(--slate2);margin-top:5px;"><i class="fas fa-info-circle" style="margin-right:4px;"></i>${p.purpose}</div>`:''}
+      </div>`;
+    }).join('');
+  } else {
+    // Calendar view
+    const now=new Date();
+    const year=now.getFullYear();const month=now.getMonth();
+    const firstDay=new Date(year,month,1).getDay();
+    const daysInMonth=new Date(year,month+1,0).getDate();
+    const monthName=now.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+    let cal=`<div style="font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:10px;">${monthName}</div>`;
+    cal+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px;">`;
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>cal+=`<div style="text-align:center;font-size:0.65rem;font-weight:700;color:var(--slate2);padding:4px;">${d}</div>`);
+    cal+=`</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">`;
+    for(let i=0;i<(firstDay||7)-1;i++)cal+=`<div></div>`;
+    for(let day=1;day<=daysInMonth;day++){
+      const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const dayPlans=plans.filter(p=>p.from<=dateStr&&p.to>=dateStr);
+      const isToday=day===now.getDate();
+      cal+=`<div style="min-height:52px;border:1px solid var(--border);border-radius:5px;padding:3px;background:${isToday?'var(--cyan-light)':'white'};">
+        <div style="font-size:0.65rem;font-weight:${isToday?'800':'600'};color:${isToday?'var(--cyan)':'var(--slate2)'};">${day}</div>
+        ${dayPlans.map(p=>{const col=TP_COLOURS[p.person]||'#374151';const ini=TP_INITIALS[p.person]||'?';return`<div style="background:${col};color:white;border-radius:3px;padding:1px 4px;font-size:0.6rem;font-weight:700;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${p.person} — ${p.destination}">${ini}</div>`;}).join('')}
+      </div>`;
+    }
+    cal+=`</div>`;
+    if(plans.length){
+      cal+=`<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">`;
+      Object.entries(TP_COLOURS).forEach(([name,col])=>{cal+=`<div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--slate);"><div style="width:10px;height:10px;border-radius:50%;background:${col};"></div>${name}</div>`;});
+      cal+=`</div>`;
+    }
+    calEl.innerHTML=cal;
+  }
+}
+
+async function deleteTravelPlan(id){
+  if(!confirm('Delete this travel plan?'))return;
+  if(_db)await _db.ref(FB_TP+id).remove().catch(()=>{});
+  toast('Deleted');
+  renderTravelPlans();
+}
+
+
 
 </script>
 </body>
