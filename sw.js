@@ -1,5 +1,5 @@
-// ORN Wiki Service Worker v1
-const CACHE = 'orn-wiki-v1';
+// ORN Wiki Service Worker v3
+const CACHE = 'orn-wiki-v3';
 const OFFLINE_URLS = [
   '/tripfactorywiki/index.html',
   '/tripfactorywiki/offices.html',
