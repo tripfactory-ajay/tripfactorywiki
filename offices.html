@@ -192,6 +192,28 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(
   .main{padding:20px 16px;}
   .or-contacts,.or-stats{display:none;}
 }
+
+/* ══ OFFICE DOCUMENTS ═══════════════════════════════════════════ */
+.odoc-section{background:#f8fafc;border-radius:8px;padding:12px 14px;}
+.odoc-label{font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.odoc-upload-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+.odoc-file-label{display:flex;align-items:center;gap:6px;padding:5px 10px;background:white;border:1.5px dashed #cbd5e1;border-radius:7px;font-size:0.72rem;color:#64748b;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all 0.15s;flex:1;min-width:120px;}
+.odoc-file-label:hover{border-color:var(--cyan);color:var(--cyan);}
+.odoc-upload-btn{padding:5px 14px;background:var(--cyan);border:none;border-radius:7px;color:white;font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
+.odoc-upload-btn:hover{background:#0e7490;}
+.odoc-list{display:flex;flex-direction:column;gap:5px;}
+.odoc-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:white;border-radius:7px;border:1px solid #e2e8f0;}
+.odoc-item-icon{font-size:1rem;flex-shrink:0;}
+.odoc-item-name{flex:1;font-size:0.76rem;font-weight:600;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.odoc-item-meta{font-size:0.64rem;color:#94a3b8;white-space:nowrap;}
+.odoc-item-btns{display:flex;gap:4px;flex-shrink:0;}
+.odoc-dl-btn{padding:3px 8px;background:#e0f2fe;border:1px solid #bae6fd;border-radius:5px;font-size:0.65rem;color:#0369a1;cursor:pointer;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:3px;}
+.odoc-dl-btn:hover{background:#bae6fd;}
+.odoc-del-btn{padding:3px 7px;background:white;border:1px solid #fecaca;border-radius:5px;font-size:0.65rem;color:#dc2626;cursor:pointer;}
+.odoc-del-btn:hover{background:#fef2f2;}
+.odoc-empty{text-align:center;padding:14px;color:#94a3b8;font-size:0.75rem;}
+.odoc-uploading{font-size:0.72rem;color:var(--cyan);text-align:center;padding:6px;}
+
 </style>
 </head>
 <body>
@@ -330,6 +352,7 @@ let activeOnly   = false;
 let viewMode     = 'grid';
 let _db = null;
 const FB_OFF = 'tripfactory/wiki-offices/';
+const FB_ODOC = 'tripfactory/wiki-office-docs/';
 
 // ── FIREBASE ─────────────────────────────────────────────────
 try{
@@ -637,15 +660,37 @@ function viewOffice(id){
           </div>
 
         </div>
+          <div class="odoc-section" id="odocSection_${o.id}">
+            <div class="odoc-label">
+              <span><i class="fas fa-paperclip" style="margin-right:5px;"></i>Office Documents</span>
+              <span id="odocCount_${o.id}" style="font-size:0.65rem;color:#cbd5e1;"></span>
+            </div>
+            <div class="odoc-upload-row">
+              <label class="odoc-file-label">
+                <i class="fas fa-upload"></i>
+                <span id="odocFileName_${o.id}">Choose file…</span>
+                <input type="file" id="odocFile_${o.id}" style="display:none" onchange="document.getElementById('odocFileName_${o.id}').textContent=this.files[0]?.name||'Choose file…'">
+              </label>
+              <input id="odocTitle_${o.id}" placeholder="Label (optional)" style="padding:5px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.72rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;flex:1;min-width:100px;">
+              <button class="odoc-upload-btn" onclick="uploadOfficeDoc('${o.id}')"><i class="fas fa-cloud-upload-alt"></i> Attach</button>
+            </div>
+            <div id="odocList_${o.id}" class="odoc-list"><div class="odoc-empty"><i class="fas fa-folder-open"></i> No documents yet</div></div>
+          </div>
+
         <div class="vm-footer">
           <button onclick="closeViewModal();openEditOffice('${o.id}')" style="flex:1;padding:8px;background:var(--cyan);border:none;border-radius:8px;color:white;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-pen"></i> Edit Office</button>
           <button onclick="closeViewModal()" style="padding:8px 16px;background:#f1f5f9;border:none;border-radius:8px;color:#475569;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Close</button>
         </div>
       </div>
     </div>`;
+  setTimeout(()=>_afterViewOffice('${o.id}'),100);
 }
 function closeViewModal(){
   document.getElementById('viewModalContainer').innerHTML='';
+}
+// called after modal HTML is injected
+function _afterViewOffice(id){
+  loadOfficeDocsForModal(id);
 }
 
 // ── EDIT / ADD MODAL ──────────────────────────────────────────
@@ -721,6 +766,119 @@ async function deleteOffice(id){
   if(_db) await _db.ref(FB_OFF+id).remove().catch(()=>{});
   render();
 }
+
+// ══════════════════════════════════════════════════════════════════
+// OFFICE DOCUMENT ATTACHMENTS
+// ══════════════════════════════════════════════════════════════════
+function getFileIcon(name){
+  const ext=(name||'').split('.').pop().toLowerCase();
+  const map={pdf:'fa-file-pdf',doc:'fa-file-word',docx:'fa-file-word',xls:'fa-file-excel',xlsx:'fa-file-excel',
+    ppt:'fa-file-powerpoint',pptx:'fa-file-powerpoint',jpg:'fa-file-image',jpeg:'fa-file-image',
+    png:'fa-file-image',gif:'fa-file-image',zip:'fa-file-archive',rar:'fa-file-archive',txt:'fa-file-alt',csv:'fa-file-csv'};
+  return map[ext]||'fa-file';
+}
+function fmtSize(bytes){
+  if(!bytes)return '';
+  if(bytes<1024)return bytes+'B';
+  if(bytes<1048576)return Math.round(bytes/1024)+'KB';
+  return (bytes/1048576).toFixed(1)+'MB';
+}
+
+async function loadOfficeDocsForModal(officeId){
+  const listEl=document.getElementById('odocList_'+officeId);
+  const countEl=document.getElementById('odocCount_'+officeId);
+  if(!listEl)return;
+  if(!_db){listEl.innerHTML='<div class="odoc-empty">Firebase not connected</div>';return;}
+  try{
+    const snap=await _db.ref(FB_ODOC+officeId).once('value');
+    const data=snap.val();
+    if(!data||!Object.keys(data).length){
+      listEl.innerHTML='<div class="odoc-empty"><i class="fas fa-folder-open"></i> No documents yet</div>';
+      if(countEl)countEl.textContent='';
+      return;
+    }
+    const docs=Object.values(data).sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
+    if(countEl)countEl.textContent=docs.length+' file'+(docs.length!==1?'s':'');
+    listEl.innerHTML=docs.map(d=>{
+      const icon=getFileIcon(d.fileName);
+      const date=d.addedAt?new Date(d.addedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
+      return`<div class="odoc-item">
+        <i class="fas ${icon} odoc-item-icon" style="color:#0891b2;"></i>
+        <div style="flex:1;min-width:0;">
+          <div class="odoc-item-name">${d.title||d.fileName}</div>
+          <div class="odoc-item-meta">${d.fileName}${d.fileSize?' · '+fmtSize(d.fileSize):''}${date?' · '+date:''}</div>
+        </div>
+        <div class="odoc-item-btns">
+          ${d.fileData?`<a class="odoc-dl-btn" href="${d.fileData}" download="${d.fileName}"><i class="fas fa-download"></i> Download</a>`:''}
+          <button class="odoc-del-btn" onclick="deleteOfficeDoc('${officeId}','${d.id}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    listEl.innerHTML='<div class="odoc-empty">Error loading documents</div>';
+    console.error('loadOfficeDocsForModal:',e);
+  }
+}
+
+async function uploadOfficeDoc(officeId){
+  const fileInput=document.getElementById('odocFile_'+officeId);
+  const titleInput=document.getElementById('odocTitle_'+officeId);
+  const listEl=document.getElementById('odocList_'+officeId);
+  const uploadBtn=document.querySelector('.odoc-upload-btn');
+  const file=fileInput?.files?.[0];
+  if(!file){alert('Please choose a file first');return;}
+  if(file.size>10*1024*1024){alert('File too large — max 10MB');return;}
+
+  // Show spinner on button
+  if(uploadBtn){uploadBtn.disabled=true;uploadBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Uploading…';}
+
+  return new Promise((resolve)=>{
+    const reader=new FileReader();
+    reader.onload=async(e)=>{
+      const id='odoc_'+Date.now();
+      const doc={
+        id, officeId,
+        title:titleInput?.value.trim()||file.name,
+        fileName:file.name,
+        fileSize:file.size,
+        fileData:e.target.result,
+        addedBy:localStorage.getItem('orn_wiki_user')||'',
+        addedAt:Date.now()
+      };
+      // Save to Firebase
+      if(_db){
+        try{
+          await _db.ref(FB_ODOC+officeId+'/'+id).set(doc);
+        }catch(err){
+          console.error('Upload Firebase error:',err);
+          alert('Upload failed — Firebase error');
+          if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
+          resolve(); return;
+        }
+      }
+      // Reset inputs
+      if(fileInput){fileInput.value='';const fn=document.getElementById('odocFileName_'+officeId);if(fn)fn.textContent='Choose file…';}
+      if(titleInput)titleInput.value='';
+      if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
+      // Reload from Firebase to confirm
+      await loadOfficeDocsForModal(officeId);
+      resolve();
+    };
+    reader.onerror=()=>{
+      alert('Could not read file');
+      if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
+      resolve();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function deleteOfficeDoc(officeId,docId){
+  if(!confirm('Remove this document?'))return;
+  if(_db)await _db.ref(FB_ODOC+officeId+'/'+docId).remove().catch(()=>{});
+  loadOfficeDocsForModal(officeId);
+}
+
 </script>
 
 <!-- Office Edit Modal — EXACT original form preserved -->
