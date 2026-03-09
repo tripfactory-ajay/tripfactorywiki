@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORN Worldwide Offices</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+:root{
+  --navy:#0c1e35;--navy2:#163352;--navy3:#071526;
+  --magenta:#d4145a;--magenta2:#a8104a;--magenta-light:#fce7f0;
+  --cyan:#0891b2;--cyan2:#0e7490;--cyan-light:#e0f2fe;
+  --gold:#b45309;--gold-light:#fef3c7;
+  --green:#047857;--green-light:#d1fae5;
+  --purple:#6d28d9;--purple-light:#ede9fe;
+  --orange:#c2410c;--orange-light:#ffedd5;
+  --slate:#475569;--slate2:#94a3b8;--slate3:#cbd5e1;
+  --border:#e2e8f0;--border2:#f1f5f9;
+  --bg:#f8fafc;--card:#ffffff;
+  --ink:#0f172a;--ink2:#1e293b;--ink3:#334155;
+  --r:8px;--r-lg:14px;
+  --sh:0 1px 2px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.06);
+  --sh-md:0 4px 16px rgba(0,0,0,0.08);
+  --sh-lg:0 8px 32px rgba(0,0,0,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);}
+
+/* ── TOPBAR ── */
+.topbar{height:56px;background:var(--navy);display:flex;align-items:center;padding:0 20px;gap:16px;flex-shrink:0;position:relative;z-index:300;box-shadow:0 1px 0 rgba(255,255,255,0.05),0 2px 8px rgba(0,0,0,0.3);}
+.topbar-brand{display:flex;align-items:center;gap:9px;}
+.topbar-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--cyan),var(--magenta));border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:1rem;color:white;font-style:italic;flex-shrink:0;}
+.topbar-name{font-size:0.92rem;font-weight:800;color:white;letter-spacing:-0.2px;}
+.topbar-name span{color:rgba(255,255,255,0.4);font-weight:400;}
+.topbar-logos{display:flex;align-items:center;gap:12px;}
+.topbar-logo-img{height:22px;width:auto;opacity:0.75;filter:brightness(1.2);}
+.topbar-sep{width:1px;height:26px;background:rgba(255,255,255,0.08);}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+.topbar-user{display:flex;align-items:center;gap:7px;padding:5px 11px;background:rgba(255,255,255,0.06);border-radius:20px;border:1px solid rgba(255,255,255,0.08);}
+.topbar-user-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
+.topbar-user-name{font-size:0.78rem;color:rgba(255,255,255,0.8);font-weight:500;}
+.topbar-time{font-size:0.75rem;color:rgba(255,255,255,0.35);font-variant-numeric:tabular-nums;}
+.topbar-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);border-radius:7px;padding:5px 11px;font-size:0.72rem;cursor:pointer;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;}
+.topbar-btn:hover{background:rgba(212,20,90,0.2);border-color:var(--magenta);color:white;}
+
+/* ── TAB NAV ── */
+.tab-nav{background:white;border-bottom:1.5px solid var(--border);display:flex;padding:0 16px;overflow-x:auto;flex-shrink:0;z-index:200;position:relative;}
+.tab-nav::-webkit-scrollbar{height:0;}
+.tab-btn{height:44px;padding:0 16px;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.79rem;font-weight:600;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0;margin-bottom:-1.5px;text-decoration:none;}
+.tab-btn i{font-size:0.74rem;}
+.tab-btn:hover{color:var(--ink);background:var(--bg);}
+.tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+
+/* ── OFFICES FILTER BAR ── */
+.offices-filter-bar{background:var(--navy);border-bottom:1.5px solid rgba(255,255,255,0.07);padding:0 20px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+.offices-filter-bar::-webkit-scrollbar{height:0;}
+.offices-stats-row{display:flex;align-items:center;gap:6px;padding:10px 0;margin-right:16px;flex-shrink:0;}
+.ostat{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:8px;border:1px solid transparent;}
+.ostat-cyan{background:rgba(8,145,178,0.12);border-color:rgba(8,145,178,0.25);}
+.ostat-green{background:rgba(4,120,87,0.12);border-color:rgba(4,120,87,0.2);}
+.ostat-pink{background:rgba(212,20,90,0.1);border-color:rgba(212,20,90,0.2);}
+.ostat i{font-size:0.72rem;}
+.ostat-cyan i{color:var(--cyan);}
+.ostat-green i{color:#34d399;}
+.ostat-pink i{color:#f472b6;}
+.ostat span:not(.ostat-l){font-size:0.8rem;font-weight:800;color:white;}
+.ostat-l{font-size:0.68rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;}
+.vsep{width:1px;height:32px;background:rgba(255,255,255,0.08);margin:0 14px;flex-shrink:0;}
+.region-chips{display:flex;align-items:center;gap:4px;padding:10px 0;flex-shrink:0;}
+.chip{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:0.72rem;font-weight:600;color:var(--slate);cursor:pointer;transition:all 0.15s;background:white;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
+.chip:hover,.chip.on{background:var(--navy);border-color:var(--navy);color:white;}
+.active-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0;font-size:0.73rem;color:rgba(255,255,255,0.5);font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;}
+.active-chip.on{background:rgba(4,120,87,0.2);border-color:rgba(52,211,153,0.4);color:#34d399;}
+.search-inp{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 12px 7px 30px;color:white;font-size:0.78rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:190px;transition:all 0.18s;}
+.search-inp:focus{border-color:#0891b2;background:rgba(8,145,178,0.1);}
+.btn-add-office{display:flex;align-items:center;gap:6px;padding:6px 13px;background:rgba(8,145,178,0.15);border:1px solid rgba(8,145,178,0.3);border-radius:8px;color:var(--cyan);font-size:0.73rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;margin-left:8px;transition:all 0.15s;}
+.btn-add-office:hover{background:rgba(8,145,178,0.25);}
+.view-btn{width:30px;height:30px;border:1px solid rgba(255,255,255,0.1);border-radius:7px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.72rem;color:rgba(255,255,255,0.4);transition:all 0.15s;}
+.view-btn.view-btn-on{background:rgba(8,145,178,0.2);border-color:rgba(255,255,255,0.15);color:var(--cyan);}
+
+/* ── MAIN ── */
+.main{max-width:1400px;margin:0 auto;padding:28px 32px;}
+
+/* ── REGION SECTION ── */
+.region-section{margin-bottom:36px;}
+.region-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.region-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;flex-shrink:0;}
+.region-name{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.09em;color:var(--slate);flex:1;}
+.region-count{font-size:0.68rem;color:var(--slate2);font-weight:600;}
+.region-line{flex:1;height:1px;background:var(--border);}
+
+/* ── OFFICE CARDS ── */
+.offices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;}
+.offices-list{display:flex;flex-direction:column;gap:8px;}
+
+.office-card{background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all 0.2s;box-shadow:var(--sh);display:flex;flex-direction:column;}
+.office-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
+.office-card.non-op{opacity:0.72;}
+.office-card.non-op:hover{opacity:1;}
+
+/* Status colour bar on top of card */
+.oc-status-bar{height:3px;width:100%;}
+.oc-status-bar.bar-active{background:linear-gradient(90deg,#059669,#10b981);}
+.oc-status-bar.bar-planning{background:linear-gradient(90deg,#b45309,#f59e0b);}
+.oc-status-bar.bar-nonop{background:linear-gradient(90deg,#dc2626,#ef4444);}
+.oc-status-bar.bar-opportunity{background:linear-gradient(90deg,#6d28d9,#8b5cf6);}
+
+.oc-top{padding:16px 18px 12px;position:relative;}
+.oc-top-row{display:flex;align-items:flex-start;gap:12px;}
+.oc-flag{font-size:2rem;line-height:1;flex-shrink:0;}
+.oc-info{flex:1;min-width:0;}
+.oc-country{font-size:1rem;font-weight:800;color:var(--ink);line-height:1.2;}
+.oc-city{font-size:0.74rem;color:var(--slate2);margin-top:1px;}
+.oc-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
+
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;font-size:0.63rem;font-weight:700;}
+.badge-active{background:#d1fae5;color:#065f46;}
+.badge-nonop{background:#f1f5f9;color:#64748b;}
+.badge-planning{background:#fef3c7;color:#92400e;}
+.badge-opportunity{background:#ede9fe;color:#5b21b6;}
+.badge-tier1{background:#dbeafe;color:#1e40af;}
+.badge-tier2{background:#e0f2fe;color:#0e7490;}
+.badge-tier3{background:#f0fdf4;color:#166534;}
+.badge-tier4{background:#f8fafc;color:#94a3b8;}
+.badge-type{background:#faf5ff;color:#6d28d9;}
+
+.oc-divider{height:1px;background:var(--border);margin:0 18px;}
+
+.oc-body{padding:12px 18px;flex:1;display:flex;flex-direction:column;gap:6px;}
+.oc-row{display:flex;align-items:flex-start;gap:8px;font-size:0.74rem;color:var(--ink3);}
+.oc-row i{color:var(--slate2);font-size:0.65rem;margin-top:2px;width:12px;flex-shrink:0;}
+.oc-row a{color:var(--cyan);text-decoration:none;}
+.oc-row a:hover{text-decoration:underline;}
+.oc-purpose{background:var(--bg);border-left:2.5px solid var(--cyan);border-radius:0 6px 6px 0;padding:7px 10px;font-size:0.72rem;color:var(--slate);line-height:1.5;margin-top:4px;}
+.oc-capabilities{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+.cap-badge{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:4px;}
+.cap-in{background:#dbeafe;color:#1e40af;}
+.cap-out{background:#d1fae5;color:#065f46;}
+.cap-transport{background:#fef3c7;color:#92400e;}
+.cap-physical{background:#faf5ff;color:#6d28d9;}
+.cap-credits{background:#fff7ed;color:#c2410c;}
+
+/* Card footer buttons */
+.oc-footer{display:flex;gap:6px;padding:10px 18px 12px;border-top:1px solid var(--border);}
+.card-view-btn{flex:1;padding:5px;border:1px solid #bae6fd;border-radius:6px;background:#e0f2fe;font-size:0.7rem;color:#0369a1;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all 0.15s;}
+.card-view-btn:hover{background:#bae6fd;}
+.card-edit-btn{flex:1;padding:5px;border:1px solid var(--border);border-radius:6px;background:white;font-size:0.7rem;color:var(--slate);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.15s;}
+.card-edit-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.card-del-btn{padding:5px 10px;border:1px solid #fecaca;border-radius:6px;background:white;font-size:0.7rem;color:#dc2626;cursor:pointer;transition:all 0.15s;}
+.card-del-btn:hover{background:#fef2f2;}
+.card-email-btn{flex:1;padding:5px;border:1px solid #d1fae5;border-radius:6px;background:#ecfdf5;font-size:0.7rem;color:#059669;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all 0.15s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;}
+.card-email-btn:hover{background:#d1fae5;}
+
+/* ── LIST VIEW ── */
+.office-row{background:white;border:1px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:14px;transition:all 0.15s;box-shadow:var(--sh);}
+.office-row:hover{border-color:var(--cyan);box-shadow:var(--sh-md);}
+.or-flag{font-size:1.4rem;flex-shrink:0;}
+.or-main{flex:1;min-width:0;}
+.or-name{font-size:0.88rem;font-weight:700;color:var(--ink);}
+.or-city{font-size:0.72rem;color:var(--slate2);}
+.or-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px;}
+.or-contacts{flex:0 0 220px;font-size:0.72rem;color:var(--slate);line-height:1.4;}
+.or-stats{display:flex;gap:14px;flex-shrink:0;}
+.or-stat{text-align:center;}
+.or-stat-n{font-size:0.85rem;font-weight:700;color:var(--ink);}
+.or-stat-l{font-size:0.6rem;color:var(--slate2);text-transform:uppercase;letter-spacing:0.05em;}
+.or-btns{display:flex;gap:5px;flex-shrink:0;}
+
+/* ── EMPTY ── */
+.empty{padding:60px;text-align:center;color:var(--slate2);}
+.empty i{font-size:2rem;display:block;margin-bottom:10px;opacity:0.4;}
+
+/* ── VIEW MODAL ── */
+.view-modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:20px;}
+.view-modal-box{background:white;border-radius:16px;width:100%;max-width:480px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.3);}
+.vm-head{padding:18px 20px;display:flex;align-items:center;gap:12px;}
+.vm-flag{font-size:2.4rem;line-height:1;}
+.vm-info{flex:1;}
+.vm-country{font-size:1.1rem;font-weight:800;color:white;}
+.vm-city{font-size:0.76rem;color:rgba(255,255,255,0.65);}
+.vm-close{background:rgba(255,255,255,0.2);border:none;border-radius:8px;width:30px;height:30px;color:white;font-size:1.1rem;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;}
+.vm-body{padding:16px 20px;display:flex;flex-direction:column;gap:9px;}
+.vm-row{display:flex;gap:10px;align-items:flex-start;font-size:0.81rem;color:#334155;}
+.vm-row i{color:#94a3b8;margin-top:2px;width:14px;flex-shrink:0;font-size:0.72rem;}
+.vm-purpose{background:#f8fafc;border-left:3px solid var(--cyan);border-radius:0 6px 6px 0;padding:9px 12px;font-size:0.76rem;color:#475569;line-height:1.55;}
+.vm-footer{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--border);}
+
+@media(max-width:768px){
+  .hero{padding:24px 20px 20px;}
+  .toolbar{padding:12px 16px;}
+  .main{padding:20px 16px;}
+  .or-contacts,.or-stats{display:none;}
+}
+
+/* ══ OFFICE DOCUMENTS ═══════════════════════════════════════════ */
+.odoc-section{background:#f8fafc;border-radius:8px;padding:12px 14px;}
+.odoc-label{font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.odoc-upload-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+.odoc-file-label{display:flex;align-items:center;gap:6px;padding:5px 10px;background:white;border:1.5px dashed #cbd5e1;border-radius:7px;font-size:0.72rem;color:#64748b;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all 0.15s;flex:1;min-width:120px;}
+.odoc-file-label:hover{border-color:var(--cyan);color:var(--cyan);}
+.odoc-upload-btn{padding:5px 14px;background:var(--cyan);border:none;border-radius:7px;color:white;font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
+.odoc-upload-btn:hover{background:#0e7490;}
+.odoc-list{display:flex;flex-direction:column;gap:5px;}
+.odoc-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:white;border-radius:7px;border:1px solid #e2e8f0;}
+.odoc-item-icon{font-size:1rem;flex-shrink:0;}
+.odoc-item-name{flex:1;font-size:0.76rem;font-weight:600;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.odoc-item-meta{font-size:0.64rem;color:#94a3b8;white-space:nowrap;}
+.odoc-item-btns{display:flex;gap:4px;flex-shrink:0;}
+.odoc-dl-btn{padding:3px 8px;background:#e0f2fe;border:1px solid #bae6fd;border-radius:5px;font-size:0.65rem;color:#0369a1;cursor:pointer;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:3px;}
+.odoc-dl-btn:hover{background:#bae6fd;}
+.odoc-del-btn{padding:3px 7px;background:white;border:1px solid #fecaca;border-radius:5px;font-size:0.65rem;color:#dc2626;cursor:pointer;}
+.odoc-del-btn:hover{background:#fef2f2;}
+.odoc-empty{text-align:center;padding:14px;color:#94a3b8;font-size:0.75rem;}
+.odoc-uploading{font-size:0.72rem;color:var(--cyan);text-align:center;padding:6px;}
+
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-mark">O</div>
+    <div>
+      <div class="topbar-name">ORN Project Wiki <span>/ Trip Factory</span></div>
+    </div>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="topbar-logos">
+    <img src="Logos/orn-logo.png" class="topbar-logo-img" alt="ORN" onerror="this.style.display='none'">
+    <img src="Logos/tripfactory-logo.png" class="topbar-logo-img" alt="Trip Factory" onerror="this.style.display='none'">
+    <img src="Logos/nexus-logo.png" class="topbar-logo-img" alt="Nexus" onerror="this.style.display='none'">
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-user"><div class="topbar-user-dot"></div><span class="topbar-user-name" id="topUser">—</span></div>
+    <div class="topbar-time" id="topTime">—</div>
+    <button class="topbar-btn" onclick="window.location.href='index.html'"><i class="fas fa-sign-out-alt"></i> Back to Wiki</button>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <a href="index.html" class="tab-btn"><i class="fas fa-home"></i> Overview</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-sitemap"></i> Departments</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-project-diagram"></i> Workflows</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-book-open"></i> Travel Jargon</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-landmark"></i> History</a>
+  <a href="index.html" class="tab-btn"><i class="fas fa-star"></i> ORN Values</a>
+  <a href="offices.html" class="tab-btn active"><i class="fas fa-globe"></i> Worldwide Offices</a>
+  <a href="index.html" class="tab-btn" onclick="sessionStorage.setItem('orn_tab','documents')"><i class="fas fa-folder-open"></i> Document Hub</a>
+  <a href="index.html" class="tab-btn" onclick="sessionStorage.setItem('orn_tab','references')"><i class="fas fa-link"></i> References</a>
+</div>
+
+<!-- FILTER BAR -->
+<div class="offices-filter-bar">
+  <div class="offices-stats-row">
+    <div class="ostat ostat-cyan"><i class="fas fa-globe"></i><span id="statTotal">—</span><span class="ostat-l">Offices</span></div>
+    <div class="ostat ostat-green"><i class="fas fa-check-circle"></i><span id="statActive">—</span><span class="ostat-l">Active</span></div>
+    <div class="ostat ostat-pink"><i class="fas fa-users"></i><span id="statStaff">—</span><span class="ostat-l">Staff</span></div>
+  </div>
+  <div class="vsep"></div>
+  <div id="regionChips" class="region-chips"></div>
+  <div class="vsep"></div>
+  <div id="activeChip" onclick="toggleActive(this)" class="active-chip">
+    <i class="fas fa-circle" style="font-size:0.5rem;color:rgba(255,255,255,0.3);"></i>
+    <span>Active only</span>
+  </div>
+  <div style="flex:1;"></div>
+  <div style="position:relative;">
+    <i class="fas fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);font-size:0.72rem;pointer-events:none;"></i>
+    <input id="searchInp" type="text" oninput="applyFilters()" placeholder="Search offices…" class="search-inp">
+  </div>
+  <button onclick="openAddOffice()" class="btn-add-office"><i class="fas fa-plus"></i> Add Office</button>
+  <div style="display:flex;gap:3px;margin-left:10px;flex-shrink:0;">
+    <button id="btnGrid" onclick="setView('grid',this)" class="view-btn view-btn-on" title="Grid"><i class="fas fa-th-large"></i></button>
+    <button id="btnList" onclick="setView('list',this)" class="view-btn" title="List"><i class="fas fa-list"></i></button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="mainArea"></div>
+
+<!-- VIEW MODAL container -->
+<div id="viewModalContainer"></div>
+
+<!-- Firebase SDKs — load BEFORE any JS that uses firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────
+const OFFICES = [
+  {"id": "off_london", "country": "United Kingdom", "city": "London", "flag": "🇬🇧", "contacts": "Raj Kumar COO , Ajay Kawa Global Business Development  & Alia Taub Chief People Officer", "address": "22 - 25 Portman Close London W1H 6BS", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 4, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Head office for UK & European operations. B2C sales, B2B partnerships, contracting hub.", "credits": "", "tier": 1},
+  {"id": "off_frankfurt", "country": "Germany", "city": "Frankfurt", "flag": "🇩🇪", "contacts": "Moaz Ghani", "address": "Fasanenweg 7E, Fasanenweg 7–9, 65451 Kelsterbach", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Partner office supporting German-speaking market.", "credits": "", "tier": 1},
+  {"id": "off_paris", "country": "France", "city": "Paris", "flag": "🇫🇷", "contacts": "Paolina Zunino and Renaud Lenne", "address": "16, Rue Ferdinand de Lesseps, 95190 Goussainville", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 5, "drivers": 5, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "Yes", "market": "Global", "purpose": "Market opportunity — French-speaking travel market.", "credits": "", "tier": 1},
+  {"id": "off_italy", "country": "Italy", "city": "", "flag": "🇮🇹", "contacts": "Daniele", "address": "Via Mazzini No. 119/C – Cesenatico (FC), Zip Code: 47042", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 6, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Italian market sales partner.", "credits": "", "tier": 1},
+  {"id": "off_prague", "country": "Czech Republic", "city": "Prague", "flag": "🇨🇿", "contacts": "Marta Zizkova", "address": "", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Remote / Virtual", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Czech and Central European market partner.", "credits": "", "tier": 1},
+  {"id": "off_poland", "country": "Poland", "city": "", "flag": "🇵🇱", "contacts": "Krzysztof Jamruszkiewicz", "address": "", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Remote / Virtual", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Polish market partner.", "credits": "", "tier": 1},
+  {"id": "off_slovakia", "country": "Slovakia", "city": "", "flag": "🇸🇰", "contacts": "Adonis", "address": "Nitra, 949 01, Mostná 29", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 8, "physical": "Physical Office", "inbound": "No", "outbound": "No", "transport": "Yes", "market": "Global", "purpose": "Transport and Fleet Operations", "credits": "", "tier": 1},
+  {"id": "off_athens", "country": "Greece", "city": "Athens", "flag": "🇬🇷", "contacts": "Argiris", "address": "", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Greek market partner — outbound and inbound DMC.", "credits": "", "tier": 1},
+  {"id": "off_sofia", "country": "Bulgaria", "city": "Sofia", "flag": "🇧🇬", "contacts": "Adonis", "address": "Sofia, 18 Hristo Belchev Street, Floor 3", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 0, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Bulgarian market sales partner.", "credits": "", "tier": 1},
+  {"id": "off_istanbul", "country": "Turkey", "city": "Istanbul", "flag": "🇹🇷", "contacts": "Baris Intepe", "address": "Maslak mahallesi, Meydan sokak, Veko giz plaza no 3, Office no 3-4, Sarıyer / Istanbul - 34485", "region": "Europe", "type": "Trip Factory", "status": "Active", "staff": 9, "drivers": 0, "physical": "Inbound / Outbound Hub", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Turkish market partner — inbound DMC and outbound sales.", "credits": "", "tier": 1},
+  {"id": "off_dubai", "country": "UAE", "city": "Dubai", "flag": "🇦🇪", "contacts": "Yassir  Ahmed", "address": "WHP2-BLOCK-A COMMERCIAL, Plot No. 13-0, Saih Shuaib 3, Dubai, UAE", "region": "Middle East", "type": "Trip Factory", "status": "Active", "staff": 4, "drivers": 0, "physical": "Inbound / Outbound Hub", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "UAE hub — B2C sales, corporate travel, luxury packages.", "credits": "", "tier": 1},
+  {"id": "off_manama", "country": "Bahrain", "city": "Manama", "flag": "🇧🇭", "contacts": "KK Menon", "address": "Flat/Shop No. - 1607, Building 1565, Road / Street 1722, Diplomatic Area, Block 317, Bahrain", "region": "Middle East", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Admin Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Bahrain partner — Gulf market sales.", "credits": "", "tier": 1},
+  {"id": "off_india", "country": "India", "city": "", "flag": "🇮🇳", "contacts": "Lalitha P", "address": "4th & 5th Floor, RMZ Latitude Commercial Building, Bellary Road, Hebbal, Bangalore - 560092, Karnataka", "region": "South Asia", "type": "Trip Factory", "status": "Active", "staff": 698, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Primary execution hub — Ops, Tech, Finance, HR, Product, Contracting.", "credits": "", "tier": 1},
+  {"id": "off_singapore", "country": "Singapore", "city": "Singapore", "flag": "🇸🇬", "contacts": "Maricar Manalo Chao", "address": "Just Co.,  10, Anson Road #05-00, International Plaza, Singapore - 079903", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 3, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Singapore partner — SEA hub and premium outbound sales.", "credits": "", "tier": 1},
+  {"id": "off_kuala_lumpur", "country": "Malaysia", "city": "Kuala Lumpur", "flag": "🇲🇾", "contacts": "Noor Adilah", "address": "", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 1, "drivers": 0, "physical": "Remote / Virtual", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Malaysian market partner — halal and Muslim-friendly packages.", "credits": "", "tier": 1},
+  {"id": "off_bangkok", "country": "Thailand", "city": "Bangkok", "flag": "🇹🇭", "contacts": "Maricar Manalo Chao", "address": "2 Quant Building , Floor 6, Room 9, Soi Sukhumvit 25, Sukhumvit Road, Khlong Toei Nua, Wattana, Bangkok - 10100", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 7, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Thailand DMC partner — inbound tourism and product contracting.", "credits": "", "tier": 1},
+  {"id": "off_bali", "country": "Indonesia", "city": "Bali", "flag": "🇮🇩", "contacts": "Sachin Kurte", "address": "Park 23 Creative Hub, Jl. Kediri 3rd Floor, Tuban, Kuta, Badung Regency, Bali 80361, Indonesia", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 8, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Indonesia partner — Bali DMC and outbound sales.", "credits": "", "tier": 1},
+  {"id": "off_manila", "country": "Philippines", "city": "Manila", "flag": "🇵🇭", "contacts": "Maricar Manalo Chao", "address": "4/F Unit 2C, One E-com Center Building, Ocean Drive, Mall of Asia Complex, Pasay City, Philippines 1300", "region": "Asia Pacific", "type": "Trip Factory", "status": "Active", "staff": 17, "drivers": 0, "physical": "Inbound / Outbound Hub", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Philippines market partner.", "credits": "", "tier": 1},
+  {"id": "off_united_states", "country": "United States", "city": "", "flag": "🇺🇸", "contacts": "Kirk Demeter, Kerryn Collins", "address": "Everybody's wfh", "region": "Americas", "type": "Trip Factory Partner", "status": "Active", "staff": 64, "drivers": 0, "physical": "Physical Office", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "US market — New York, Seattle, Los Angeles, Texas.", "credits": "", "tier": 2},
+  {"id": "off_lima", "country": "Peru", "city": "Lima", "flag": "🇵🇪", "contacts": "Daniel Rodrigue", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Active", "staff": 30, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Peru market partner.", "credits": "", "tier": 2},
+  {"id": "off_buenos_aires", "country": "Argentina", "city": "Buenos Aires", "flag": "🇦🇷", "contacts": "Maria Noelia Bonvin", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Active", "staff": 6, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Argentina market partner.", "credits": "", "tier": 2},
+  {"id": "off_australia", "country": "Australia", "city": "", "flag": "🇦🇺", "contacts": "Sahil Nijhawan", "address": "Level 1,18-22 Thompson street, South Melbourne, Victoria-3205", "region": "Oceania", "type": "Trip Factory Partner", "status": "Active", "staff": 23, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Australia partner — Indian diaspora and mainstream outbound.", "credits": "", "tier": 2},
+  {"id": "off_spain", "country": "Spain", "city": "", "flag": "🇪🇸", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Spanish market partner network.", "credits": "", "tier": 3},
+  {"id": "off_switzerland", "country": "Switzerland", "city": "", "flag": "🇨🇭", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Swiss market partner — premium travel segment.", "credits": "", "tier": 3},
+  {"id": "off_dublin", "country": "Ireland", "city": "Dublin", "flag": "🇮🇪", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Irish market sales operations.", "credits": "", "tier": 3},
+  {"id": "off_vienna", "country": "Austria", "city": "Vienna", "flag": "🇦🇹", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Austrian market partner.", "credits": "", "tier": 3},
+  {"id": "off_croatia", "country": "Croatia", "city": "", "flag": "🇭🇷", "contacts": "", "address": "", "region": "Europe", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Croatian market presence and DMC.", "credits": "", "tier": 3},
+  {"id": "off_doha", "country": "Qatar", "city": "Doha", "flag": "🇶🇦", "contacts": "", "address": "", "region": "Middle East", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Qatar partner operations.", "credits": "", "tier": 3},
+  {"id": "off_kuwait", "country": "Oman", "city": "kuwait", "flag": "🇴🇲", "contacts": "", "address": "", "region": "Middle East", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Oman market partner.", "credits": "", "tier": 3},
+  {"id": "off_hong_kong", "country": "Hong Kong", "city": "Hong Kong", "flag": "🇭🇰", "contacts": "", "address": "", "region": "Asia Pacific", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Hong Kong partner — premium outbound sales.", "credits": "", "tier": 3},
+  {"id": "off_mexico_city", "country": "Mexico", "city": "Mexico City", "flag": "🇲🇽", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Mexico market opportunity.", "credits": "", "tier": 3},
+  {"id": "off_s_o_paulo", "country": "Brazil", "city": "São Paulo", "flag": "🇧🇷", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Brazil partner — South American market hub.", "credits": "", "tier": 3},
+  {"id": "off_bogot", "country": "Colombia", "city": "Bogotá", "flag": "🇨🇴", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Colombia market partner.", "credits": "", "tier": 3},
+  {"id": "off_quito", "country": "Ecuador", "city": "Quito", "flag": "🇪🇨", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Ecuador market presence.", "credits": "", "tier": 3},
+  {"id": "off_santiago", "country": "Chile", "city": "Santiago", "flag": "🇨🇱", "contacts": "", "address": "", "region": "Americas", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "Chile market partner.", "credits": "", "tier": 3},
+  {"id": "off_auckland", "country": "New Zealand", "city": "Auckland", "flag": "🇳🇿", "contacts": "Sahil Nijhawan", "address": "", "region": "Oceania", "type": "Trip Factory Partner", "status": "Non-Operational", "staff": 0, "drivers": 0, "physical": "", "inbound": "Yes", "outbound": "Yes", "transport": "No", "market": "Global", "purpose": "New Zealand market opportunity.", "credits": "", "tier": 3},
+];
+
+// ── CONFIG ────────────────────────────────────────────────────
+const REGION_CONFIG = {
+  'Europe':       { icon:'fa-landmark',      color:'#1d4ed8' },
+  'Middle East':  { icon:'fa-mosque',        color:'#b45309' },
+  'South Asia':   { icon:'fa-building',      color:'#d4145a' },
+  'Asia Pacific': { icon:'fa-torii-gate',    color:'#059669' },
+  'Americas':     { icon:'fa-globe-americas',color:'#7c3aed' },
+  'Oceania':      { icon:'fa-water',         color:'#0891b2' },
+};
+const TIER_LABELS  = {1:'Strategic HQ',2:'Active Market',3:'Emerging',4:'Pipeline'};
+const TIER_CLASSES = {1:'badge-tier1',2:'badge-tier2',3:'badge-tier3',4:'badge-tier4'};
+const STATUS_HEAD_BG = {
+  'Active':          'linear-gradient(135deg,#047857,#059669)',
+  'Non-Operational': 'linear-gradient(135deg,#991b1b,#dc2626)',
+  'Planning':        'linear-gradient(135deg,#92400e,#b45309)',
+};
+
+// ── STATE ─────────────────────────────────────────────────────
+let activeRegion = 'All';
+let activeOnly   = false;
+let viewMode     = 'grid';
+let _db = null;
+const FB_OFF = 'tripfactory/wiki-offices/';
+const FB_ODOC = 'tripfactory/wiki-office-docs/';
+
+// ── FIREBASE ─────────────────────────────────────────────────
+try{
+  const cfg={
+    apiKey:"AIzaSyCJXOlSMyFlrcnQ2air1h1dbhFqLxXzOdI",
+    authDomain:"orn-wiki.firebaseapp.com",
+    databaseURL:"https://orn-wiki-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId:"orn-wiki",storageBucket:"orn-wiki.appspot.com",
+    messagingSenderId:"1043625862507",appId:"1:1043625862507:web:placeholder"
+  };
+  if(!firebase.apps.length) firebase.initializeApp(cfg);
+  _db = firebase.database();
+}catch(e){console.warn('Firebase init:',e);}
+
+// ── INIT ─────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  buildRegionChips();
+  await loadOfficesFromDB();
+  render();
+  const tick=()=>{const el=document.getElementById('topTime');if(el)el.textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});};
+  tick();setInterval(tick,1000);
+  try{const u=localStorage.getItem('orn_wiki_user')||sessionStorage.getItem('orn_wiki_user')||'';const el=document.getElementById('topUser');if(el&&u)el.textContent=u;}catch(e){}
+});
+
+// Data version — bump this whenever OFFICES array is updated to force re-seed Firebase
+const OFFICES_VERSION = '2025-03-09-v2';
+
+// Extract first email from contacts string, or use contacts as fallback
+function encodeEmail(contacts){
+  if(!contacts) return '';
+  // Look for an email pattern first
+  const emailMatch = contacts.match(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i);
+  if(emailMatch) return emailMatch[0];
+  // Otherwise use the raw contacts string (opens mailto with name)
+  return contacts.split(',')[0].trim();
+}
+
+async function loadOfficesFromDB(){
+  if(!_db){ render(); return; }
+  try{
+    // Check if Firebase has the current version
+    const verSnap = await _db.ref('tripfactory/wiki-offices-version').once('value');
+    const storedVer = verSnap.val();
+    if(storedVer !== OFFICES_VERSION){
+      // New version — push hardcoded data to Firebase
+      const seed={};OFFICES.forEach(o=>{seed[o.id]=o;});
+      await _db.ref(FB_OFF).set(seed).catch(()=>{});
+      await _db.ref('tripfactory/wiki-offices-version').set(OFFICES_VERSION).catch(()=>{});
+      console.log('Offices re-seeded to version', OFFICES_VERSION);
+    } else {
+      // Version matches — load from Firebase
+      const snap=await _db.ref(FB_OFF).once('value');
+      const d=snap.val();
+      if(d&&Object.keys(d).length>0){
+        OFFICES.length=0;
+        Object.values(d).forEach(o=>OFFICES.push(o));
+      }
+    }
+  }catch(e){
+    console.warn('loadOfficesFromDB:',e);
+  }
+}
+
+// ── REGION CHIPS ─────────────────────────────────────────────
+function buildRegionChips(){
+  const regions = ['All', ...Object.keys(REGION_CONFIG)];
+  document.getElementById('regionChips').innerHTML = regions.map(r =>
+    `<div class="chip ${r==='All'?'on':''}" onclick="setRegion('${r}',this)">${r==='All'?'All Regions':r}</div>`
+  ).join('');
+}
+
+// ── FILTERS ──────────────────────────────────────────────────
+function setRegion(r, el){
+  activeRegion = r;
+  document.querySelectorAll('#regionChips .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  render();
+}
+function toggleActive(el){
+  activeOnly = !activeOnly;
+  el.classList.toggle('on', activeOnly);
+  render();
+}
+function applyFilters(){ render(); }
+function setView(v, btn){
+  viewMode = v;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('view-btn-on'));
+  btn.classList.add('view-btn-on');
+  render();
+}
+function filtered(){
+  const q = (document.getElementById('searchInp')?.value||'').toLowerCase().trim();
+  return OFFICES.filter(o => {
+    if(activeOnly && o.status !== 'Active') return false;
+    if(activeRegion !== 'All' && o.region !== activeRegion) return false;
+    if(q){
+      const hay = [o.country,o.city,o.region,o.contacts,o.address,o.purpose,o.market,o.email].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+// ── RENDER ────────────────────────────────────────────────────
+function render(){
+  const data = filtered();
+  const shownActive = data.filter(o=>o.status==='Active').length;
+  const shownStaff  = data.reduce((s,o)=>s+(parseInt(o.staff)||0),0);
+  const et=document.getElementById('statTotal');   if(et) et.textContent=data.length;
+  const ea=document.getElementById('statActive');  if(ea) ea.textContent=shownActive;
+  const es=document.getElementById('statStaff');   if(es) es.textContent=shownStaff.toLocaleString();
+  if(!data.length){
+    document.getElementById('mainArea').innerHTML = `<div class="empty"><i class="fas fa-search"></i>No offices match your filters.</div>`;
+    return;
+  }
+  if(viewMode === 'list'){ renderList(data); } else { renderGrid(data); }
+}
+
+function renderGrid(data){
+  const groups = {};
+  data.forEach(o => {
+    if(!groups[o.region]) groups[o.region] = [];
+    groups[o.region].push(o);
+  });
+  document.getElementById('mainArea').innerHTML = Object.entries(groups).map(([region, offices]) => {
+    const cfg = REGION_CONFIG[region] || {icon:'fa-globe',color:'#475569'};
+    return `
+      <div class="region-section">
+        <div class="region-header">
+          <div class="region-icon" style="background:${cfg.color};"><i class="fas ${cfg.icon}"></i></div>
+          <div class="region-name">${region}</div>
+          <div class="region-line"></div>
+          <div class="region-count">${offices.length} office${offices.length>1?'s':''}</div>
+        </div>
+        <div class="offices-grid">${offices.map(o => officeCard(o)).join('')}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderList(data){
+  document.getElementById('mainArea').innerHTML = `<div class="offices-list">${data.map(o => officeRow(o)).join('')}</div>`;
+}
+
+// ── BADGE HELPERS ─────────────────────────────────────────────
+function statusBadgeClass(s){
+  if(s==='Active') return 'badge-active';
+  if(s==='Non-Operational') return 'badge-nonop';
+  if(s==='Planning') return 'badge-planning';
+  return 'badge-opportunity';
+}
+function statusBarClass(s){
+  if(s==='Active') return 'bar-active';
+  if(s==='Non-Operational') return 'bar-nonop';
+  if(s==='Planning') return 'bar-planning';
+  return 'bar-opportunity';
+}
+function capBadges(o){
+  const caps = [];
+  if(o.physical==='Yes')  caps.push(`<span class="cap-badge cap-physical">📍 Physical</span>`);
+  if(o.inbound==='Yes')   caps.push(`<span class="cap-badge cap-in">↙ Inbound</span>`);
+  if(o.outbound==='Yes')  caps.push(`<span class="cap-badge cap-out">↗ Outbound</span>`);
+  if(o.transport==='Yes') caps.push(`<span class="cap-badge cap-transport">🚌 Transport</span>`);
+  if(o.credits==='Yes')   caps.push(`<span class="cap-badge cap-credits">💳 Credits</span>`);
+  return caps.join('');
+}
+
+// ── OFFICE CARD ───────────────────────────────────────────────
+function officeCard(o){
+  const tc  = TIER_CLASSES[o.tier] || 'badge-tier4';
+  const tl  = TIER_LABELS[o.tier]  || 'Tier '+o.tier;
+  const isActive = o.status === 'Active';
+  const staff = parseInt(o.staff)||0;
+  const drivers = parseInt(o.drivers)||0;
+  return `
+    <div class="office-card ${isActive?'':'non-op'}" style="cursor:default;">
+      <div class="oc-status-bar ${statusBarClass(o.status)}"></div>
+      <div class="oc-top">
+        <div class="oc-top-row">
+          <div class="oc-flag">${o.flag||'🏢'}</div>
+          <div class="oc-info">
+            <div class="oc-country">${o.country}</div>
+            <div class="oc-city">${o.city||o.region}</div>
+            <div class="oc-badges">
+              <span class="badge ${statusBadgeClass(o.status)}">${o.status}</span>
+              <span class="badge ${tc}">${tl}</span>
+              ${o.type?`<span class="badge badge-type" style="font-size:0.6rem;">${o.type}</span>`:''}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="oc-divider"></div>
+      <div class="oc-body">
+        ${o.contacts ? `<div class="oc-row"><i class="fas fa-user-tie"></i><span style="font-size:0.73rem;">${o.contacts}</span></div>` : ''}
+        ${o.address  ? `<div class="oc-row"><i class="fas fa-map-marker-alt"></i><span style="font-size:0.71rem;color:var(--slate2);">${o.address}</span></div>` : ''}
+        ${staff > 0 || drivers > 0 ? `<div class="oc-row"><i class="fas fa-users"></i><span>${staff>0?staff+' staff':''}${staff>0&&drivers>0?' · ':''}${drivers>0?drivers+' drivers':''}</span></div>` : ''}
+        ${o.physical ? `<div class="oc-row"><i class="fas fa-building"></i><span style="font-size:0.71rem;">${o.physical}</span></div>` : ''}
+        ${o.purpose  ? `<div class="oc-purpose">${o.purpose}</div>` : ''}
+        <div class="oc-capabilities">${capBadges(o)}</div>
+      </div>
+      <div class="oc-footer">
+        <button class="card-view-btn" onclick="event.stopPropagation();viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
+        <button class="card-edit-btn" onclick="event.stopPropagation();openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+        ${o.contacts?`<a class="card-email-btn" href="mailto:${encodeEmail(o.contacts)}" onclick="event.stopPropagation()" title="Email ${o.contacts}"><i class="fas fa-envelope"></i> Email</a>`:''}
+        <button class="card-del-btn" onclick="event.stopPropagation();deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`;
+}
+
+// ── OFFICE ROW (list view) ────────────────────────────────────
+function officeRow(o){
+  const tc = TIER_CLASSES[o.tier] || 'badge-tier4';
+  const tl = TIER_LABELS[o.tier]  || 'Tier '+o.tier;
+  const isActive = o.status === 'Active';
+  const staff = parseInt(o.staff)||0;
+  return `
+    <div class="office-row">
+      <div class="or-flag">${o.flag||'🏢'}</div>
+      <div class="or-main">
+        <div class="or-name">${o.country}</div>
+        <div class="or-city">${o.city||''}${o.region?' · '+o.region:''}</div>
+        <div class="or-badges">
+          <span class="badge ${statusBadgeClass(o.status)}">${o.status}</span>
+          <span class="badge ${tc}">${tl}</span>
+          ${o.type?`<span class="badge badge-type">${o.type}</span>`:''}
+        </div>
+      </div>
+      <div class="or-contacts">${o.contacts||'<span style="color:var(--slate2);">Contact TBC</span>'}${o.address?'<div style="margin-top:2px;color:var(--slate2);font-size:0.68rem;"><i class="fas fa-map-marker-alt" style="margin-right:3px;"></i>'+o.address+'</div>':''}</div>
+      <div class="or-stats">
+        <div class="or-stat"><div class="or-stat-n">${staff||'—'}</div><div class="or-stat-l">Staff</div></div>
+        <div class="or-stat"><div class="or-stat-n">${o.drivers||'—'}</div><div class="or-stat-l">Drivers</div></div>
+      </div>
+      <div class="or-btns">
+        <button class="card-view-btn" style="padding:4px 8px;" onclick="viewOffice('${o.id}')"><i class="fas fa-eye"></i> View</button>
+        <button class="card-edit-btn" style="padding:4px 8px;" onclick="event.stopPropagation();openEditOffice('${o.id}')"><i class="fas fa-pen"></i> Edit</button>
+        ${o.contacts?`<a class="card-email-btn" style="padding:4px 8px;flex:unset;" href="mailto:${encodeEmail(o.contacts)}" title="Email ${o.contacts}"><i class="fas fa-envelope"></i></a>`:''}
+        <button class="card-del-btn" style="padding:4px 8px;" onclick="event.stopPropagation();deleteOffice('${o.id}')"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`;
+}
+
+// ── VIEW MODAL ────────────────────────────────────────────────
+function viewOffice(id){
+  const o=OFFICES.find(x=>x.id===id); if(!o) return;
+  const staff=parseInt(o.staff)||0;
+  const drivers=parseInt(o.drivers)||0;
+  const tc=TIER_CLASSES[o.tier]||'badge-tier4';
+  const tl=TIER_LABELS[o.tier]||'Tier '+o.tier;
+  const headBg=STATUS_HEAD_BG[o.status]||STATUS_HEAD_BG['Non-Operational'];
+  const capRow=(label,val,icon)=>val==='Yes'?`<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #f1f5f9;"><i class="fas ${icon}" style="width:14px;color:var(--cyan);font-size:0.72rem;"></i><span style="font-size:0.75rem;color:#374151;">${label}</span><span style="margin-left:auto;font-size:0.65rem;font-weight:700;color:#059669;background:#d1fae5;border-radius:10px;padding:1px 7px;">✓</span></div>`:
+    `<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #f1f5f9;"><i class="fas ${icon}" style="width:14px;color:#cbd5e1;font-size:0.72rem;"></i><span style="font-size:0.75rem;color:#94a3b8;">${label}</span><span style="margin-left:auto;font-size:0.65rem;font-weight:700;color:#94a3b8;background:#f1f5f9;border-radius:10px;padding:1px 7px;">—</span></div>`;
+  document.getElementById('viewModalContainer').innerHTML=`
+    <div class="view-modal-overlay" onclick="if(event.target===this)closeViewModal()">
+      <div class="view-modal-box" style="max-width:520px;">
+        <div class="vm-head" style="background:${headBg}">
+          <div class="vm-flag" style="font-size:2.4rem;">${o.flag||'🏢'}</div>
+          <div class="vm-info" style="flex:1;">
+            <div class="vm-country" style="font-size:1.15rem;">${o.country}</div>
+            <div class="vm-city" style="opacity:0.75;">${o.city&&o.city!=='Multiple'?o.city+' · ':''}${o.region}</div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">
+              <span class="badge ${statusBadgeClass(o.status)}" style="font-size:0.62rem;">${o.status}</span>
+              <span class="badge ${tc}" style="font-size:0.62rem;">${tl}</span>
+              ${o.type?`<span class="badge badge-type" style="font-size:0.6rem;">${o.type}</span>`:''}
+            </div>
+          </div>
+          <button class="vm-close" onclick="closeViewModal()">×</button>
+        </div>
+        <div class="vm-body" style="padding:18px 20px;display:flex;flex-direction:column;gap:12px;">
+
+          ${o.contacts?`<div style="background:#f8fafc;border-radius:8px;padding:10px 14px;">
+            <div style="font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:6px;">Key Contacts</div>
+            <div style="font-size:0.82rem;font-weight:600;color:#1e293b;">${o.contacts}</div>
+          </div>`:''}
+
+          ${o.address?`<div style="background:#f8fafc;border-radius:8px;padding:10px 14px;">
+            <div style="font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:4px;"><i class="fas fa-map-marker-alt" style="margin-right:4px;"></i>Address</div>
+            <div style="font-size:0.78rem;color:#374151;line-height:1.5;">${o.address}</div>
+          </div>`:''}
+
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+            <div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center;">
+              <div style="font-size:1.4rem;font-weight:800;color:var(--cyan);">${staff||'—'}</div>
+              <div style="font-size:0.63rem;color:#64748b;font-weight:600;text-transform:uppercase;">Staff</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center;">
+              <div style="font-size:1.4rem;font-weight:800;color:#b45309;">${drivers||'—'}</div>
+              <div style="font-size:0.63rem;color:#64748b;font-weight:600;text-transform:uppercase;">Drivers</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center;">
+              <div style="font-size:0.78rem;font-weight:700;color:#374151;">${o.physical||'—'}</div>
+              <div style="font-size:0.63rem;color:#64748b;font-weight:600;text-transform:uppercase;">Location Type</div>
+            </div>
+          </div>
+
+          ${o.purpose?`<div style="background:linear-gradient(135deg,rgba(8,145,178,0.06),rgba(8,145,178,0.02));border:1px solid rgba(8,145,178,0.15);border-radius:8px;padding:10px 14px;">
+            <div style="font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#0891b2;margin-bottom:4px;">Purpose</div>
+            <div style="font-size:0.78rem;color:#374151;line-height:1.5;">${o.purpose}</div>
+          </div>`:''}
+
+          <div style="background:#f8fafc;border-radius:8px;padding:10px 14px;">
+            <div style="font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:8px;">Capabilities</div>
+            ${capRow('Inbound Business',o.inbound,'fa-plane-arrival')}
+            ${capRow('Outbound Business',o.outbound,'fa-plane-departure')}
+            ${capRow('Transport / Logistics',o.transport,'fa-bus')}
+            ${capRow('Credits Market',o.credits,'fa-credit-card')}
+          </div>
+
+        </div>
+          <div class="odoc-section" id="odocSection_${o.id}">
+            <div class="odoc-label">
+              <span><i class="fas fa-paperclip" style="margin-right:5px;"></i>Office Documents</span>
+              <span id="odocCount_${o.id}" style="font-size:0.65rem;color:#cbd5e1;"></span>
+            </div>
+            <div class="odoc-upload-row">
+              <label class="odoc-file-label">
+                <i class="fas fa-upload"></i>
+                <span id="odocFileName_${o.id}">Choose file…</span>
+                <input type="file" id="odocFile_${o.id}" style="display:none" onchange="document.getElementById('odocFileName_${o.id}').textContent=this.files[0]?.name||'Choose file…'">
+              </label>
+              <input id="odocTitle_${o.id}" placeholder="Label (optional)" style="padding:5px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.72rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;flex:1;min-width:100px;">
+              <button class="odoc-upload-btn" onclick="uploadOfficeDoc('${o.id}')"><i class="fas fa-cloud-upload-alt"></i> Attach</button>
+            </div>
+            <div id="odocList_${o.id}" class="odoc-list"><div class="odoc-empty"><i class="fas fa-folder-open"></i> No documents yet</div></div>
+          </div>
+
+        <div class="vm-footer">
+          <button onclick="closeViewModal();openEditOffice('${o.id}')" style="flex:1;padding:8px;background:var(--cyan);border:none;border-radius:8px;color:white;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-pen"></i> Edit Office</button>
+          <button onclick="closeViewModal()" style="padding:8px 16px;background:#f1f5f9;border:none;border-radius:8px;color:#475569;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Close</button>
+        </div>
+      </div>
+    </div>`;
+  setTimeout(()=>_afterViewOffice('${o.id}'),100);
+}
+function closeViewModal(){
+  document.getElementById('viewModalContainer').innerHTML='';
+}
+// called after modal HTML is injected
+function _afterViewOffice(id){
+  loadOfficeDocsForModal(id);
+}
+
+// ── EDIT / ADD MODAL ──────────────────────────────────────────
+function openAddOffice(){
+  document.getElementById('officeModal').style.display='flex';
+  document.getElementById('omTitle').textContent='Add Office';
+  document.getElementById('omForm').reset();
+  document.getElementById('omId').value='';
+}
+function openEditOffice(id){
+  const o=OFFICES.find(x=>x.id===id); if(!o) return;
+  document.getElementById('officeModal').style.display='flex';
+  document.getElementById('omTitle').textContent='Edit — '+o.country;
+  document.getElementById('omId').value=id;
+  document.getElementById('omCountry').value=o.country||'';
+  document.getElementById('omCity').value=o.city||'';
+  document.getElementById('omFlag').value=o.flag||'';
+  document.getElementById('omRegion').value=o.region||'Europe';
+  document.getElementById('omStatus').value=o.status||'Active';
+  document.getElementById('omContacts').value=o.contacts||'';
+  document.getElementById('omAddress').value=o.address||'';
+  document.getElementById('omStaff').value=o.staff||'0';
+  document.getElementById('omDrivers').value=o.drivers||'0';
+  document.getElementById('omPurpose').value=o.purpose||'';
+  document.getElementById('omMarket').value=o.market||'';
+  document.getElementById('omInbound').checked=o.inbound==='Yes';
+  document.getElementById('omOutbound').checked=o.outbound==='Yes';
+  document.getElementById('omTransport').checked=o.transport==='Yes';
+  document.getElementById('omCredits').checked=o.credits==='Yes';
+  document.getElementById('omPhysical').value=o.physical||''
+  document.getElementById('omType').value=o.type||'Trip Factory';
+}
+function closeOfficeModal(){
+  document.getElementById('officeModal').style.display='none';
+}
+async function saveOffice(){
+  const country=document.getElementById('omCountry').value.trim();
+  if(!country){alert('Country is required');return;}
+  const existingId=document.getElementById('omId').value;
+  const id=existingId||'off_'+Date.now();
+  const o={id,country,
+    city:document.getElementById('omCity').value.trim(),
+    flag:document.getElementById('omFlag').value.trim(),
+    region:document.getElementById('omRegion').value,
+    status:document.getElementById('omStatus').value,
+    contacts:document.getElementById('omContacts').value.trim(),
+    address:document.getElementById('omAddress').value.trim(),
+    staff:document.getElementById('omStaff').value||'0',
+    drivers:document.getElementById('omDrivers').value||'0',
+    purpose:document.getElementById('omPurpose').value.trim(),
+    market:document.getElementById('omMarket').value.trim(),
+    inbound:document.getElementById('omInbound').checked?'Yes':'No',
+    outbound:document.getElementById('omOutbound').checked?'Yes':'No',
+    physical:document.getElementById('omPhysical').value.trim(),
+    transport:document.getElementById('omTransport').checked?'Yes':'',
+    credits:document.getElementById('omCredits').checked?'Yes':'',
+    type:document.getElementById('omType').value||'Trip Factory',
+    tier:2
+  };
+  const idx=OFFICES.findIndex(x=>x.id===id);
+  if(idx>=0) OFFICES[idx]=o; else OFFICES.push(o);
+  if(_db) await _db.ref(FB_OFF+id).set(o).catch(e=>console.error('Save:',e));
+  closeOfficeModal();  // hide modal first
+  render();            // then re-render grid
+}
+
+// ── DELETE ─────────────────────────────────────────────────────
+async function deleteOffice(id){
+  const o=OFFICES.find(x=>x.id===id);
+  if(!confirm('Remove '+(o?.country||'this office')+'?')) return;
+  const idx=OFFICES.findIndex(x=>x.id===id);
+  if(idx>=0) OFFICES.splice(idx,1);
+  if(_db) await _db.ref(FB_OFF+id).remove().catch(()=>{});
+  render();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// OFFICE DOCUMENT ATTACHMENTS
+// ══════════════════════════════════════════════════════════════════
+function getFileIcon(name){
+  const ext=(name||'').split('.').pop().toLowerCase();
+  const map={pdf:'fa-file-pdf',doc:'fa-file-word',docx:'fa-file-word',xls:'fa-file-excel',xlsx:'fa-file-excel',
+    ppt:'fa-file-powerpoint',pptx:'fa-file-powerpoint',jpg:'fa-file-image',jpeg:'fa-file-image',
+    png:'fa-file-image',gif:'fa-file-image',zip:'fa-file-archive',rar:'fa-file-archive',txt:'fa-file-alt',csv:'fa-file-csv'};
+  return map[ext]||'fa-file';
+}
+function fmtSize(bytes){
+  if(!bytes)return '';
+  if(bytes<1024)return bytes+'B';
+  if(bytes<1048576)return Math.round(bytes/1024)+'KB';
+  return (bytes/1048576).toFixed(1)+'MB';
+}
+
+async function loadOfficeDocsForModal(officeId){
+  const listEl=document.getElementById('odocList_'+officeId);
+  const countEl=document.getElementById('odocCount_'+officeId);
+  if(!listEl)return;
+  if(!_db){listEl.innerHTML='<div class="odoc-empty">Firebase not connected</div>';return;}
+  try{
+    const snap=await _db.ref(FB_ODOC+officeId).once('value');
+    const data=snap.val();
+    if(!data||!Object.keys(data).length){
+      listEl.innerHTML='<div class="odoc-empty"><i class="fas fa-folder-open"></i> No documents yet</div>';
+      if(countEl)countEl.textContent='';
+      return;
+    }
+    const docs=Object.values(data).sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
+    if(countEl)countEl.textContent=docs.length+' file'+(docs.length!==1?'s':'');
+    listEl.innerHTML=docs.map(d=>{
+      const icon=getFileIcon(d.fileName);
+      const date=d.addedAt?new Date(d.addedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
+      return`<div class="odoc-item">
+        <i class="fas ${icon} odoc-item-icon" style="color:#0891b2;"></i>
+        <div style="flex:1;min-width:0;">
+          <div class="odoc-item-name">${d.title||d.fileName}</div>
+          <div class="odoc-item-meta">${d.fileName}${d.fileSize?' · '+fmtSize(d.fileSize):''}${date?' · '+date:''}</div>
+        </div>
+        <div class="odoc-item-btns">
+          ${d.fileData?`<a class="odoc-dl-btn" href="${d.fileData}" download="${d.fileName}"><i class="fas fa-download"></i> Download</a>`:''}
+          <button class="odoc-del-btn" onclick="deleteOfficeDoc('${officeId}','${d.id}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    listEl.innerHTML='<div class="odoc-empty">Error loading documents</div>';
+    console.error('loadOfficeDocsForModal:',e);
+  }
+}
+
+async function uploadOfficeDoc(officeId){
+  const fileInput=document.getElementById('odocFile_'+officeId);
+  const titleInput=document.getElementById('odocTitle_'+officeId);
+  const listEl=document.getElementById('odocList_'+officeId);
+  const uploadBtn=document.querySelector('.odoc-upload-btn');
+  const file=fileInput?.files?.[0];
+  if(!file){alert('Please choose a file first');return;}
+  if(file.size>10*1024*1024){alert('File too large — max 10MB');return;}
+
+  // Show spinner on button
+  if(uploadBtn){uploadBtn.disabled=true;uploadBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Uploading…';}
+
+  return new Promise((resolve)=>{
+    const reader=new FileReader();
+    reader.onload=async(e)=>{
+      const id='odoc_'+Date.now();
+      const doc={
+        id, officeId,
+        title:titleInput?.value.trim()||file.name,
+        fileName:file.name,
+        fileSize:file.size,
+        fileData:e.target.result,
+        addedBy:localStorage.getItem('orn_wiki_user')||'',
+        addedAt:Date.now()
+      };
+      // Save to Firebase
+      if(_db){
+        try{
+          await _db.ref(FB_ODOC+officeId+'/'+id).set(doc);
+        }catch(err){
+          console.error('Upload Firebase error:',err);
+          alert('Upload failed — Firebase error');
+          if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
+          resolve(); return;
+        }
+      }
+      // Reset inputs
+      if(fileInput){fileInput.value='';const fn=document.getElementById('odocFileName_'+officeId);if(fn)fn.textContent='Choose file…';}
+      if(titleInput)titleInput.value='';
+      if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
+      // Reload from Firebase to confirm
+      await loadOfficeDocsForModal(officeId);
+      resolve();
+    };
+    reader.onerror=()=>{
+      alert('Could not read file');
+      if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
+      resolve();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function deleteOfficeDoc(officeId,docId){
+  if(!confirm('Remove this document?'))return;
+  if(_db)await _db.ref(FB_ODOC+officeId+'/'+docId).remove().catch(()=>{});
+  loadOfficeDocsForModal(officeId);
+}
+
+</script>
+
+<!-- Office Edit Modal — EXACT original form preserved -->
+<div id="officeModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:14px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="padding:20px 24px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:1rem;font-weight:800;color:#0f172a;" id="omTitle">Add Office</div>
+      <button onclick="closeOfficeModal()" style="background:none;border:none;font-size:1.2rem;color:#94a3b8;cursor:pointer;">✕</button>
+    </div>
+    <form id="omForm" onsubmit="event.preventDefault();saveOffice();" style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <input type="hidden" id="omId">
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Country *</label><input id="omCountry" required style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. United Kingdom"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">City</label><input id="omCity" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. London"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Flag emoji</label><input id="omFlag" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="🇬🇧"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Region</label>
+        <select id="omRegion" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;">
+          <option>Europe</option><option>Middle East</option><option>South Asia</option><option>Asia Pacific</option><option>Americas</option><option>Oceania</option>
+        </select></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Status</label>
+        <select id="omStatus" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;">
+          <option value="Active">Active</option><option value="Non-Operational">Non-Operational</option><option value="Planning">Planning</option>
+        </select></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Staff count</label><input id="omStaff" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Fleet drivers</label><input id="omDrivers" type="number" min="0" value="0" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Key Contacts</label><input id="omContacts" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="Name — role"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Address</label><input id="omAddress" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="Full address"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Market</label><input id="omMarket" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. Global, B2C, Inbound DMC"></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Office Type</label><select id="omType" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:white;"><option value="Trip Factory">Trip Factory</option><option value="Trip Factory Partner">Trip Factory Partner</option></select></div>
+      <div><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Physical Location</label><input id="omPhysical" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" placeholder="e.g. Physical Office / Remote / Virtual"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:0.72rem;font-weight:700;color:#475569;display:block;margin-bottom:4px;">Purpose</label><textarea id="omPurpose" rows="2" style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:0.82rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;resize:vertical;"></textarea></div>
+      <div style="grid-column:1/-1;display:flex;gap:20px;flex-wrap:wrap;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omInbound" style="accent-color:#0891b2;"> Inbound</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omOutbound" style="accent-color:#0891b2;"> Outbound</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omTransport" style="accent-color:#0891b2;"> Transport/Fleet</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#475569;cursor:pointer;"><input type="checkbox" id="omCredits" style="accent-color:#0891b2;"> Credits Market</label>
+      </div>
+      <div style="grid-column:1/-1;display:flex;gap:10px;margin-top:4px;">
+        <button type="submit" style="flex:1;padding:10px;background:linear-gradient(135deg,#0891b2,#0e7490);border:none;border-radius:8px;color:white;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-save"></i> Save Office</button>
+        <button type="button" onclick="closeOfficeModal()" style="padding:10px 18px;background:white;border:1.5px solid #e2e8f0;border-radius:8px;color:#475569;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
