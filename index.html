@@ -2184,31 +2184,99 @@ async function loadOfficeDocsForModal(officeId){
   try{
     const snap=await _db.ref('tripfactory/wiki-office-docs/'+officeId).once('value');
     const data=snap.val();
-    if(!data||!Object.keys(data).length){listEl.innerHTML='<div class="odoc-empty"><i class="fas fa-folder-open"></i> No documents yet</div>';if(countEl)countEl.textContent='';return;}
-    const docs=Object.values(data).sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
+    if(!data||!Object.keys(data).length){
+      listEl.innerHTML='<div class="odoc-empty"><i class="fas fa-folder-open"></i> No documents yet</div>';
+      if(countEl)countEl.textContent='';return;
+    }
+    // Support both old flat format (fileData on root) and new chunked format (meta + chunks)
+    const docs=Object.entries(data).map(([docId,docData])=>{
+      const isChunked=!!docData.meta;
+      const meta=isChunked?docData.meta:docData;
+      return{...meta,_docId:docId,_isChunked:isChunked,_chunkCount:isChunked?docData.meta.chunks:0};
+    }).filter(d=>d.fileName).sort((a,b)=>(b.addedAt||0)-(a.addedAt||0));
     if(countEl)countEl.textContent=docs.length+' file'+(docs.length!==1?'s':'');
     listEl.innerHTML=docs.map(d=>{
       const icon=getFileIcon(d.fileName);
       const date=d.addedAt?new Date(d.addedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
-      return`<div class="odoc-item"><i class="fas ${icon} odoc-item-icon" style="color:#0891b2;"></i><div style="flex:1;min-width:0;"><div class="odoc-item-name">${d.title||d.fileName}</div><div class="odoc-item-meta">${d.fileName}${d.fileSize?' · '+fmtSize(d.fileSize):''}${date?' · '+date:''}</div></div><div class="odoc-item-btns">${d.fileData?`<a class="odoc-dl-btn" href="${d.fileData}" download="${d.fileName}"><i class="fas fa-download"></i> Download</a>`:''}<button class="odoc-del-btn" onclick="deleteOfficeDoc('${officeId}','${d.id}')"><i class="fas fa-trash"></i></button></div></div>`;
+      const dlBtn=d._isChunked
+        ?`<button class="odoc-dl-btn" onclick="downloadChunkedDoc('${officeId}','${d._docId}','${(d.fileName||'').replace(/'/g,"\\'")}',${d._chunkCount})"><i class="fas fa-download"></i> Download</button>`
+        :(d.fileData?`<a class="odoc-dl-btn" href="${d.fileData}" download="${d.fileName}"><i class="fas fa-download"></i> Download</a>`:'');
+      return`<div class="odoc-item">
+        <i class="fas ${icon} odoc-item-icon" style="color:#0891b2;"></i>
+        <div style="flex:1;min-width:0;">
+          <div class="odoc-item-name">${d.title||d.fileName}</div>
+          <div class="odoc-item-meta">${d.fileName}${d.fileSize?' · '+fmtSize(d.fileSize):''}${date?' · '+date:''}</div>
+        </div>
+        <div class="odoc-item-btns">
+          ${dlBtn}
+          <button class="odoc-del-btn" onclick="deleteOfficeDoc('${officeId}','${d._docId}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>`;
     }).join('');
-  }catch(e){listEl.innerHTML='<div class="odoc-empty">Error loading documents</div>';}
+  }catch(e){listEl.innerHTML='<div class="odoc-empty">Error loading documents</div>';console.error(e);}
 }
+
+async function downloadChunkedDoc(officeId,docId,fileName,chunkCount){
+  if(!_db)return;
+  try{
+    const btn=event.target.closest('button');
+    if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Preparing…';}
+    const snap=await _db.ref('tripfactory/wiki-office-docs/'+officeId+'/'+docId+'/chunks').once('value');
+    const chunks=snap.val();
+    if(!chunks){alert('File data not found');if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-download"></i> Download';}return;}
+    // Reassemble in order
+    let b64='';
+    for(let i=0;i<chunkCount;i++) b64+=(chunks['c'+i]||'');
+    // Trigger download
+    const a=document.createElement('a');
+    a.href=b64;
+    a.download=fileName;
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-download"></i> Download';}
+  }catch(e){alert('Download failed: '+e.message);}
+}
+
+
 async function uploadOfficeDoc(officeId){
   const fileInput=document.getElementById('odocFile_'+officeId);
   const titleInput=document.getElementById('odocTitle_'+officeId);
   const uploadBtn=document.querySelector(`#odocSection_${officeId} .odoc-upload-btn`);
   const file=fileInput?.files?.[0];
   if(!file){alert('Please choose a file first');return;}
-  if(file.size>50*1024*1024){alert('File too large — max 50MB');return;}
-  if(uploadBtn){uploadBtn.disabled=true;uploadBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Uploading…';}
+  if(file.size>50*1024*1024){alert('File too large \u2014 max 50MB');return;}
+  if(uploadBtn){uploadBtn.disabled=true;uploadBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Uploading\u2026';}
   return new Promise((resolve)=>{
     const reader=new FileReader();
     reader.onload=async(e)=>{
       const id='odoc_'+Date.now();
-      const doc={id,officeId,title:titleInput?.value.trim()||file.name,fileName:file.name,fileSize:file.size,fileData:e.target.result,addedBy:currentUser,addedAt:Date.now()};
-      if(_db){try{await _db.ref('tripfactory/wiki-office-docs/'+officeId+'/'+id).set(doc);}catch(err){alert('Upload failed');if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}resolve();return;}}
-      if(fileInput){fileInput.value='';const fn=document.getElementById('odocFileName_'+officeId);if(fn)fn.textContent='Choose file…';}
+      const b64=e.target.result; // full dataURL
+      const CHUNK=500000; // ~500KB per chunk — safe under Firebase 4MB write limit
+      const chunks=[];
+      for(let i=0;i<b64.length;i+=CHUNK) chunks.push(b64.slice(i,i+CHUNK));
+      const meta={id,officeId,
+        title:titleInput?.value.trim()||file.name,
+        fileName:file.name,fileSize:file.size,
+        mimeType:b64.split(';')[0].replace('data:',''),
+        chunks:chunks.length,
+        addedBy:currentUser||'',addedAt:Date.now()
+      };
+      if(_db){
+        try{
+          // Save metadata first
+          await _db.ref('tripfactory/wiki-office-docs/'+officeId+'/'+id+'/meta').set(meta);
+          // Save each chunk separately
+          for(let i=0;i<chunks.length;i++){
+            if(uploadBtn) uploadBtn.innerHTML=`<i class="fas fa-spinner fa-spin"></i> ${Math.round((i+1)/chunks.length*100)}%`;
+            await _db.ref('tripfactory/wiki-office-docs/'+officeId+'/'+id+'/chunks/c'+i).set(chunks[i]);
+          }
+        }catch(err){
+          console.error('Upload error:',err);
+          alert('Upload failed \u2014 '+err.message);
+          if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
+          resolve();return;
+        }
+      }
+      if(fileInput){fileInput.value='';const fn=document.getElementById('odocFileName_'+officeId);if(fn)fn.textContent='Choose file\u2026';}
       if(titleInput)titleInput.value='';
       if(uploadBtn){uploadBtn.disabled=false;uploadBtn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> Attach';}
       await loadOfficeDocsForModal(officeId);
