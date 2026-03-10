@@ -233,6 +233,26 @@ body{display:flex;flex-direction:column;}
 .odoc-item-btns{display:flex;gap:5px;flex-shrink:0;}
 .odoc-dl-btn{padding:3px 8px;background:#e0f2fe;border:1px solid #bae6fd;border-radius:5px;font-size:0.65rem;color:#0369a1;text-decoration:none;font-weight:600;}
 .odoc-del-btn{padding:3px 7px;background:white;border:1px solid #fecaca;border-radius:5px;font-size:0.65rem;color:#dc2626;cursor:pointer;}
+/* ══ TASK MANAGEMENT ═══════════════════════════════════════════════ */
+.tm-lbl{font-size:0.7rem;font-weight:700;color:var(--slate2);display:block;margin-bottom:4px;}
+.tm-inp{width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;outline:none;box-sizing:border-box;background:white;}
+.tm-inp:focus{border-color:var(--cyan);}
+.tm-th{padding:10px 14px;text-align:left;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap;}
+.tm-row-ns{background:#fff1f2;}
+.tm-row-ns:hover{background:#ffe4e6;}
+.tm-row-ip{background:#fefce8;}
+.tm-row-ip:hover{background:#fef9c3;}
+.tm-row-done{background:#f0fdf4;}
+.tm-row-done:hover{background:#dcfce7;}
+.tm-status-ns{display:inline-flex;align-items:center;gap:5px;font-size:0.67rem;font-weight:700;padding:3px 9px;border-radius:10px;background:#fecdd3;color:#9f1239;white-space:nowrap;}
+.tm-status-ip{display:inline-flex;align-items:center;gap:5px;font-size:0.67rem;font-weight:700;padding:3px 9px;border-radius:10px;background:#fef08a;color:#713f12;white-space:nowrap;}
+.tm-status-done{display:inline-flex;align-items:center;gap:5px;font-size:0.67rem;font-weight:700;padding:3px 9px;border-radius:10px;background:#bbf7d0;color:#14532d;white-space:nowrap;}
+.tm-cell{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+.tm-task-name{font-size:0.82rem;font-weight:700;color:var(--ink);}
+.tm-task-desc{font-size:0.72rem;color:var(--slate2);margin-top:2px;line-height:1.4;max-width:260px;}
+.tm-file-chip{display:inline-flex;align-items:center;gap:5px;font-size:0.65rem;background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;border-radius:5px;padding:2px 7px;text-decoration:none;margin:2px;}
+.tm-file-chip:hover{background:#bae6fd;}
+.tm-del-file{margin-left:3px;color:#dc2626;cursor:pointer;font-size:0.6rem;background:none;border:none;padding:0;}
 .topbar-search input{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 12px 5px 30px;font-size:0.76rem;color:white;font-family:'Plus Jakarta Sans',sans-serif;outline:none;width:200px;transition:all 0.2s;}
 .topbar-search input::placeholder{color:rgba(255,255,255,0.3);}
 .topbar-search input:focus{background:rgba(255,255,255,0.12);border-color:var(--cyan);width:260px;}
@@ -642,6 +662,7 @@ select.oedit-inp{cursor:pointer;}
   <button class="tab-btn" onclick="showTab('boardmeetings',this)"><i class="fas fa-briefcase"></i> Board Meetings</button>
   <button class="tab-btn" onclick="showTab('travelplans',this)"><i class="fas fa-plane-departure"></i> Team Travel</button>
   <button class="tab-btn" onclick="showTab('references',this)"><i class="fas fa-link"></i> References</button>
+  <button class="tab-btn" onclick="showTab('tasks',this)"><i class="fas fa-tasks"></i> Task Management</button>
 </div>
 
 <!-- ══ MAIN AREA ════════════════════════════════════════════════ -->
@@ -979,6 +1000,101 @@ select.oedit-inp{cursor:pointer;}
   </div>
   <div id="tpGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;"></div>
   <div id="tpCal" style="display:none;"></div>
+</div>
+
+<!-- TASK MANAGEMENT TAB -->
+<div class="tab-panel" id="tab-tasks">
+  <div class="page-hero">
+    <h1>Task Management</h1>
+    <p>Track team tasks across all departments — status, ownership, dates and supporting files. All saved to Firebase.</p>
+    <span class="hero-tag"><i class="fas fa-cloud"></i> Live &#183; Firebase synced</span>
+  </div>
+  <div style="background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;">
+    <div class="section-label" style="margin-bottom:16px;"><i class="fas fa-plus-circle" style="color:var(--cyan)"></i> Add New Task</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
+      <div style="grid-column:1/-1;"><label class="tm-lbl">Task Name *</label><input id="tmName" placeholder="e.g. Set up CRM integration" class="tm-inp"></div>
+      <div style="grid-column:1/-1;"><label class="tm-lbl">Description</label><textarea id="tmDesc" rows="2" placeholder="What needs to be done and why..." class="tm-inp" style="resize:vertical;"></textarea></div>
+      <div><label class="tm-lbl">Department</label>
+        <select id="tmDept" class="tm-inp"><option value="">All / Cross-team</option><option>Finance</option><option>HR &amp; Admin</option><option>Operations</option><option>Product</option><option>Sales</option><option>Technology</option><option>Leadership</option></select>
+      </div>
+      <div><label class="tm-lbl">Managed By</label><input id="tmOwner" placeholder="Name or team" class="tm-inp"></div>
+      <div><label class="tm-lbl">Status</label>
+        <select id="tmStatus" class="tm-inp"><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Complete">Complete</option></select>
+      </div>
+      <div><label class="tm-lbl">Start Date</label><input id="tmStart" type="date" class="tm-inp"></div>
+      <div><label class="tm-lbl">Due Date</label><input id="tmDue" type="date" class="tm-inp"></div>
+      <div style="grid-column:1/-1;"><label class="tm-lbl">Attach File (optional, max 50MB)</label>
+        <label style="display:flex;align-items:center;gap:7px;padding:7px 12px;background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:7px;cursor:pointer;font-size:0.73rem;color:#64748b;">
+          <i class="fas fa-paperclip"></i><span id="tmFileName">Choose file&#8230;</span>
+          <input type="file" id="tmFile" style="display:none" onchange="document.getElementById('tmFileName').textContent=this.files[0]?.name||'Choose file…'">
+        </label>
+      </div>
+    </div>
+    <button onclick="saveTask()" style="background:var(--navy);color:white;border:none;border-radius:8px;padding:10px 24px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-save"></i> Save Task</button>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+    <select id="tmFilterDept" onchange="renderTasks()" class="tm-inp" style="width:auto;"><option value="">All Departments</option><option>Finance</option><option>HR &amp; Admin</option><option>Operations</option><option>Product</option><option>Sales</option><option>Technology</option><option>Leadership</option></select>
+    <select id="tmFilterStatus" onchange="renderTasks()" class="tm-inp" style="width:auto;"><option value="">All Statuses</option><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Complete">Complete</option></select>
+    <div style="margin-left:auto;font-size:0.73rem;color:var(--slate2);" id="tmCount"></div>
+  </div>
+  <div style="background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;">
+    <div style="overflow-x:auto;">
+      <table id="tmTable" style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+        <thead>
+          <tr style="background:var(--navy);color:white;">
+            <th class="tm-th">Status</th>
+            <th class="tm-th">Task Name</th>
+            <th class="tm-th">Description</th>
+            <th class="tm-th">Department</th>
+            <th class="tm-th">Managed By</th>
+            <th class="tm-th">Start</th>
+            <th class="tm-th">Due</th>
+            <th class="tm-th">Files</th>
+            <th class="tm-th"></th>
+          </tr>
+        </thead>
+        <tbody id="tmBody"><tr><td colspan="9" style="padding:40px;text-align:center;color:var(--slate2);"><i class="fas fa-spinner fa-spin"></i> Loading&#8230;</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- TASK EDIT MODAL -->
+<div id="taskEditModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:14px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="padding:18px 24px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:0.95rem;font-weight:800;color:#0f172a;">Edit Task</div>
+      <button onclick="closeTaskModal()" style="background:none;border:none;font-size:1.2rem;color:#94a3b8;cursor:pointer;">&#10005;</button>
+    </div>
+    <div style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+      <input type="hidden" id="teId">
+      <div style="grid-column:1/-1;"><label class="tm-lbl">Task Name *</label><input id="teName" class="tm-inp"></div>
+      <div style="grid-column:1/-1;"><label class="tm-lbl">Description</label><textarea id="teDesc" rows="3" class="tm-inp" style="resize:vertical;"></textarea></div>
+      <div><label class="tm-lbl">Department</label>
+        <select id="teDept" class="tm-inp"><option value="">All / Cross-team</option><option>Finance</option><option>HR &amp; Admin</option><option>Operations</option><option>Product</option><option>Sales</option><option>Technology</option><option>Leadership</option></select>
+      </div>
+      <div><label class="tm-lbl">Managed By</label><input id="teOwner" class="tm-inp"></div>
+      <div><label class="tm-lbl">Status</label>
+        <select id="teStatus" class="tm-inp"><option value="Not Started">Not Started</option><option value="In Progress">In Progress</option><option value="Complete">Complete</option></select>
+      </div>
+      <div><label class="tm-lbl">Start Date</label><input id="teStart" type="date" class="tm-inp"></div>
+      <div><label class="tm-lbl">Due Date</label><input id="teDue" type="date" class="tm-inp"></div>
+      <div style="grid-column:1/-1;"><label class="tm-lbl" style="margin-bottom:8px;">Attach File</label>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+          <label style="display:flex;align-items:center;gap:7px;padding:7px 12px;background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:7px;cursor:pointer;font-size:0.73rem;color:#64748b;flex:1;">
+            <i class="fas fa-paperclip"></i><span id="teFileName">Choose file&#8230;</span>
+            <input type="file" id="teFile" style="display:none" onchange="document.getElementById('teFileName').textContent=this.files[0]?.name||'Choose file…'">
+          </label>
+          <button onclick="uploadTaskFileFromEdit()" style="padding:7px 14px;background:var(--cyan);border:none;border-radius:7px;color:white;font-size:0.73rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;"><i class="fas fa-upload"></i> Attach</button>
+        </div>
+        <div id="teFileList" style="display:flex;flex-direction:column;gap:5px;"></div>
+      </div>
+    </div>
+    <div style="padding:14px 24px;border-top:1px solid #e2e8f0;display:flex;gap:8px;">
+      <button onclick="saveEditTask()" style="flex:1;padding:10px;background:var(--navy);border:none;border-radius:8px;color:white;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;"><i class="fas fa-save"></i> Save Changes</button>
+      <button onclick="closeTaskModal()" style="padding:10px 18px;background:#f1f5f9;border:none;border-radius:8px;color:#475569;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <!-- REFERENCES TAB -->
@@ -1451,22 +1567,29 @@ function renderPipeline(){
   document.getElementById('pipelineEl').innerHTML=PIPELINE.map(s=>`<div class="p-step"><div class="p-num">${s.n}</div><div class="p-label">${s.l}</div><div class="p-role">${s.r}</div></div>`).join('');
 }
 function renderDeptSummary(){
+  const filtered=gfIsActive()?STAFF_DATA.filter(staffPassesGF):STAFF_DATA;
   document.getElementById('deptSummary').innerHTML='<div style="display:flex;flex-direction:column;gap:8px;">'+
-    DEPT_DATA.map(d=>`<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);">
-      <div style="width:26px;height:26px;border-radius:6px;background:${d.c1};display:flex;align-items:center;justify-content:center;color:white;font-size:0.68rem;flex-shrink:0;"><i class="fas ${d.icon}"></i></div>
-      <div style="flex:1;"><div style="font-size:0.8rem;font-weight:700;color:var(--ink);">${d.name}</div><div style="font-size:0.67rem;color:var(--slate2);">${d.sub}</div></div>
-      <div style="text-align:right;"><div style="font-size:1rem;font-weight:800;color:${d.c1};">${d.count}</div><div style="font-size:0.62rem;color:var(--slate2);">staff</div></div>
-    </div>`).join('')+'</div>';
+    DEPT_DATA.map(d=>{
+      const count=filtered.filter(s=>(s.d||'')===(d.name)).length;
+      return`<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);">
+        <div style="width:26px;height:26px;border-radius:6px;background:${d.c1};display:flex;align-items:center;justify-content:center;color:white;font-size:0.68rem;flex-shrink:0;"><i class="fas ${d.icon}"></i></div>
+        <div style="flex:1;"><div style="font-size:0.8rem;font-weight:700;color:var(--ink);">${d.name}</div><div style="font-size:0.67rem;color:var(--slate2);">${d.sub}</div></div>
+        <div style="text-align:right;"><div style="font-size:1rem;font-weight:800;color:${d.c1};">${count}</div><div style="font-size:0.62rem;color:var(--slate2);">staff${gfIsActive()?' (filtered)':''}</div></div>
+      </div>`;
+    }).join('')+'</div>';
 }
 
 // ══════════════════════════════════════════════════════════════════
 // RENDER: DEPARTMENTS
 // ══════════════════════════════════════════════════════════════════
 function renderDepts(){
-  document.getElementById('deptGrid').innerHTML=DEPT_DATA.map(d=>`
-    <div class="dept-card" style="--dc:${d.c1};">
+  const filteredStaff=gfIsActive()?STAFF_DATA.filter(staffPassesGF):STAFF_DATA;
+  document.getElementById('deptGrid').innerHTML=DEPT_DATA.map(d=>{
+    const liveCount=filteredStaff.filter(s=>(s.d||'')===(d.name)).length;
+    const countLabel=gfIsActive()?liveCount:d.count;
+    return`<div class="dept-card" style="--dc:${d.c1};">
       <div class="dept-top" style="background:linear-gradient(135deg,${d.c1},${d.c2});">
-        <div class="dept-top-count">${d.count}</div>
+        <div class="dept-top-count">${countLabel}</div>
         <div style="display:flex;align-items:center;gap:9px;position:relative;">
           <div style="width:32px;height:32px;background:rgba(255,255,255,0.18);border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas ${d.icon}" style="color:white;font-size:0.85rem;"></i></div>
           <div><div class="dept-top-title">${d.name}</div><div class="dept-top-sub">${d.sub}</div></div>
@@ -1477,9 +1600,10 @@ function renderDepts(){
         <div class="dept-wf"><div class="dept-wf-label"><i class="fas fa-arrow-right"></i> Workflow</div>
           <div class="wf-chips">${d.wf.map((s,i)=>`<span class="wf-chip" style="background:${d.c1};">${s}</span>${i<d.wf.length-1?'<span class="wf-arr">→</span>':''}`).join('')}</div>
         </div>
-        <button class="dept-dir-btn" onclick="openStaffModal('${d.name}')"><i class="fas fa-users"></i> View Staff Directory (${d.count} staff)</button>
+        <button class="dept-dir-btn" onclick="openStaffModal('${d.name}')"><i class="fas fa-users"></i> View Staff Directory (${countLabel} staff${gfIsActive()?' filtered':''})</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1878,6 +2002,18 @@ function officeRender(){
   if(_offRegion&&_offRegion!=='All Regions') data=data.filter(o=>(o.region||'')===_offRegion);
   if(_offStatus&&_offStatus!=='all') data=data.filter(o=>(o.status||'')===_offStatus);
   if(q) data=data.filter(o=>(o.country||'').toLowerCase().includes(q)||(o.city||'').toLowerCase().includes(q)||(o.region||'').toLowerCase().includes(q)||(o.contacts||'').toLowerCase().includes(q));
+  // Apply global filter — match office city/country against GF.dest or GF.office
+  if(gfIsActive()){
+    const destL=(GF.dest||'').toLowerCase();
+    const offL=(GF.office||'').toLowerCase();
+    data=data.filter(o=>{
+      const cityL=(o.city||'').toLowerCase();
+      const cntryL=(o.country||'').toLowerCase();
+      const destOk=!GF.dest||(cityL.includes(destL)||cntryL.includes(destL)||(o.address||'').toLowerCase().includes(destL));
+      const offOk=!GF.office||(cityL.includes(offL)||cntryL.includes(offL));
+      return destOk&&offOk;
+    });
+  }
   const allData=Object.values(wikiOffices);
   const et=document.getElementById('statTotal'); if(et)et.textContent=allData.length;
   const ea=document.getElementById('statActive'); if(ea)ea.textContent=allData.filter(o=>o.status==='Active').length;
@@ -2342,11 +2478,15 @@ function staffPassesGF(s){
 function gfIsActive(){ return !!(GF.dest||GF.office||GF.dept||GF.title); }
 
 function gfRenderAll(){
-  // Re-render staff modal if open
+  // Update overview staff count
+  const ovStat=document.querySelector('.ov-stat-n');
+  if(ovStat&&gfIsActive()) ovStat.textContent=STAFF_DATA.filter(staffPassesGF).length;
+  else if(ovStat) ovStat.textContent=STAFF_DATA.length;
+  // Re-filter staff modal if open
   if(document.getElementById('staffModal')?.classList.contains('open')) filterStaff();
-  // Re-render offices tab (always, filtered or full)
+  // Re-render offices
   renderOfficesGF();
-  // Re-render departments & workflows
+  // Re-render department summary with filtered counts
   if(typeof renderDeptSummary==='function') renderDeptSummary();
   if(typeof renderDepts==='function') renderDepts();
 }
@@ -2365,6 +2505,7 @@ function showTab(id,btn){
   if(id==='boardmeetings')loadBoardMeetings();
   if(id==='travelplans')renderTravelPlans();
   if(id==='offices')renderOfficesGF();
+  if(id==='tasks')loadTasks();
 }
 
 // ── Auto-login ───────────────────────────────────────────────
@@ -2550,8 +2691,216 @@ async function deleteTravelPlan(id){
   renderTravelPlans();
 }
 
+// ══════════════════════════════════════════════════════════════════
+// TASK MANAGEMENT
+// ══════════════════════════════════════════════════════════════════
+const FB_TASKS='tripfactory/wiki-tasks/';
+let wikiTasks={};
 
+async function loadTasks(){
+  if(!_db){renderTasks();return;}
+  try{
+    const snap=await _db.ref(FB_TASKS).once('value');
+    const data=snap.val();
+    wikiTasks=data?Object.fromEntries(Object.entries(data)):{};
+  }catch(e){wikiTasks={};}
+  renderTasks();
+}
 
+function tmRowClass(status){
+  if(status==='Complete') return 'tm-row-done';
+  if(status==='In Progress') return 'tm-row-ip';
+  return 'tm-row-ns';
+}
+function tmStatusBadge(status){
+  if(status==='Complete') return `<span class="tm-status-done"><i class="fas fa-check-circle"></i>Complete</span>`;
+  if(status==='In Progress') return `<span class="tm-status-ip"><i class="fas fa-spinner fa-spin"></i>In Progress</span>`;
+  return `<span class="tm-status-ns"><i class="fas fa-circle"></i>Not Started</span>`;
+}
+function fmtDate(d){if(!d)return'—';const p=d.split('-');return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:'—';}
+
+function renderTasks(){
+  const deptF=document.getElementById('tmFilterDept')?.value||'';
+  const statF=document.getElementById('tmFilterStatus')?.value||'';
+  let tasks=Object.values(wikiTasks);
+  if(deptF) tasks=tasks.filter(t=>(t.dept||'')===deptF);
+  if(statF) tasks=tasks.filter(t=>(t.status||'')===statF);
+  // Sort: Not Started first, then In Progress, then Complete; within each by due date
+  const order={'Not Started':0,'In Progress':1,'Complete':2};
+  tasks.sort((a,b)=>(order[a.status]||0)-(order[b.status]||0)||(a.due||'').localeCompare(b.due||''));
+  const countEl=document.getElementById('tmCount');
+  if(countEl) countEl.textContent=`${tasks.length} task${tasks.length!==1?'s':''}`;
+  const tbody=document.getElementById('tmBody');
+  if(!tbody)return;
+  if(!tasks.length){
+    tbody.innerHTML=`<tr><td colspan="9" style="padding:40px;text-align:center;color:var(--slate2);"><i class="fas fa-clipboard-list" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.4;"></i>No tasks yet — add one above.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML=tasks.map(t=>{
+    const files=(t.files&&Object.values(t.files))||[];
+    const fileChips=files.map(f=>f.fileData?`<a class="tm-file-chip" href="${f.fileData}" download="${f.fileName}" title="${f.fileName}"><i class="fas fa-paperclip"></i>${f.fileName.length>18?f.fileName.slice(0,16)+'\u2026':f.fileName}</a>`:'').join('');
+    return`<tr class="${tmRowClass(t.status)}">
+      <td class="tm-cell" style="min-width:110px;">${tmStatusBadge(t.status)}</td>
+      <td class="tm-cell" style="min-width:160px;"><div class="tm-task-name">${t.name||'—'}</div></td>
+      <td class="tm-cell" style="min-width:180px;"><div class="tm-task-desc">${t.desc||'<span style="color:#cbd5e1;">—</span>'}</div></td>
+      <td class="tm-cell" style="min-width:110px;white-space:nowrap;font-size:0.75rem;">${t.dept||'<span style="color:#cbd5e1;">—</span>'}</td>
+      <td class="tm-cell" style="min-width:110px;white-space:nowrap;font-size:0.75rem;font-weight:600;">${t.owner||'<span style="color:#cbd5e1;">—</span>'}</td>
+      <td class="tm-cell" style="white-space:nowrap;font-size:0.74rem;">${fmtDate(t.start)}</td>
+      <td class="tm-cell" style="white-space:nowrap;font-size:0.74rem;">${fmtDate(t.due)}</td>
+      <td class="tm-cell" style="min-width:120px;">${fileChips||'<span style="color:#cbd5e1;font-size:0.7rem;">—</span>'}</td>
+      <td class="tm-cell" style="white-space:nowrap;">
+        <div style="display:flex;gap:5px;">
+          <button onclick="openTaskEdit('${t.id}')" style="padding:4px 10px;background:#e0f2fe;border:1px solid #bae6fd;border-radius:5px;font-size:0.68rem;color:#0369a1;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;"><i class="fas fa-pen"></i> Edit</button>
+          <button onclick="deleteTask('${t.id}')" style="padding:4px 8px;background:white;border:1px solid #fecaca;border-radius:5px;font-size:0.68rem;color:#dc2626;cursor:pointer;"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function saveTask(){
+  const name=document.getElementById('tmName')?.value.trim();
+  if(!name){toast('Task name is required');return;}
+  const id='task_'+Date.now();
+  const file=document.getElementById('tmFile')?.files?.[0];
+  let files={};
+  if(file){
+    if(file.size>50*1024*1024){toast('File too large — max 50MB');return;}
+    files=await new Promise(res=>{
+      const r=new FileReader();
+      r.onload=e=>{
+        const fid='f_'+Date.now();
+        res({[fid]:{id:fid,fileName:file.name,fileSize:file.size,fileData:e.target.result,addedAt:Date.now()}});
+      };
+      r.onerror=()=>res({});
+      r.readAsDataURL(file);
+    });
+  }
+  const task={
+    id, name,
+    desc:document.getElementById('tmDesc')?.value.trim()||'',
+    dept:document.getElementById('tmDept')?.value||'',
+    owner:document.getElementById('tmOwner')?.value.trim()||'',
+    status:document.getElementById('tmStatus')?.value||'Not Started',
+    start:document.getElementById('tmStart')?.value||'',
+    due:document.getElementById('tmDue')?.value||'',
+    files,
+    createdAt:Date.now(),
+    createdBy:currentUser||''
+  };
+  wikiTasks[id]=task;
+  if(_db) await _db.ref(FB_TASKS+id).set(task).catch(()=>{});
+  // Reset form
+  ['tmName','tmDesc','tmOwner','tmStart','tmDue'].forEach(fid=>{const el=document.getElementById(fid);if(el)el.value='';});
+  const ds=document.getElementById('tmDept');if(ds)ds.value='';
+  const ss=document.getElementById('tmStatus');if(ss)ss.value='Not Started';
+  const fi=document.getElementById('tmFile');if(fi)fi.value='';
+  const fn=document.getElementById('tmFileName');if(fn)fn.textContent='Choose file\u2026';
+  renderTasks();
+  toast('Task saved','ok');
+}
+
+async function deleteTask(id){
+  const t=wikiTasks[id];
+  if(!confirm('Delete task "'+(t?.name||'this task')+'"?'))return;
+  delete wikiTasks[id];
+  if(_db) await _db.ref(FB_TASKS+id).remove().catch(()=>{});
+  renderTasks();
+  toast('Task deleted');
+}
+
+let _editTaskId=null;
+function openTaskEdit(id){
+  const t=wikiTasks[id]; if(!t)return;
+  _editTaskId=id;
+  document.getElementById('teId').value=id;
+  document.getElementById('teName').value=t.name||'';
+  document.getElementById('teDesc').value=t.desc||'';
+  document.getElementById('teDept').value=t.dept||'';
+  document.getElementById('teOwner').value=t.owner||'';
+  document.getElementById('teStatus').value=t.status||'Not Started';
+  document.getElementById('teStart').value=t.start||'';
+  document.getElementById('teDue').value=t.due||'';
+  document.getElementById('teFile').value='';
+  document.getElementById('teFileName').textContent='Choose file\u2026';
+  renderEditFileList(t);
+  document.getElementById('taskEditModal').style.display='flex';
+}
+function closeTaskModal(){document.getElementById('taskEditModal').style.display='none'; _editTaskId=null;}
+
+function renderEditFileList(task){
+  const el=document.getElementById('teFileList'); if(!el)return;
+  const files=task?.files?Object.values(task.files):[];
+  if(!files.length){el.innerHTML='<div style="font-size:0.71rem;color:#94a3b8;">No files attached yet.</div>';return;}
+  el.innerHTML=files.map(f=>`<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#f8fafc;border-radius:6px;">
+    <i class="fas fa-paperclip" style="color:#0891b2;font-size:0.75rem;"></i>
+    <span style="flex:1;font-size:0.73rem;font-weight:600;color:#1e293b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.fileName}</span>
+    ${f.fileData?`<a href="${f.fileData}" download="${f.fileName}" style="font-size:0.65rem;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;border-radius:4px;padding:2px 7px;text-decoration:none;">Download</a>`:''}
+    <button onclick="deleteTaskFile('${f.id}')" style="font-size:0.65rem;color:#dc2626;background:white;border:1px solid #fecaca;border-radius:4px;padding:2px 7px;cursor:pointer;">Remove</button>
+  </div>`).join('');
+}
+
+async function uploadTaskFileFromEdit(){
+  if(!_editTaskId)return;
+  const file=document.getElementById('teFile')?.files?.[0];
+  if(!file){toast('Choose a file first');return;}
+  if(file.size>50*1024*1024){toast('File too large — max 50MB');return;}
+  const btn=document.querySelector('#taskEditModal button[onclick="uploadTaskFileFromEdit()"]');
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Uploading\u2026';}
+  await new Promise(res=>{
+    const r=new FileReader();
+    r.onload=async e=>{
+      const fid='f_'+Date.now();
+      const fd={id:fid,fileName:file.name,fileSize:file.size,fileData:e.target.result,addedAt:Date.now()};
+      if(!wikiTasks[_editTaskId].files) wikiTasks[_editTaskId].files={};
+      wikiTasks[_editTaskId].files[fid]=fd;
+      if(_db) await _db.ref(FB_TASKS+_editTaskId+'/files/'+fid).set(fd).catch(()=>{});
+      document.getElementById('teFile').value='';
+      document.getElementById('teFileName').textContent='Choose file\u2026';
+      renderEditFileList(wikiTasks[_editTaskId]);
+      renderTasks();
+      if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-upload"></i> Attach';}
+      toast('File attached','ok');
+      res();
+    };
+    r.onerror=()=>{toast('Could not read file');if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-upload"></i> Attach';}res();};
+    r.readAsDataURL(file);
+  });
+}
+
+async function deleteTaskFile(fileId){
+  if(!_editTaskId||!wikiTasks[_editTaskId]?.files)return;
+  if(!confirm('Remove this file?'))return;
+  delete wikiTasks[_editTaskId].files[fileId];
+  if(_db) await _db.ref(FB_TASKS+_editTaskId+'/files/'+fileId).remove().catch(()=>{});
+  renderEditFileList(wikiTasks[_editTaskId]);
+  renderTasks();
+  toast('File removed');
+}
+
+async function saveEditTask(){
+  if(!_editTaskId)return;
+  const name=document.getElementById('teName')?.value.trim();
+  if(!name){toast('Task name is required');return;}
+  const existing=wikiTasks[_editTaskId]||{};
+  const task={
+    ...existing,
+    id:_editTaskId,
+    name,
+    desc:document.getElementById('teDesc')?.value.trim()||'',
+    dept:document.getElementById('teDept')?.value||'',
+    owner:document.getElementById('teOwner')?.value.trim()||'',
+    status:document.getElementById('teStatus')?.value||'Not Started',
+    start:document.getElementById('teStart')?.value||'',
+    due:document.getElementById('teDue')?.value||'',
+    updatedAt:Date.now()
+  };
+  wikiTasks[_editTaskId]=task;
+  if(_db) await _db.ref(FB_TASKS+_editTaskId).set(task).catch(()=>{});
+  closeTaskModal();
+  renderTasks();
+  toast('Task updated','ok');
+}
 </script>
 </body>
 </html>
